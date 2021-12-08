@@ -6,9 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" type="image/jpg" href="image/favicon.ico"/>
         <link rel="stylesheet" href="css/dracula.css">
-	<link rel="image_src" href="image/pacstall.svg" />
-        <script src="js/uikit.min.js"></script>
-        <script src="js/uikit-icons.min.js"></script>
+	<link rel="image_src" href="image/pacstall.svg"/>
+	<script>/**/</script> <!-- Firefox FOUC hack -->
     </head>
 
 <nav class="uk-navbar-container" uk-navbar>
