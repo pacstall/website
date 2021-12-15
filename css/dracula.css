@@ -1,7 +1,7 @@
 /*! UIkit 3.6.21 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 /* ========================================================================
-   Component: Base
- ========================================================================== */
+Component: Base
+========================================================================== */
 /*
  * 1. Set `font-size` to support `rem` units
  *    Not using `font` property because a leading hyphen (e.g. -apple-system) causes the font to break in IE11 and Edge
@@ -11,7 +11,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&display=swap');
 html {
   /* 1 */
-/*  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; */
+  /*  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; */
   font-family: 'Fira Code', monospace;
   font-size: 16px;
   font-weight: normal;
@@ -30,7 +30,7 @@ body {
   font-family: 'Fira Code', monospace;
 }
 /* Links
- ========================================================================== */
+========================================================================== */
 /*
  * Remove the outline on focused links when they are also active or hovered
  */
@@ -56,7 +56,7 @@ a:hover,
   text-decoration: underline;
 }
 /* Text-level semantics
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Add the correct text decoration in Edge.
  * 2. The shorthand declaration `underline dotted` is not supported in Safari.
@@ -142,7 +142,7 @@ sub {
   bottom: -0.25em;
 }
 /* Embedded content
- ========================================================================== */
+========================================================================== */
 /*
  * Remove the gap between embedded content and the bottom of their containers.
  */
@@ -203,7 +203,7 @@ iframe {
   border: 0;
 }
 /* Block elements
- ========================================================================== */
+========================================================================== */
 /*
  * Margins
  */
@@ -219,17 +219,17 @@ figure {
 }
 /* Add margin if adjacent element */
 * + p,
-* + ul,
-* + ol,
-* + dl,
-* + pre,
-* + address,
-* + fieldset,
-* + figure {
-  margin-top: 20px;
-}
-/* Headings
- ========================================================================== */
+  * + ul,
+  * + ol,
+  * + dl,
+  * + pre,
+  * + address,
+  * + fieldset,
+  * + figure {
+    margin-top: 20px;
+  }
+  /* Headings
+  ========================================================================== */
 h1,
 .uk-h1,
 h2,
@@ -255,27 +255,27 @@ h6,
 }
 /* Add margin if adjacent element */
 * + h1,
-* + .uk-h1,
-* + h2,
-* + .uk-h2,
-* + h3,
-* + .uk-h3,
-* + h4,
-* + .uk-h4,
-* + h5,
-* + .uk-h5,
-* + h6,
-* + .uk-h6,
-* + .uk-heading-small,
-* + .uk-heading-medium,
-* + .uk-heading-large,
-* + .uk-heading-xlarge,
-* + .uk-heading-2xlarge {
-  margin-top: 40px;
-}
-/*
- * Sizes
- */
+  * + .uk-h1,
+  * + h2,
+  * + .uk-h2,
+  * + h3,
+  * + .uk-h3,
+  * + h4,
+  * + .uk-h4,
+  * + h5,
+  * + .uk-h5,
+  * + h6,
+  * + .uk-h6,
+  * + .uk-heading-small,
+  * + .uk-heading-medium,
+  * + .uk-heading-large,
+  * + .uk-heading-xlarge,
+  * + .uk-heading-2xlarge {
+    margin-top: 40px;
+  }
+  /*
+   * Sizes
+   */
 h1,
 .uk-h1 {
   font-size: 2.23125rem;
@@ -318,7 +318,7 @@ h6,
   }
 }
 /* Lists
- ========================================================================== */
+========================================================================== */
 ul,
 ol {
   padding-left: 30px;
@@ -333,7 +333,7 @@ ol > li > ul {
   margin: 0;
 }
 /* Description lists
- ========================================================================== */
+========================================================================== */
 dt {
   font-weight: bold;
 }
@@ -341,7 +341,7 @@ dd {
   margin-left: 0;
 }
 /* Horizontal rules
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Show the overflow in Chrome, Edge and IE.
  * 2. Add the correct text-align in Edge and IE.
@@ -360,16 +360,16 @@ hr,
 }
 /* Add margin if adjacent element */
 * + hr,
-* + .uk-hr {
-  margin-top: 20px;
-}
-/* Address
- ========================================================================== */
+  * + .uk-hr {
+    margin-top: 20px;
+  }
+  /* Address
+  ========================================================================== */
 address {
   font-style: normal;
 }
 /* Blockquotes
- ========================================================================== */
+========================================================================== */
 blockquote {
   margin: 0 0 20px 0;
   font-size: 1.25rem;
@@ -397,7 +397,7 @@ blockquote footer::before {
   content: "— ";
 }
 /* Preformatted text
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Contain overflow in all browsers.
  */
@@ -417,14 +417,14 @@ pre code {
   font-family: Consolas, monaco, monospace;
 }
 /* Selection pseudo-element
- ========================================================================== */
+========================================================================== */
 ::selection {
   background: #39f;
   color: #fff;
   text-shadow: none;
 }
 /* HTML5 elements
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Add the correct display in Edge, IE 10+, and Firefox.
  * 2. Add the correct display in IE.
@@ -447,7 +447,7 @@ template {
   display: none;
 }
 /* Pass media breakpoints to JS
- ========================================================================== */
+========================================================================== */
 /*
  * Breakpoints
  */
@@ -470,10 +470,10 @@ template {
   --uk-breakpoint-xl: 1600px;
 }
 /* ========================================================================
-   Component: Link
- ========================================================================== */
+Component: Link
+========================================================================== */
 /* Muted
- ========================================================================== */
+========================================================================== */
 a.uk-link-muted,
 .uk-link-muted a {
   color: #999;
@@ -485,7 +485,7 @@ a.uk-link-muted:hover,
   color: #666;
 }
 /* Text
- ========================================================================== */
+========================================================================== */
 a.uk-link-text,
 .uk-link-text a {
   color: inherit;
@@ -497,7 +497,7 @@ a.uk-link-text:hover,
   color: #999;
 }
 /* Heading
- ========================================================================== */
+========================================================================== */
 a.uk-link-heading,
 .uk-link-heading a {
   color: inherit;
@@ -510,7 +510,7 @@ a.uk-link-heading:hover,
   text-decoration: none;
 }
 /* Reset
- ========================================================================== */
+========================================================================== */
 /*
  * `!important` needed to override inverse component
  */
@@ -520,7 +520,7 @@ a.uk-link-reset,
   text-decoration: none !important;
 }
 /* Toggle
- ========================================================================== */
+========================================================================== */
 .uk-link-toggle {
   color: inherit !important;
   text-decoration: none !important;
@@ -529,8 +529,8 @@ a.uk-link-reset,
   outline: none;
 }
 /* ========================================================================
-   Component: Heading
- ========================================================================== */
+Component: Heading
+========================================================================== */
 .uk-heading-small {
   font-size: 2.6rem;
   line-height: 1.2;
@@ -585,23 +585,23 @@ a.uk-link-reset,
   }
 }
 /* Primary
-   Deprecated: Use `uk-heading-medium` instead
- ========================================================================== */
+Deprecated: Use `uk-heading-medium` instead
+========================================================================== */
 /* Tablet landscape and bigger */
 /* Desktop and bigger */
 /* Hero
-   Deprecated: Use `uk-heading-xlarge` instead
- ========================================================================== */
+Deprecated: Use `uk-heading-xlarge` instead
+========================================================================== */
 /* Tablet landscape and bigger */
 /* Desktop and bigger */
 /* Divider
- ========================================================================== */
+========================================================================== */
 .uk-heading-divider {
   padding-bottom: calc(5px + 0.1em);
   border-bottom: calc(0.2px + 0.05em) solid #e5e5e5;
 }
 /* Bullet
- ========================================================================== */
+========================================================================== */
 .uk-heading-bullet {
   position: relative;
 }
@@ -624,7 +624,7 @@ a.uk-link-reset,
   border-left: calc(5px + 0.1em) solid #e5e5e5;
 }
 /* Line
- ========================================================================== */
+========================================================================== */
 /*
  * Clip the child element
  */
@@ -663,8 +663,8 @@ a.uk-link-reset,
   margin-left: calc(5px + 0.3em);
 }
 /* ========================================================================
-   Component: Divider
- ========================================================================== */
+Component: Divider
+========================================================================== */
 /*
  * 1. Reset default `hr`
  * 2. Set margin if a `div` is used for semantical reason
@@ -680,7 +680,7 @@ a.uk-link-reset,
   margin-top: 20px;
 }
 /* Icon
- ========================================================================== */
+========================================================================== */
 .uk-divider-icon {
   position: relative;
   height: 20px;
@@ -705,7 +705,7 @@ a.uk-link-reset,
   width: 100%;
 }
 /* Small
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Fix height because of `inline-block`
  * 2. Using ::after and inline-block to make `text-align` work
@@ -724,7 +724,7 @@ a.uk-link-reset,
   vertical-align: top;
 }
 /* Vertical
- ========================================================================== */
+========================================================================== */
 .uk-divider-vertical {
   width: 1px;
   height: 100px;
@@ -733,8 +733,8 @@ a.uk-link-reset,
   border-left: 1px solid #e5e5e5;
 }
 /* ========================================================================
-   Component: List
- ========================================================================== */
+Component: List
+========================================================================== */
 .uk-list {
   padding: 0;
   list-style: none;
@@ -814,7 +814,7 @@ a.uk-link-reset,
   color: #222 !important;
 }
 /* Image bullet modifier
- ========================================================================== */
+========================================================================== */
 .uk-list-bullet > * {
   padding-left: 30px;
 }
@@ -830,7 +830,7 @@ a.uk-link-reset,
   background-position: 50% 50%;
 }
 /* Style modifiers
- ========================================================================== */
+========================================================================== */
 /*
  * Divider
  */
@@ -856,7 +856,7 @@ a.uk-link-reset,
   margin-top: 0;
 }
 /* Size modifier
- ========================================================================== */
+========================================================================== */
 .uk-list-large > :nth-child(n+2),
 .uk-list-large > * > ul {
   margin-top: 20px;
@@ -891,8 +891,8 @@ a.uk-link-reset,
   margin-top: 0;
 }
 /* ========================================================================
-   Component: Description list
- ========================================================================== */
+Component: Description list
+========================================================================== */
 /*
  * Term
  */
@@ -909,7 +909,7 @@ a.uk-link-reset,
  * Description
  */
 /* Style modifier
- ========================================================================== */
+========================================================================== */
 /*
  * Line
  */
@@ -919,8 +919,8 @@ a.uk-link-reset,
   border-top: 1px solid #e5e5e5;
 }
 /* ========================================================================
-   Component: Table
- ========================================================================== */
+Component: Table
+========================================================================== */
 /*
  * 1. Remove most spacing between table cells.
  * 2. Behave like a block element
@@ -940,7 +940,7 @@ a.uk-link-reset,
   margin-top: 20px;
 }
 /* Header cell
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Style
  */
@@ -955,7 +955,7 @@ a.uk-link-reset,
   text-transform: uppercase;
 }
 /* Cell
- ========================================================================== */
+========================================================================== */
 .uk-table td {
   padding: 16px 12px;
   vertical-align: top;
@@ -967,25 +967,25 @@ a.uk-link-reset,
   margin-bottom: 0;
 }
 /* Footer
- ========================================================================== */
+========================================================================== */
 .uk-table tfoot {
   font-size: 0.875rem;
 }
 /* Caption
- ========================================================================== */
+========================================================================== */
 .uk-table caption {
   font-size: 0.875rem;
   text-align: left;
   color: #999;
 }
 /* Alignment modifier
- ========================================================================== */
+========================================================================== */
 .uk-table-middle,
 .uk-table-middle td {
   vertical-align: middle !important;
 }
 /* Style modifiers
- ========================================================================== */
+========================================================================== */
 /*
  * Divider
  */
@@ -1011,13 +1011,13 @@ a.uk-link-reset,
   background: #ffd;
 }
 /* Active state
- ========================================================================== */
+========================================================================== */
 .uk-table > tr.uk-active,
 .uk-table tbody tr.uk-active {
   background: #ffd;
 }
 /* Size modifier
- ========================================================================== */
+========================================================================== */
 .uk-table-small th,
 .uk-table-small td {
   padding: 10px 12px;
@@ -1027,7 +1027,7 @@ a.uk-link-reset,
   padding: 22px 12px;
 }
 /* Justify modifier
- ========================================================================== */
+========================================================================== */
 .uk-table-justify th:first-child,
 .uk-table-justify td:first-child {
   padding-left: 0;
@@ -1037,7 +1037,7 @@ a.uk-link-reset,
   padding-right: 0;
 }
 /* Cell size modifier
- ========================================================================== */
+========================================================================== */
 .uk-table-shrink {
   width: 1px;
 }
@@ -1045,7 +1045,7 @@ a.uk-link-reset,
   min-width: 150px;
 }
 /* Cell link modifier
- ========================================================================== */
+========================================================================== */
 /*
  * Does not work with `uk-table-justify` at the moment
  */
@@ -1060,7 +1060,7 @@ a.uk-link-reset,
   padding: 10px 12px;
 }
 /* Responsive table
- ========================================================================== */
+========================================================================== */
 /* Phone landscape and smaller */
 @media (max-width: 959px) {
   .uk-table-responsive,
@@ -1101,8 +1101,8 @@ a.uk-link-reset,
   transition: background-color 0.1s linear;
 }
 /* ========================================================================
-   Component: Icon
- ========================================================================== */
+Component: Icon
+========================================================================== */
 /*
  * Note: 1. - 7. is required for `button` elements. Needed for Close and Form Icon component.
  * 1. Remove margins in Chrome, Safari and Opera.
@@ -1167,7 +1167,7 @@ button.uk-icon:not(:disabled) {
   transform: translate(0, 0);
 }
 /* Image modifier
- ========================================================================== */
+========================================================================== */
 /*
  * Display images in icon dimensions
  */
@@ -1180,7 +1180,7 @@ button.uk-icon:not(:disabled) {
   vertical-align: middle;
 }
 /* Style modifiers
- ========================================================================== */
+========================================================================== */
 /*
  * Link
  */
@@ -1230,8 +1230,8 @@ button.uk-icon:not(:disabled) {
   color: #666;
 }
 /* ========================================================================
-   Component: Form Range
- ========================================================================== */
+Component: Form Range
+========================================================================== */
 /*
  * 1. Normalize and defaults
  * 2. Prevent content overflow if a fixed width is used
@@ -1283,7 +1283,7 @@ button.uk-icon:not(:disabled) {
   cursor: pointer;
 }
 /* Thumb
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Reset
  * 2. Style
@@ -1332,7 +1332,7 @@ button.uk-icon:not(:disabled) {
   display: none;
 }
 /* Track
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Safari doesn't have a focus state. Using active instead.
  */
@@ -1367,8 +1367,8 @@ button.uk-icon:not(:disabled) {
   background: #d2d2d2;
 }
 /* ========================================================================
-   Component: Form
- ========================================================================== */
+Component: Form
+========================================================================== */
 /*
  * 1. Define consistent box sizing.
  *    Default is `content-box` with following exceptions set to `border-box`
@@ -1460,7 +1460,7 @@ button.uk-icon:not(:disabled) {
 }
 /* Input, select and textarea
  * Allowed: `text`, `password`, `datetime`, `datetime-local`, `date`,  `month`,
-            `time`, `week`, `number`, `email`, `url`, `search`, `tel`, `color`
+ `time`, `week`, `number`, `email`, `url`, `search`, `tel`, `color`
  * Disallowed: `range`, `radio`, `checkbox`, `file`, `submit`, `reset` and `image`
  ========================================================================== */
 /*
@@ -1558,7 +1558,7 @@ button.uk-icon:not(:disabled) {
   color: #999;
 }
 /* Style modifier (`uk-input`, `uk-select` and `uk-textarea`)
- ========================================================================== */
+========================================================================== */
 /*
  * Small
  */
@@ -1588,7 +1588,7 @@ button.uk-icon:not(:disabled) {
   line-height: 53px;
 }
 /* Style modifier (`uk-input`, `uk-select` and `uk-textarea`)
- ========================================================================== */
+========================================================================== */
 /*
  * Error
  */
@@ -1617,7 +1617,7 @@ button.uk-icon:not(:disabled) {
   border-style: dashed;
 }
 /* Width modifiers (`uk-input`, `uk-select` and `uk-textarea`)
- ========================================================================== */
+========================================================================== */
 /*
  * Fixed widths
  * Different widths for mini sized `input` and `select` elements
@@ -1638,7 +1638,7 @@ select.uk-form-width-xsmall {
   width: 500px;
 }
 /* Select
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Remove default style. Also works in Firefox
  * 2. Style
@@ -1670,7 +1670,7 @@ select.uk-form-width-xsmall {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2224%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2016%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpolygon%20fill%3D%22%23999%22%20points%3D%2212%201%209%206%2015%206%22%20%2F%3E%0A%20%20%20%20%3Cpolygon%20fill%3D%22%23999%22%20points%3D%2212%2013%209%208%2015%208%22%20%2F%3E%0A%3C%2Fsvg%3E%0A");
 }
 /* Datalist
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Remove default style in Chrome
  */
@@ -1775,7 +1775,7 @@ select.uk-form-width-xsmall {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Crect%20fill%3D%22%23999%22%20x%3D%223%22%20y%3D%228%22%20width%3D%2210%22%20height%3D%221%22%20%2F%3E%0A%3C%2Fsvg%3E");
 }
 /* Legend
- ========================================================================== */
+========================================================================== */
 /*
  * Legend
  * 1. Behave like block element
@@ -1795,7 +1795,7 @@ select.uk-form-width-xsmall {
   line-height: 1.4;
 }
 /* Custom controls
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Container fits its content
  * 2. Create position context
@@ -1843,13 +1843,13 @@ select.uk-form-width-xsmall {
   overflow: hidden;
 }
 /* Label
- ========================================================================== */
+========================================================================== */
 .uk-form-label {
   color: #333;
   font-size: 0.875rem;
 }
 /* Layout
- ========================================================================== */
+========================================================================== */
 /*
  * Stacked
  */
@@ -1884,7 +1884,7 @@ select.uk-form-width-xsmall {
   }
 }
 /* Icons
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Set position
  * 2. Set width
@@ -1935,8 +1935,8 @@ select.uk-form-width-xsmall {
   padding-right: 40px !important;
 }
 /* ========================================================================
-   Component: Button
- ========================================================================== */
+Component: Button
+========================================================================== */
 /*
  * 1. Remove margins in Chrome, Safari and Opera.
  * 2. Remove borders for `button`.
@@ -2002,7 +2002,7 @@ select.uk-form-width-xsmall {
 }
 /* OnClick + Active */
 /* Style modifiers
- ========================================================================== */
+========================================================================== */
 /*
  * Default
  */
@@ -2098,7 +2098,7 @@ select.uk-form-width-xsmall {
   border-color: #e5e5e5;
 }
 /* Size modifiers
- ========================================================================== */
+========================================================================== */
 .uk-button-small {
   padding: 0 15px;
   line-height: 28px;
@@ -2110,7 +2110,7 @@ select.uk-form-width-xsmall {
   font-size: 0.875rem;
 }
 /* Text modifiers
- ========================================================================== */
+========================================================================== */
 /*
  * Text
  * 1. Reset
@@ -2175,7 +2175,7 @@ select.uk-form-width-xsmall {
   text-decoration: none;
 }
 /* Group
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Using `flex` instead of `inline-block` to prevent whitespace betweent child elements
  * 2. Behave like button
@@ -2190,20 +2190,20 @@ select.uk-form-width-xsmall {
   position: relative;
 }
 /* Group
-     ========================================================================== */
+========================================================================== */
 /*
-     * Collapse border
-     */
+ * Collapse border
+ */
 .uk-button-group > .uk-button:nth-child(n+2),
 .uk-button-group > div:nth-child(n+2) .uk-button {
   margin-left: -1px;
 }
 /*
-     * Create position context to superimpose the successor elements border
-     * Known issue: If you use an `a` element as button and an icon inside,
-     * the active state will not work if you click the icon inside the button
-     * Workaround: Just use a `button` or `input` element as button
-     */
+ * Create position context to superimpose the successor elements border
+ * Known issue: If you use an `a` element as button and an icon inside,
+ * the active state will not work if you click the icon inside the button
+ * Workaround: Just use a `button` or `input` element as button
+ */
 .uk-button-group .uk-button:hover,
 .uk-button-group .uk-button:focus,
 .uk-button-group .uk-button:active,
@@ -2212,8 +2212,8 @@ select.uk-form-width-xsmall {
   z-index: 1;
 }
 /* ========================================================================
-   Component: Progress
- ========================================================================== */
+Component: Progress
+========================================================================== */
 /*
  * 1. Add the correct vertical alignment in Chrome, Firefox, and Opera.
  * 2. Remove default style
@@ -2282,8 +2282,8 @@ select.uk-form-width-xsmall {
   border: 0;
 }
 /* ========================================================================
-   Component: Section
- ========================================================================== */
+Component: Section
+========================================================================== */
 /*
  * 1. Make it work with `100vh` and height in general
  */
@@ -2308,7 +2308,7 @@ select.uk-form-width-xsmall {
   margin-bottom: 0;
 }
 /* Size modifiers
- ========================================================================== */
+========================================================================== */
 /*
  * XSmall
  */
@@ -2352,7 +2352,7 @@ select.uk-form-width-xsmall {
   }
 }
 /* Style modifiers
- ========================================================================== */
+========================================================================== */
 /*
  * Default
  */
@@ -2378,14 +2378,14 @@ select.uk-form-width-xsmall {
   background: #222;
 }
 /* Overlap modifier
- ========================================================================== */
+========================================================================== */
 /*
  * Reserved modifier to make a section overlap another section with an border image
  * Implemented by the theme
  */
 /* ========================================================================
-   Component: Container
- ========================================================================== */
+Component: Container
+========================================================================== */
 /*
  * 1. Box sizing has to be `content-box` so the max-width is always the same and
  *    unaffected by the padding on different breakpoints. It's important for the size modifiers.
@@ -2428,7 +2428,7 @@ select.uk-form-width-xsmall {
   padding-right: 0;
 }
 /* Size modifier
- ========================================================================== */
+========================================================================== */
 .uk-container-xsmall {
   max-width: 750px;
 }
@@ -2445,7 +2445,7 @@ select.uk-form-width-xsmall {
   max-width: none;
 }
 /* Expand modifier
- ========================================================================== */
+========================================================================== */
 /*
  * Expand one side only
  */
@@ -2490,7 +2490,7 @@ select.uk-form-width-xsmall {
   }
 }
 /* Item
- ========================================================================== */
+========================================================================== */
 /*
  * Utility classes to reset container padding on the left or right side
  * Note: It has to be negative margin on the item, because it's specific to the item.
@@ -2532,8 +2532,8 @@ select.uk-form-width-xsmall {
   }
 }
 /* ========================================================================
-   Component: Tile
- ========================================================================== */
+Component: Tile
+========================================================================== */
 .uk-tile {
   display: flow-root;
   position: relative;
@@ -2566,7 +2566,7 @@ select.uk-form-width-xsmall {
   margin-bottom: 0;
 }
 /* Size modifiers
- ========================================================================== */
+========================================================================== */
 /*
  * XSmall
  */
@@ -2610,7 +2610,7 @@ select.uk-form-width-xsmall {
   }
 }
 /* Style modifiers
- ========================================================================== */
+========================================================================== */
 /*
  * Default
  */
@@ -2636,15 +2636,15 @@ select.uk-form-width-xsmall {
   background: #222;
 }
 /* ========================================================================
-   Component: Card
- ========================================================================== */
+Component: Card
+========================================================================== */
 .uk-card {
   position: relative;
   box-sizing: border-box;
   transition: box-shadow 0.1s ease-in-out;
 }
 /* Sections
- ========================================================================== */
+========================================================================== */
 .uk-card-body {
   display: flow-root;
   padding: 30px 30px;
@@ -2678,13 +2678,13 @@ select.uk-form-width-xsmall {
   margin-bottom: 0;
 }
 /* Media
- ========================================================================== */
+========================================================================== */
 /*
  * Reserved alignment modifier to style the media element, e.g. with `border-radius`
  * Implemented by the theme
  */
 /* Title
- ========================================================================== */
+========================================================================== */
 .uk-card-title {
   font-family: 'Fira Code', monospace;
   font-size: 1.5rem;
@@ -2692,7 +2692,7 @@ select.uk-form-width-xsmall {
 }
 h1 {font-family: 'Fira Code', monospace;}
 /* Badge
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Position
  * 2. Size
@@ -2725,13 +2725,13 @@ h1 {font-family: 'Fira Code', monospace;}
   margin-top: 0;
 }
 /* Hover modifier
- ========================================================================== */
+========================================================================== */
 .uk-card-hover:not(.uk-card-default):not(.uk-card-primary):not(.uk-card-secondary):hover {
   background: #fff;
   box-shadow: 0 14px 25px rgba(0, 0, 0, 0.16);
 }
 /* Style modifiers
- ========================================================================== */
+========================================================================== */
 /*
  * Default
  * Note: Header and Footer are only implemented for the default style
@@ -2785,7 +2785,7 @@ h1 {font-family: 'Fira Code', monospace;}
   box-shadow: 0 14px 25px rgba(0, 0, 0, 0.16);
 }
 /* Size modifier
- ========================================================================== */
+========================================================================== */
 /*
  * Small
  */
@@ -2816,8 +2816,8 @@ h1 {font-family: 'Fira Code', monospace;}
   }
 }
 /*
-     * Default
-     */
+ * Default
+ */
 .uk-card-body > .uk-nav-default {
   margin-left: -30px;
   margin-right: -30px;
@@ -2856,8 +2856,8 @@ h1 {font-family: 'Fira Code', monospace;}
   }
 }
 /*
-     * Small
-     */
+ * Small
+ */
 .uk-card-small > .uk-nav-default {
   margin-left: -20px;
   margin-right: -20px;
@@ -2876,8 +2876,8 @@ h1 {font-family: 'Fira Code', monospace;}
   padding-left: 35px;
 }
 /*
-     * Large
-     */
+ * Large
+ */
 /* Desktop and bigger */
 @media (min-width: 1200px) {
   .uk-card-large > .uk-nav-default {
@@ -2897,8 +2897,8 @@ h1 {font-family: 'Fira Code', monospace;}
   }
 }
 /* ========================================================================
-   Component: Close
- ========================================================================== */
+Component: Close
+========================================================================== */
 /*
  * Adopts `uk-icon`
  */
@@ -2914,13 +2914,13 @@ h1 {font-family: 'Fira Code', monospace;}
   outline: none;
 }
 /* ========================================================================
-   Component: Spinner
- ========================================================================== */
+Component: Spinner
+========================================================================== */
 /*
  * Adopts `uk-icon`
  */
 /* SVG
- ========================================================================== */
+========================================================================== */
 .uk-spinner > * {
   animation: uk-spinner-rotate 1.4s linear infinite;
 }
@@ -2957,8 +2957,8 @@ h1 {font-family: 'Fira Code', monospace;}
   }
 }
 /* ========================================================================
-   Component: Totop
- ========================================================================== */
+Component: Totop
+========================================================================== */
 /*
  * Addopts `uk-icon`
  */
@@ -2978,8 +2978,8 @@ h1 {font-family: 'Fira Code', monospace;}
   color: #333;
 }
 /* ========================================================================
-   Component: Marker
- ========================================================================== */
+Component: Marker
+========================================================================== */
 /*
  * Addopts `uk-icon`
  */
@@ -2996,8 +2996,8 @@ h1 {font-family: 'Fira Code', monospace;}
   outline: none;
 }
 /* ========================================================================
-   Component: Alert
- ========================================================================== */
+Component: Alert
+========================================================================== */
 .uk-alert {
   position: relative;
   margin-bottom: 20px;
@@ -3040,7 +3040,7 @@ h1 {font-family: 'Fira Code', monospace;}
   opacity: 0.8;
 }
 /* Style modifiers
- ========================================================================== */
+========================================================================== */
 /*
  * Primary
  */
@@ -3070,8 +3070,8 @@ h1 {font-family: 'Fira Code', monospace;}
   color: #f0506e;
 }
 /*
-     * Content
-     */
+ * Content
+ */
 .uk-alert h1,
 .uk-alert h2,
 .uk-alert h3,
@@ -3089,8 +3089,8 @@ h1 {font-family: 'Fira Code', monospace;}
   text-decoration: underline;
 }
 /* ========================================================================
-   Component: Placeholder
- ========================================================================== */
+Component: Placeholder
+========================================================================== */
 .uk-placeholder {
   margin-bottom: 20px;
   padding: 30px 30px;
@@ -3108,8 +3108,8 @@ h1 {font-family: 'Fira Code', monospace;}
   margin-bottom: 0;
 }
 /* ========================================================================
-   Component: Badge
- ========================================================================== */
+Component: Badge
+========================================================================== */
 /*
  * 1. Style
  * 2. Center child vertically and horizontally
@@ -3140,8 +3140,8 @@ h1 {font-family: 'Fira Code', monospace;}
   outline: none;
 }
 /* ========================================================================
-   Component: Label
- ========================================================================== */
+Component: Label
+========================================================================== */
 .uk-label {
   display: inline-block;
   padding: 0 10px;
@@ -3155,7 +3155,7 @@ h1 {font-family: 'Fira Code', monospace;}
   text-transform: uppercase;
 }
 /* Color modifiers
- ========================================================================== */
+========================================================================== */
 /*
  * Success
  */
@@ -3178,8 +3178,8 @@ h1 {font-family: 'Fira Code', monospace;}
   color: #fff;
 }
 /* ========================================================================
-   Component: Overlay
- ========================================================================== */
+Component: Overlay
+========================================================================== */
 .uk-overlay {
   padding: 30px 30px;
 }
@@ -3190,9 +3190,9 @@ h1 {font-family: 'Fira Code', monospace;}
   margin-bottom: 0;
 }
 /* Icon
- ========================================================================== */
+========================================================================== */
 /* Style modifiers
- ========================================================================== */
+========================================================================== */
 /*
  * Default
  */
@@ -3206,8 +3206,8 @@ h1 {font-family: 'Fira Code', monospace;}
   background: rgba(34, 34, 34, 0.8);
 }
 /* ========================================================================
-   Component: Article
- ========================================================================== */
+Component: Article
+========================================================================== */
 .uk-article {
   display: flow-root;
 }
@@ -3218,12 +3218,12 @@ h1 {font-family: 'Fira Code', monospace;}
   margin-bottom: 0;
 }
 /* Adjacent sibling
- ========================================================================== */
+========================================================================== */
 .uk-article + .uk-article {
   margin-top: 70px;
 }
 /* Title
- ========================================================================== */
+========================================================================== */
 .uk-article-title {
   font-size: 2.23125rem;
   line-height: 1.2;
@@ -3235,7 +3235,7 @@ h1 {font-family: 'Fira Code', monospace;}
   }
 }
 /* Meta
- ========================================================================== */
+========================================================================== */
 .uk-article-meta {
   font-size: 0.875rem;
   line-height: 1.4;
@@ -3249,10 +3249,10 @@ h1 {font-family: 'Fira Code', monospace;}
   text-decoration: none;
 }
 /* ========================================================================
-   Component: Comment
- ========================================================================== */
+Component: Comment
+========================================================================== */
 /* Sections
- ========================================================================== */
+========================================================================== */
 .uk-comment-body {
   display: flow-root;
   overflow-wrap: break-word;
@@ -3270,22 +3270,22 @@ h1 {font-family: 'Fira Code', monospace;}
   margin-bottom: 0;
 }
 /* Title
- ========================================================================== */
+========================================================================== */
 .uk-comment-title {
   font-size: 1.25rem;
   line-height: 1.4;
 }
 /* Meta
- ========================================================================== */
+========================================================================== */
 .uk-comment-meta {
   font-size: 0.875rem;
   line-height: 1.4;
   color: #999;
 }
 /* Avatar
- ========================================================================== */
+========================================================================== */
 /* List
- ========================================================================== */
+========================================================================== */
 .uk-comment-list {
   padding: 0;
   list-style: none;
@@ -3314,14 +3314,14 @@ h1 {font-family: 'Fira Code', monospace;}
   margin-top: 70px;
 }
 /* Style modifier
- ========================================================================== */
+========================================================================== */
 .uk-comment-primary {
   padding: 30px;
   background-color: #f8f8f8;
 }
 /* ========================================================================
-   Component: Search
- ========================================================================== */
+Component: Search
+========================================================================== */
 /*
  * 1. Container fits its content
  * 2. Create position context
@@ -3339,7 +3339,7 @@ h1 {font-family: 'Fira Code', monospace;}
   margin: 0;
 }
 /* Input
- ========================================================================== */
+========================================================================== */
 /*
  * Remove the inner padding and cancel buttons in Chrome on OS X and Safari on OS X.
  */
@@ -3396,7 +3396,7 @@ h1 {font-family: 'Fira Code', monospace;}
   color: #999;
 }
 /* Icon (Adopts `uk-icon`)
- ========================================================================== */
+========================================================================== */
 /*
  * Remove default focus style
  */
@@ -3442,7 +3442,7 @@ h1 {font-family: 'Fira Code', monospace;}
   left: auto;
 }
 /* Default modifier
- ========================================================================== */
+========================================================================== */
 .uk-search-default {
   width: 180px;
 }
@@ -3473,7 +3473,7 @@ h1 {font-family: 'Fira Code', monospace;}
   padding-right: 40px;
 }
 /* Navbar modifier
- ========================================================================== */
+========================================================================== */
 .uk-search-navbar {
   width: 400px;
 }
@@ -3498,7 +3498,7 @@ h1 {font-family: 'Fira Code', monospace;}
   padding-right: 40px;
 }
 /* Large modifier
- ========================================================================== */
+========================================================================== */
 .uk-search-large {
   width: 500px;
 }
@@ -3523,7 +3523,7 @@ h1 {font-family: 'Fira Code', monospace;}
   padding-right: 80px;
 }
 /* Toggle
- ========================================================================== */
+========================================================================== */
 .uk-search-toggle {
   color: #999;
 }
@@ -3533,19 +3533,19 @@ h1 {font-family: 'Fira Code', monospace;}
   color: #666;
 }
 /* ========================================================================
-   Component: Accordion
- ========================================================================== */
+Component: Accordion
+========================================================================== */
 .uk-accordion {
   padding: 0;
   list-style: none;
 }
 /* Item
- ========================================================================== */
+========================================================================== */
 .uk-accordion > :nth-child(n+2) {
   margin-top: 20px;
 }
 /* Title
- ========================================================================== */
+========================================================================== */
 .uk-accordion-title {
   display: block;
   font-size: 1.25rem;
@@ -3574,7 +3574,7 @@ h1 {font-family: 'Fira Code', monospace;}
   outline: none;
 }
 /* Content
- ========================================================================== */
+========================================================================== */
 .uk-accordion-content {
   display: flow-root;
   margin-top: 20px;
@@ -3586,8 +3586,8 @@ h1 {font-family: 'Fira Code', monospace;}
   margin-bottom: 0;
 }
 /* ========================================================================
-   Component: Drop
- ========================================================================== */
+Component: Drop
+========================================================================== */
 /*
  * 1. Hide by default
  * 2. Set position
@@ -3608,7 +3608,7 @@ h1 {font-family: 'Fira Code', monospace;}
   display: block;
 }
 /* Direction / Alignment modifiers
- ========================================================================== */
+========================================================================== */
 /* Direction */
 [class*='uk-drop-top'] {
   margin-top: -20px;
@@ -3623,13 +3623,13 @@ h1 {font-family: 'Fira Code', monospace;}
   margin-left: 20px;
 }
 /* Grid modifiers
- ========================================================================== */
+========================================================================== */
 .uk-drop-stack .uk-drop-grid > * {
   width: 100% !important;
 }
 /* ========================================================================
-   Component: Dropdown
- ========================================================================== */
+Component: Dropdown
+========================================================================== */
 /*
  * 1. Hide by default
  * 2. Set position
@@ -3698,7 +3698,7 @@ h1 {font-family: 'Fira Code', monospace;}
   color: #666;
 }
 /* Direction / Alignment modifiers
- ========================================================================== */
+========================================================================== */
 /* Direction */
 [class*='uk-dropdown-top'] {
   margin-top: -10px;
@@ -3713,13 +3713,13 @@ h1 {font-family: 'Fira Code', monospace;}
   margin-left: 10px;
 }
 /* Grid modifiers
- ========================================================================== */
+========================================================================== */
 .uk-dropdown-stack .uk-dropdown-grid > * {
   width: 100% !important;
 }
 /* ========================================================================
-   Component: Modal
- ========================================================================== */
+Component: Modal
+========================================================================== */
 /*
  * 1. Hide by default
  * 2. Set position
@@ -3769,7 +3769,7 @@ h1 {font-family: 'Fira Code', monospace;}
   opacity: 1;
 }
 /* Page
- ========================================================================== */
+========================================================================== */
 /*
  * Prevent scrollbars
  */
@@ -3777,7 +3777,7 @@ h1 {font-family: 'Fira Code', monospace;}
   overflow: hidden;
 }
 /* Dialog
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Create position context for spinner and close button
  * 2. Dimensions
@@ -3811,7 +3811,7 @@ h1 {font-family: 'Fira Code', monospace;}
   transform: translateY(0);
 }
 /* Size modifier
- ========================================================================== */
+========================================================================== */
 /*
  * Container size
  * Take the same size as the Container component
@@ -3837,7 +3837,7 @@ h1 {font-family: 'Fira Code', monospace;}
   transform: translateY(0);
 }
 /* Sections
- ========================================================================== */
+========================================================================== */
 .uk-modal-body {
   display: flow-root;
   padding: 30px 30px;
@@ -3863,7 +3863,7 @@ h1 {font-family: 'Fira Code', monospace;}
   margin-bottom: 0;
 }
 /* Title
- ========================================================================== */
+========================================================================== */
 .uk-modal-title {
   font-size: 2rem;
   line-height: 1.3;
@@ -3922,8 +3922,8 @@ h1 {font-family: 'Fira Code', monospace;}
   background: #fff;
 }
 /* ========================================================================
-   Component: Slideshow
- ========================================================================== */
+Component: Slideshow
+========================================================================== */
 /*
  * 1. Prevent tab highlighting on iOS.
  */
@@ -3932,7 +3932,7 @@ h1 {font-family: 'Fira Code', monospace;}
   -webkit-tap-highlight-color: transparent;
 }
 /* Items
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Create position and stacking context
  * 2. Reset list
@@ -3953,7 +3953,7 @@ h1 {font-family: 'Fira Code', monospace;}
   -webkit-touch-callout: none;
 }
 /* Item
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Position items above each other
  * 2. Take the full width
@@ -3988,8 +3988,8 @@ h1 {font-family: 'Fira Code', monospace;}
   display: none;
 }
 /* ========================================================================
-   Component: Slider
- ========================================================================== */
+Component: Slider
+========================================================================== */
 /*
  * 1. Prevent tab highlighting on iOS.
  */
@@ -3998,7 +3998,7 @@ h1 {font-family: 'Fira Code', monospace;}
   -webkit-tap-highlight-color: transparent;
 }
 /* Container
- ========================================================================== */
+========================================================================== */
 /*
  * Clip child elements
  */
@@ -4013,7 +4013,7 @@ h1 {font-family: 'Fira Code', monospace;}
   padding: 11px 25px 39px 25px;
 }
 /* Items
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Optimize animation
  * 2. Create a containing block. In Safari it's neither created by `transform` nor `will-change`.
@@ -4041,7 +4041,7 @@ h1 {font-family: 'Fira Code', monospace;}
   flex-wrap: nowrap;
 }
 /* Item
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Let items take content dimensions (0 0 auto)
  *    `max-width` needed to keep image responsiveness and prevent content overflow
@@ -4063,8 +4063,8 @@ h1 {font-family: 'Fira Code', monospace;}
   outline: none;
 }
 /* ========================================================================
-   Component: Sticky
- ========================================================================== */
+Component: Sticky
+========================================================================== */
 /*
  * 1. Resolve frame rate issues on devices with lower frame rates by forcing hardware acceleration
  */
@@ -4086,8 +4086,8 @@ h1 {font-family: 'Fira Code', monospace;}
   animation-duration: 0.2s;
 }
 /* ========================================================================
-   Component: Off-canvas
- ========================================================================== */
+Component: Off-canvas
+========================================================================== */
 /*
  * 1. Hide by default
  * 2. Set position
@@ -4110,7 +4110,7 @@ h1 {font-family: 'Fira Code', monospace;}
   left: auto;
 }
 /* Bar
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Set position
  * 2. Size and style
@@ -4224,7 +4224,7 @@ h1 {font-family: 'Fira Code', monospace;}
   padding: 5px;
 }
 /* Overlay
- ========================================================================== */
+========================================================================== */
 /*
  * Overlay the whole page. Needed for the `::before`
  * 1. Using `100vw` so no modification is needed when off-canvas is flipped
@@ -4257,7 +4257,7 @@ h1 {font-family: 'Fira Code', monospace;}
   opacity: 1;
 }
 /* Prevent scrolling
- ========================================================================== */
+========================================================================== */
 /*
  * Prevent horizontal scrollbar when the content is slide-out
  * Has to be on the `html` element too to make it work on the `body`
@@ -4267,7 +4267,7 @@ h1 {font-family: 'Fira Code', monospace;}
   overflow-x: hidden;
 }
 /* Container
- ========================================================================== */
+========================================================================== */
 /*
  * Prepare slide-out animation (Used in reveal and push mode)
  * Using `position: left` instead of `transform` because position `fixed` elements like sticky navbars
@@ -4301,8 +4301,8 @@ h1 {font-family: 'Fira Code', monospace;}
   }
 }
 /* ========================================================================
-   Component: Switcher
- ========================================================================== */
+Component: Switcher
+========================================================================== */
 /*
  * Reset list
  */
@@ -4312,7 +4312,7 @@ h1 {font-family: 'Fira Code', monospace;}
   list-style: none;
 }
 /* Items
- ========================================================================== */
+========================================================================== */
 /*
  * Hide not active items
  */
@@ -4326,8 +4326,8 @@ h1 {font-family: 'Fira Code', monospace;}
   margin-bottom: 0;
 }
 /* ========================================================================
-   Component: Leader
- ========================================================================== */
+Component: Leader
+========================================================================== */
 .uk-leader {
   overflow: hidden;
 }
@@ -4364,8 +4364,8 @@ h1 {font-family: 'Fira Code', monospace;}
   --uk-leader-fill-content: .;
 }
 /* ========================================================================
-   Component: Notification
- ========================================================================== */
+Component: Notification
+========================================================================== */
 /*
  * 1. Set position
  * 2. Dimensions
@@ -4436,7 +4436,7 @@ h1 {font-family: 'Fira Code', monospace;}
   display: block;
 }
 /* Style modifiers
- ========================================================================== */
+========================================================================== */
 /*
  * Primary
  */
@@ -4462,8 +4462,8 @@ h1 {font-family: 'Fira Code', monospace;}
   color: #f0506e;
 }
 /* ========================================================================
-   Component: Tooltip
- ========================================================================== */
+Component: Tooltip
+========================================================================== */
 /*
  * 1. Hide by default
  * 2. Position
@@ -4494,7 +4494,7 @@ h1 {font-family: 'Fira Code', monospace;}
   display: block;
 }
 /* Direction / Alignment modifiers
- ========================================================================== */
+========================================================================== */
 /* Direction */
 [class*='uk-tooltip-top'] {
   margin-top: -10px;
@@ -4509,8 +4509,8 @@ h1 {font-family: 'Fira Code', monospace;}
   margin-left: 10px;
 }
 /* ========================================================================
-   Component: Sortable
- ========================================================================== */
+Component: Sortable
+========================================================================== */
 .uk-sortable {
   position: relative;
 }
@@ -4521,36 +4521,36 @@ h1 {font-family: 'Fira Code', monospace;}
   margin-bottom: 0;
 }
 /* Drag
- ========================================================================== */
+========================================================================== */
 .uk-sortable-drag {
   position: fixed !important;
   z-index: 1050 !important;
   pointer-events: none;
 }
 /* Placeholder
- ========================================================================== */
+========================================================================== */
 .uk-sortable-placeholder {
   opacity: 0;
   pointer-events: none;
 }
 /* Empty modifier
- ========================================================================== */
+========================================================================== */
 .uk-sortable-empty {
   min-height: 50px;
 }
 /* Handle
- ========================================================================== */
+========================================================================== */
 /* Hover */
 .uk-sortable-handle:hover {
   cursor: move;
 }
 /* ========================================================================
-   Component: Countdown
- ========================================================================== */
+Component: Countdown
+========================================================================== */
 /* Item
- ========================================================================== */
+========================================================================== */
 /* Number
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Make numbers all of the same size to prevent jumping. Must be supported by the font.
  * 2. Style
@@ -4575,7 +4575,7 @@ h1 {font-family: 'Fira Code', monospace;}
   }
 }
 /* Separator
- ========================================================================== */
+========================================================================== */
 .uk-countdown-separator {
   font-size: 1rem;
   line-height: 1.6;
@@ -4593,10 +4593,10 @@ h1 {font-family: 'Fira Code', monospace;}
   }
 }
 /* Label
- ========================================================================== */
+========================================================================== */
 /* ========================================================================
-   Component: Grid
- ========================================================================== */
+Component: Grid
+========================================================================== */
 /*
  * 1. Allow cells to wrap into the next line
  * 2. Reset list
@@ -4625,7 +4625,7 @@ h1 {font-family: 'Fira Code', monospace;}
   margin-bottom: 0;
 }
 /* Gutter
- ========================================================================== */
+========================================================================== */
 /*
  * Default
  */
@@ -4639,28 +4639,28 @@ h1 {font-family: 'Fira Code', monospace;}
 /* Vertical */
 .uk-grid + .uk-grid,
 .uk-grid > .uk-grid-margin,
-* + .uk-grid-margin {
-  margin-top: 30px;
-}
-/* Desktop and bigger */
-@media (min-width: 1200px) {
-  /* Horizontal */
-  .uk-grid {
-    margin-left: -40px;
-  }
-  .uk-grid > * {
-    padding-left: 40px;
-  }
-  /* Vertical */
-  .uk-grid + .uk-grid,
-  .uk-grid > .uk-grid-margin,
   * + .uk-grid-margin {
-    margin-top: 40px;
+    margin-top: 30px;
   }
-}
-/*
- * Small
- */
+  /* Desktop and bigger */
+  @media (min-width: 1200px) {
+    /* Horizontal */
+    .uk-grid {
+      margin-left: -40px;
+    }
+    .uk-grid > * {
+      padding-left: 40px;
+    }
+    /* Vertical */
+    .uk-grid + .uk-grid,
+    .uk-grid > .uk-grid-margin,
+    * + .uk-grid-margin {
+      margin-top: 40px;
+    }
+  }
+  /*
+   * Small
+   */
 /* Horizontal */
 .uk-grid-small,
 .uk-grid-column-small {
@@ -4675,12 +4675,12 @@ h1 {font-family: 'Fira Code', monospace;}
 .uk-grid + .uk-grid-row-small,
 .uk-grid-small > .uk-grid-margin,
 .uk-grid-row-small > .uk-grid-margin,
-* + .uk-grid-margin-small {
-  margin-top: 15px;
-}
-/*
- * Medium
- */
+  * + .uk-grid-margin-small {
+    margin-top: 15px;
+  }
+  /*
+   * Medium
+   */
 /* Horizontal */
 .uk-grid-medium,
 .uk-grid-column-medium {
@@ -4695,12 +4695,12 @@ h1 {font-family: 'Fira Code', monospace;}
 .uk-grid + .uk-grid-row-medium,
 .uk-grid-medium > .uk-grid-margin,
 .uk-grid-row-medium > .uk-grid-margin,
-* + .uk-grid-margin-medium {
-  margin-top: 30px;
-}
-/*
- * Large
- */
+  * + .uk-grid-margin-medium {
+    margin-top: 30px;
+  }
+  /*
+   * Large
+   */
 /* Horizontal */
 .uk-grid-large,
 .uk-grid-column-large {
@@ -4715,32 +4715,32 @@ h1 {font-family: 'Fira Code', monospace;}
 .uk-grid + .uk-grid-row-large,
 .uk-grid-large > .uk-grid-margin,
 .uk-grid-row-large > .uk-grid-margin,
-* + .uk-grid-margin-large {
-  margin-top: 40px;
-}
-/* Desktop and bigger */
-@media (min-width: 1200px) {
-  /* Horizontal */
-  .uk-grid-large,
-  .uk-grid-column-large {
-    margin-left: -70px;
-  }
-  .uk-grid-large > *,
-  .uk-grid-column-large > * {
-    padding-left: 70px;
-  }
-  /* Vertical */
-  .uk-grid + .uk-grid-large,
-  .uk-grid + .uk-grid-row-large,
-  .uk-grid-large > .uk-grid-margin,
-  .uk-grid-row-large > .uk-grid-margin,
   * + .uk-grid-margin-large {
-    margin-top: 70px;
+    margin-top: 40px;
   }
-}
-/*
- * Collapse
- */
+  /* Desktop and bigger */
+  @media (min-width: 1200px) {
+    /* Horizontal */
+    .uk-grid-large,
+    .uk-grid-column-large {
+      margin-left: -70px;
+    }
+    .uk-grid-large > *,
+    .uk-grid-column-large > * {
+      padding-left: 70px;
+    }
+    /* Vertical */
+    .uk-grid + .uk-grid-large,
+    .uk-grid + .uk-grid-row-large,
+    .uk-grid-large > .uk-grid-margin,
+    .uk-grid-row-large > .uk-grid-margin,
+    * + .uk-grid-margin-large {
+      margin-top: 70px;
+    }
+  }
+  /*
+   * Collapse
+   */
 /* Horizontal */
 .uk-grid-collapse,
 .uk-grid-column-collapse {
@@ -4758,7 +4758,7 @@ h1 {font-family: 'Fira Code', monospace;}
   margin-top: 0;
 }
 /* Divider
- ========================================================================== */
+========================================================================== */
 .uk-grid-divider > * {
   position: relative;
 }
@@ -4944,7 +4944,7 @@ h1 {font-family: 'Fira Code', monospace;}
   }
 }
 /* Match child of a grid cell
- ========================================================================== */
+========================================================================== */
 /*
  * Behave like a block element
  * 1. Wrap into the next line
@@ -4966,8 +4966,8 @@ h1 {font-family: 'Fira Code', monospace;}
   flex: auto;
 }
 /* ========================================================================
-   Component: Nav
- ========================================================================== */
+Component: Nav
+========================================================================== */
 /*
  * Reset
  * 1. Prepare lists
@@ -4998,7 +4998,7 @@ h1 {font-family: 'Fira Code', monospace;}
   padding: 5px 0;
 }
 /* Sublists
- ========================================================================== */
+========================================================================== */
 /*
  * Level 2
  * `ul` needed for higher specificity to override padding
@@ -5019,7 +5019,7 @@ ul.uk-nav-sub {
   padding: 2px 0;
 }
 /* Parent icon modifier
- ========================================================================== */
+========================================================================== */
 .uk-nav-parent-icon > .uk-parent > a::after {
   content: "";
   width: 1.5em;
@@ -5033,7 +5033,7 @@ ul.uk-nav-sub {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpolyline%20fill%3D%22none%22%20stroke%3D%22%23666%22%20stroke-width%3D%221.1%22%20points%3D%221%204%207%2010%2013%204%22%20%2F%3E%0A%3C%2Fsvg%3E");
 }
 /* Header
- ========================================================================== */
+========================================================================== */
 .uk-nav-header {
   padding: 5px 0;
   text-transform: uppercase;
@@ -5043,12 +5043,12 @@ ul.uk-nav-sub {
   margin-top: 20px;
 }
 /* Divider
- ========================================================================== */
+========================================================================== */
 .uk-nav > .uk-nav-divider {
   margin: 5px 0;
 }
 /* Default modifier
- ========================================================================== */
+========================================================================== */
 .uk-nav-default {
   font-size: 0.875rem;
 }
@@ -5093,7 +5093,7 @@ ul.uk-nav-sub {
   color: #333;
 }
 /* Primary modifier
- ========================================================================== */
+========================================================================== */
 /*
  * Items
  */
@@ -5137,7 +5137,7 @@ ul.uk-nav-sub {
   color: #333;
 }
 /* Alignment modifier
- ========================================================================== */
+========================================================================== */
 .uk-nav-center {
   text-align: center;
 }
@@ -5151,15 +5151,15 @@ ul.uk-nav-sub {
   position: absolute;
 }
 /* Style modifier
- ========================================================================== */
+========================================================================== */
 .uk-nav.uk-nav-divider > :not(.uk-nav-divider) + :not(.uk-nav-header, .uk-nav-divider) {
   margin-top: 0;
   padding-top: 0;
   border-top: 1px solid #e5e5e5;
 }
 /* ========================================================================
-   Component: Navbar
- ========================================================================== */
+Component: Navbar
+========================================================================== */
 /*
  * 1. Create position context to center navbar group
  */
@@ -5169,7 +5169,7 @@ ul.uk-nav-sub {
   position: relative;
 }
 /* Container
- ========================================================================== */
+========================================================================== */
 .uk-navbar-container:not(.uk-navbar-transparent) {
   background: #f8f8f8;
 }
@@ -5181,7 +5181,7 @@ ul.uk-nav-sub {
   display: none !important;
 }
 /* Groups
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Align navs and items vertically if they have a different height
  * 2. Note: IE 11 requires an extra `div` which affects the center selector
@@ -5240,7 +5240,7 @@ ul.uk-nav-sub {
   box-sizing: border-box;
 }
 /* Nav
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Reset list
  */
@@ -5312,12 +5312,12 @@ ul.uk-nav-sub {
   color: #333;
 }
 /* Item
- ========================================================================== */
+========================================================================== */
 .uk-navbar-item {
   color: #666;
 }
 /* Toggle
- ========================================================================== */
+========================================================================== */
 .uk-navbar-toggle {
   color: #999;
 }
@@ -5334,14 +5334,14 @@ ul.uk-nav-sub {
  */
 /* Hover + Focus */
 /* Subtitle
- ========================================================================== */
+========================================================================== */
 .uk-navbar-subtitle {
   font-size: 0.875rem;
 }
 /* Style modifiers
- ========================================================================== */
+========================================================================== */
 /* Dropdown
- ========================================================================== */
+========================================================================== */
 /*
  * Adopts `uk-dropdown`
  * 1. Hide by default
@@ -5473,7 +5473,7 @@ ul.uk-nav-sub {
   color: #333;
 }
 /* Dropbar
- ========================================================================== */
+========================================================================== */
 .uk-navbar-dropbar {
   background: #fff;
 }
@@ -5488,8 +5488,8 @@ ul.uk-nav-sub {
   box-shadow: 0 5px 7px rgba(0, 0, 0, 0.05);
 }
 /*
-     * Navbar
-     */
+ * Navbar
+ */
 .uk-navbar-container > .uk-container .uk-navbar-left {
   margin-left: -15px;
   margin-right: -15px;
@@ -5498,8 +5498,8 @@ ul.uk-nav-sub {
   margin-right: -15px;
 }
 /*
-     * Grid Divider
-     */
+ * Grid Divider
+ */
 .uk-navbar-dropdown-grid > * {
   position: relative;
 }
@@ -5521,8 +5521,8 @@ ul.uk-nav-sub {
   border-top: 1px solid #e5e5e5;
 }
 /* ========================================================================
-   Component: Subnav
- ========================================================================== */
+Component: Subnav
+========================================================================== */
 /*
  * 1. Allow items to wrap into the next line
  * 2. Gutter
@@ -5552,7 +5552,7 @@ ul.uk-nav-sub {
   position: relative;
 }
 /* Items
- ========================================================================== */
+========================================================================== */
 /*
  * Items must target `a` elements to exclude other elements (e.g. dropdowns)
  * Using `:first-child` instead of `a` to support `span` elements for text
@@ -5581,7 +5581,7 @@ ul.uk-nav-sub {
   color: #333;
 }
 /* Divider modifier
- ========================================================================== */
+========================================================================== */
 /*
  * Set gutter 
  */
@@ -5611,7 +5611,7 @@ ul.uk-nav-sub {
   border-left-color: #e5e5e5;
 }
 /* Pill modifier
- ========================================================================== */
+========================================================================== */
 .uk-subnav-pill > * > :first-child {
   padding: 5px 10px;
   background: transparent;
@@ -5640,8 +5640,8 @@ ul.uk-nav-sub {
   color: #999;
 }
 /* ========================================================================
-   Component: Breadcrumb
- ========================================================================== */
+Component: Breadcrumb
+========================================================================== */
 /*
  * Reset list
  */
@@ -5656,7 +5656,7 @@ ul.uk-nav-sub {
   display: contents;
 }
 /* Items
- ========================================================================== */
+========================================================================== */
 .uk-breadcrumb > * > * {
   font-size: 0.875rem;
   color: #999;
@@ -5689,8 +5689,8 @@ ul.uk-nav-sub {
   color: #999;
 }
 /* ========================================================================
-   Component: Pagination
- ========================================================================== */
+Component: Pagination
+========================================================================== */
 /*
  * 1. Allow items to wrap into the next line
  * 2. Gutter
@@ -5720,7 +5720,7 @@ ul.uk-nav-sub {
   position: relative;
 }
 /* Items
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Prevent gap if child element is `inline-block`, e.g. an icon
  * 2. Style
@@ -5748,8 +5748,8 @@ ul.uk-nav-sub {
   color: #999;
 }
 /* ========================================================================
-   Component: Tab
- ========================================================================== */
+Component: Tab
+========================================================================== */
 /*
  * 1. Allow items to wrap into the next line
  * 2. Gutter
@@ -5788,7 +5788,7 @@ ul.uk-nav-sub {
   position: relative;
 }
 /* Items
- ========================================================================== */
+========================================================================== */
 /*
  * Items must target `a` elements to exclude other elements (e.g. dropdowns)
  * 1. Center text if a width is set
@@ -5822,7 +5822,7 @@ ul.uk-nav-sub {
   color: #999;
 }
 /* Position modifier
- ========================================================================== */
+========================================================================== */
 /*
  * Bottom
  */
@@ -5879,8 +5879,8 @@ ul.uk-nav-sub {
   margin-left: 30px;
 }
 /* ========================================================================
-   Component: Slidenav
- ========================================================================== */
+Component: Slidenav
+========================================================================== */
 /*
  * Adopts `uk-icon`
  */
@@ -5900,7 +5900,7 @@ ul.uk-nav-sub {
   color: rgba(102, 102, 102, 0.5);
 }
 /* Icon modifier
- ========================================================================== */
+========================================================================== */
 /*
  * Previous
  */
@@ -5908,18 +5908,18 @@ ul.uk-nav-sub {
  * Next
  */
 /* Size modifier
- ========================================================================== */
+========================================================================== */
 .uk-slidenav-large {
   padding: 10px 10px;
 }
 /* Container
- ========================================================================== */
+========================================================================== */
 .uk-slidenav-container {
   display: flex;
 }
 /* ========================================================================
-   Component: Dotnav
- ========================================================================== */
+Component: Dotnav
+========================================================================== */
 /*
  * 1. Allow items to wrap into the next line
  * 2. Reset list
@@ -5947,7 +5947,7 @@ ul.uk-nav-sub {
   padding-left: 12px;
 }
 /* Items
- ========================================================================== */
+========================================================================== */
 /*
  * Items
  * 1. Hide text if present
@@ -5985,7 +5985,7 @@ ul.uk-nav-sub {
   border-color: transparent;
 }
 /* Modifier: 'uk-dotnav-vertical'
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Change direction
  * 2. Gutter
@@ -6003,8 +6003,8 @@ ul.uk-nav-sub {
   padding-top: 12px;
 }
 /* ========================================================================
-   Component: Thumbnav
- ========================================================================== */
+Component: Thumbnav
+========================================================================== */
 /*
  * 1. Allow items to wrap into the next line
  * 2. Reset list
@@ -6030,7 +6030,7 @@ ul.uk-nav-sub {
   padding-left: 15px;
 }
 /* Items
- ========================================================================== */
+========================================================================== */
 /*
  * Items
  */
@@ -6062,7 +6062,7 @@ ul.uk-nav-sub {
   background-color: transparent;
 }
 /* Modifier: 'uk-thumbnav-vertical'
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Change direction
  * 2. Gutter
@@ -6080,8 +6080,8 @@ ul.uk-nav-sub {
   padding-top: 15px;
 }
 /* ========================================================================
-   Component: Iconnav
- ========================================================================== */
+Component: Iconnav
+========================================================================== */
 /*
  * 1. Allow items to wrap into the next line
  * 2. Reset list
@@ -6107,7 +6107,7 @@ ul.uk-nav-sub {
   padding-left: 10px;
 }
 /* Items
- ========================================================================== */
+========================================================================== */
 /*
  * Items must target `a` elements to exclude other elements (e.g. dropdowns)
  * 1. Prevent gap if child element is `inline-block`, e.g. an icon
@@ -6130,7 +6130,7 @@ ul.uk-nav-sub {
   color: #666;
 }
 /* Modifier: 'uk-iconnav-vertical'
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Change direction
  * 2. Gutter
@@ -6148,8 +6148,8 @@ ul.uk-nav-sub {
   padding-top: 10px;
 }
 /* ========================================================================
-   Component: Lightbox
- ========================================================================== */
+Component: Lightbox
+========================================================================== */
 /*
  * 1. Hide by default
  * 2. Set position
@@ -6188,7 +6188,7 @@ ul.uk-nav-sub {
   opacity: 1;
 }
 /* Page
- ========================================================================== */
+========================================================================== */
 /*
  * Prevent scrollbars
  */
@@ -6196,7 +6196,7 @@ ul.uk-nav-sub {
   overflow: hidden;
 }
 /* Item
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Center child within the viewport
  * 2. Not visible by default
@@ -6240,7 +6240,7 @@ ul.uk-nav-sub {
   display: flex;
 }
 /* Toolbar
- ========================================================================== */
+========================================================================== */
 .uk-lightbox-toolbar {
   padding: 10px 10px;
   background: rgba(0, 0, 0, 0.3);
@@ -6250,7 +6250,7 @@ ul.uk-nav-sub {
   color: rgba(255, 255, 255, 0.7);
 }
 /* Toolbar Icon (Close)
- ========================================================================== */
+========================================================================== */
 .uk-lightbox-toolbar-icon {
   padding: 5px;
   color: rgba(255, 255, 255, 0.7);
@@ -6262,7 +6262,7 @@ ul.uk-nav-sub {
   color: #fff;
 }
 /* Button (Slidenav)
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Center icon vertically and horizontally
  */
@@ -6284,26 +6284,26 @@ ul.uk-nav-sub {
 }
 /* OnClick */
 /* Caption
- ========================================================================== */
+========================================================================== */
 .uk-lightbox-caption:empty {
   display: none;
 }
 /* Iframe
- ========================================================================== */
+========================================================================== */
 .uk-lightbox-iframe {
   width: 80%;
   height: 80%;
 }
 /* ========================================================================
-   Component: Animation
- ========================================================================== */
+Component: Animation
+========================================================================== */
 [class*='uk-animation-'] {
   animation-duration: 0.5s;
   animation-timing-function: ease-out;
   animation-fill-mode: both;
 }
 /* Animations
- ========================================================================== */
+========================================================================== */
 /*
  * Fade
  */
@@ -6392,13 +6392,13 @@ ul.uk-nav-sub {
   animation-duration: 2s;
 }
 /* Direction modifier
- ========================================================================== */
+========================================================================== */
 .uk-animation-reverse {
   animation-direction: reverse;
   animation-timing-function: ease-in;
 }
 /* Duration modifier
- ========================================================================== */
+========================================================================== */
 .uk-animation-fast {
   animation-duration: 0.1s;
 }
@@ -6424,7 +6424,7 @@ ul.uk-nav-sub {
   outline: none;
 }
 /* Keyframes used by animation classes
- ========================================================================== */
+========================================================================== */
 /*
  * Fade
  */
@@ -6677,10 +6677,10 @@ ul.uk-nav-sub {
   }
 }
 /* ========================================================================
-   Component: Width
- ========================================================================== */
+Component: Width
+========================================================================== */
 /* Equal child widths
- ========================================================================== */
+========================================================================== */
 [class*='uk-child-width'] > * {
   box-sizing: border-box;
   width: 100%;
@@ -6827,7 +6827,7 @@ ul.uk-nav-sub {
   }
 }
 /* Single Widths
- ========================================================================== */
+========================================================================== */
 /*
  * 1. `max-width` is needed for the pixel-based classes
  */
@@ -7181,8 +7181,8 @@ ul.uk-nav-sub {
   }
 }
 /* ========================================================================
-   Component: Height
- ========================================================================== */
+Component: Height
+========================================================================== */
 [class*='uk-height'] {
   box-sizing: border-box;
 }
@@ -7221,10 +7221,10 @@ ul.uk-nav-sub {
   max-height: 450px;
 }
 /* ========================================================================
-   Component: Text
- ========================================================================== */
+Component: Text
+========================================================================== */
 /* Style modifiers
- ========================================================================== */
+========================================================================== */
 .uk-text-lead {
   font-size: 1.5rem;
   line-height: 1.5;
@@ -7243,7 +7243,7 @@ ul.uk-nav-sub {
   text-decoration: none;
 }
 /* Size modifiers
- ========================================================================== */
+========================================================================== */
 .uk-text-small {
   font-size: 0.875rem;
   line-height: 1.5;
@@ -7257,7 +7257,7 @@ ul.uk-nav-sub {
   line-height: 1.5;
 }
 /* Weight modifier
- ========================================================================== */
+========================================================================== */
 .uk-text-light {
   font-weight: 300;
 }
@@ -7274,12 +7274,12 @@ ul.uk-nav-sub {
   font-weight: bolder;
 }
 /* Style modifier
- ========================================================================== */
+========================================================================== */
 .uk-text-italic {
   font-style: italic;
 }
 /* Transform modifier
- ========================================================================== */
+========================================================================== */
 .uk-text-capitalize {
   text-transform: capitalize !important;
 }
@@ -7290,7 +7290,7 @@ ul.uk-nav-sub {
   text-transform: lowercase !important;
 }
 /* Color modifiers
- ========================================================================== */
+========================================================================== */
 .uk-text-muted {
   color: #999 !important;
 }
@@ -7313,7 +7313,7 @@ ul.uk-nav-sub {
   color: #f0506e !important;
 }
 /* Background modifier
- ========================================================================== */
+========================================================================== */
 /*
  * 1. The background clips to the foreground text. Works in Chrome, Firefox, Safari, Edge and Opera
  *    Default color is set to transparent
@@ -7335,7 +7335,7 @@ ul.uk-nav-sub {
   }
 }
 /* Alignment modifiers
- ========================================================================== */
+========================================================================== */
 .uk-text-left {
   text-align: left !important;
 }
@@ -7412,7 +7412,7 @@ ul.uk-nav-sub {
   vertical-align: baseline !important;
 }
 /* Wrap modifiers
- ========================================================================== */
+========================================================================== */
 /*
  * Prevent text from wrapping onto multiple lines
  */
@@ -7456,8 +7456,8 @@ td.uk-text-break {
   word-break: break-all;
 }
 /* ========================================================================
-   Component: Column
- ========================================================================== */
+Component: Column
+========================================================================== */
 [class*='uk-column-'] {
   column-gap: 30px;
 }
@@ -7474,7 +7474,7 @@ td.uk-text-break {
   transform: translate3d(0, 0, 0);
 }
 /* Divider
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Double the column gap
  */
@@ -7490,7 +7490,7 @@ td.uk-text-break {
   }
 }
 /* Width modifiers
- ========================================================================== */
+========================================================================== */
 .uk-column-1-2 {
   column-count: 2;
 }
@@ -7585,8 +7585,8 @@ td.uk-text-break {
   column-span: all;
 }
 /* ========================================================================
-   Component: Cover
- ========================================================================== */
+Component: Cover
+========================================================================== */
 /*
  * Works with iframes and embedded content
  * 1. Reset responsiveness for embedded content
@@ -7607,7 +7607,7 @@ iframe.uk-cover {
   pointer-events: none;
 }
 /* Container
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Parent container which clips resized object
  * 2. Needed if the child is positioned absolute. See note above
@@ -7619,10 +7619,10 @@ iframe.uk-cover {
   position: relative;
 }
 /* ========================================================================
-   Component: Background
- ========================================================================== */
+Component: Background
+========================================================================== */
 /* Color
- ========================================================================== */
+========================================================================== */
 .uk-background-default {
   background-color: #fff;
 }
@@ -7636,7 +7636,7 @@ iframe.uk-cover {
   background-color: #222;
 }
 /* Size
- ========================================================================== */
+========================================================================== */
 .uk-background-cover,
 .uk-background-contain,
 .uk-background-width-1-1,
@@ -7657,7 +7657,7 @@ iframe.uk-cover {
   background-size: auto 100%;
 }
 /* Position
- ========================================================================== */
+========================================================================== */
 .uk-background-top-left {
   background-position: 0 0;
 }
@@ -7686,12 +7686,12 @@ iframe.uk-cover {
   background-position: 100% 100%;
 }
 /* Repeat
- ========================================================================== */
+========================================================================== */
 .uk-background-norepeat {
   background-repeat: no-repeat;
 }
 /* Attachment
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Fix bug introduced in Chrome 67: the background image is not visible if any element on the page uses `translate3d`
  */
@@ -7709,7 +7709,7 @@ iframe.uk-cover {
   }
 }
 /* Image
- ========================================================================== */
+========================================================================== */
 /* Phone portrait and smaller */
 @media (max-width: 639px) {
   .uk-background-image\@s {
@@ -7735,7 +7735,7 @@ iframe.uk-cover {
   }
 }
 /* Blend modes
- ========================================================================== */
+========================================================================== */
 .uk-background-blend-multiply {
   background-blend-mode: multiply;
 }
@@ -7782,8 +7782,8 @@ iframe.uk-cover {
   background-blend-mode: luminosity;
 }
 /* ========================================================================
-   Component: Align
- ========================================================================== */
+Component: Align
+========================================================================== */
 /*
  * Default
  */
@@ -7877,8 +7877,8 @@ iframe.uk-cover {
   }
 }
 /* ========================================================================
-   Component: SVG
- ========================================================================== */
+Component: SVG
+========================================================================== */
 /*
  * 1. Fill all SVG elements with the current text color if no `fill` attribute is set
  * 2. Set the fill and stroke color of all SVG elements to the current text color
@@ -7898,10 +7898,10 @@ iframe.uk-cover {
   transform: translate(0, 0);
 }
 /* ========================================================================
-   Component: Utility
- ========================================================================== */
+Component: Utility
+========================================================================== */
 /* Panel
- ========================================================================== */
+========================================================================== */
 .uk-panel {
   display: flow-root;
   position: relative;
@@ -7925,7 +7925,7 @@ iframe.uk-cover {
   resize: both;
 }
 /* Clearfix
- ========================================================================== */
+========================================================================== */
 /*
  * 1. `table-cell` is used with `::before` because `table` creates a 1px gap when it becomes a flex item, only in Webkit
  * 2. `table` is used again with `::after` because `clear` only works with block elements.
@@ -7943,7 +7943,7 @@ iframe.uk-cover {
   clear: both;
 }
 /* Float
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Prevent content overflow
  */
@@ -7958,7 +7958,7 @@ iframe.uk-cover {
   max-width: 100%;
 }
 /* Overfow
- ========================================================================== */
+========================================================================== */
 .uk-overflow-hidden {
   overflow: hidden;
 }
@@ -7974,7 +7974,7 @@ iframe.uk-cover {
   margin-bottom: 0;
 }
 /* Resize
- ========================================================================== */
+========================================================================== */
 .uk-resize {
   resize: both;
 }
@@ -7982,7 +7982,7 @@ iframe.uk-cover {
   resize: vertical;
 }
 /* Display
- ========================================================================== */
+========================================================================== */
 .uk-display-block {
   display: block !important;
 }
@@ -7993,7 +7993,7 @@ iframe.uk-cover {
   display: inline-block !important;
 }
 /* Inline
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Container fits its content
  * 2. Create position context
@@ -8020,7 +8020,7 @@ iframe.uk-cover {
   overflow: hidden;
 }
 /* Responsive objects
- ========================================================================== */
+========================================================================== */
 /*
  * Preserve original dimensions
  * Because `img, `video`, `canvas` and  `audio` are already responsive by default, see Base component
@@ -8064,7 +8064,7 @@ iframe.uk-cover {
   max-width: none;
 }
 /* Border
- ========================================================================== */
+========================================================================== */
 .uk-border-circle {
   border-radius: 50%;
 }
@@ -8081,7 +8081,7 @@ iframe.uk-cover {
   -webkit-transform: translateZ(0);
 }
 /* Box-shadow
- ========================================================================== */
+========================================================================== */
 .uk-box-shadow-small {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
@@ -8113,7 +8113,7 @@ iframe.uk-cover {
   box-shadow: 0 28px 50px rgba(0, 0, 0, 0.16);
 }
 /* Box-shadow bottom
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Set position.
  * 2. Set style
@@ -8146,7 +8146,7 @@ iframe.uk-cover {
   }
 }
 /* Drop cap
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Firefox doesn't apply `::first-letter` if the first letter is inside child elements
  *    https://bugzilla.mozilla.org/show_bug.cgi?id=214004
@@ -8178,7 +8178,7 @@ iframe.uk-cover {
   }
 }
 /* Logo
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Required for `a`
  */
@@ -8201,12 +8201,12 @@ iframe.uk-cover {
   display: none;
 }
 /* Disabled State
- ========================================================================== */
+========================================================================== */
 .uk-disabled {
   pointer-events: none;
 }
 /* Drag State
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Needed if moving over elements with have their own cursor on hover, e.g. links or buttons
  * 2. Fix dragging over iframes
@@ -8220,7 +8220,7 @@ iframe.uk-cover {
   pointer-events: none;
 }
 /* Dragover State
- ========================================================================== */
+========================================================================== */
 /*
  * Create a box-shadow when dragging a file over the upload area
  */
@@ -8228,7 +8228,7 @@ iframe.uk-cover {
   box-shadow: 0 0 20px rgba(100, 100, 100, 0.3);
 }
 /* Blend modes
- ========================================================================== */
+========================================================================== */
 .uk-blend-multiply {
   mix-blend-mode: multiply;
 }
@@ -8306,8 +8306,8 @@ iframe.uk-cover {
   transform-origin: 100% 100%;
 }
 /* ========================================================================
-   Component: Flex
- ========================================================================== */
+Component: Flex
+========================================================================== */
 .uk-flex {
   display: flex;
 }
@@ -8324,7 +8324,7 @@ iframe.uk-cover {
   display: none;
 }
 /* Alignment
- ========================================================================== */
+========================================================================== */
 /*
  * Align items along the main axis of the current line of the flex container
  * Row: Horizontal
@@ -8433,7 +8433,7 @@ iframe.uk-cover {
   align-items: flex-end;
 }
 /* Direction
- ========================================================================== */
+========================================================================== */
 .uk-flex-row {
   flex-direction: row;
 }
@@ -8447,7 +8447,7 @@ iframe.uk-cover {
   flex-direction: column-reverse;
 }
 /* Wrap
- ========================================================================== */
+========================================================================== */
 .uk-flex-nowrap {
   flex-wrap: nowrap;
 }
@@ -8480,7 +8480,7 @@ iframe.uk-cover {
   align-content: space-around;
 }
 /* Item ordering
- ========================================================================== */
+========================================================================== */
 /*
  * Default is 0
  */
@@ -8527,7 +8527,7 @@ iframe.uk-cover {
   }
 }
 /* Item dimensions
- ========================================================================== */
+========================================================================== */
 /*
  * Initial: 0 1 auto
  * Content dimensions, but shrinks
@@ -8554,8 +8554,8 @@ iframe.uk-cover {
   flex: 1;
 }
 /* ========================================================================
-   Component: Margin
- ========================================================================== */
+Component: Margin
+========================================================================== */
 /*
  * Default
  */
@@ -8578,7 +8578,7 @@ iframe.uk-cover {
   margin-right: 20px !important;
 }
 /* Small
- ========================================================================== */
+========================================================================== */
 .uk-margin-small {
   margin-bottom: 10px;
 }
@@ -8598,7 +8598,7 @@ iframe.uk-cover {
   margin-right: 10px !important;
 }
 /* Medium
- ========================================================================== */
+========================================================================== */
 .uk-margin-medium {
   margin-bottom: 40px;
 }
@@ -8618,7 +8618,7 @@ iframe.uk-cover {
   margin-right: 40px !important;
 }
 /* Large
- ========================================================================== */
+========================================================================== */
 .uk-margin-large {
   margin-bottom: 40px;
 }
@@ -8659,7 +8659,7 @@ iframe.uk-cover {
   }
 }
 /* XLarge
- ========================================================================== */
+========================================================================== */
 .uk-margin-xlarge {
   margin-bottom: 70px;
 }
@@ -8700,7 +8700,7 @@ iframe.uk-cover {
   }
 }
 /* Auto
- ========================================================================== */
+========================================================================== */
 .uk-margin-auto {
   margin-left: auto !important;
   margin-right: auto !important;
@@ -8774,7 +8774,7 @@ iframe.uk-cover {
   }
 }
 /* Remove
- ========================================================================== */
+========================================================================== */
 .uk-margin-remove {
   margin: 0 !important;
 }
@@ -8838,8 +8838,8 @@ iframe.uk-cover {
   }
 }
 /* ========================================================================
-   Component: Padding
- ========================================================================== */
+Component: Padding
+========================================================================== */
 .uk-padding {
   padding: 30px;
 }
@@ -8850,12 +8850,12 @@ iframe.uk-cover {
   }
 }
 /* Small
- ========================================================================== */
+========================================================================== */
 .uk-padding-small {
   padding: 15px;
 }
 /* Large
- ========================================================================== */
+========================================================================== */
 .uk-padding-large {
   padding: 30px;
 }
@@ -8866,7 +8866,7 @@ iframe.uk-cover {
   }
 }
 /* Remove
- ========================================================================== */
+========================================================================== */
 .uk-padding-remove {
   padding: 0 !important;
 }
@@ -8891,10 +8891,10 @@ iframe.uk-cover {
   padding-right: 0 !important;
 }
 /* ========================================================================
-   Component: Position
- ========================================================================== */
+Component: Position
+========================================================================== */
 /* Directions
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Prevent content overflow if `max-width: 100%` is used inside position container.
  */
@@ -8908,7 +8908,7 @@ iframe.uk-cover {
   max-width: 100%;
 }
 /* Edges
- ========================================================================== */
+========================================================================== */
 /* Don't use `width: 100%` because it is wrong if the parent has padding. */
 .uk-position-top {
   top: 0;
@@ -8931,7 +8931,7 @@ iframe.uk-cover {
   right: 0;
 }
 /* Corners
- ========================================================================== */
+========================================================================== */
 .uk-position-top-left {
   top: 0;
   left: 0;
@@ -8998,7 +8998,7 @@ iframe.uk-cover {
   bottom: 0;
 }
 /* Cover
- ========================================================================== */
+========================================================================== */
 .uk-position-cover {
   position: absolute;
   top: 0;
@@ -9007,7 +9007,7 @@ iframe.uk-cover {
   right: 0;
 }
 /* Utility
- ========================================================================== */
+========================================================================== */
 .uk-position-relative {
   position: relative !important;
 }
@@ -9021,7 +9021,7 @@ iframe.uk-cover {
   z-index: 1;
 }
 /* Margin modifier
- ========================================================================== */
+========================================================================== */
 /*
  * Small
  */
@@ -9095,10 +9095,10 @@ iframe.uk-cover {
   }
 }
 /* ========================================================================
-   Component: Transition
- ========================================================================== */
+Component: Transition
+========================================================================== */
 /* Toggle (Hover + Focus)
- ========================================================================== */
+========================================================================== */
 /*
  * 1. Prevent tab highlighting on iOS.
  */
@@ -9113,7 +9113,7 @@ iframe.uk-cover {
   outline: none;
 }
 /* Transitions
- ========================================================================== */
+========================================================================== */
 /*
  * The toggle is triggered on touch devices by two methods:
  * 1. Using `:focus` and tabindex
@@ -9207,18 +9207,18 @@ iframe.uk-cover {
   transform: translate(0, 0);
 }
 /* Opacity modifier
- ========================================================================== */
+========================================================================== */
 .uk-transition-opaque {
   opacity: 1;
 }
 /* Duration modifiers
- ========================================================================== */
+========================================================================== */
 .uk-transition-slow {
   transition-duration: 0.7s;
 }
 /* ========================================================================
-   Component: Visibility
- ========================================================================== */
+Component: Visibility
+========================================================================== */
 /*
  * Hidden
  * `hidden` attribute also set here to make it stronger
@@ -9279,12 +9279,12 @@ iframe.uk-cover {
   }
 }
 /* Visibility
- ========================================================================== */
+========================================================================== */
 .uk-invisible {
   visibility: hidden !important;
 }
 /* Toggle (Hover + Focus)
- ========================================================================== */
+========================================================================== */
 /*
  * Hidden
  * 1. The toggle is triggered on touch devices using `:focus` and tabindex
@@ -9325,7 +9325,7 @@ iframe.uk-cover {
   outline: none;
 }
 /* Touch
- ========================================================================== */
+========================================================================== */
 /*
  * Hide if primary pointing device has limited accuracy, e.g. a touch screen.
  * Works on mobile browsers: Safari, Chrome and Android browser
@@ -9350,8 +9350,8 @@ iframe.uk-cover {
   }
 }
 /* ========================================================================
-   Component: Inverse
- ========================================================================== */
+Component: Inverse
+========================================================================== */
 /*
  * Implemented class depends on the general theme color
  * `uk-light` is for light colors on dark backgrounds
@@ -12556,8 +12556,8 @@ iframe.uk-cover {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2213%22%20height%3D%2213%22%20viewBox%3D%220%200%2013%2013%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Crect%20fill%3D%22rgba%28255,%20255,%20255,%200.7%29%22%20width%3D%2213%22%20height%3D%221%22%20x%3D%220%22%20y%3D%226%22%20%2F%3E%0A%3C%2Fsvg%3E");
 }
 /* ========================================================================
-   Component: Print
- ========================================================================== */
+Component: Print
+========================================================================== */
 @media print {
   *,
   *::before,
@@ -12605,33 +12605,34 @@ iframe.uk-cover {
   html {
     background-color: #282a36;
   }
-  
+
   .uk-navbar-nav {
     background-color: #282a36;
   }
-  
+
   .uk-card {
     background-color: #282a36;
     color: #f8f8f2;
   }
-  
+
   .uk-card-title{
     color: #bd93f9 !important;
   }
   .uk-card:hover, .uk-card:focus {
     background-color:  #44475a !important;
   }
-  
+
   h1 {
     color: #ff79c6;
   }
-  
+
   a {
     color: rgba(255 184 108 / 0.75) !important;
   }
-  
+
   a:hover {
     color: rgb(255 184 108) !important;
   }
-  
+
 }
+/* vim:set ts=2 sw=2 et: */
