@@ -1,16 +1,17 @@
 <!DOCTYPE html>                                                                                                        
 <html>
-    <head>
-        <meta name="description" content="Link to Pacstall Discord" />
-        <meta content="Discord" property="og:title" />
-        <meta content="Discord pacstall link" property="og:description"/>
-        <meta content="https://pacstall.dev/discord" property="og:url" />
-    </head>
-    <body>
-        <script>
-            window.addEventListener("load", () => {
-                window.location.replace("https://discord.gg/sWB6YtKyvW");
+  <head>
+    <meta name="description" content="Link to Pacstall Discord" />
+    <meta content="Discord" property="og:title" />
+    <meta content="Discord pacstall link" property="og:description"/>
+    <meta content="https://pacstall.dev/discord" property="og:url" />
+  </head>
+  <body>
+    <script>
+      window.addEventListener("load", () => {
+              window.location.replace("https://discord.gg/sWB6YtKyvW");
             });
-        </script>
-    </body>
+    </script>
+  </body>
 </html>
+<!-- vim:set ts=2 sw=2 et: -->
