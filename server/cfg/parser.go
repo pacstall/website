@@ -20,10 +20,9 @@ type tcpServerConfig struct {
 }
 
 type pacstallProgramsConfig struct {
-	Path            string `toml:"path"`
-	TempDir         string `toml:"tmp_dir"`
-	TempPermissions int    `toml:"tmp_perm"`
-	UpdateInterval  int    `toml:"update_interval"`
+	Path           string `toml:"path"`
+	TempDir        string `toml:"tmp_dir"`
+	UpdateInterval int    `toml:"update_interval"`
 }
 
 var Config configuration = loadConfig()
@@ -65,10 +64,6 @@ func validate(data configuration) {
 
 	if data.PacstallPrograms.UpdateInterval == 0 {
 		log.Fatalln("Configuration file 'config.toml' is missing required attribute `pacstall_programs.update_interval`")
-	}
-
-	if data.PacstallPrograms.TempPermissions == 0 {
-		log.Fatalln("Configuration file 'config.toml' is missing required attribute `pacstall_programs.tmp_perm`")
 	}
 
 	if data.TCPServer.Port == 0 {

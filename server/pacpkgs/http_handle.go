@@ -1,5 +1,7 @@
 package pacpkgs
 
-func GetPackages() (interface{}, error) {
-	return nil, nil
+import "pacstall.dev/website/types"
+
+func GetPackages() []types.PackageInfo {
+	return loadedPackages
 }

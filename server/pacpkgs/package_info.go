@@ -1,6 +1,7 @@
 package pacpkgs
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -8,21 +9,21 @@ import (
 )
 
 type rawPackageInfo struct {
-	Name                 string   `json:"name"`
-	PackageName          string   `json:"packageName"`
-	Maintainer           string   `json:"maintainer"`
-	Description          string   `json:"description"`
-	URL                  string   `json:"url"`
-	RuntimeDependencies  string   `json:"runtimeDependencies"`
-	BuildDependencies    string   `json:"buildDependencies"`
-	OptionalDependencies []string `json:"optionalDependencies"`
-	Breaks               string   `json:"breaks"`
-	Gives                string   `json:"gives"`
-	Replace              string   `json:"replace"`
-	Hash                 string   `json:"hash"`
-	PPA                  []string `json:"ppa"`
-	PacstallDependencies []string `json:"pacstallDependencies"`
-	Patch                []string `json:"patch"`
+	Name                 string   `yaml:"name"`
+	PackageName          string   `yaml:"packageName"`
+	Maintainer           string   `yaml:"maintainer"`
+	Description          string   `yaml:"description"`
+	URL                  string   `yaml:"url"`
+	RuntimeDependencies  string   `yaml:"runtimeDependencies"`
+	BuildDependencies    string   `yaml:"buildDependencies"`
+	OptionalDependencies []string `yaml:"optionalDependencies"`
+	Breaks               string   `yaml:"breaks"`
+	Gives                string   `yaml:"gives"`
+	Replace              string   `yaml:"replace"`
+	Hash                 string   `yaml:"hash"`
+	PPA                  []string `yaml:"ppa"`
+	PacstallDependencies []string `yaml:"pacstallDependencies"`
+	Patch                []string `yaml:"patch"`
 }
 
 type jsonName = string
@@ -48,7 +49,6 @@ func makePacArrays() map[jsonName]bashName {
 	out := make(map[jsonName]bashName)
 	out["runtimeDependencies"] = "depends"
 	out["breaks"] = "breaks"
-	out["gives"] = "gives"
 	out["replace"] = "replace"
 	out["buildDependencies"] = "build_depends"
 	return out
@@ -63,45 +63,59 @@ func makePacMaps() map[jsonName]bashName {
 	return out
 }
 
-func BuildJsonScript(header string) string {
-	quote := func(what string) string { return fmt.Sprintf(`\"%v\"`, what) }
-
+func buildYamlScript(header string) string {
 	script := header + "\n"
-
-	script += "echo {\n"
+	script = script + "echo ''\n"
 
 	for jsonName, bashName := range pacstallVars {
-		script += fmt.Sprintf(`echo"   %v: %v,"`, quote(jsonName), quote("$"+bashName)) + "\n"
+		script += fmt.Sprintf("echo \"%v: >\"", jsonName) + "\n"
+		script += fmt.Sprintf("echo \"  $%v\"", bashName) + "\n"
 	}
 
 	for jsonName, bashName := range pacstallArrays {
-		script += fmt.Sprintf(`echo "   %v: %v,"`, quote(jsonName), quote("$"+bashName)) + "\n"
+		script += fmt.Sprintf("echo \"%v: >\"", jsonName) + "\n"
+		script += fmt.Sprintf("echo \"  $%v\"", bashName) + "\n"
 	}
 
 	mapsPartialScript := make([]string, 0)
 	for jsonName, bashName := range pacstallMaps {
 		partial := ""
 
-		partial += fmt.Sprintf("echo -n \"   %v: [\"\n", quote(jsonName))
-		partial += fmt.Sprintf("for val in ${%v[@]}\n", quote(bashName))
+		partial += fmt.Sprintf(`echo %v:`, jsonName) + "\n"
+		partial += fmt.Sprintf("for val in ${%v[@]}\n", bashName)
 		partial += "do\n"
-		partial += fmt.Sprintf("echo -n \"  %v,\"\n", quote("$val"))
+		partial += "echo \"  - >\"" + "\n"
+		partial += "echo \"    $val\"" + "\n"
 		partial += "done\n"
-		partial += "echo -n ]\n"
 
 		mapsPartialScript = append(mapsPartialScript, partial)
 	}
 
-	script += strings.Join(mapsPartialScript, "echo \",\"\n")
-	script += "echo \"\"\n"
-	script += "echo }\n"
-
-	script = strings.ReplaceAll(script, ", ]", " ]")
+	script += strings.Join(mapsPartialScript, "\n")
 
 	return script
 }
 
-func (rp *rawPackageInfo) toPackageInfo() *types.PackageInfo {
+func RepairPackageInfo(pkg *types.PackageInfo) error {
+	bytes, err := json.Marshal(pkg)
+	if err != nil {
+		return err
+	}
+
+	content := string(bytes)
+
+	content = strings.ReplaceAll(content, `\n`, "")
+	content = strings.ReplaceAll(content, `[""]`, "[]")
+	content = strings.ReplaceAll(content, `":null`, `":[]`)
+
+	if err = json.Unmarshal([]byte(content), &pkg); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (rp rawPackageInfo) toPackageInfo() types.PackageInfo {
 	out := types.PackageInfo{
 		Name:                 rp.Name,
 		PackageName:          rp.PackageName,
@@ -120,5 +134,5 @@ func (rp *rawPackageInfo) toPackageInfo() *types.PackageInfo {
 		Patch:                rp.Patch,
 	}
 
-	return &out
+	return out
 }

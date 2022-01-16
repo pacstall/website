@@ -1,3 +1,4 @@
 website
 *_generated.go
-bin
+bin/
+tmp/

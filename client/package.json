@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "next": "12.0.7",
+    "next-http-proxy-middleware": "^1.1.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "true-parallel": "https://github.com/saenai255/true-parallel"

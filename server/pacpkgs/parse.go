@@ -1,19 +1,17 @@
 package pacpkgs
 
 import (
-	"encoding/json"
 	"fmt"
 	"io/fs"
 	"log"
 	"os"
 	"os/exec"
 	"path"
-	"runtime"
 	"strings"
 	"time"
 
+	"gopkg.in/yaml.v2"
 	"pacstall.dev/website/cfg"
-	"pacstall.dev/website/pact"
 	"pacstall.dev/website/types"
 )
 
@@ -84,16 +82,28 @@ func parsePackageList() ([]string, error) {
 }
 
 func parsePackages(names []string) []types.PackageInfo {
-	parallelism := runtime.NumCPU()
 	startedAt := time.Now()
-	log.Printf("Running package parsing using %v logical cores\n", parallelism)
 
-	parsedPackages := pact.AsyncBufferedPackageInfo(parallelism, names, parsePackage)
+	if err := recreateTempDirectory(); err != nil {
+		log.Fatalln(err)
+	}
+
+	parsedPackages := make(chan *types.PackageInfo)
+
+	for _, name := range names {
+		go func(pkg string) {
+			parsedPackages <- parsePackage(pkg)
+		}(name)
+	}
 
 	results := make([]types.PackageInfo, 0)
 	for packageInfo := range parsedPackages {
 		if packageInfo != nil {
 			results = append(results, *packageInfo)
+		}
+
+		if len(results) == len(names) {
+			close(parsedPackages)
 		}
 	}
 
@@ -104,8 +114,6 @@ func parsePackages(names []string) []types.PackageInfo {
 }
 
 func parsePackage(name string) *types.PackageInfo {
-	log.Printf("Attempting to parse package '%v'\n", name)
-
 	pacscriptName := fmt.Sprintf("%v.pacscript", name)
 	scriptPath := path.Join(cfg.Config.PacstallPrograms.Path, "packages", name, pacscriptName)
 	scriptBytes, err := os.ReadFile(scriptPath)
@@ -122,31 +130,53 @@ func parsePackage(name string) *types.PackageInfo {
 
 	output, err := exec.Command("bash", tmpPath).Output()
 	if err != nil {
-		log.Printf("Failed to execute '%v'. %v", tmpPath, err)
+		bytes, _ := os.ReadFile(tmpPath)
+		log.Printf("Failed to execute '%v'. %v\n%v", tmpPath, err, string(bytes))
 		return nil
 	}
 
-	pkgInfo := rawPackageInfo{}
+	content := string(output)
 
-	if err := json.Unmarshal(output, &pkgInfo); err != nil {
-		log.Printf("Failed to parse package JSON output from file '%v'\n%v", tmpPath, err)
+	rawPkgInfo := rawPackageInfo{}
+
+	if err := yaml.Unmarshal([]byte(content), &rawPkgInfo); err != nil {
+		log.Printf("Failed to parse package YAML output from file '%v'\n%v", tmpPath, err)
+		log.Fatalln(content)
 		return nil
 	}
 
-	return pkgInfo.toPackageInfo()
+	pkgInfo := rawPkgInfo.toPackageInfo()
+
+	if err := RepairPackageInfo(&pkgInfo); err != nil {
+		log.Printf("Failed to repair package info type for '%v'\n", name)
+		return nil
+	}
+
+	return &pkgInfo
 }
 
-func createTempExecutable(pacscriptName string, content []byte) (string, error) {
-
+func recreateTempDirectory() error {
 	if _, err := os.Stat(cfg.Config.PacstallPrograms.TempDir); os.IsNotExist(err) {
 		if err = os.Mkdir(cfg.Config.PacstallPrograms.TempDir, fs.FileMode(int(0777))); err != nil {
 			log.Printf("Failed to create temp dir '%v'\n%v", cfg.Config.PacstallPrograms.TempDir, err)
-			return "", err
+			return err
 		}
 
-		log.Printf("Created temp dir '%v'\n", cfg.Config.PacstallPrograms.TempDir)
+		log.Printf("Created fresh temp dir '%v'\n", cfg.Config.PacstallPrograms.TempDir)
+	} else {
+		if err := os.RemoveAll(cfg.Config.PacstallPrograms.TempDir); err != nil {
+			log.Printf("Failed to remove existing temp dir '%v'\n", cfg.Config.PacstallPrograms.TempDir)
+			return err
+		}
+
+		log.Printf("Removed existing temp dir '%v'\n", cfg.Config.PacstallPrograms.TempDir)
+		return recreateTempDirectory()
 	}
 
+	return nil
+}
+
+func createTempExecutable(pacscriptName string, content []byte) (string, error) {
 	tmpFile, err := os.Create(path.Join(cfg.Config.PacstallPrograms.TempDir, pacscriptName))
 
 	if err != nil {
@@ -164,12 +194,12 @@ func createTempExecutable(pacscriptName string, content []byte) (string, error) 
 		}
 	}()
 
-	if _, err = tmpFile.Write([]byte(BuildJsonScript(string(content)))); err != nil {
+	if _, err = tmpFile.Write([]byte(buildYamlScript(string(content)))); err != nil {
 		log.Printf("Failed to write to file '%v'\n%v", tmpPath, err)
 		return "", err
 	}
 
-	if err := tmpFile.Chmod(fs.FileMode(cfg.Config.PacstallPrograms.TempPermissions)); err != nil {
+	if err := tmpFile.Chmod(fs.FileMode(int(0777))); err != nil {
 		log.Printf("Failed to chmod file '%v'\n%v", tmpPath, err)
 		return "", err
 	}

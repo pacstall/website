@@ -10,9 +10,12 @@ import (
 func Serve(port int) {
 	registerHealthCheck()
 	for path, httpHandles := range handlers {
+		log.Printf("%#v\n", httpHandles)
+
 		http.HandleFunc(path, func(rw http.ResponseWriter, r *http.Request) {
 			for _, httpHandle := range httpHandles {
 				if strings.ToUpper(r.Method) == httpHandle.method {
+					log.Printf("Intercepted request %v@%v", r.Method, path)
 					httpHandle.handler(rw, r)
 					return
 				}
