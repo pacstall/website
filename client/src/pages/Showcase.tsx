@@ -1,7 +1,6 @@
-import { NextPage } from "next";
 import { FC } from "react";
 import Navigation from "../components/Navigation";
-import ShowcaseStyles from '../styles/showcase.module.css'
+import * as ShowcaseStyles from '../../public/styles/showcase.module.css'
 
 const AsciinemaFrame: FC<{ id: string }> = ({ id }) => (
     <iframe src={`https://asciinema.org/a/${id}/iframe?theme=monokai`}
@@ -23,7 +22,7 @@ const AsciinemaFrame: FC<{ id: string }> = ({ id }) => (
     </iframe>
 )
 
-const Showcase: NextPage = () => (
+const Showcase: FC = () => (
     <>
         <Navigation />
         <hr className="uk-divider-icon"

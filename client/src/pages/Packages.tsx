@@ -1,10 +1,9 @@
 import axios from "axios";
-import { NextPage } from "next";
-import Link from "next/link";
-import { FC, MutableRefObject, Ref, useEffect, useRef, useState } from "react";
-import Navigation from "../../components/Navigation";
-import serverConfig from "../../config/server";
-import type PackageInfo from "../../types/package-info";
+import { FC, MutableRefObject, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import Navigation from "../components/Navigation";
+import serverConfig from "../config/server";
+import type PackageInfo from "../types/package-info";
 
 const Search: FC<{ placeholder: string, onSearch: (filter: string, filterBy: string) => any }> = ({ placeholder, onSearch }) => {
     const inputRef = useRef<HTMLInputElement>() as MutableRefObject<HTMLInputElement>
@@ -58,7 +57,7 @@ const PackageTableRow: FC<{ pkg: PackageInfo, onCommandCopy: (what: string) => a
             <div className="flex items-center">
                 <div className="ml-4">
                     <div title={pkg.name} className="text-xs font-medium text-gray-900 text-ellipsis overflow-hidden">
-                        <Link href={`/packages/${pkg.name}`} >{pkg.name}</Link>
+                        <Link to={`/packages/${pkg.name}`} >{pkg.name}</Link>
                     </div>
                 </div>
             </div>
@@ -93,22 +92,6 @@ const PackageTable: FC<{ packages: PackageInfo[] }> = ({ packages }) => {
         document.execCommand('copy')
         input.style.display = "none"
     }
-    // const pickRandomPackage = () => {
-    //     if (packages.length === 0) {
-    //         return ''
-    //     }
-    //     const idx = Math.floor(Math.random() * packages.length)
-    //     return packages[idx].packageName || packages[idx].name.split('-').slice(0, -1).join('-') || packages[idx].name
-    // }
-    // const [randomPackage, setRandomPackage] = useState(pickRandomPackage())
-
-    // useEffect(() => {
-    //     const intervalId = setInterval(() => setRandomPackage(pickRandomPackage), 2500)
-
-    //     return () => {
-    //         clearInterval(intervalId)
-    //     }
-    // }, [])
 
     return (
         (
@@ -158,7 +141,7 @@ const PackageTable: FC<{ packages: PackageInfo[] }> = ({ packages }) => {
 }
 
 
-const Packages: NextPage = () => {
+const Packages: FC = () => {
     const [packages, setPackages] = useState<PackageInfo[]>([])
     const [loading, setLoading] = useState(true)
     const [loadNext, setLoadNext] = useState(false)
@@ -211,6 +194,10 @@ const Packages: NextPage = () => {
     }, [loadNext, setLoadNext])
 
     const onScroll = () => {
+        if (packages.length === 0) {
+            return
+        }
+
         if (!keepLoadingPages) {
             return
         }
@@ -227,6 +214,7 @@ const Packages: NextPage = () => {
         if (packages.length === 0) {
             return ''
         }
+        console.log(packages)
         const idx = Math.floor(Math.random() * packages.length)
         return packages[idx].packageName || packages[idx].name.split('-').slice(0, -1).join('-') || packages[idx].name
     }

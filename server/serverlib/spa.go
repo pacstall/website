@@ -18,12 +18,6 @@ func (h spaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	noHTMLFilePath := filepath.Join(h.staticPath, path) + ".html"
-	if _, err = os.Stat(noHTMLFilePath); err == nil {
-		http.ServeFile(w, r, noHTMLFilePath)
-		return
-	}
-
 	htmlFilePath := filepath.Join(h.staticPath, path)
 	_, err = os.Stat(htmlFilePath)
 	if os.IsNotExist(err) {
