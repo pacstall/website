@@ -6,10 +6,12 @@ import (
 	"strings"
 
 	"pacstall.dev/website/types"
+	"pacstall.dev/website/types/list"
 )
 
 type rawPackageInfo struct {
 	Name                 string   `yaml:"name"`
+	Version              string   `yaml:"version"`
 	PackageName          string   `yaml:"packageName"`
 	Maintainer           string   `yaml:"maintainer"`
 	Description          string   `yaml:"description"`
@@ -42,6 +44,7 @@ func makePacVars() map[jsonName]bashName {
 	out["url"] = "url"
 	out["gives"] = "gives"
 	out["hash"] = "hash"
+	out["version"] = "version"
 	return out
 }
 
@@ -132,7 +135,43 @@ func (rp rawPackageInfo) toPackageInfo() types.PackageInfo {
 		PPA:                  rp.PPA,
 		PacstallDependencies: rp.PacstallDependencies,
 		Patch:                rp.Patch,
+		RequiredBy:           make([]string, 0),
+		Version:              rp.Version,
 	}
 
 	return out
+}
+
+func computeRequiredBy(pkgs []types.PackageInfo) []types.PackageInfo {
+	strEq := func(s1, s2 string) bool { return s1 == s2 }
+	pickBeforeColon := func(arr []string) []string {
+		out := make([]string, len(arr))
+		for _, it := range arr {
+			out = append(out, strings.Split(it, ":")[0])
+		}
+		return out
+	}
+
+	for idx, pkg := range pkgs {
+		for otherIdx, otherPkg := range pkgs {
+			if idx == otherIdx {
+				continue
+			}
+
+			allDeps := make([]string, 0)
+			allDeps = append(allDeps, pickBeforeColon(otherPkg.BuildDependencies)...)
+			allDeps = append(allDeps, pickBeforeColon(otherPkg.RuntimeDependencies)...)
+			allDeps = append(allDeps, pickBeforeColon(otherPkg.OptionalDependencies)...)
+			allDeps = append(allDeps, pickBeforeColon(otherPkg.PacstallDependencies)...)
+			allDepsList := list.StrList(allDeps)
+
+			if allDepsList.Contains(pkg.Name, strEq) ||
+				allDepsList.Contains(pkg.Gives, strEq) ||
+				allDepsList.Contains(pkg.PackageName, strEq) {
+				pkg.RequiredBy = append(pkg.RequiredBy, otherPkg.Name)
+			}
+		}
+	}
+
+	return pkgs
 }

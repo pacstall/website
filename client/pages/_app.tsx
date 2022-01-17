@@ -1,3 +1,4 @@
+import '../styles/globals.css'
 import '../styles/dracula.css'
 import type { AppProps } from 'next/app'
 import Metadata from '../components/Head'

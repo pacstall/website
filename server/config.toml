@@ -2,21 +2,26 @@
 ###########         Server Configuration         ###########
 ############################################################
 
-# Repository Configuration
+production = false
+
+### Repository Configuration ###
 [pacstall_programs]
 
-## Path to the `pacstall-programs` local repository
+# Path to the `pacstall-programs` local repository
 path = "../../pacstall-programs"
 
-## Temporary dir path to store scripts.
-## If the dir doesn't exist, it gets created.
+# Temporary dir path to store scripts.
+# If the dir doesn't exist, it gets created.
 tmp_dir = "./tmp"
 
-## How often to pull git commits. Time in milliseconds
+# How often to pull git commits. Time in milliseconds
 update_interval = 900000 # 15 min
 
-# TCP Server Configuration
+### TCP Server Configuration ###
 [tcp_server]
 
-## What port to listen on
+# What port to listen on
 port = 3300
+
+# Directory containing all public html files
+public_dir= "./public"

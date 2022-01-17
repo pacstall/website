@@ -13,10 +13,12 @@ const CONFIG_PATH = "./config.toml"
 type configuration struct {
 	TCPServer        tcpServerConfig        `toml:"tcp_server"`
 	PacstallPrograms pacstallProgramsConfig `toml:"pacstall_programs"`
+	Production       bool                   `toml:"production"`
 }
 
 type tcpServerConfig struct {
-	Port int `toml:"port"`
+	Port      int    `toml:"port"`
+	PublicDir string `toml:"public_dir"`
 }
 
 type pacstallProgramsConfig struct {
@@ -68,5 +70,9 @@ func validate(data configuration) {
 
 	if data.TCPServer.Port == 0 {
 		log.Fatalln("Configuration file 'config.toml' is missing required attribute `tcp_server.port`")
+	}
+
+	if data.TCPServer.PublicDir == "" {
+		log.Fatalln("Configuration file 'config.toml' is missing required attribute `tcp_server.public_dir`")
 	}
 }

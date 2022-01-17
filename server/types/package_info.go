@@ -2,6 +2,7 @@ package types
 
 type PackageInfo struct {
 	Name                 string   `json:"name"`
+	Version              string   `json:"version"`
 	PackageName          string   `json:"packageName"`
 	Maintainer           string   `json:"maintainer"`
 	Description          string   `json:"description"`
@@ -16,4 +17,5 @@ type PackageInfo struct {
 	PPA                  []string `json:"ppa"`
 	PacstallDependencies []string `json:"pacstallDependencies"`
 	Patch                []string `json:"patch"`
+	RequiredBy           []string `json:"requiredBy"`
 }

@@ -15,10 +15,12 @@ import (
 	"pacstall.dev/website/types"
 )
 
-var loadedPackages []types.PackageInfo
-
 func PackageList() []types.PackageInfo {
 	return loadedPackages
+}
+
+func LastModified() time.Time {
+	return lastModified
 }
 
 func LoadPackages() {
@@ -31,7 +33,8 @@ func LoadPackages() {
 		log.Panicln("Failed to parse packagelist", err)
 	}
 
-	loadedPackages = parsePackages(pkgList)
+	loadedPackages = computeRequiredBy(parsePackages(pkgList))
+	lastModified = time.Now()
 	log.Printf("Successfully parsed %v (%v / %v) packages", types.Percent(float64(len(loadedPackages))/float64(len(pkgList))), len(loadedPackages), len(pkgList))
 }
 
@@ -136,6 +139,15 @@ func parsePackage(name string) *types.PackageInfo {
 	}
 
 	content := string(output)
+	yamlLines := strings.Split(content, "\n")
+	content = ""
+	for _, line := range yamlLines {
+		if len(line) > 0 && line[0] != ' ' && !strings.Contains(line, ":") {
+			continue
+		}
+
+		content += line + "\n"
+	}
 
 	rawPkgInfo := rawPackageInfo{}
 

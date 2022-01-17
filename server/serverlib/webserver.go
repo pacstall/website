@@ -4,29 +4,35 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strings"
+	"time"
+
+	"github.com/gorilla/mux"
+	"pacstall.dev/website/cfg"
 )
+
+var router mux.Router = *mux.NewRouter()
+
+func Router() *mux.Router {
+	return &router
+}
 
 func Serve(port int) {
 	registerHealthCheck()
-	for path, httpHandles := range handlers {
-		log.Printf("%#v\n", httpHandles)
 
-		http.HandleFunc(path, func(rw http.ResponseWriter, r *http.Request) {
-			for _, httpHandle := range httpHandles {
-				if strings.ToUpper(r.Method) == httpHandle.method {
-					log.Printf("Intercepted request %v@%v", r.Method, path)
-					httpHandle.handler(rw, r)
-					return
-				}
-			}
+	if cfg.Config.Production {
+		Router().PathPrefix("/").Handler(http.FileServer(http.Dir(cfg.Config.TCPServer.PublicDir)))
 
-			rw.WriteHeader(405 /* Err Method Not Allowed */)
-		})
 	}
 
 	go triggerServerOnline(port)
-	sPort := fmt.Sprintf(":%v", port)
-	err := http.ListenAndServe(sPort, nil)
+
+	server := &http.Server{
+		Handler:      Router(),
+		Addr:         fmt.Sprintf("0.0.0.0:%v", port),
+		WriteTimeout: 15 * time.Second,
+		ReadTimeout:  15 * time.Second,
+	}
+
+	err := server.ListenAndServe()
 	log.Panicf("Could not start TCP listener on port %v. Got error: %v", port, err)
 }

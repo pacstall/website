@@ -8,9 +8,9 @@ import (
 )
 
 func registerHealthCheck() {
-	HandleRequest("/api/health", HttpsMethods.GET, func(w http.ResponseWriter, req *http.Request) {
+	Router().HandleFunc("/api/health", func(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(200)
-	})
+	}).Methods("GET")
 }
 
 var onServerOnlineHandlers []func()

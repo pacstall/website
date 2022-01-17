@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.no-scrollbar ::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+.search {
+    position: relative;
+    padding-left: 2em;
+    padding-right: 2.1em;
+    bottom: 46px;
+    left: 430px;
+    padding-top: 0.65em;
+    padding-bottom: 0.65em;
+}
+
+.packages-wrapper {
+    max-width: 1450px;
+    margin: auto;
+}
+
+.packages-wrapper table {
+    width: 1450px;
+}

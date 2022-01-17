@@ -1,5 +1,4 @@
 import type { NextPage } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import Navigation from '../components/Navigation'
 
@@ -9,7 +8,7 @@ const Home: NextPage = () => {
 		<>
 			<Navigation />
 
-			<h1 style={{ textAlign: 'center' }}>Pacstall - The AUR for Ubuntu</h1>
+			<h1 style={{ fontSize: '2.5rem' }} className="text-center">Pacstall - The AUR for Ubuntu</h1>
 			<hr className="uk-divider-icon" />
 
 
@@ -33,8 +32,8 @@ const Home: NextPage = () => {
 					compromises, so you don't have to worry about security patches or new features.</p>
 			</div>
 
-			<div style={{ marginLeft: 'calc(50% - 100px)' }}>
-				<Image
+			<div>
+				<img
 					className="uk-border-circle uk-align-center"
 					src="/pacstall.svg"
 					width="200px"

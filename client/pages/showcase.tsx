@@ -1,5 +1,4 @@
 import { NextPage } from "next";
-import Script from "next/script";
 import { FC } from "react";
 import Navigation from "../components/Navigation";
 import ShowcaseStyles from '../styles/showcase.module.css'

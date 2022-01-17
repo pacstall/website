@@ -1,10 +1,8 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
-	"net/http"
 	"time"
 
 	"pacstall.dev/website/cfg"
@@ -28,17 +26,10 @@ func printLogo() {
 }
 
 func setupRequests() {
-	serverlib.HandleRequest("/api/packages", serverlib.HttpsMethods.GET, func(w http.ResponseWriter, req *http.Request) {
-		packages := pacpkgs.GetPackages()
+	router := serverlib.Router()
 
-		json, err := json.Marshal(packages)
-		if err != nil {
-			log.Printf("Could not marshal to json. Setting response 500.\n%v\n", err)
-			w.WriteHeader(500)
-		}
-
-		w.Write(json)
-	})
+	router.HandleFunc("/api/packages", pacpkgs.GetPackageListHandle).Methods("GET")
+	router.HandleFunc("/api/packages/{name}", pacpkgs.GetPackageListHandle).Methods("GET")
 }
 
 func main() {
