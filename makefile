@@ -9,12 +9,12 @@ build-server:
 	cd server && make
 
 build-client:
-	cd client && npm install && npm run build
+	NODE_ENV="production" cd client && npm install && npm run build
 
 build-redist:
-	[ -d redist ] && rm -rf redist || :
-	mkdir redist
-	mkdir redist/public
+	mkdir -p redist
+	mkdir -p redist/public
+	[ -d ./redist/pacstall-programs ] && rm -rf redist/pacstall-programs || :
 	git clone https://github.com/pacstall/pacstall-programs redist/pacstall-programs
 	cp -r client/out/* redist/public
 	cp -r server/bin/* redist

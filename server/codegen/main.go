@@ -42,6 +42,8 @@ func findFilesInDir(dir string) []string {
 			out = append(out, innerFiles...)
 		} else if strings.HasSuffix(filePath, ".go") && !strings.HasSuffix(filePath, "_generated.go") {
 			out = append(out, filePath)
+		} else if strings.HasSuffix(filePath, "_generated.go") {
+			os.RemoveAll(filePath)
 		}
 	}
 

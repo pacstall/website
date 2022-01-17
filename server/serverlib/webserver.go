@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -19,12 +20,20 @@ func Router() *mux.Router {
 func Serve(port int) {
 	registerHealthCheck()
 
-	if cfg.Config.Production {
-		Router().PathPrefix("/").Handler(http.FileServer(http.Dir(cfg.Config.TCPServer.PublicDir)))
-
-	}
+	Router().Use(func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if strings.Contains(r.URL.Path, "/api") {
+				w.Header().Add("Content-Type", "application/json")
+			}
+			next.ServeHTTP(w, r)
+		})
+	})
 
 	go triggerServerOnline(port)
+
+	if cfg.Config.Production {
+		Router().PathPrefix("/").Handler(spaHandler{staticPath: cfg.Config.TCPServer.PublicDir, indexPath: "index.html"})
+	}
 
 	server := &http.Server{
 		Handler:      Router(),
