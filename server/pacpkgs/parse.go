@@ -114,8 +114,9 @@ func parsePackages(names []string) []types.PackageInfo {
 		}
 	}
 
-	elapsed := time.Since(startedAt)
-	log.Printf("Finished parsing packages after %v. On average, each package took %v", elapsed, elapsed/time.Duration(len(names)))
+	elapsed := float32(time.Since(startedAt)) / float32(time.Second)
+	each := float32(time.Since(startedAt)) / float32(time.Duration(len(names))) / float32(time.Millisecond)
+	log.Printf("Finished parsing packages after %.2fs. On average, each package took %.2fms", elapsed, each)
 
 	return results
 }
