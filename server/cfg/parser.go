@@ -25,6 +25,7 @@ type pacstallProgramsConfig struct {
 	Path           string `toml:"path"`
 	TempDir        string `toml:"tmp_dir"`
 	UpdateInterval int    `toml:"update_interval"`
+	MaxOpenFiles   int    `toml:"max_open_files"`
 }
 
 var Config configuration = loadConfig()
@@ -56,23 +57,35 @@ func prettify(data configuration) string {
 }
 
 func validate(data configuration) {
+	config_error := false
+
+	defer func() {
+		if config_error {
+			os.Exit(1)
+		}
+	}()
+
 	if data.PacstallPrograms.Path == "" {
-		log.Fatalln("Configuration file 'config.toml' is missing required attribute `pacstall_programs.path`")
+		log.Println("Configuration file 'config.toml' is missing required attribute `pacstall_programs.path`")
 	}
 
 	if data.PacstallPrograms.TempDir == "" {
-		log.Fatalln("Configuration file 'config.toml' is missing required attribute `pacstall_programs.tmp_dir`")
+		log.Println("Configuration file 'config.toml' is missing required attribute `pacstall_programs.tmp_dir`")
 	}
 
 	if data.PacstallPrograms.UpdateInterval == 0 {
-		log.Fatalln("Configuration file 'config.toml' is missing required attribute `pacstall_programs.update_interval`")
+		log.Println("Configuration file 'config.toml' is missing required attribute `pacstall_programs.update_interval`")
+	}
+
+	if data.PacstallPrograms.MaxOpenFiles == 0 {
+		log.Println("Configuration file 'config.toml' is missing required attribute `pacstall_programs.max_open_files`")
 	}
 
 	if data.TCPServer.Port == 0 {
-		log.Fatalln("Configuration file 'config.toml' is missing required attribute `tcp_server.port`")
+		log.Println("Configuration file 'config.toml' is missing required attribute `tcp_server.port`")
 	}
 
 	if data.TCPServer.PublicDir == "" {
-		log.Fatalln("Configuration file 'config.toml' is missing required attribute `tcp_server.public_dir`")
+		log.Println("Configuration file 'config.toml' is missing required attribute `tcp_server.public_dir`")
 	}
 }

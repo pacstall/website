@@ -92,10 +92,14 @@ func parsePackages(names []string) []types.PackageInfo {
 	}
 
 	parsedPackages := make(chan *types.PackageInfo)
+	guard := make(chan interface{}, cfg.Config.PacstallPrograms.MaxOpenFiles)
+	defer close(guard)
 
 	for _, name := range names {
 		go func(pkg string) {
+			guard <- nil
 			parsedPackages <- parsePackage(pkg)
+			<-guard
 		}(name)
 	}
 

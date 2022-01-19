@@ -6,7 +6,7 @@ bin/pacserver: $(shell find ./ -name '*.go')
 	go build -ldflags "-w -s" .
 	mkdir -p bin
 	mv ./website ./bin/webpacd
-	cp ./config.toml ./bin/config.toml.dist
+	cp ./config.toml.dist ./bin
 clean:
 	[ -d ./bin ] && rm -r bin || :
 
