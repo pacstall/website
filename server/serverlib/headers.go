@@ -3,6 +3,8 @@ package serverlib
 import (
 	"net/http"
 	"strings"
+
+	"pacstall.dev/website/cfg"
 )
 
 type AlreadyResponded = bool
@@ -16,6 +18,10 @@ func ApplyCacheHeaders(etag string, w *http.ResponseWriter, r *http.Request) Alr
 			(*w).WriteHeader(http.StatusNotModified)
 			return true
 		}
+	}
+
+	if !cfg.Config.Production {
+		(*w).Header().Add("Access-Control-Allow-Origin", "http://localhost:1234")
 	}
 
 	return false

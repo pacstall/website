@@ -29,7 +29,7 @@ func setupRequests() {
 	router := serverlib.Router()
 
 	router.HandleFunc("/api/packages", pacpkgs.GetPackageListHandle).Methods("GET")
-	router.HandleFunc("/api/packages/{name}", pacpkgs.GetPackageListHandle).Methods("GET")
+	router.HandleFunc("/api/packages/{name}", pacpkgs.GetPackageHandle).Methods("GET")
 }
 
 func main() {

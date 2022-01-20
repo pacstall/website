@@ -10,7 +10,7 @@ const Search: FC<{ placeholder: string, onSearch: (filter: string, filterBy: str
     const selectRef = useRef<HTMLSelectElement>() as MutableRefObject<HTMLSelectElement>
 
     return (
-        <div className="packages-wrapper ml-auto">
+        <div className="container ml-auto">
             <div className="my-2 flex sm:flex-row flex-col">
                 <div className="flex flex-row mb-1 sm:mb-0">
                     <div className="relative">
@@ -98,7 +98,7 @@ const PackageTable: FC<{ packages: PackageInfo[] }> = ({ packages }) => {
             <div className="flex flex-col">
                 <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="py-2 align-middle sm:px-6 lg:px-8 block" style={{ margin: 'auto' }}>
-                        <div className="packages-wrapper overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                        <div className="container overflow-hidden border-b border-gray-200 sm:rounded-lg">
                             <table className="shadow divide-y divide-gray-200">
                                 <thead className="bg-gray-50">
                                     <tr>
@@ -214,7 +214,6 @@ const Packages: FC = () => {
         if (packages.length === 0) {
             return ''
         }
-        console.log(packages)
         const idx = Math.floor(Math.random() * packages.length)
         return packages[idx].packageName || packages[idx].name.split('-').slice(0, -1).join('-') || packages[idx].name
     }

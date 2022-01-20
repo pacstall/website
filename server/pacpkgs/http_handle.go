@@ -8,6 +8,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/gorilla/mux"
 	"pacstall.dev/website/serverlib"
 	"pacstall.dev/website/serverlib/query"
 	"pacstall.dev/website/types"
@@ -27,6 +28,35 @@ const (
 	filterByKey = "filterBy"
 	filterKey   = "filter"
 )
+
+func GetPackageHandle(w http.ResponseWriter, req *http.Request) {
+	params := mux.Vars(req)
+	name, ok := params["name"]
+	if !ok || len(name) < 2 {
+		w.WriteHeader(400)
+		return
+	}
+
+	if serverlib.ApplyCacheHeaders(fmt.Sprintf("%v-%v", LastModified().UTC().String(), name), &w, req) {
+		return // req is cached
+	}
+
+	for _, pkg := range PackageList() {
+		if strings.Compare(pkg.Name, name) == 0 {
+			json, err := json.Marshal(pkg)
+
+			if err != nil {
+				log.Printf("Could not marshal to json. Setting response 500.\n%v\n", err)
+				w.WriteHeader(500)
+			}
+
+			serverlib.SendJson(&w, json)
+			return
+		}
+	}
+
+	w.WriteHeader(404)
+}
 
 func GetPackageListHandle(w http.ResponseWriter, req *http.Request) {
 
