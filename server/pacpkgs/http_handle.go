@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math"
 	"net/http"
 	"sort"
 	"strings"
@@ -58,6 +59,18 @@ func GetPackageHandle(w http.ResponseWriter, req *http.Request) {
 	w.WriteHeader(404)
 }
 
+type packageListPage struct {
+	Page     int                  `json:"page"`
+	Size     int                  `json:"size"`
+	Sort     string               `json:"sort"`
+	SortBy   string               `json:"sortBy"`
+	Filter   string               `json:"filter"`
+	FilterBy string               `json:"filterBy"`
+	Total    int                  `json:"total"`
+	LastPage int                  `json:"lastPage"`
+	Data     *[]types.PackageInfo `json:"data"`
+}
+
 func GetPackageListHandle(w http.ResponseWriter, req *http.Request) {
 
 	packages := PackageList()
@@ -94,9 +107,22 @@ func GetPackageListHandle(w http.ResponseWriter, req *http.Request) {
 
 	packages = filterPackages(packages, filter, filterBy)
 	packages = sortPackages(packages, sort, sortBy)
+	found := len(packages)
 	packages = computePage(packages, page, pageSize)
 
-	json, err := json.Marshal(packages)
+	result := packageListPage{
+		Page:     page,
+		Size:     pageSize,
+		Sort:     sort,
+		SortBy:   sortBy,
+		Filter:   filter,
+		FilterBy: filterBy,
+		Total:    found,
+		LastPage: int(math.Floor(float64(found) / float64(pageSize))),
+		Data:     &packages,
+	}
+
+	json, err := json.Marshal(result)
 	if err != nil {
 		log.Printf("Could not marshal to json. Setting response 500.\n%v\n", err)
 		w.WriteHeader(500)

@@ -1,15 +1,17 @@
 import axios from "axios";
 import { FC, useEffect, useState } from "react";
-import { useParams, Navigate } from "react-router-dom";
+import { useParams, Navigate, Link } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import serverConfig from "../config/server";
 import PackageInfo from "../types/package-info";
 import DefaultAppImg from "../../public/app.png";
+import OneLineCodeSnippet from "../components/OneLineCodeSnippet";
+import { useNotification } from "../state/notifications";
 
 const toTitle = (str: string): string => {
     const parts = str.split('-')
 
-    if (['deb', 'git', 'app', 'bin'].includes(parts[parts.length - 1])) {
+    if (['-deb', '-git', '-app', '-bin'].includes(parts[parts.length - 1])) {
         parts.pop()
     }
 
@@ -103,7 +105,7 @@ const PackageDetails: FC = () => {
             <Navigation />
 
             <div className="container py-8 panel-container">
-                <Panel showIcon title={toTitle(name)} version={pkgInfo!.version}>
+                <Panel showIcon title={toTitle(name)} version={pkgInfo!.version.length > 10 ? pkgInfo!.version.substring(0, 8) : pkgInfo!.version}>
                     <div className="text-gray-700" style={{ marginBottom: '1.5em' }}>{pkgInfo!.description}</div>
                     <div className="panel-inverse-table">
                         <span>Name</span>
@@ -128,9 +130,43 @@ const PackageDetails: FC = () => {
                         <span>{pkgInfo!.requiredBy.length || 'None'} {pkgInfo!.requiredBy.length > 0 ? <a className="uk-link" href={`/packages/${name}/required-by`}>(see all)</a> : ''}</span>
                     </div>
                 </Panel>
-                <Panel title="How to Install" />
+                <Panel title="How to Install">
+                    <div className="pb-5">
+                        <h1 className="text-sm">Step 1:  Install Pacstall</h1>
+                        <div className="py-2">
+                            <OneLineCodeSnippet size="sm">sudo bash -c "$(wget -q https://git.io/JsADh -O -)"</OneLineCodeSnippet>
+                        </div>
+                    </div>
+
+                    <div className="pb-5">
+                        <h1 className="text-sm">Step 2a: Enable Browser Integration</h1>
+                        <div className="py-2">
+                            <OneLineCodeSnippet size="sm">sudo pacstall enable browser-integration</OneLineCodeSnippet>
+                        </div>
+                    </div>
+
+                    <div className="pb-5">
+                        <h1 className="text-sm">Step 3:  Click on Install Now</h1>
+                        <div className="mt-5 flex justify-center">
+                            <Link className="btn no-underline inline-block" to="">
+                                <div className="pacstall-button text-lg font-semibold mx-1 px-6 py-2 text-white rounded-lg">
+                                    <span className="flex items-center">
+                                        <span className="mx-1">Install Now</span>
+                                    </span>
+                                </div>
+                            </Link>
+                        </div>
+                    </div>
+
+                    <div className="pt-8">
+                        <h1 className="text-sm">Step 2b:  Alternatively, you use the Terminal</h1>
+                        <div className="py-2">
+                            <OneLineCodeSnippet size="sm">{`sudo pacstall install ${name}`}</OneLineCodeSnippet>
+                        </div>
+                    </div>
+                </Panel>
                 <Panel title="Pacscript Details" />
-                <Panel title="Comments" />
+                <Panel title="Latest Comments" />
             </div>
         </>
     )

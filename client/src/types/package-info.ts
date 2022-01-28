@@ -17,3 +17,15 @@ export default interface PackageInfo {
     patch: string[];
     requiredBy: string[];
 }
+
+export interface PackageInfoPage {
+    page: number;
+    size: number;
+    filter: string;
+    filterBy: string;
+    sort: string;
+    sortBy: string;
+    lastPage: number;
+    total: number;
+    data: PackageInfo[];
+} 
