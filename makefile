@@ -1,34 +1,41 @@
-all: dependency-check clean build-server build-client build-redist
+all: webpacd.tar.gz
 
-run: all run-dist
+### Binaries
 
-dev-client:
-	@cd client && yarn && yarn start
-dev-server:
-	@cd server && make run
+webpacd.tar.gz: redist
+	[ -d ./redist/pacstall-programs ] && rm -rf redist/pacstall-programs || :
+	cd redist && tar -zcvf release *
+	mv ./redist/release ./webpacd.tar.gz 
 
-build-server:
-	@cd server && make
+server/bin:
+	which go
+	cd server && make
 
-build-client:
-	@cd client && yarn && yarn clean && yarn build
+client/dist:
+	which node
+	npm i -g yarn
+	cd client && yarn && yarn clean && yarn build
 
-build-redist:
-	@mkdir -p redist
-	@mkdir -p redist/public
-	@[ -d ./redist/pacstall-programs ] && rm -rf redist/pacstall-programs || :
-	@git clone https://github.com/pacstall/pacstall-programs redist/pacstall-programs
-	@cp -r client/dist/* redist/public
-	@cp -r server/bin/* redist
+redist: server/bin client/dist
+	mkdir -p redist
+	mkdir -p redist/public
+	[ -d ./redist/pacstall-programs ] && rm -rf redist/pacstall-programs || :
+	git clone https://github.com/pacstall/pacstall-programs redist/pacstall-programs
+	cp -r client/dist/* redist/public
+	cp -r server/bin/* redist
+
+
+#### Commands
+.PHONY: run clean
+
+run: redist run-dist
+	cd redist && ./webpacd
 
 clean:
-	@cd server && make clean
-run-dist:
-	@cd redist && ./webpacd
-
-dependency-check:
-	@echo "if build dependency 'node' is missing, make will error here"; which node >/dev/null
-	@echo "dependency 'node': found\n"
-	@npm i -g yarn; echo "dependency 'yarn': found\n"
-	@echo "if build dependency 'go' is missing, make will error here"; which go >/dev/null
-	@echo "dependency 'go': found\n"
+	cd server && make clean
+	if [ -f deps_ok ]; then rm deps_ok; fi
+	if [ -d redist ]; then rm -rf redist; fi
+	if [ -d client/dist ]; then rm -rf client/dist; fi
+	if [ -d client/.parcel-cache ]; then rm -rf client/.parcel-cache; fi
+	if [ -d client/node_modules ]; then rm -rf client/node_modules; fi
+	if [ -f webpacd.tar.gz ]; then rm webpacd.tar.gz; fi
