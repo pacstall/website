@@ -21,7 +21,7 @@ const Home: FC = () => {
 				style={{ textAlign: 'center' }}>
 				<h3 className="uk-card-title">How does it work then?</h3>
 				<p>Pacstall takes in files known as <a
-					href="https://github.com/pacstall/pacstall-programs/blob/master/make-a-pacscript.md">pacscripts</a> (similar to PKGBUILD's) that contain the necessary contents to build packages, and builds them into
+					href="https://github.com/pacstall/pacstall/wiki/Pacscript-101</a> (similar to PKGBUILD's) that contain the necessary contents to build packages, and builds them into
 					executables on your system.</p>
 			</div>
 			<div className="uk-card uk-card-default uk-card-body uk-width-1-2@m uk-flex uk-flex-center uk-flex-wrap uk-card-hover uk-align-center"
