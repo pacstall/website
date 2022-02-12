@@ -29,10 +29,10 @@ jobs:
       run: make
 
     - name: Create release artifact
-      run: tar -zcvf release.tar.gz redist
+      run: tar -zcvf PacWebD.tar.gz redist
 
     - name: Publish new release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "release.tar.gz"
+        artifacts: "PacWebD.tar.gz"
         token: ${{ secrets.GITHUB_TOKEN }}
