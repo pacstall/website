@@ -27,6 +27,7 @@ const Navigation: FC = () => {
                     </li>
                     <li className={active("/showcase")}><Link to="/showcase">Showcase</Link></li>
                     <li><a href="https://discord.com/invite/sWB6YtKyvW" target="_blank">Discord</a></li>
+                    <li><a href="https://matrix.to/#/#pacstall:matrix.org" target="_blank">Matrix</a></li>
                     {!featureFlags?.flags?.packageListPageDisabled && <li className={active("/packages")}><Link to="/packages">Packages</Link></li>}
                 </ul>
 
