@@ -4,6 +4,4 @@ const serverConfig = {
     host: isProd ? '' : 'http://localhost:3300'
 }
 
-console.log(isProd, process.env)
-
 export default serverConfig

@@ -1,15 +1,15 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import PackageInfo from "../../types/package-info";
-import OneLineCodeSnippet from "../OneLineCodeSnippet";
+import { SmartCodeSnippetInstall } from "../OneLineCodeSnippet";
 
-const PackageTableRow: FC<{ pkg: PackageInfo, onCommandCopy: (what: string) => any }> = ({ pkg, onCommandCopy }) => (
+const PackageTableRow: FC<{ pkg: PackageInfo, disabled?: boolean }> = ({ pkg, disabled }) => (
     <tr key={pkg.name}>
         <td className="px-6 py-4 whitespace-nowrap">
             <div className="flex items-center">
                 <div className="ml-4">
                     <div title={pkg.name} className="text-xs font-medium text-gray-900 text-ellipsis overflow-hidden">
-                        <Link to={`/packages/${pkg.name}`} >{pkg.name}</Link>
+                        {disabled === true ? <span>{pkg.name}</span> : <Link to={`/packages/${pkg.name}`} >{pkg.name}</Link>}
                     </div>
                 </div>
             </div>
@@ -23,7 +23,7 @@ const PackageTableRow: FC<{ pkg: PackageInfo, onCommandCopy: (what: string) => a
             </span>
         </td>
         <td className="px-6 py-4 whitespace-nowrap">
-            <OneLineCodeSnippet>{`sudo pacstall install ${pkg.name}`}</OneLineCodeSnippet>
+            <SmartCodeSnippetInstall size="sm" name={pkg.name} />
         </td>
     </tr>
 )

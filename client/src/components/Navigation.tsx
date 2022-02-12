@@ -1,9 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
+import { useFeatureFlags } from "../state/feature-flags";
 
 const Navigation: FC = () => {
     const { pathname } = useLocation()
     const [downloadHover, setDownloadHover] = useState(false)
+    const featureFlags = useFeatureFlags()
 
     const active = (path: string) => path === pathname ? 'uk-active' : ''
 
@@ -25,7 +27,7 @@ const Navigation: FC = () => {
                     </li>
                     <li className={active("/showcase")}><Link to="/showcase">Showcase</Link></li>
                     <li><a href="https://discord.com/invite/sWB6YtKyvW" target="_blank">Discord</a></li>
-                    <li className={active("/packages")}><Link to="/packages">Packages</Link></li>
+                    {!featureFlags?.flags?.packageListPageDisabled && <li className={active("/packages")}><Link to="/packages">Packages</Link></li>}
                 </ul>
 
             </div>

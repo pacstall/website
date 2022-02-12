@@ -5,27 +5,46 @@
 #---------------------------------   Manual   ---------------------------------#
 #------------------------------------------------------------------------------#
 
+#                 #
+# --- Globals --- #
+#                 #
 
-# >> PROPERTY: `production`                         TYPE `bool`
+# `production`: = `bool`
 # If true, the server starts a file server located at `tcp_server.public_dir`
 
-# >> PROPERTY: `pacstall_programs.path`             TYPE `string`
+#                                          #
+# --- Pacstall Programs ( Repository ) --- #
+#                                          #
+
+# `pacstall_programs.path`             = `string`
 # Path to the `pacstall-programs` local repository
 
-# >> PROPERTY: `pacstall_programs.tmp_dir`          TYPE `string`
-# Temporary dir path to store  scripts. If the dir doesn't exist, it gets created
+# `pacstall_programs.tmp_dir`          = `string`
+# Temporary dir path to store scripts. If the dir doesn't exist, it gets created
 
-# >> PROPERTY: `pacstall_programs.update_interval`  TYPE `int`
+# `pacstall_programs.update_interval`  = `int`
 #  How often to pull git commits. Time in milliseconds
 
-# >> PROPERTY: `pacstall_programs.max_open_files`   TYPE `int`
+# `pacstall_programs.max_open_files`   = `int`
 #  Maximum number of open files during the package scanning
 
-# >> PROPERTY: `tcp_server.port`                    TYPE `int`
+#                    #
+# --- TCP Server --- #
+#                    #
+
+# `tcp_server.port`        = `int`
 # What port to listen on
 
-# >> PROPERTY: `tcp_server.public_dir`              TYPE `string` 
+# `tcp_server.public_dir`  = `string` 
 # Directory containing all public html files
+
+#                       #
+# --- Feature Flags --- #
+#                       #
+
+# `feature_flags.package_list_page_disabled`    = `bool` 
+# `feature_flags.package_details_page_disabled` = `bool` 
+# `feature_flags.old_syntax`                    = `bool` 
 
 
 #------------------------------------------------------------------------------#
@@ -42,5 +61,10 @@ max_open_files  = 100
 [tcp_server]
 port        = 3300
 public_dir  = "./public"
+
+[feature_flags]
+package_list_page_disabled      = false
+package_details_page_disabled   = true
+old_syntax                      = true
 
 #------------------------------------------------------------------------------#

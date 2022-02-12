@@ -6,8 +6,9 @@ import (
 	"time"
 
 	"pacstall.dev/website/cfg"
+	"pacstall.dev/website/fflags"
 	"pacstall.dev/website/pacpkgs"
-	"pacstall.dev/website/serverlib"
+	"pacstall.dev/website/svlib"
 )
 
 func printLogo() {
@@ -26,10 +27,14 @@ func printLogo() {
 }
 
 func setupRequests() {
-	router := serverlib.Router()
+	router := svlib.Router()
 
+	/* Packages */
 	router.HandleFunc("/api/packages", pacpkgs.GetPackageListHandle).Methods("GET")
 	router.HandleFunc("/api/packages/{name}", pacpkgs.GetPackageHandle).Methods("GET")
+
+	/* Feature Flags */
+	router.HandleFunc("/api/feature-flags", fflags.GetFeatureFlags).Methods("GET")
 }
 
 func main() {
@@ -45,12 +50,12 @@ func main() {
 	log.Println("Successfully scheduled package auto-refresh")
 	log.Println("Attempting to start TCP listener")
 
-	serverlib.OnServerOnline(func() {
+	svlib.OnServerOnline(func() {
 		log.Printf("Server is now online on port %v.\n", port)
 
 		printLogo()
 		log.Printf("Booted in %v%v%v\n", "\033[32m", time.Since(startedAt), "\033[0m")
 	})
 
-	serverlib.Serve(port)
+	svlib.Serve(port)
 }

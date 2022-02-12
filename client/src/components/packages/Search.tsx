@@ -16,9 +16,10 @@ const Search: FC<{ placeholder: string, onSearch: (filter: string, filterBy: str
                 <div className="flex flex-row mb-1 sm:mb-0">
                     <div className="relative">
                         <select
+                            defaultValue="name"
                             ref={selectRef}
                             className="focus:outline-none appearance-none h-full rounded-l rounded-r border sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
-                            <option selected value="name">Package</option>
+                            <option value="name">Package</option>
                             <option value="maintainer">Maintainer</option>
                         </select>
                         <div

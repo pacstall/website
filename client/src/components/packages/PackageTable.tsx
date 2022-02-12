@@ -2,20 +2,7 @@ import { FC } from "react"
 import PackageInfo from "../../types/package-info"
 import PackageTableRow from "./PackageTableRow"
 
-const PackageTable: FC<{ packages: PackageInfo[] }> = ({ packages }) => {
-    const onCommandCopy = (name: string) => {
-        const input: HTMLInputElement | null = document.querySelector(`#${name}`)
-        if (!input) {
-            return
-        }
-
-        input.style.display = "inline"
-        input.focus()
-        input.select()
-        document.execCommand('copy')
-        input.style.display = "none"
-    }
-
+const PackageTable: FC<{ packages: PackageInfo[], linksDisabled?: boolean }> = ({ packages, linksDisabled }) => {
     return (
         (
             <div className="flex flex-col">
@@ -52,7 +39,7 @@ const PackageTable: FC<{ packages: PackageInfo[] }> = ({ packages }) => {
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
-                                    {packages.map(pkg => <PackageTableRow key={pkg.name} pkg={pkg} onCommandCopy={onCommandCopy} />)}
+                                    {packages.map(pkg => <PackageTableRow key={pkg.name} disabled={linksDisabled} pkg={pkg} />)}
                                 </tbody>
                             </table>
                         </div>

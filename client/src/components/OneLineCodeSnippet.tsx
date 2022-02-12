@@ -1,5 +1,6 @@
-import { FC, MutableRefObject, ReactText, Ref, useRef } from "react";
+import { FC, MutableRefObject, useReducer, useRef } from "react";
 import useNotification from "../hooks/useNotification";
+import { useFeatureFlags } from "../state/feature-flags";
 import Notification from "../state/notifications";
 
 const onCommandCopy = (ref: MutableRefObject<HTMLInputElement | undefined>, notify: (notification: Notification) => any) => {
@@ -36,3 +37,8 @@ const OneLineCodeSnippet: FC<{ size?: 'xs' | 'sm' | 'md' | 'lg' }> = ({ children
 }
 
 export default OneLineCodeSnippet
+
+export const SmartCodeSnippetInstall: FC<{ size?: 'xs' | 'sm' | 'md' | 'lg', name: string }> = ({ size, name }) => {
+    const featureFlags = useFeatureFlags()
+    return <OneLineCodeSnippet size={size} >{featureFlags.flags?.oldSyntax ? `pacstall -I ${name}` : `sudo pacstall install ${name}`}</OneLineCodeSnippet>
+}

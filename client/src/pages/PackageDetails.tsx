@@ -5,13 +5,14 @@ import Navigation from "../components/Navigation";
 import serverConfig from "../config/server";
 import PackageInfo from "../types/package-info";
 import DefaultAppImg from "../../public/app.png";
-import OneLineCodeSnippet from "../components/OneLineCodeSnippet";
-import { useNotification } from "../state/notifications";
+import OneLineCodeSnippet, { SmartCodeSnippetInstall } from "../components/OneLineCodeSnippet";
+import { useFeatureFlags } from "../state/feature-flags";
+import useNotification from "../hooks/useNotification";
 
 const toTitle = (str: string): string => {
     const parts = str.split('-')
 
-    if (['-deb', '-git', '-app', '-bin'].includes(parts[parts.length - 1])) {
+    if (['deb', 'git', 'app', 'bin'].includes(parts[parts.length - 1])) {
         parts.pop()
     }
 
@@ -78,6 +79,20 @@ const Maintainer: FC<{ text: string }> = ({ text }) => {
 }
 
 const PackageDetails: FC = () => {
+    const featureFlags = useFeatureFlags()
+    const [pageDisabled, setPageDisabled] = useState<boolean>()
+    useEffect(() => {
+        setPageDisabled(
+            featureFlags.loading
+                ? undefined
+                : featureFlags.error
+                    ? false
+                    : featureFlags.flags!.packageDetailsPageDisabled
+        )
+    }, [featureFlags])
+
+    const notify = useNotification()
+
     const { name } = useParams() as { name: string }
     const [pkgInfo, setPkgInfo] = useState<PackageInfo>()
     const [loading, setLoading] = useState(true)
@@ -89,6 +104,15 @@ const PackageDetails: FC = () => {
             .catch(() => { })
             .then(() => setLoading(false))
     }, [name])
+
+    if (pageDisabled) {
+        notify({
+            title: 'This feature is not ready yet.',
+            text: 'You are being redirected back to the home page.',
+            type: 'info'
+        })
+        return <Navigate to="/" />
+    }
 
     if (!loading && !pkgInfo) {
         return <Navigate to="/not-found" />
@@ -161,7 +185,7 @@ const PackageDetails: FC = () => {
                     <div className="pt-8">
                         <h1 className="text-sm">Step 2b:  Alternatively, you use the Terminal</h1>
                         <div className="py-2">
-                            <OneLineCodeSnippet size="sm">{`sudo pacstall install ${name}`}</OneLineCodeSnippet>
+                            <SmartCodeSnippetInstall size="sm" name={name} />
                         </div>
                     </div>
                 </Panel>

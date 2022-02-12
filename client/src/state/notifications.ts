@@ -1,7 +1,7 @@
 import { atom } from "recoil";
 
 export default interface Notification {
-    type: 'error' | 'success';
+    type: 'error' | 'success' | 'info';
     text: string;
     title: string;
     id?: string;

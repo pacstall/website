@@ -8,6 +8,7 @@ import (
 	"os/exec"
 	"path"
 	"strings"
+	"sync/atomic"
 	"time"
 
 	"gopkg.in/yaml.v2"
@@ -95,10 +96,18 @@ func parsePackages(names []string) []types.PackageInfo {
 	guard := make(chan interface{}, cfg.Config.PacstallPrograms.MaxOpenFiles)
 	defer close(guard)
 
+	packagesLeftNo := int32(len(names))
 	for _, name := range names {
 		go func(pkg string) {
+			// Ensure that parsing in done in queues
 			guard <- nil
-			parsedPackages <- parsePackage(pkg)
+			result := parsePackage(pkg)
+
+			if result != nil {
+				parsedPackages <- result
+			}
+			atomic.AddInt32(&packagesLeftNo, -1)
+
 			<-guard
 		}(name)
 	}
@@ -109,7 +118,7 @@ func parsePackages(names []string) []types.PackageInfo {
 			results = append(results, *packageInfo)
 		}
 
-		if len(results) == len(names) {
+		if packagesLeftNo == 0 {
 			close(parsedPackages)
 		}
 	}
@@ -126,7 +135,7 @@ func parsePackage(name string) *types.PackageInfo {
 	scriptPath := path.Join(cfg.Config.PacstallPrograms.Path, "packages", name, pacscriptName)
 	scriptBytes, err := os.ReadFile(scriptPath)
 	if err != nil {
-		log.Printf("Failed to read file '%v'\n%v", scriptPath, err)
+		log.Printf("Failed to read package file '%v'\n%v", scriptPath, err)
 		return nil
 	}
 

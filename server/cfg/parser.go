@@ -14,6 +14,13 @@ type configuration struct {
 	TCPServer        tcpServerConfig        `toml:"tcp_server"`
 	PacstallPrograms pacstallProgramsConfig `toml:"pacstall_programs"`
 	Production       bool                   `toml:"production"`
+	FeatureFlags     featureFlagsConfig     `toml:"feature_flags"`
+}
+
+type featureFlagsConfig struct {
+	PackageListPageDisabled    bool `toml:"package_list_page_disabled"`
+	PackageDetailsPageDisabled bool `toml:"package_details_page_disabled"`
+	OldSyntax                  bool `toml:"old_syntax"`
 }
 
 type tcpServerConfig struct {

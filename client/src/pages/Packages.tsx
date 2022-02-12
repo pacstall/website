@@ -1,16 +1,32 @@
 import axios from "axios";
 import { FC, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import { NumberParam, StringParam, useQueryParams } from "use-query-params";
 import Navigation from "../components/Navigation";
 import PackageTable from "../components/packages/PackageTable";
 import Search from "../components/packages/Search";
 import Pagination from "../components/Pagination";
 import serverConfig from "../config/server";
+import useNotification from "../hooks/useNotification";
 import useRandomPackage from "../hooks/useRandomPackage";
+import { useFeatureFlags } from "../state/feature-flags";
 import { PackageInfoPage } from "../types/package-info";
 
 const Packages: FC = () => {
+    const featureFlags = useFeatureFlags()
+    const [pageDisabled, setPageDisabled] = useState<boolean>()
+    useEffect(() => {
+        setPageDisabled(
+            featureFlags.loading
+                ? undefined
+                : featureFlags.error
+                    ? false
+                    : featureFlags.flags!.packageListPageDisabled
+        )
+    }, [featureFlags])
+
+    const notify = useNotification()
     const [packagePage, setPackagePage] = useState<PackageInfoPage>()
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
@@ -39,6 +55,15 @@ const Packages: FC = () => {
         setQueryParams({ filter, filterBy, page: 0 })
     }
 
+    if (pageDisabled) {
+        notify({
+            title: 'This feature is not ready yet.',
+            text: 'You are being redirected back to the home page.',
+            type: 'info'
+        })
+        return <Navigate to="/" />
+    }
+
     if (error) {
         return <Navigate to="/packages" />
     }
@@ -51,7 +76,7 @@ const Packages: FC = () => {
             {loading ? <h1 className="text-center">Loading...</h1> : (
                 <>
                     <div className="flex justify-center">
-                        <PackageTable packages={packagePage!.data} />
+                        <PackageTable linksDisabled={!!featureFlags.flags?.packageDetailsPageDisabled} packages={packagePage!.data} />
                     </div>
 
                     <div className="flex justify-center my-8">

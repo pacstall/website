@@ -1,4 +1,4 @@
-package serverlib
+package svlib
 
 import (
 	"net/http"

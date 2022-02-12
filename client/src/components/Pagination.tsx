@@ -30,7 +30,7 @@ const Pagination: FC<{ last: number, current: number }> = ({ last, current }) =>
 
             {current <= 1 ? (
                 <>
-                    {new Array(current + 1).fill(null).map((_, i) => <PageLink page={i} active={i === current} />)}
+                    {new Array(current + 1).fill(null).map((_, i) => <PageLink key={i} page={i} active={i === current} />)}
                 </>
             ) : (
                 <>

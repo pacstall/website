@@ -1,17 +1,15 @@
 package pacpkgs
 
 import (
-	"encoding/json"
 	"fmt"
-	"log"
 	"math"
 	"net/http"
 	"sort"
 	"strings"
 
 	"github.com/gorilla/mux"
-	"pacstall.dev/website/serverlib"
-	"pacstall.dev/website/serverlib/query"
+	"pacstall.dev/website/svlib"
+	"pacstall.dev/website/svlib/query"
 	"pacstall.dev/website/types"
 )
 
@@ -38,20 +36,13 @@ func GetPackageHandle(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	if serverlib.ApplyCacheHeaders(fmt.Sprintf("%v-%v", LastModified().UTC().String(), name), &w, req) {
+	if svlib.ApplyHeaders(fmt.Sprintf("%v-%v", LastModified().UTC().String(), name), w, req) {
 		return // req is cached
 	}
 
 	for _, pkg := range PackageList() {
 		if strings.Compare(pkg.Name, name) == 0 {
-			json, err := json.Marshal(pkg)
-
-			if err != nil {
-				log.Printf("Could not marshal to json. Setting response 500.\n%v\n", err)
-				w.WriteHeader(500)
-			}
-
-			serverlib.SendJson(&w, json)
+			svlib.Json(w, pkg)
 			return
 		}
 	}
@@ -100,7 +91,7 @@ func GetPackageListHandle(w http.ResponseWriter, req *http.Request) {
 	filterBy := params.Strings[filterByKey]
 
 	etag := fmt.Sprintf("%v-%v-%v-%v-%v-%v-%v", LastModified().UTC().String(), page, pageSize, sort, sortBy, filter, filterBy)
-	if serverlib.ApplyCacheHeaders(etag, &w, req) {
+	if svlib.ApplyHeaders(etag, w, req) {
 		// Response was cached and already sent
 		return
 	}
@@ -122,13 +113,7 @@ func GetPackageListHandle(w http.ResponseWriter, req *http.Request) {
 		Data:     &packages,
 	}
 
-	json, err := json.Marshal(result)
-	if err != nil {
-		log.Printf("Could not marshal to json. Setting response 500.\n%v\n", err)
-		w.WriteHeader(500)
-	}
-
-	serverlib.SendJson(&w, json)
+	svlib.Json(w, result)
 }
 
 func computePage(packages []types.PackageInfo, page, pageSize int) []types.PackageInfo {

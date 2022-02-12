@@ -1,0 +1,36 @@
+name: deploy
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Checkout repository
+      id: repo
+      uses: actions/checkout@v2
+      run: echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)"
+    - name: Install Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+    - name: Install Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: '^1.17.6'
+    - name: Install make
+      run: sudo apt install make
+    - name: Build Sources
+      run: make
+    - name: Create release artifact
+      run: tar -zcvf release.tar.gz redist
+
+    - name: Publish new release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "release.tar.gz"
+        name: ${{ steps.repo.outputs.sha8 }}
+        token: ${{ secrets.GITHUB_TOKEN }}
