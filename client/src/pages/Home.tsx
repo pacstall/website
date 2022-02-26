@@ -13,22 +13,16 @@ const Home: FC = () => {
 
 			<div className="uk-card uk-card-default uk-card-body uk-width-1-2@m uk-flex uk-flex-center uk-flex-wrap uk-card-hover uk-align-center"
 				style={{ textAlign: 'center' }}>
-				<h3 className="uk-card-title" style={{ textAlign: 'center' }}>Why another package manager?</h3>
-				<p>If you've ever used the AUR, you know that every package known to man is there. But why is this Arch
-					specific? That's why I made Pacstall. An AUR-like alternative, for Ubuntu!</p>
+				<h3 className="uk-card-title">Why is this any different than any other package manager?</h3>
+				<p>Pacstall uses the stable base of Ubuntu but allows you to use bleeding edge software with little to no
+					compromises, so you don't have to worry about security patches or new features.</p>
 			</div>
 			<div className="uk-card uk-card-default uk-card-body uk-width-1-2@m uk-flex uk-flex-center uk-flex-wrap uk-card-hover uk-align-center"
 				style={{ textAlign: 'center' }}>
 				<h3 className="uk-card-title">How does it work then?</h3>
 				<p>Pacstall takes in files known as <a
-					href="https://github.com/pacstall/pacstall/wiki/Pacscript-101</a> (similar to PKGBUILD's) that contain the necessary contents to build packages, and builds them into
+					href="https://github.com/pacstall/pacstall/wiki/Pacscript-101"></a> (similar to PKGBUILD's) that contain the necessary contents to build packages, and builds them into
 					executables on your system.</p>
-			</div>
-			<div className="uk-card uk-card-default uk-card-body uk-width-1-2@m uk-flex uk-flex-center uk-flex-wrap uk-card-hover uk-align-center"
-				style={{ textAlign: 'center' }}>
-				<h3 className="uk-card-title">Why is this any different than any other package manager?</h3>
-				<p>Pacstall uses the stable base of Ubuntu but allows you to use bleeding edge software with little to no
-					compromises, so you don't have to worry about security patches or new features.</p>
 			</div>
 
 			<div>
