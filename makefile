@@ -13,8 +13,7 @@ server/bin:
 
 client/dist:
 	which node
-	npm i -g yarn
-	cd client && yarn && yarn clean && yarn build
+	cd client && npm ci && npm run clean && npm run build
 
 redist: server/bin client/dist
 	mkdir -p redist

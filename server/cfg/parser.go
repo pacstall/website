@@ -41,11 +41,11 @@ func loadConfig() configuration {
 	data := configuration{}
 	bytes, err := os.ReadFile(CONFIG_PATH)
 	if err != nil {
-		log.Panicf("Could not read file 'config.toml'\n%v", err)
+		log.Fatalf("Could not read file 'config.toml'\n%v", err)
 	}
 
 	if err = toml.Unmarshal(bytes, &data); err != nil {
-		log.Panicf("Could not parse file 'config.toml'\n%v", err)
+		log.Fatalf("Could not parse file 'config.toml'\n%v", err)
 	}
 
 	validate(data)

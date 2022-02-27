@@ -23,7 +23,7 @@ const Search: FC<{ isLoading: boolean, placeholder: string, onSearch: (filter: s
                     <option value="maintainer">Maintainer</option>
                 </Select>
 
-                <Input minW={{ base: 'xs', xs: '0' }} onKeyUp={onPressEnterKey} placeholder={placeholder} ref={inputRef} />
+                <Input minW={{ base: 'sm', xs: '0' }} onKeyUp={onPressEnterKey} placeholder={placeholder} ref={inputRef} />
             </HStack>
 
             <Button
