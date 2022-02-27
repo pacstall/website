@@ -1,13 +1,16 @@
 import axios from "axios";
 import { FC, useEffect, useState } from "react";
-import { useParams, Navigate, Link } from "react-router-dom";
+import { useParams, Navigate, Link as Rlink } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import serverConfig from "../config/server";
 import PackageInfo from "../types/package-info";
+// @ts-ignore:next-line
 import DefaultAppImg from "../../public/app.png";
 import OneLineCodeSnippet, { SmartCodeSnippetInstall } from "../components/OneLineCodeSnippet";
-import { useFeatureFlags } from "../state/feature-flags";
+import { featureFlagsState } from "../state/feature-flags";
 import useNotification from "../hooks/useNotification";
+import { Container, Table, Tbody, Td, Th, Tr, Link, Heading, HStack, Image, Text, Box, Button, useColorModeValue, Spinner, useMediaQuery, Stack } from "@chakra-ui/react";
+import { useRecoilState } from "recoil";
 
 const toTitle = (str: string): string => {
     const parts = str.split('-')
@@ -21,26 +24,6 @@ const toTitle = (str: string): string => {
         .join(' ')
 
 }
-
-const Panel: FC<{ title: string, showIcon?: boolean, version?: string }> = ({ title, version, showIcon, children }) => (
-    <div className="panel">
-        {showIcon ? (
-            <div className="panel-icon-title">
-                <img width="64" height="64" src={DefaultAppImg} alt={`${title} logo`} />
-                <h1>{title}</h1>
-                <span>
-                    <span className="px-2 inline-flex text-sm leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        {version}
-                    </span>
-                </span>
-            </div>
-        ) : <h1>{title}</h1>}
-
-        <div className="py-5 px-3">
-            {children}
-        </div>
-    </div>
-)
 
 const Maintainer: FC<{ text: string }> = ({ text }) => {
     if (!text || text === '-' || text.toLowerCase() === 'orphan' || text.toLowerCase() === 'orphaned') {
@@ -71,16 +54,30 @@ const Maintainer: FC<{ text: string }> = ({ text }) => {
     return (
         <>
             <span>{name}, </span>
-            <a className="uk-link" href={"mailto: " + fullEmail}>
+            <Link color='pink.400' href={"mailto: " + fullEmail}>
                 {shortEmail}
-            </a>
+            </Link>
         </>
     )
 }
 
+const InstallNowButton: FC<{ disabled?: boolean }> = ({ disabled }) => (
+    <Button
+        color={useColorModeValue('black', 'white')}
+        bg={useColorModeValue('brand.200', 'brand.500')}
+        _hover={{ bg: useColorModeValue('brand.200', 'brand.300') }}
+        _active={{ bg: useColorModeValue('brand.200', 'brand.300') }}
+        disabled={disabled}
+        size='lg'>
+        Install Now
+    </Button>
+)
+
 const PackageDetails: FC = () => {
-    const featureFlags = useFeatureFlags()
+    const [featureFlags] = useRecoilState(featureFlagsState)
     const [pageDisabled, setPageDisabled] = useState<boolean>()
+    const [isMobile] = useMediaQuery('only screen and (max-device-width: 480px)')
+
     useEffect(() => {
         setPageDisabled(
             featureFlags.loading
@@ -109,7 +106,7 @@ const PackageDetails: FC = () => {
         notify({
             title: 'This feature is not ready yet.',
             text: 'You are being redirected back to the home page.',
-            type: 'info'
+            type: 'warning'
         })
         return <Navigate to="/" />
     }
@@ -118,81 +115,119 @@ const PackageDetails: FC = () => {
         return <Navigate to="/not-found" />
     }
 
-    if (loading) {
-        return <>Loading</>
-    }
+    const ResponsiveStack = isMobile ? Stack : HStack;
 
-    const allDependencies = [...pkgInfo!.buildDependencies, ...pkgInfo!.runtimeDependencies, ...pkgInfo!.optionalDependencies, ...pkgInfo!.pacstallDependencies]
+    const allDependencies = [...pkgInfo?.buildDependencies || [], ...pkgInfo?.runtimeDependencies || [], ...pkgInfo?.optionalDependencies || [], ...pkgInfo?.pacstallDependencies || []]
 
-    return (
-        <>
-            <Navigation />
+    return (<>
+        <Navigation />
 
-            <div className="container py-8 panel-container">
-                <Panel showIcon title={toTitle(name)} version={pkgInfo!.version.length > 10 ? pkgInfo!.version.substring(0, 8) : pkgInfo!.version}>
-                    <div className="text-gray-700" style={{ marginBottom: '1.5em' }}>{pkgInfo!.description}</div>
-                    <div className="panel-inverse-table">
-                        <span>Name</span>
-                        <span>{pkgInfo!.name}</span>
+        {!loading && (
+            <Container maxW='900px' mt='10'>
+                <HStack justify='space-between'>
+                    <HStack>
+                        <Image src={DefaultAppImg} maxW='64px' />
+                        <Heading>{toTitle(name)}</Heading>
+                    </HStack>
+                    {!isMobile && <InstallNowButton />}
+                </HStack>
 
-                        <span>Maintainer</span>
-                        <span><Maintainer text={pkgInfo!.maintainer} /></span>
+                <Text mt='5'>
+                    {pkgInfo?.description}
+                </Text>
 
-                        <span>Last Updated</span>
-                        <span>Today</span>
+                <Table mt='10'>
+                    <Tbody>
+                        <Tr>
+                            <Th>Name</Th>
+                            <Td>{pkgInfo?.name}</Td>
+                        </Tr>
+                        <Tr>
+                            <Th>Version</Th>
+                            <Td>
+                                <Text
+                                    fontWeight='bold'
+                                    color={useColorModeValue('black', 'white')}
+                                    as='span'
+                                    p='1'
+                                    px='2'
+                                    borderRadius='lg'
+                                    bg={useColorModeValue('gray.100', 'gray.700')}>
+                                    {pkgInfo?.version}
+                                </Text>
+                            </Td>
+                        </Tr>
+                        <Tr>
+                            <Th>Maintainer</Th>
+                            <Td><Maintainer text={pkgInfo!.maintainer} /></Td>
+                        </Tr>
+                        <Tr>
+                            <Th>Last Updated</Th>
+                            <Td>Today</Td>
+                        </Tr>
+                        <Tr>
+                            <Th>Votes</Th>
+                            <Td>{Math.floor(Math.random() * 1200) + 30}</Td>
+                        </Tr>
+                        <Tr>
+                            <Th>Popularity</Th>
+                            <Td>{Math.floor(Math.random() * 1000) / 10}%</Td>
+                        </Tr>
+                        <Tr>
+                            <Th>Dependencies</Th>
+                            <Td>{allDependencies.length || 'None'} {allDependencies.length > 0 ? <Link pl='2' color='pink.400' as={Rlink} to={`/packages/${name}/dependencies`}>View</Link> : ''}</Td>
+                        </Tr>
+                        <Tr>
+                            <Th>Required By</Th>
+                            <Td>{pkgInfo?.requiredBy.length || 'None'} {pkgInfo?.requiredBy?.length || 0 > 0 ? <Link color='pink.400' as={Rlink} to={`/packages/${name}/required-by`}>(see all)</Link> : ''}</Td>
+                        </Tr>
+                        <Tr>
+                            <Th>Pacscript</Th>
+                            <Td><Link color='pink.400' isExternal href={`https://github.com/pacstall/pacstall-programs/blob/master/packages/${name}/${name}.pacscript`}>View</Link></Td>
+                        </Tr>
+                    </Tbody>
+                </Table>
 
-                        <span>Votes</span>
-                        <span>{Math.floor(Math.random() * 1200) + 30}</span>
+                <Box mt='10'>
+                    <Heading size='lg'>How to Install</Heading>
 
-                        <span>Popularity</span>
-                        <span>{Math.floor(Math.random() * 1000) / 10}%</span>
-
-                        <span>Dependencies</span>
-                        <span>{allDependencies.length || 'None'} {allDependencies.length > 0 ? <a className="uk-link" href={`/packages/${name}/dependencies`}>(see all)</a> : ''}</span>
-
-                        <span>Required By</span>
-                        <span>{pkgInfo!.requiredBy.length || 'None'} {pkgInfo!.requiredBy.length > 0 ? <a className="uk-link" href={`/packages/${name}/required-by`}>(see all)</a> : ''}</span>
-                    </div>
-                </Panel>
-                <Panel title="How to Install">
-                    <div className="pb-5">
-                        <h1 className="text-sm">Step 1:  Install Pacstall</h1>
-                        <div className="py-2">
+                    <ResponsiveStack justify='space-between'>
+                        <Text fontWeight='semibold' m='3'>Step 1:  Install Pacstall</Text>
+                        <Box>
                             <OneLineCodeSnippet size="sm">sudo bash -c "$(wget -q https://git.io/JsADh -O -)"</OneLineCodeSnippet>
-                        </div>
-                    </div>
+                        </Box>
+                    </ResponsiveStack>
 
-                    <div className="pb-5">
-                        <h1 className="text-sm">Step 2a: Enable Browser Integration</h1>
-                        <div className="py-2">
+                    <ResponsiveStack justify='space-between'>
+                        <Text fontWeight='semibold' m='3'>Step 2a: Enable Browser Integration</Text>
+                        <Box>
                             <OneLineCodeSnippet size="sm">sudo pacstall enable browser-integration</OneLineCodeSnippet>
-                        </div>
-                    </div>
+                        </Box>
+                    </ResponsiveStack>
 
-                    <div className="pb-5">
-                        <h1 className="text-sm">Step 3:  Click on Install Now</h1>
-                        <div className="mt-5 flex justify-center">
-                            <Link className="btn no-underline inline-block" to="">
-                                <div className="pacstall-button text-lg font-semibold mx-1 px-6 py-2 text-white rounded-lg">
-                                    <span className="flex items-center">
-                                        <span className="mx-1">Install Now</span>
-                                    </span>
-                                </div>
-                            </Link>
-                        </div>
-                    </div>
+                    <ResponsiveStack justify='space-between'>
+                        <Text fontWeight='semibold' m='3'>Step 3:  Click on Install Now</Text>
+                        <InstallNowButton disabled={isMobile} />
+                    </ResponsiveStack>
 
-                    <div className="pt-8">
-                        <h1 className="text-sm">Step 2b:  Alternatively, you use the Terminal</h1>
-                        <div className="py-2">
+                    <ResponsiveStack justify='space-between'>
+                        <Text fontWeight='semibold' m='3'>Step 2b:  Alternatively, you use the Terminal</Text>
+                        <Box>
                             <SmartCodeSnippetInstall size="sm" name={name} />
-                        </div>
-                    </div>
-                </Panel>
-                <Panel title="Pacscript Details" />
-                <Panel title="Latest Comments" />
-            </div>
-        </>
+                        </Box>
+                    </ResponsiveStack>
+                </Box>
+
+                <Box mt='10'>
+                    <Heading size='lg'>Latest Comments</Heading>
+                </Box>
+            </Container>
+        ) || (
+                <Box pt='10' textAlign='center'>
+                    <Spinner size='lg' />
+                </Box>
+            )}
+    </>
     )
 }
 

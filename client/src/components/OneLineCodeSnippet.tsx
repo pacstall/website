@@ -1,7 +1,9 @@
-import { FC, MutableRefObject, useReducer, useRef } from "react";
+import { chakra, SkeletonText, useColorModeValue } from "@chakra-ui/react";
+import { FC, MutableRefObject, useCallback, useReducer, useRef } from "react";
+import { useRecoilState } from "recoil";
 import useNotification from "../hooks/useNotification";
-import { useFeatureFlags } from "../state/feature-flags";
-import Notification from "../state/notifications";
+import { featureFlagsState, useFeatureFlags } from "../state/feature-flags";
+import Notification from "../types/notifications";
 
 const onCommandCopy = (ref: MutableRefObject<HTMLInputElement | undefined>, notify: (notification: Notification) => any) => {
     if (!ref.current) {
@@ -15,7 +17,7 @@ const onCommandCopy = (ref: MutableRefObject<HTMLInputElement | undefined>, noti
         notify({
             title: 'Copied to Clipboard!',
             text: 'You can now paste this command in the terminal.',
-            type: 'success'
+            type: 'info'
         })
     }
     ref.current.style.display = "none"
@@ -27,10 +29,20 @@ const OneLineCodeSnippet: FC<{ size?: 'xs' | 'sm' | 'md' | 'lg' }> = ({ children
     const text = children!.toString() as string
     return (
         <>
-            <span className={`px-2 ${size && size !== 'xs' && 'py-1' || ''} inline-flex text-${size || 'xs'} leading-5 rounded bg-gray-600 text-white`} style={{ cursor: "copy", display: 'block' }} onClick={() => onCommandCopy(ref, notify)}>
-                <span className="text-green-300 font-semibold">$</span>
-                <span className="px-2 whitespace-nowrap">{text}</span>
-            </span>
+            <chakra.span
+                p='1'
+                px='2'
+                fontFamily='Source Code Pro'
+                bg={useColorModeValue('gray.100', 'gray.900')}
+                color={useColorModeValue('teal.500', 'teal.400')}
+                fontWeight='500'
+                onClick={() => onCommandCopy(ref, notify)}
+                cursor='pointer'
+                wordBreak='break-all'
+                fontSize={size}
+                borderRadius='md'>
+                $ {text}
+            </chakra.span>
             <input ref={ref as any} type="text" style={{ display: "none", maxWidth: "1px" }} readOnly defaultValue={text} />
         </>
     )
@@ -39,6 +51,18 @@ const OneLineCodeSnippet: FC<{ size?: 'xs' | 'sm' | 'md' | 'lg' }> = ({ children
 export default OneLineCodeSnippet
 
 export const SmartCodeSnippetInstall: FC<{ size?: 'xs' | 'sm' | 'md' | 'lg', name: string }> = ({ size, name }) => {
-    const featureFlags = useFeatureFlags()
-    return <OneLineCodeSnippet size={size} >{featureFlags.flags?.oldSyntax ? `pacstall -I ${name}` : `sudo pacstall install ${name}`}</OneLineCodeSnippet>
+    const [featureFlags] = useRecoilState(featureFlagsState)
+    if (featureFlags.loading) {
+        return <SkeletonText noOfLines={1} />
+    }
+
+    const code = () => {
+        if (featureFlags.flags?.oldSyntax) {
+            return `pacstall -I ${name}`
+        }
+
+        return `sudo pacstall install ${name}`
+    }
+
+    return <OneLineCodeSnippet size={size}>{code()}</OneLineCodeSnippet>
 }

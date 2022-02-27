@@ -1,7 +1,7 @@
+import { Box, Center, Container, Spinner, Stack, Text } from "@chakra-ui/react";
 import axios from "axios";
 import { FC, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
 import { NumberParam, StringParam, useQueryParams } from "use-query-params";
 import Navigation from "../components/Navigation";
 import PackageTable from "../components/packages/PackageTable";
@@ -45,6 +45,7 @@ const Packages: FC = () => {
         setLoading(true)
         axios.get<PackageInfoPage>(`${serverConfig.host}${url}`).then(res => {
             setPackagePage(res.data)
+            setQueryParams({ page: queryParams.page || 0 })
             setLoading(false)
         }).catch(() => setError(true))
     }, [queryParams])
@@ -52,6 +53,7 @@ const Packages: FC = () => {
 
 
     const onSearch = (filter: string, filterBy: string) => {
+        setLoading(true)
         setQueryParams({ filter, filterBy, page: 0 })
     }
 
@@ -70,23 +72,33 @@ const Packages: FC = () => {
 
     return <>
         <Navigation />
-        <div className="no-scrollbar py-8">
-            <Search placeholder={randomPackageName} onSearch={onSearch} />
 
-            {loading ? <h1 className="text-center">Loading...</h1> : (
-                <>
-                    <div className="flex justify-center">
+        <Container maxW='1080px'>
+            <Stack mt='10'>
+                <Search isLoading={loading} placeholder={randomPackageName} onSearch={onSearch} />
+
+                {loading ? <Box textAlign='center' pt='10'><Spinner size='xl' /></Box> : (
+                    <Box mt='10'>
                         <PackageTable linksDisabled={!!featureFlags.flags?.packageDetailsPageDisabled} packages={packagePage!.data} />
-                    </div>
+                        {packagePage?.data?.length === 0 && (
+                            <Box mt='5'>
+                                <Center>
+                                    <Text>No packages found</Text>
+                                </Center>
+                            </Box>
+                        )}
 
-                    <div className="flex justify-center my-8">
-                        <Pagination current={packagePage!.page} last={packagePage!.lastPage} />
-                    </div>
-                </>
-            )}
+                        <Box m='10'>
+                            <Center>
+                                <Pagination current={packagePage!.page} last={packagePage!.lastPage} />
+                            </Center>
+                        </Box>
+                    </Box>
+                )}
 
 
-        </div>
+            </Stack>
+        </Container>
     </>
 }
 
