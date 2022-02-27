@@ -33,7 +33,7 @@ export type FeatureFlagsState =
     | FeatureFlagsStateLoading
     | FeatureFlagsStateError
 
-const featureFlagsState = atom<FeatureFlagsState>({
+export const featureFlagsState = atom<FeatureFlagsState>({
     key: 'featureFlagsState',
     default: {
         flags: null,

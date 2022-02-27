@@ -1,10 +1,13 @@
+import { Box, Heading } from "@chakra-ui/react";
 import { FC } from "react";
 import Navigation from "../components/Navigation";
 
 const NotFound: FC = () => (
     <>
         <Navigation />
-        <span>Page Not Found</span>
+        <Box textAlign='center' mt='20vh'>
+            <Heading>404 Page Not Found</Heading>
+        </Box>
     </>
 )
 

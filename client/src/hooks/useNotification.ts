@@ -1,16 +1,17 @@
-import { useRecoilState } from "recoil"
-import Notification, { notificationsState } from "../state/notifications"
+import { useToast } from "@chakra-ui/react"
+import Notification from "../types/notifications"
 
 
 const useNotification = () => {
-    const [notifications, setNotifications] = useRecoilState(notificationsState)
-
+    const toast = useToast({
+        position: 'top'
+    })
     return (notification: Notification) => {
-        notification.id = Math.random().toString().substring(2)
-        setNotifications([...notifications, notification])
-        setTimeout(() => {
-            setNotifications(notifications.filter(n => n !== notification))
-        }, 3000)
+        toast({
+            status: notification.type,
+            title: notification.title,
+            description: notification.text
+        })
     }
 }
 
