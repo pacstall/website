@@ -64,7 +64,7 @@ const OneLineCodeSnippet: FC<{ size?: 'xs' | 'sm' | 'md' | 'lg' }> = ({ children
                 wordBreak='break-all'
                 fontSize={size}
                 borderRadius='md'>
-                <chakra.span color='pink.400' style={nonSelectableStyle}>$ </chakra.span>{text}
+                <chakra.span color='pink.400' fontWeight='800' style={nonSelectableStyle}>$ </chakra.span>{text}
             </chakra.span>
             <input ref={ref as any} type="text" style={{ display: "none", maxWidth: "1px" }} readOnly defaultValue={text} />
         </>

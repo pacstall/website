@@ -24,12 +24,14 @@ import {
     ChevronRightIcon,
     MoonIcon,
     SunIcon,
+    ExternalLinkIcon,
 } from '@chakra-ui/icons';
-import { Link as RLink } from 'react-router-dom';
+import { Link as RLink, useNavigate } from 'react-router-dom';
 
 export function Navigation() {
     const { isOpen, onToggle } = useDisclosure();
     const { colorMode, toggleColorMode } = useColorMode();
+    const navigate = useNavigate()
 
     return (
         <Box>
@@ -60,6 +62,10 @@ export function Navigation() {
                     <Text
                         textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
                         fontFamily={'heading'}
+                        cursor='pointer'
+                        position='relative'
+                        bottom='2px'
+                        onClick={() => navigate('/')}
                         color={useColorModeValue('brand.800', 'white')}>
                         Pacstall
                     </Text>
@@ -104,7 +110,7 @@ const DesktopNav = () => {
                                     textDecoration: 'none',
                                     color: linkHoverColor,
                                 }}>
-                                {navItem.label}
+                                {navItem.label} {navItem.children && <Icon position='relative' bottom='2px' color={'brand.400'} w={7} h={7} as={ChevronDownIcon} />}
                             </Link>
                         </PopoverTrigger>
 
@@ -157,7 +163,10 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
                     justify={'flex-end'}
                     align={'center'}
                     flex={1}>
-                    <Icon color={'brand.400'} w={5} h={5} as={ChevronRightIcon} />
+                    {href?.startsWith('https://')
+                        ? <Icon color={'brand.400'} w={5} h={5} as={ExternalLinkIcon} />
+                        : <Icon color={'brand.400'} w={5} h={5} as={ChevronRightIcon} />
+                    }
                 </Flex>
             </Stack>
         </Link>
@@ -235,10 +244,6 @@ interface NavItem {
 }
 
 const NAV_ITEMS: Array<NavItem> = [
-    {
-        label: 'Home',
-        href: '/'
-    },
     {
         label: 'Download',
         children: [
