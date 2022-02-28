@@ -10,7 +10,8 @@ const useNotification = () => {
         toast({
             status: notification.type,
             title: notification.title,
-            description: notification.text
+            description: notification.text,
+            variant: 'solid'
         })
     }
 }
