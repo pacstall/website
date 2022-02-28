@@ -12,7 +12,7 @@ const Home: FC = () => {
 		<Navigation />
 		<Container maxW='900px'>
 
-			<Heading size='2xl' textAlign='center' p='7'>Pacstall - The AUR for Ubuntu</Heading>
+			<Heading size='2xl' textAlign='center' p='7'>Pacstall ~ The AUR for Ubuntu</Heading>
 
 			<Stack maxW='lg' margin='auto'>
 				<Card title='Why is this any different than any other package manager?'>
