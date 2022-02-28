@@ -1,26 +1,49 @@
 import { chakra, SkeletonText, useColorModeValue } from "@chakra-ui/react";
-import { FC, MutableRefObject, useCallback, useReducer, useRef } from "react";
+import { CSSProperties, FC, MutableRefObject, useCallback, useReducer, useRef } from "react";
 import { useRecoilState } from "recoil";
 import useNotification from "../hooks/useNotification";
 import { featureFlagsState, useFeatureFlags } from "../state/feature-flags";
 import Notification from "../types/notifications";
 
-const onCommandCopy = (ref: MutableRefObject<HTMLInputElement | undefined>, notify: (notification: Notification) => any) => {
+
+const onCommandCopy = async (ref: MutableRefObject<HTMLInputElement | undefined>, notify: (notification: Notification) => any) => {
     if (!ref.current) {
         return
     }
 
-    ref.current.style.display = "inline"
+    const notifyCopied = () => notify({
+        title: 'Copied to Clipboard!',
+        text: 'You can now paste this command in the terminal.',
+        type: 'info'
+    })
+
+    const notifyError = () => notify({
+        title: 'Failed to copy to Clipboard',
+        text: 'Make sure you are running an up-to-date browser.',
+        type: 'warning'
+    })
+
     ref.current.focus()
     ref.current.select()
     if (document.execCommand('copy', true)) {
-        notify({
-            title: 'Copied to Clipboard!',
-            text: 'You can now paste this command in the terminal.',
-            type: 'info'
-        })
+        notifyCopied()
+    } else if ('clipboard' in navigator) {
+        try {
+            await navigator.clipboard.writeText(ref.current.value);
+            notifyCopied()
+        } catch {
+            notifyError()
+        }
+    } else {
+        notifyError()
     }
-    ref.current.style.display = "none"
+}
+
+const nonSelectableStyle: CSSProperties = {
+    WebkitUserSelect: 'none',
+    MozUserSelect: 'none',
+    msUserSelect: 'none',
+    userSelect: 'none'
 }
 
 const OneLineCodeSnippet: FC<{ size?: 'xs' | 'sm' | 'md' | 'lg' }> = ({ children, size }) => {
@@ -41,7 +64,7 @@ const OneLineCodeSnippet: FC<{ size?: 'xs' | 'sm' | 'md' | 'lg' }> = ({ children
                 wordBreak='break-all'
                 fontSize={size}
                 borderRadius='md'>
-                $ {text}
+                <chakra.span color='pink.400' style={nonSelectableStyle}>$ </chakra.span>{text}
             </chakra.span>
             <input ref={ref as any} type="text" style={{ display: "none", maxWidth: "1px" }} readOnly defaultValue={text} />
         </>
