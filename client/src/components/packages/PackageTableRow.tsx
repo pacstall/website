@@ -7,7 +7,7 @@ import { SmartCodeSnippetInstall } from "../OneLineCodeSnippet";
 const PackageTableRow: FC<{ pkg: PackageInfo, disabled?: boolean, isMobile: boolean }> = ({ pkg, disabled, isMobile }) => (
     <Tr key={pkg.name}>
         <Td>
-            <Text fontSize='md' fontWeight='400'>
+            <Text fontSize='md' fontWeight='500'>
                 {disabled === true ? <span>{pkg.name}</span> : <Link as={Rlink} color={useColorModeValue('pink.600', 'pink.400')} to={`/packages/${pkg.name}`} >{pkg.name}</Link>}
             </Text>
         </Td>

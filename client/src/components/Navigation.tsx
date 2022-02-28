@@ -61,10 +61,10 @@ export function Navigation() {
                 <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
                     <Text
                         textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-                        fontFamily={'heading'}
                         cursor='pointer'
                         position='relative'
                         bottom='2px'
+                        fontSize='xl'
                         onClick={() => navigate('/')}
                         color={useColorModeValue('brand.800', 'white')}>
                         Pacstall
@@ -89,7 +89,7 @@ export function Navigation() {
 
 const DesktopNav = () => {
     const linkColor = useColorModeValue('gray.600', 'gray.200');
-    const linkHoverColor = useColorModeValue('gray.800', 'white');
+    const linkHoverColor = useColorModeValue('teal.400', 'teal.400');
     const popoverContentBgColor = useColorModeValue('white', 'gray.800');
 
     return (
@@ -101,7 +101,7 @@ const DesktopNav = () => {
                             <Link
                                 p={2}
                                 to={navItem.href ?? '#'}
-                                fontSize={'sm'}
+                                fontSize={'md'}
                                 fontWeight={500}
                                 color={linkColor}
                                 as={navItem.href?.startsWith('/') ? RLink : Link}
