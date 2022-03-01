@@ -8,7 +8,7 @@ import (
 	"github.com/BurntSushi/toml"
 )
 
-const CONFIG_PATH = "./config.toml"
+const CONFIG_PATH = "./webpacd.toml"
 
 type configuration struct {
 	TCPServer        tcpServerConfig        `toml:"tcp_server"`
@@ -41,11 +41,11 @@ func loadConfig() configuration {
 	data := configuration{}
 	bytes, err := os.ReadFile(CONFIG_PATH)
 	if err != nil {
-		log.Fatalf("Could not read file 'config.toml'\n%v", err)
+		log.Fatalf("Could not read file '%s'\n%v", CONFIG_PATH, err)
 	}
 
 	if err = toml.Unmarshal(bytes, &data); err != nil {
-		log.Fatalf("Could not parse file 'config.toml'\n%v", err)
+		log.Fatalf("Could not parse file '%s'\n%v", CONFIG_PATH, err)
 	}
 
 	validate(data)
