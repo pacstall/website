@@ -9,6 +9,10 @@ jobs:
     permissions:
       contents: write
     steps:
+    - name: Set variables
+      id: vars
+      run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+
     - name: Checkout repository
       uses: actions/checkout@v2
 
@@ -26,6 +30,8 @@ jobs:
       run: sudo apt install make
 
     - name: Build Sources
+      env:
+        VERSION: ${{ steps.vars.output.tag }}
       run: make
 
     - name: Publish new release
