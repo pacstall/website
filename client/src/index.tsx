@@ -9,7 +9,7 @@ import { QueryParamProvider } from "use-query-params";
 import axios from "axios";
 import { setupCache } from "axios-cache-adapter";
 import { RecoilRoot } from "recoil";
-import { Box, ChakraProvider, extendTheme, localStorageManager, Spinner, Text, useColorModeValue } from '@chakra-ui/react'
+import { Box, ChakraProvider, extendTheme, localStorageManager, Spinner, Text } from '@chakra-ui/react'
 
 import '@fontsource/raleway/400.css'
 import '@fontsource/open-sans/700.css'
@@ -53,7 +53,7 @@ const Footer: FC = () => <Text
     position='fixed'
     right='15px'
     bottom='15px'
-    color={useColorModeValue('', 'gray.500')}
+    color='gray.500'
     fontSize='md'>
     {serverConfig.version}
 </Text>
