@@ -30,9 +30,7 @@ jobs:
       run: sudo apt install make
 
     - name: Build Sources
-      env:
-        VERSION: ${{ steps.vars.output.tag }}
-      run: make
+      run: VERSION="${{ steps.vars.output.tag }}" make
 
     - name: Publish new release
       uses: ncipollo/release-action@v1
