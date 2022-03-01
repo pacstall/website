@@ -1,4 +1,4 @@
-import { Box, Center, chakra, Container, Flex, Heading, Image, Link, Stack, Text } from '@chakra-ui/react'
+import { Container, Heading, Image, Link, Stack, Text } from '@chakra-ui/react'
 import { FC } from 'react'
 import Card from '../components/Card'
 import Navigation from '../components/Navigation'
