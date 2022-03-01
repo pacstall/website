@@ -1,2 +1,6 @@
 @import url('http://fonts.cdnfonts.com/css/source-code-pro');
 @import url('http://fonts.cdnfonts.com/css/titillium-web');
+
+button:focus, a:focus {
+    box-shadow: none !important;
+}
