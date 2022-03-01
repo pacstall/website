@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
 
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { FC, lazy, Suspense } from "react";
 import Home from "./pages/Home";
 import Showcase from "./pages/Showcase";
 import NotFound from "./pages/NotFound";
@@ -9,10 +9,11 @@ import { QueryParamProvider } from "use-query-params";
 import axios from "axios";
 import { setupCache } from "axios-cache-adapter";
 import { RecoilRoot } from "recoil";
-import { Box, ChakraProvider, extendTheme, localStorageManager, Spinner } from '@chakra-ui/react'
+import { Box, ChakraProvider, extendTheme, localStorageManager, Spinner, Text, useColorModeValue } from '@chakra-ui/react'
 
 import '@fontsource/raleway/400.css'
 import '@fontsource/open-sans/700.css'
+import serverConfig from "./config/server";
 
 axios.defaults.adapter = setupCache({
     clearOnError: true,
@@ -48,6 +49,15 @@ const theme = extendTheme({
     }
 })
 
+const Footer: FC = () => <Text
+    position='fixed'
+    right='15px'
+    bottom='15px'
+    color={useColorModeValue('', 'gray.500')}
+    fontSize='md'>
+    {serverConfig.version}
+</Text>
+
 const app = document.getElementById("app");
 ReactDOM.render(<>
     <ChakraProvider theme={theme} colorModeManager={localStorageManager}>
@@ -66,6 +76,7 @@ ReactDOM.render(<>
                         </Routes>
                     </Suspense>
                 </BrowserRouter>
+                <Footer />
             </QueryParamProvider>
         </RecoilRoot>
     </ChakraProvider>
