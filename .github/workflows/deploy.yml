@@ -11,7 +11,7 @@ jobs:
     steps:
     - name: Set variables
       id: vars
-      run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      run: echo ::set-output name=tag::${GITHUB_REF##*/}
 
     - name: Checkout repository
       uses: actions/checkout@v2
