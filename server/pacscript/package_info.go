@@ -66,8 +66,33 @@ func makePacMaps() map[jsonName]bashName {
 	return out
 }
 
+func removeDebianCheckForAnAnimeGame(script string, animeGameChecked *bool) string {
+	if *animeGameChecked {
+		return script
+	}
+
+	if !strings.Contains(script, "name=an-anime-game-launcher-bin") {
+		return script
+	}
+
+	*animeGameChecked = true
+
+	if strings.Index(script, "if") != 0 {
+		return script
+	}
+
+	debianCheckEnd := strings.Index(script, "fi")
+	if debianCheckEnd == -1 {
+		return script
+	}
+
+	return script[debianCheckEnd+len("fi"):]
+}
+
 func buildYamlScript(header string) string {
-	script := header + "\n"
+	// TODO: remove after `preinstall` gets implemented
+	animeGameChecked := false
+	script := removeDebianCheckForAnAnimeGame(header, &animeGameChecked) + "\n"
 	script = script + "echo ''\n"
 
 	for jsonName, bashName := range pacstallVars {
