@@ -1,4 +1,4 @@
-package pacpkgs
+package pacscript
 
 import (
 	"fmt"
@@ -8,8 +8,8 @@ import (
 	"strings"
 
 	"github.com/gorilla/mux"
-	"pacstall.dev/website/svlib"
-	"pacstall.dev/website/svlib/query"
+	"pacstall.dev/website/listener"
+	"pacstall.dev/website/listener/query"
 	"pacstall.dev/website/types"
 )
 
@@ -36,13 +36,13 @@ func GetPackageHandle(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	if svlib.ApplyHeaders(fmt.Sprintf("%v-%v", LastModified().UTC().String(), name), w, req) {
+	if listener.ApplyHeaders(fmt.Sprintf("%v-%v", LastModified().UTC().String(), name), w, req) {
 		return // req is cached
 	}
 
 	for _, pkg := range PackageList() {
 		if strings.Compare(pkg.Name, name) == 0 {
-			svlib.Json(w, pkg)
+			listener.Json(w, pkg)
 			return
 		}
 	}
@@ -91,7 +91,7 @@ func GetPackageListHandle(w http.ResponseWriter, req *http.Request) {
 	filterBy := params.Strings[filterByKey]
 
 	etag := fmt.Sprintf("%v-%v-%v-%v-%v-%v-%v", LastModified().UTC().String(), page, pageSize, sort, sortBy, filter, filterBy)
-	if svlib.ApplyHeaders(etag, w, req) {
+	if listener.ApplyHeaders(etag, w, req) {
 		// Response was cached and already sent
 		return
 	}
@@ -113,7 +113,7 @@ func GetPackageListHandle(w http.ResponseWriter, req *http.Request) {
 		Data:     &packages,
 	}
 
-	svlib.Json(w, result)
+	listener.Json(w, result)
 }
 
 func computePage(packages []types.PackageInfo, page, pageSize int) []types.PackageInfo {

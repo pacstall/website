@@ -1,11 +1,11 @@
-package svlib
+package listener
 
 import (
 	"encoding/json"
 	"net/http"
 	"strings"
 
-	"pacstall.dev/website/cfg"
+	"pacstall.dev/website/config"
 )
 
 type AlreadyResponded = bool
@@ -21,7 +21,7 @@ func ApplyHeaders(etag string, w http.ResponseWriter, r *http.Request) AlreadyRe
 		}
 	}
 
-	if !cfg.Config.Production {
+	if !config.Config.Production {
 		w.Header().Add("Access-Control-Allow-Origin", "http://localhost:1234")
 		w.Header().Add("Access-Control-Allow-Headers", "Origin, Content-Type, Accept")
 		w.Header().Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")

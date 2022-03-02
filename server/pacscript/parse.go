@@ -1,4 +1,4 @@
-package pacpkgs
+package pacscript
 
 import (
 	"fmt"
@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"gopkg.in/yaml.v2"
-	"pacstall.dev/website/cfg"
+	"pacstall.dev/website/config"
 	"pacstall.dev/website/types"
 )
 
@@ -50,19 +50,19 @@ func ScheduleRefresh(every time.Duration) {
 
 func pullLatestCommit() error {
 	cmd := exec.Command("git", "reset", "--hard", "HEAD")
-	cmd.Dir = cfg.Config.PacstallPrograms.Path
+	cmd.Dir = config.Config.PacstallPrograms.Path
 	if err := cmd.Run(); err != nil {
 		return err
 	}
 
 	cmd = exec.Command("git", "fetch")
-	cmd.Dir = cfg.Config.PacstallPrograms.Path
+	cmd.Dir = config.Config.PacstallPrograms.Path
 	if err := cmd.Run(); err != nil {
 		return err
 	}
 
 	cmd = exec.Command("git", "pull")
-	cmd.Dir = cfg.Config.PacstallPrograms.Path
+	cmd.Dir = config.Config.PacstallPrograms.Path
 	if err := cmd.Run(); err != nil {
 		return err
 	}
@@ -71,7 +71,7 @@ func pullLatestCommit() error {
 }
 
 func parsePackageList() ([]string, error) {
-	pkglistPath := path.Join(cfg.Config.PacstallPrograms.Path, "./packagelist")
+	pkglistPath := path.Join(config.Config.PacstallPrograms.Path, "./packagelist")
 	bytes, err := os.ReadFile(pkglistPath)
 	if err != nil {
 		return nil, err
@@ -93,7 +93,7 @@ func parsePackages(names []string) []types.PackageInfo {
 	}
 
 	parsedPackages := make(chan *types.PackageInfo)
-	guard := make(chan interface{}, cfg.Config.PacstallPrograms.MaxOpenFiles)
+	guard := make(chan interface{}, config.Config.PacstallPrograms.MaxOpenFiles)
 	defer close(guard)
 
 	packagesLeftNo := int32(len(names))
@@ -132,7 +132,7 @@ func parsePackages(names []string) []types.PackageInfo {
 
 func parsePackage(name string) *types.PackageInfo {
 	pacscriptName := fmt.Sprintf("%v.pacscript", name)
-	scriptPath := path.Join(cfg.Config.PacstallPrograms.Path, "packages", name, pacscriptName)
+	scriptPath := path.Join(config.Config.PacstallPrograms.Path, "packages", name, pacscriptName)
 	scriptBytes, err := os.ReadFile(scriptPath)
 	if err != nil {
 		log.Printf("Failed to read package file '%v'\n%v", scriptPath, err)
@@ -182,20 +182,20 @@ func parsePackage(name string) *types.PackageInfo {
 }
 
 func recreateTempDirectory() error {
-	if _, err := os.Stat(cfg.Config.PacstallPrograms.TempDir); os.IsNotExist(err) {
-		if err = os.Mkdir(cfg.Config.PacstallPrograms.TempDir, fs.FileMode(int(0777))); err != nil {
-			log.Printf("Failed to create temp dir '%v'\n%v", cfg.Config.PacstallPrograms.TempDir, err)
+	if _, err := os.Stat(config.Config.PacstallPrograms.TempDir); os.IsNotExist(err) {
+		if err = os.Mkdir(config.Config.PacstallPrograms.TempDir, fs.FileMode(int(0777))); err != nil {
+			log.Printf("Failed to create temp dir '%v'\n%v", config.Config.PacstallPrograms.TempDir, err)
 			return err
 		}
 
-		log.Printf("Created fresh temp dir '%v'\n", cfg.Config.PacstallPrograms.TempDir)
+		log.Printf("Created fresh temp dir '%v'\n", config.Config.PacstallPrograms.TempDir)
 	} else {
-		if err := os.RemoveAll(cfg.Config.PacstallPrograms.TempDir); err != nil {
-			log.Printf("Failed to remove existing temp dir '%v'\n", cfg.Config.PacstallPrograms.TempDir)
+		if err := os.RemoveAll(config.Config.PacstallPrograms.TempDir); err != nil {
+			log.Printf("Failed to remove existing temp dir '%v'\n", config.Config.PacstallPrograms.TempDir)
 			return err
 		}
 
-		log.Printf("Removed existing temp dir '%v'\n", cfg.Config.PacstallPrograms.TempDir)
+		log.Printf("Removed existing temp dir '%v'\n", config.Config.PacstallPrograms.TempDir)
 		return recreateTempDirectory()
 	}
 
@@ -203,10 +203,10 @@ func recreateTempDirectory() error {
 }
 
 func createTempExecutable(pacscriptName string, content []byte) (string, error) {
-	tmpFile, err := os.Create(path.Join(cfg.Config.PacstallPrograms.TempDir, pacscriptName))
+	tmpFile, err := os.Create(path.Join(config.Config.PacstallPrograms.TempDir, pacscriptName))
 
 	if err != nil {
-		log.Printf("Failed to create temporary file '%v' in dir '%v'\n", pacscriptName, cfg.Config.PacstallPrograms.TempDir)
+		log.Printf("Failed to create temporary file '%v' in dir '%v'\n", pacscriptName, config.Config.PacstallPrograms.TempDir)
 		return "", err
 	}
 	defer tmpFile.Close()
@@ -214,9 +214,9 @@ func createTempExecutable(pacscriptName string, content []byte) (string, error) 
 
 	defer func() {
 		cmd := exec.Command("chmod", "+rwx", pacscriptName)
-		cmd.Dir = cfg.Config.PacstallPrograms.TempDir
+		cmd.Dir = config.Config.PacstallPrograms.TempDir
 		if err := cmd.Run(); err != nil {
-			log.Printf("Failed to chmod temporary file '%v' in dir '%v'\n", pacscriptName, cfg.Config.PacstallPrograms.TempDir)
+			log.Printf("Failed to chmod temporary file '%v' in dir '%v'\n", pacscriptName, config.Config.PacstallPrograms.TempDir)
 		}
 	}()
 

@@ -5,10 +5,10 @@ import (
 	"log"
 	"time"
 
-	"pacstall.dev/website/cfg"
-	"pacstall.dev/website/fflags"
-	"pacstall.dev/website/pacpkgs"
-	"pacstall.dev/website/svlib"
+	"pacstall.dev/website/config"
+	"pacstall.dev/website/featureflag"
+	"pacstall.dev/website/listener"
+	"pacstall.dev/website/pacscript"
 )
 
 func printLogo() {
@@ -27,35 +27,35 @@ func printLogo() {
 }
 
 func setupRequests() {
-	router := svlib.Router()
+	router := listener.Router()
 
 	/* Packages */
-	router.HandleFunc("/api/packages", pacpkgs.GetPackageListHandle).Methods("GET")
-	router.HandleFunc("/api/packages/{name}", pacpkgs.GetPackageHandle).Methods("GET")
+	router.HandleFunc("/api/packages", pacscript.GetPackageListHandle).Methods("GET")
+	router.HandleFunc("/api/packages/{name}", pacscript.GetPackageHandle).Methods("GET")
 
 	/* Feature Flags */
-	router.HandleFunc("/api/feature-flags", fflags.GetFeatureFlags).Methods("GET")
+	router.HandleFunc("/api/feature-flags", featureflag.GetFeatureFlags).Methods("GET")
 }
 
 func main() {
 	startedAt := time.Now()
-	port := cfg.Config.TCPServer.Port
+	port := config.Config.TCPServer.Port
 
 	setupRequests()
 	log.Println("Successfully registered http requests")
 	log.Println("Attempting to parse existing packages")
-	pacpkgs.LoadPackages()
+	pacscript.LoadPackages()
 
-	pacpkgs.ScheduleRefresh(time.Duration(cfg.Config.PacstallPrograms.UpdateInterval) * time.Millisecond)
+	pacscript.ScheduleRefresh(time.Duration(config.Config.PacstallPrograms.UpdateInterval) * time.Millisecond)
 	log.Println("Successfully scheduled package auto-refresh")
 	log.Println("Attempting to start TCP listener")
 
-	svlib.OnServerOnline(func() {
+	listener.OnServerOnline(func() {
 		log.Printf("Server is now online on port %v.\n", port)
 
 		printLogo()
 		log.Printf("Booted in %v%v%v\n", "\033[32m", time.Since(startedAt), "\033[0m")
 	})
 
-	svlib.Serve(port)
+	listener.Listen(port)
 }

@@ -1,4 +1,4 @@
-package pacpkgs
+package pacscript
 
 import (
 	"encoding/json"

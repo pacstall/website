@@ -1,4 +1,4 @@
-package svlib
+package listener
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"pacstall.dev/website/cfg"
+	"pacstall.dev/website/config"
 )
 
 var router mux.Router = *mux.NewRouter()
@@ -17,7 +17,7 @@ func Router() *mux.Router {
 	return &router
 }
 
-func Serve(port int) {
+func Listen(port int) {
 	registerHealthCheck()
 
 	Router().Use(func(next http.Handler) http.Handler {
@@ -31,8 +31,8 @@ func Serve(port int) {
 
 	go triggerServerOnline(port)
 
-	if cfg.Config.Production {
-		Router().PathPrefix("/").Handler(spaHandler{staticPath: cfg.Config.TCPServer.PublicDir, indexPath: "index.html"})
+	if config.Config.Production {
+		Router().PathPrefix("/").Handler(spaHandler{staticPath: config.Config.TCPServer.PublicDir, indexPath: "index.html"})
 	}
 
 	server := &http.Server{
