@@ -75,6 +75,13 @@ export function Navigation() {
                     </Flex>
                 </Flex>
 
+                <Link as={RLink} to={'/privacy'} px='7' fontSize={'md'}
+                    fontWeight={500}
+                    color={useColorModeValue('brand.800', 'white')}
+                    _hover={{
+                        textDecoration: 'none',
+                        color: 'brand.400',
+                    }}>Privacy Policy</Link>
                 <Button onClick={toggleColorMode}>
                     {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
                 </Button>
@@ -273,10 +280,6 @@ const NAV_ITEMS: Array<NavItem> = [
                 href: 'https://matrix.to/#/#pacstall:matrix.org'
             }
         ]
-    },
-    {
-        label: 'Privacy Policy',
-        href: '/privacy'
     },
     {
         label: 'Packages',
