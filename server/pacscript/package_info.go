@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"pacstall.dev/website/types"
-	"pacstall.dev/website/types/list"
 )
 
 type rawPackageInfo struct {
@@ -167,8 +166,7 @@ func (rp rawPackageInfo) toPackageInfo() types.PackageInfo {
 	return out
 }
 
-func computeRequiredBy(pkgs []types.PackageInfo) []types.PackageInfo {
-	strEq := func(s1, s2 string) bool { return s1 == s2 }
+func computeRequiredBy(pkgs []*types.PackageInfo) []*types.PackageInfo {
 	pickBeforeColon := func(arr []string) []string {
 		out := make([]string, len(arr))
 		for _, it := range arr {
@@ -177,23 +175,14 @@ func computeRequiredBy(pkgs []types.PackageInfo) []types.PackageInfo {
 		return out
 	}
 
-	for idx, pkg := range pkgs {
-		for otherIdx, otherPkg := range pkgs {
-			if idx == otherIdx {
-				continue
-			}
+	for _, pkg := range pkgs {
+		pkg.RequiredBy = make([]string, 0)
+		for _, otherPkg := range pkgs {
 
-			allDeps := make([]string, 0)
-			allDeps = append(allDeps, pickBeforeColon(otherPkg.BuildDependencies)...)
-			allDeps = append(allDeps, pickBeforeColon(otherPkg.RuntimeDependencies)...)
-			allDeps = append(allDeps, pickBeforeColon(otherPkg.OptionalDependencies)...)
-			allDeps = append(allDeps, pickBeforeColon(otherPkg.PacstallDependencies)...)
-			allDepsList := list.StrList(allDeps)
-
-			if allDepsList.Contains(pkg.Name, strEq) ||
-				allDepsList.Contains(pkg.Gives, strEq) ||
-				allDepsList.Contains(pkg.PackageName, strEq) {
-				pkg.RequiredBy = append(pkg.RequiredBy, otherPkg.Name)
+			for _, dependency := range pickBeforeColon(otherPkg.PacstallDependencies) {
+				if dependency == pkg.Name {
+					pkg.RequiredBy = append(pkg.RequiredBy, otherPkg.Name)
+				}
 			}
 		}
 	}

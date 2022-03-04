@@ -28,10 +28,11 @@ func printLogo() {
 
 func setupRequests() {
 	router := listener.Router()
-
 	/* Packages */
 	router.HandleFunc("/api/packages", pacscript.GetPackageListHandle).Methods("GET")
 	router.HandleFunc("/api/packages/{name}", pacscript.GetPackageHandle).Methods("GET")
+	router.HandleFunc("/api/packages/{name}/requiredBy", pacscript.GetPackagesRequiredByHandle).Methods("GET")
+	router.HandleFunc("/api/packages/{name}/dependencies", pacscript.GetPackageDependenciesHandle).Methods("GET")
 
 	/* Feature Flags */
 	router.HandleFunc("/api/feature-flags", featureflag.GetFeatureFlags).Methods("GET")

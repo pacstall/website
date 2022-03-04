@@ -9,11 +9,12 @@ import { QueryParamProvider } from "use-query-params";
 import axios from "axios";
 import { setupCache } from "axios-cache-adapter";
 import { RecoilRoot } from "recoil";
-import { Box, ChakraProvider, extendTheme, localStorageManager, Spinner, Text } from '@chakra-ui/react'
+import { Box, ChakraProvider, extendTheme, localStorageManager, Spinner, StylesProvider, Text } from '@chakra-ui/react'
 
 import '@fontsource/raleway/400.css'
 import '@fontsource/open-sans/700.css'
 import serverConfig from "./config/server";
+import CookieBanner from "./components/CookieBanner";
 
 axios.defaults.adapter = setupCache({
     clearOnError: true,
@@ -23,6 +24,7 @@ axios.defaults.adapter = setupCache({
 
 const Packages = lazy(() => import('./pages/Packages'))
 const PackageDetails = lazy(() => import('./pages/PackageDetails'))
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'))
 
 const theme = extendTheme({
     config: {
@@ -61,23 +63,26 @@ const Footer: FC = () => <Text
 const app = document.getElementById("app");
 ReactDOM.render(<>
     <ChakraProvider theme={theme} colorModeManager={localStorageManager}>
-        <RecoilRoot>
-            <QueryParamProvider>
-
-                <BrowserRouter>
-                    <Suspense fallback={<Box textAlign='center' mt='20vh'><Spinner size='lg' /></Box>}>
-                        <Routes>
-                            <Route index element={<Home />} />
-                            <Route path="/packages" element={<Packages />} />
-                            <Route path="/packages/:name" element={<PackageDetails />} />
-                            <Route path="/showcase" element={<Showcase />} />
-                            <Route path="/not-found" element={<NotFound />} />
-                            <Route path="*" element={<Navigate to="/not-found" />} />
-                        </Routes>
-                    </Suspense>
-                </BrowserRouter>
-                <Footer />
-            </QueryParamProvider>
-        </RecoilRoot>
+        <StylesProvider value={{}}>
+            <RecoilRoot>
+                <QueryParamProvider>
+                    <BrowserRouter>
+                        <Suspense fallback={<Box textAlign='center' mt='20vh'><Spinner size='lg' /></Box>}>
+                            <Routes>
+                                <Route index element={<Home />} />
+                                <Route path="/packages" element={<Packages />} />
+                                <Route path="/packages/:name" element={<PackageDetails />} />
+                                <Route path="/showcase" element={<Showcase />} />
+                                <Route path="/privacy" element={<PrivacyPolicy />} />
+                                <Route path="/not-found" element={<NotFound />} />
+                                <Route path="*" element={<Navigate to="/not-found" />} />
+                            </Routes>
+                        </Suspense>
+                        <Footer />
+                        <CookieBanner />
+                    </BrowserRouter>
+                </QueryParamProvider>
+            </RecoilRoot>
+        </StylesProvider>
     </ChakraProvider>
 </>, app);

@@ -9,42 +9,48 @@
 # --- Globals --- #
 #                 #
 
-# `production`: = `bool`
 # If true, the server starts a file server located at `tcp_server.public_dir`
+# `production`: = `bool`
 
 #                                          #
 # --- Pacstall Programs ( Repository ) --- #
 #                                          #
 
-# `pacstall_programs.path`             = `string`
 # Path to the `pacstall-programs` local repository
+# `pacstall_programs.path`             = `string`
 
-# `pacstall_programs.tmp_dir`          = `string`
 # Temporary dir path to store scripts. If the dir doesn't exist, it gets created
+# `pacstall_programs.tmp_dir`          = `string`
 
-# `pacstall_programs.update_interval`  = `int`
 #  How often to pull git commits. Time in milliseconds
+# `pacstall_programs.update_interval`  = `int`
 
-# `pacstall_programs.max_open_files`   = `int`
 #  Maximum number of open files during the package scanning
+# `pacstall_programs.max_open_files`   = `int`
 
 #                    #
 # --- TCP Server --- #
 #                    #
 
-# `tcp_server.port`        = `int`
 # What port to listen on
+# `tcp_server.port`        = `int`
 
-# `tcp_server.public_dir`  = `string` 
 # Directory containing all public html files
+# `tcp_server.public_dir`  = `string` 
 
 #                       #
 # --- Feature Flags --- #
 #                       #
 
-# `feature_flags.package_list_page_disabled`    = `bool` 
-# `feature_flags.package_details_page_disabled` = `bool` 
-# `feature_flags.old_syntax`                    = `bool` 
+# Syntax for the pacstall cli
+# `feature_flags.old_syntax` = `bool`
+
+# `feature_flags.package_details_page.last_updated`     = `bool`
+# `feature_flags.package_details_page.votes`            = `bool`
+# `feature_flags.package_details_page.popularity`       = `bool`
+# `feature_flags.package_details_page.install_protocol` = `bool`
+# `feature_flags.package_details_page.comments`         = `bool`
+
 
 
 #------------------------------------------------------------------------------#
@@ -63,8 +69,13 @@ port        = 3300
 public_dir  = "./public"
 
 [feature_flags]
-package_list_page_disabled      = false
-package_details_page_disabled   = true
-old_syntax                      = true
+old_syntax = true
+
+[feature_flags.package_details_page]
+last_updated     = false
+votes            = false
+popularity       = false
+install_protocol = false
+comments         = false
 
 #------------------------------------------------------------------------------#

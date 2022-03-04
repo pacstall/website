@@ -16,7 +16,7 @@ import (
 	"pacstall.dev/website/types"
 )
 
-func PackageList() []types.PackageInfo {
+func PackageList() []*types.PackageInfo {
 	return loadedPackages
 }
 
@@ -85,7 +85,7 @@ func parsePackageList() ([]string, error) {
 	return names, nil
 }
 
-func parsePackages(names []string) []types.PackageInfo {
+func parsePackages(names []string) []*types.PackageInfo {
 	startedAt := time.Now()
 
 	if err := recreateTempDirectory(); err != nil {
@@ -112,10 +112,10 @@ func parsePackages(names []string) []types.PackageInfo {
 		}(name)
 	}
 
-	results := make([]types.PackageInfo, 0)
+	results := make([]*types.PackageInfo, 0)
 	for packageInfo := range parsedPackages {
 		if packageInfo != nil {
-			results = append(results, *packageInfo)
+			results = append(results, packageInfo)
 		}
 
 		if packagesLeftNo == 0 {

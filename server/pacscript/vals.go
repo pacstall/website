@@ -7,4 +7,4 @@ import (
 )
 
 var lastModified time.Time
-var loadedPackages []types.PackageInfo
+var loadedPackages []*types.PackageInfo

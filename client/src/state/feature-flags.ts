@@ -1,13 +1,18 @@
 import axios from "axios";
-import { useEffect } from "react";
-import { atom, useRecoilState } from "recoil";
+import { useEffect, useReducer } from "react";
+import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 import serverConfig from "../config/server";
 import useNotification from "../hooks/useNotification";
 
 export default interface FeatureFlags {
-    packageListPageDisabled: boolean;
-    packageDetailsPageDisabled: boolean;
     oldSyntax: boolean;
+    packageDetailsPage: {
+        lastUpdated: boolean;
+        votes: boolean;
+        popularity: boolean;
+        installProtocol: boolean;
+        comments: boolean;
+    }
 }
 
 interface FeatureFlagsStateSuccess {
@@ -35,15 +40,33 @@ export type FeatureFlagsState =
 
 export const featureFlagsState = atom<FeatureFlagsState>({
     key: 'featureFlagsState',
-    default: {
-        flags: null,
-        loading: true,
-        error: false
-    }
+    default: axios.get(`${serverConfig.host}/api/feature-flags`).then(result => ({
+        loading: false,
+        error: false,
+        flags: result.data
+    })).catch(() => ({
+        loading: false,
+        error: true,
+        flags: null
+    })) as Promise<FeatureFlagsState>
 });
+
+const isLoadedSelector = selector<boolean>({
+    key: 'isLoadedSelector',
+    get: ({ get }) => !get(featureFlagsState).loading && !get(featureFlagsState).error,
+})
+
+const isFlagEnabled = selector<(select: (flag: FeatureFlags) => boolean) => boolean>({
+    key: 'isFlagEnabled',
+    get: ({ get }) => select => get(isLoadedSelector) ? select(get(featureFlagsState).flags!) : null!
+})
+
+export const useFeatureFlag = (select: (flag: FeatureFlags) => boolean): boolean =>
+    useRecoilValue(isFlagEnabled)(select)
 
 export const useFeatureFlags = () => {
     const [flags, setFlags] = useRecoilState(featureFlagsState)
+    const loaded = useRecoilValue(isLoadedSelector)
     const notify = useNotification()
 
     useEffect(() => {
@@ -66,6 +89,8 @@ export const useFeatureFlags = () => {
                 flags: null
             })
         })
+
+        console.log(flags)
     }, [])
 
     useEffect(() => {
@@ -78,5 +103,8 @@ export const useFeatureFlags = () => {
         }
     }, [flags.error])
 
-    return flags
+    return {
+        ...flags,
+        loaded
+    }
 }

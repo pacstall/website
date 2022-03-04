@@ -18,9 +18,16 @@ type configuration struct {
 }
 
 type featureFlagsConfig struct {
-	PackageListPageDisabled    bool `toml:"package_list_page_disabled"`
-	PackageDetailsPageDisabled bool `toml:"package_details_page_disabled"`
-	OldSyntax                  bool `toml:"old_syntax"`
+	OldSyntax          bool                           `toml:"old_syntax"`
+	PackageDetailsPage packageDetailsPageFeatureFlags `toml:"package_details_page"`
+}
+
+type packageDetailsPageFeatureFlags struct {
+	LastUpdated     bool `toml:"last_updated"`
+	Votes           bool `toml:"votes"`
+	Popularity      bool `toml:"popularity"`
+	InstallProtocol bool `toml:"install_protocol"`
+	Comments        bool `toml:"comments"`
 }
 
 type tcpServerConfig struct {

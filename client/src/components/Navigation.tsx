@@ -275,6 +275,10 @@ const NAV_ITEMS: Array<NavItem> = [
         ]
     },
     {
+        label: 'Privacy Policy',
+        href: '/privacy'
+    },
+    {
         label: 'Packages',
         href: '/packages'
     }
