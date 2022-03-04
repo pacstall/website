@@ -6,7 +6,7 @@ import useCookie from 'react-use-cookie'
 
 const CookieBanner: FC = () => {
     const [cookie, setCookie] = useCookie('privacy-policy-accepted')
-    const { isOpen, onOpen, onClose } = useDisclosure({ isOpen: !cookie })
+    const { isOpen, onOpen, onClose } = useDisclosure({ isOpen: !cookie && !location.pathname.endsWith('/privacy') })
 
     const onCookieAccept = () => {
         setCookie('1')
