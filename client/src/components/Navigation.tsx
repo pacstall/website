@@ -46,9 +46,9 @@ export function Navigation() {
                 borderColor={useColorModeValue('gray.200', 'gray.900')}
                 align={'center'}>
                 <Flex
-                    flex={{ base: 1, md: 'auto' }}
+                    flex={{ base: 1, lg: 'auto' }}
                     ml={{ base: -2 }}
-                    display={{ base: 'flex', md: 'none' }}>
+                    display={{ base: 'flex', lg: 'none' }}>
                     <IconButton
                         onClick={onToggle}
                         icon={
@@ -58,19 +58,32 @@ export function Navigation() {
                         aria-label={'Toggle Navigation'}
                     />
                 </Flex>
-                <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
+                <Flex flex={{ base: 1 }} justify={{ base: 'center', lg: 'start' }}>
                     <Text
-                        textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
+                        textAlign='left'
                         cursor='pointer'
                         position='relative'
                         bottom='2px'
                         fontSize='xl'
+                        display={useBreakpointValue({ base: 'none', lg: 'inherit' })}
+                        onClick={() => navigate('/')}
+                        color={useColorModeValue('brand.800', 'white')}>
+                        Pacstall
+                    </Text>
+                    <Text
+                        textAlign='left'
+                        cursor='pointer'
+                        position='absolute'
+                        left='55px'
+                        top='15px'
+                        fontSize='xl'
+                        display={useBreakpointValue({ base: 'inherit', lg: 'none' })}
                         onClick={() => navigate('/')}
                         color={useColorModeValue('brand.800', 'white')}>
                         Pacstall
                     </Text>
 
-                    <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
+                    <Flex display={{ base: 'none', lg: 'flex' }} ml={10}>
                         <DesktopNav />
                     </Flex>
                 </Flex>
@@ -78,6 +91,7 @@ export function Navigation() {
                 <Link as={RLink} to={'/privacy'} px='7' fontSize={'md'}
                     fontWeight={500}
                     color={useColorModeValue('brand.800', 'white')}
+                    pb='1'
                     _hover={{
                         textDecoration: 'none',
                         color: 'brand.400',
@@ -185,7 +199,7 @@ const MobileNav = () => {
         <Stack
             bg={useColorModeValue('white', 'gray.800')}
             p={4}
-            display={{ md: 'none' }}>
+            display={{ lg: 'none' }}>
             {NAV_ITEMS.map((navItem) => (
                 <MobileNavItem key={navItem.label} {...navItem} />
             ))}

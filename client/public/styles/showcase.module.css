@@ -1,6 +1,0 @@
-.scriptContainer {
-    --width: 1024px;
-    width: var(--width);
-    display: inline-block;
-    margin-left: calc(50% - (var(--width) / 2));
-}

@@ -1,7 +1,5 @@
 import { FC } from "react";
 import Navigation from "../components/Navigation";
-// @ts-ignore:next-line
-import * as ShowcaseStyles from '../../public/styles/showcase.module.css'
 import { Container, Heading } from "@chakra-ui/react";
 
 const AsciinemaFrame: FC<{ id: string }> = ({ id }) => (
@@ -18,7 +16,7 @@ const AsciinemaFrame: FC<{ id: string }> = ({ id }) => (
             width: '100%',
             float: 'none',
             visibility: 'visible',
-            height: '649px'
+            height: 'min(75vw, 650px)'
         }}>
 
     </iframe>
@@ -28,13 +26,11 @@ const Showcase: FC = () => (
     <>
         <Navigation />
         <Container maxW='900px' mt='10'>
-            <div className={ShowcaseStyles.scriptContainer}>
-                <Heading mb='3'>Showcase</Heading>
-                <AsciinemaFrame id="459473" />
+            <Heading mb='3'>Showcase</Heading>
+            <AsciinemaFrame id="459473" />
 
-                <Heading mb='3'>Package search</Heading>
-                <AsciinemaFrame id="459474" />
-            </div>
+            <Heading mb='3'>Package search</Heading>
+            <AsciinemaFrame id="459474" />
         </Container>
 
     </>
