@@ -1,17 +1,37 @@
 import { ExternalLinkIcon } from "@chakra-ui/icons";
-import { Button, Modal, Text, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, Link, Icon, useColorModeValue } from "@chakra-ui/react";
+import {
+    Button,
+    Modal,
+    Text,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    useDisclosure,
+    Link,
+    Icon,
+    useColorModeValue,
+} from "@chakra-ui/react";
 import { FC, useEffect } from "react";
-import { Link as Rlink } from 'react-router-dom'
+import { Link as Rlink, useLocation } from 'react-router-dom'
 import useCookie from 'react-use-cookie'
 
 const CookieBanner: FC = () => {
     const [cookie, setCookie] = useCookie('privacy-policy-accepted')
+    const location = useLocation()
     const { isOpen, onOpen, onClose } = useDisclosure({ isOpen: !cookie && !location.pathname.endsWith('/privacy') })
 
     const onCookieAccept = () => {
         setCookie('1')
         onClose()
     }
+
+    useEffect(() => {
+        if (!cookie && !isOpen && !location.pathname.endsWith('/privacy')) {
+            onOpen()
+        }
+    }, [location])
 
     return (
         <Modal isCentered isOpen={isOpen} onClose={onClose}>
