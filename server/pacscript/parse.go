@@ -220,7 +220,9 @@ func createTempExecutable(pacscriptName string, content []byte) (string, error) 
 		}
 	}()
 
-	if _, err = tmpFile.Write([]byte(buildYamlScript(string(content)))); err != nil {
+	yamlContent := buildYamlScript(string(content))
+
+	if _, err = tmpFile.Write([]byte(yamlContent)); err != nil {
 		log.Printf("Failed to write to file '%v'\n%v", tmpPath, err)
 		return "", err
 	}
