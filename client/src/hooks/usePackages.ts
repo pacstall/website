@@ -9,7 +9,11 @@ const usePackages = () => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
     const [queryParams, setQueryParams] = useQueryParams({
-        page: NumberParam,
+        page: {
+            decode: val => +val,
+            encode: val => val,
+            equals: (v1, v2) => v1 == v2
+        },
         size: NumberParam,
         sort: StringParam,
         sortBy: StringParam,
