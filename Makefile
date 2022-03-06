@@ -1,3 +1,6 @@
+NPROCS = $(shell grep -c 'processor' /proc/cpuinfo)
+MAKEFLAGS += -j$(NPROCS)
+
 all: webpacd.tar.gz
 
 ### Binaries
@@ -9,11 +12,11 @@ webpacd.tar.gz: redist
 
 server/bin:
 	which go
-	cd server && make
+	$(MAKE) -C server
 
 client/dist:
 	which node
-	cd client && npm ci && npm run clean && npm run build
+	$(MAKE) -C client	
 
 redist: server/bin client/dist
 	mkdir -p redist
@@ -27,14 +30,12 @@ redist: server/bin client/dist
 #### Commands
 .PHONY: run clean
 
-run: redist run-dist
+run: redist
 	cd redist && ./webpacd
 
 clean:
 	cd server && make clean
-	if [ -f deps_ok ]; then rm deps_ok; fi
 	if [ -d redist ]; then rm -rf redist; fi
 	if [ -d client/dist ]; then rm -rf client/dist; fi
 	if [ -d client/.parcel-cache ]; then rm -rf client/.parcel-cache; fi
-	if [ -d client/node_modules ]; then rm -rf client/node_modules; fi
 	if [ -f webpacd.tar.gz ]; then rm webpacd.tar.gz; fi
