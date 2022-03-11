@@ -27,8 +27,7 @@ const Search: FC<{ isLoading: boolean, placeholder: string, onSearch: (filter: s
             </HStack>
 
             <Button
-                isLoading={isLoading}
-                loadingText="Searching"
+                disabled={isLoading}
                 onClick={() => onSearch(inputRef.current.value, selectRef.current.value)}
                 bgColor={useColorModeValue('brand.200', 'brand.500')}
                 _hover={{ bg: useColorModeValue('brand.300', 'brand.400') }}
