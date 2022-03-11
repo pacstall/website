@@ -5,10 +5,14 @@ import Navigation from '../components/Navigation'
 
 // @ts-ignore:next-line
 import PacstallLogo from '../../public/pacstall.svg'
+import { Helmet } from 'react-helmet'
 
 
 const Home: FC = () => {
 	return (<>
+		<Helmet>
+			<title>Pacstall - The AUR for Ubuntu</title>
+		</Helmet>
 		<Navigation />
 		<Container maxW='900px'>
 

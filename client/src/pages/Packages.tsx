@@ -8,6 +8,7 @@ import Pagination from "../components/Pagination";
 import usePackages from "../hooks/usePackages";
 import useRandomPackage from "../hooks/useRandomPackage";
 import { PackageInfoPage } from "../types/package-info";
+import Helmet from 'react-helmet'
 
 const ComputedPackageList: FC<{ result: PackageInfoPage }> = ({ result }) => (
     <>
@@ -31,6 +32,9 @@ const Packages: FC = () => {
     const randomPackageName = useRandomPackage(result?.data)
 
     return <>
+        <Helmet>
+            <title>Packages - Pacstall</title>
+        </Helmet>
         <Navigation />
 
         <Container maxW='1080px'>

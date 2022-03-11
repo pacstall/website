@@ -1,6 +1,7 @@
 import { FC } from "react";
 import Navigation from "../components/Navigation";
 import { Container, Heading } from "@chakra-ui/react";
+import { Helmet } from "react-helmet";
 
 const AsciinemaFrame: FC<{ id: string }> = ({ id }) => (
     <iframe src={`https://asciinema.org/a/${id}/iframe?theme=monokai`}
@@ -24,6 +25,9 @@ const AsciinemaFrame: FC<{ id: string }> = ({ id }) => (
 
 const Showcase: FC = () => (
     <>
+        <Helmet>
+            <title>Showcase - Pacstall</title>
+        </Helmet>
         <Navigation />
         <Container maxW='900px' mt='10'>
             <Heading mb='3'>Showcase</Heading>

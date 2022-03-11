@@ -1,5 +1,6 @@
 import { Container, Heading, HStack, Link, ListItem, Stack, StackProps, Text, UnorderedList, useBreakpointValue } from "@chakra-ui/react";
 import { FC } from "react";
+import { Helmet } from "react-helmet";
 import Navigation from "../components/Navigation";
 
 const ResponsiveStack: FC<StackProps> = (props) => {
@@ -9,6 +10,10 @@ const ResponsiveStack: FC<StackProps> = (props) => {
 
 const PrivacyPolicy: FC = () => (
     <>
+
+        <Helmet>
+            <title>Privacy Policy - Pacstall</title>
+        </Helmet>
         <Navigation />
         <Container my='10' maxW='900px' textAlign='justify'>
             <ResponsiveStack mb='5' justifyContent='space-between'>

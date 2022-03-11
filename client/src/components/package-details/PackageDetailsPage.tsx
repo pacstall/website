@@ -1,5 +1,6 @@
 import { Container, UseDisclosureProps } from "@chakra-ui/react"
 import { FC } from "react"
+import { Helmet } from "react-helmet"
 import PackageInfo from "../../types/package-info"
 import ComponentLoader from "../ComponentLoader"
 import Navigation from "../Navigation"
@@ -20,6 +21,9 @@ type PackageDetailsPageProps = {
 
 const PackageDetailsPage: FC<PackageDetailsPageProps> = ({ allDependencies, data, isMobile, dependenciesModal, requiredByModal }) => (
     <>
+        <Helmet>
+            <title>{data.name} - Pacstall</title>
+        </Helmet>
         <Navigation />
         <Container maxW='900px' mt='10'>
             <PackageDetailsHeader data={data} isMobile={isMobile} />
