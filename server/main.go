@@ -9,6 +9,7 @@ import (
 	"pacstall.dev/website/featureflag"
 	"pacstall.dev/website/listener"
 	"pacstall.dev/website/pacscript"
+	"pacstall.dev/website/pacscript/pshttphandle"
 )
 
 func printLogo() {
@@ -29,10 +30,10 @@ func printLogo() {
 func setupRequests() {
 	router := listener.Router()
 	/* Packages */
-	router.HandleFunc("/api/packages", pacscript.GetPackageListHandle).Methods("GET")
-	router.HandleFunc("/api/packages/{name}", pacscript.GetPackageHandle).Methods("GET")
-	router.HandleFunc("/api/packages/{name}/requiredBy", pacscript.GetPackagesRequiredByHandle).Methods("GET")
-	router.HandleFunc("/api/packages/{name}/dependencies", pacscript.GetPackageDependenciesHandle).Methods("GET")
+	router.HandleFunc("/api/packages", pshttphandle.GetPackageListHandle).Methods("GET")
+	router.HandleFunc("/api/packages/{name}", pshttphandle.GetPackageHandle).Methods("GET")
+	router.HandleFunc("/api/packages/{name}/requiredBy", pshttphandle.GetPackagesRequiredByHandle).Methods("GET")
+	router.HandleFunc("/api/packages/{name}/dependencies", pshttphandle.GetPackageDependenciesHandle).Methods("GET")
 
 	/* Feature Flags */
 	router.HandleFunc("/api/feature-flags", featureflag.GetFeatureFlags).Methods("GET")
