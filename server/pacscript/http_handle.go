@@ -2,6 +2,7 @@ package pacscript
 
 import (
 	"fmt"
+	"log"
 	"math"
 	"net/http"
 	"sort"
@@ -159,13 +160,11 @@ func GetPackagesRequiredByHandle(w http.ResponseWriter, req *http.Request) {
 	listener.Json(w, requiredBy)
 }
 
-type pacPackageOrExternal interface{}
-
 type packageDependencies struct {
-	RuntimeDependencies  []pacPackageOrExternal `json:"runtimeDependencies"`
-	BuildDependencies    []pacPackageOrExternal `json:"buildDependencies"`
-	OptionalDependencies []pacPackageOrExternal `json:"optionalDependencies"`
-	PacstallDependencies []pacPackageOrExternal `json:"pacstallDependencies"`
+	RuntimeDependencies  []string             `json:"runtimeDependencies"`
+	BuildDependencies    []string             `json:"buildDependencies"`
+	OptionalDependencies []string             `json:"optionalDependencies"`
+	PacstallDependencies []*types.PackageInfo `json:"pacstallDependencies"`
 }
 
 func GetPackageDependenciesHandle(w http.ResponseWriter, req *http.Request) {
@@ -198,46 +197,19 @@ func GetPackageDependenciesHandle(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	buildDependencies := make([]pacPackageOrExternal, 0)
-	for _, pkg := range pacpkg.BuildDependencies {
-		if found := findPackageInList(pkg, allPackages); found != nil {
-			buildDependencies = append(buildDependencies, found)
-		} else {
-			buildDependencies = append(buildDependencies, pkg)
-		}
-	}
-
-	runtimeDependencies := make([]pacPackageOrExternal, 0)
-	for _, pkg := range pacpkg.RuntimeDependencies {
-		if found := findPackageInList(pkg, allPackages); found != nil {
-			runtimeDependencies = append(runtimeDependencies, found)
-		} else {
-			runtimeDependencies = append(runtimeDependencies, pkg)
-		}
-	}
-
-	optionalDependencies := make([]pacPackageOrExternal, 0)
-	for _, pkg := range pacpkg.OptionalDependencies {
-		if found := findPackageInList(pkg, allPackages); found != nil {
-			optionalDependencies = append(optionalDependencies, found)
-		} else {
-			optionalDependencies = append(optionalDependencies, pkg)
-		}
-	}
-
-	pacstallDependencies := make([]pacPackageOrExternal, 0)
+	pacstallDependencies := make([]*types.PackageInfo, 0)
 	for _, pkg := range pacpkg.PacstallDependencies {
 		if found := findPackageInList(pkg, allPackages); found != nil {
 			pacstallDependencies = append(pacstallDependencies, found)
 		} else {
-			pacstallDependencies = append(pacstallDependencies, pkg)
+			log.Printf("Could not find pacstall dependency %s of package %s.\n", pkg, pacpkg.Name)
 		}
 	}
 
 	response := packageDependencies{
-		RuntimeDependencies:  runtimeDependencies,
-		BuildDependencies:    buildDependencies,
-		OptionalDependencies: optionalDependencies,
+		RuntimeDependencies:  pacpkg.RuntimeDependencies,
+		BuildDependencies:    pacpkg.BuildDependencies,
+		OptionalDependencies: pacpkg.OptionalDependencies,
 		PacstallDependencies: pacstallDependencies,
 	}
 
