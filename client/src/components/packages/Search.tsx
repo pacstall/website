@@ -1,4 +1,4 @@
-import { Box, Button, Flex, HStack, Input, Select, useColorModeValue } from "@chakra-ui/react"
+import { Button, HStack, Input, Select, useColorModeValue } from "@chakra-ui/react";
 import { FC, useRef, MutableRefObject, KeyboardEventHandler } from "react"
 
 const Search: FC<{ isLoading: boolean, placeholder: string, onSearch: (filter: string, filterBy: string) => any }> = ({ placeholder, onSearch, isLoading }) => {
