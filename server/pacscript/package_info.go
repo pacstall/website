@@ -156,6 +156,10 @@ func (rp rawPackageInfo) toPackageInfo() types.PackageInfo {
 		Version:              rp.Version,
 	}
 
+	if out.PackageName == "" {
+		out.PackageName = out.Name
+	}
+
 	return out
 }
 
