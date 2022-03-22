@@ -1,10 +1,10 @@
-import { Link, Td, Text, Tr, useColorModeValue } from "@chakra-ui/react";
+import { Link, Td, Text, Tr, useBreakpointValue, useColorModeValue } from "@chakra-ui/react";
 import { FC } from "react";
 import { Link as Rlink } from "react-router-dom";
 import PackageInfo from "../../types/package-info";
 import { SmartCodeSnippetInstall } from "../OneLineCodeSnippet";
 
-const PackageTableRow: FC<{ pkg: PackageInfo, disabled?: boolean, isMobile: boolean }> = ({ pkg, disabled, isMobile }) => (
+const PackageTableRow: FC<{ pkg: PackageInfo, disabled?: boolean }> = ({ pkg, disabled }) => (
     <Tr key={pkg.name}>
         <Td>
             <Text fontSize='md' fontWeight='500'>
@@ -17,19 +17,17 @@ const PackageTableRow: FC<{ pkg: PackageInfo, disabled?: boolean, isMobile: bool
             </Text>
 
         </Td>
-        {!isMobile && (<>
-            <Td>
-                <Text fontSize='sm'>
-                    {pkg.version.substring(0, 14)}
-                </Text>
+        <Td display={useBreakpointValue({ base: 'none', sm: 'table-cell' })}>
+            <Text fontSize='sm'>
+                {pkg.version.substring(0, 14)}
+            </Text>
 
-            </Td>
-            <Td>
-                <Text fontSize='sm'>
-                    <SmartCodeSnippetInstall size="sm" name={pkg.name} />
-                </Text>
-            </Td>
-        </>)}
+        </Td>
+        <Td display={useBreakpointValue({ base: 'none', md: 'table-cell' })}>
+            <Text fontSize='sm'>
+                <SmartCodeSnippetInstall size="sm" name={pkg.name} />
+            </Text>
+        </Td>
     </Tr>
 )
 

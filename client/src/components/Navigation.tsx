@@ -122,6 +122,7 @@ const DesktopNav = () => {
                             <Link
                                 p={2}
                                 to={navItem.href ?? '#'}
+                                href={navItem.href ?? '#'}
                                 fontSize={'md'}
                                 fontWeight={500}
                                 color={linkColor}
@@ -266,21 +267,21 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
     {
-        label: 'Download',
-        children: [
-            {
-                label: 'How to Install',
-                href: 'https://github.com/pacstall/pacstall#installing'
-            },
-            {
-                label: 'Package Repository',
-                href: 'https://github.com/pacstall/pacstall-programs'
-            }
-        ]
+        label: 'Install',
+        href: 'https://github.com/pacstall/pacstall#installing'
     },
     {
-        label: 'Showcase',
-        href: '/showcase',
+        label: 'Contribute',
+        children: [
+            {
+                label: 'Work on new Features',
+                href: 'https://github.com/pacstall/pacstall/wiki/How-to-contribute'
+            },
+            {
+                label: 'Become a Package Maintainer',
+                href: 'https://github.com/pacstall/pacstall/wiki/Pacscript-101'
+            }
+        ]
     },
     {
         label: 'Social Networks',
@@ -296,7 +297,7 @@ const NAV_ITEMS: Array<NavItem> = [
         ]
     },
     {
-        label: 'Packages',
+        label: 'Browse Packages',
         href: '/packages'
     }
 ];

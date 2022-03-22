@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { FC, lazy, Suspense } from "react";
 import Home from "./pages/Home";
-import Showcase from "./pages/Showcase";
 import NotFound from "./pages/NotFound";
 import { QueryParamProvider } from "use-query-params";
 import axios from "axios";
@@ -72,7 +71,6 @@ ReactDOM.render(<>
                                 <Route index element={<Home />} />
                                 <Route path="/packages" element={<Packages />} />
                                 <Route path="/packages/:name" element={<PackageDetails />} />
-                                <Route path="/showcase" element={<Showcase />} />
                                 <Route path="/privacy" element={<PrivacyPolicy />} />
                                 <Route path="/not-found" element={<NotFound />} />
                                 <Route path="*" element={<Navigate to="/not-found" />} />

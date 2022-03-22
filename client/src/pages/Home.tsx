@@ -1,4 +1,4 @@
-import { Container, Heading, Image, Link, Stack, Text } from '@chakra-ui/react'
+import { Container, Heading, Image, Link, Stack, Text, useBreakpointValue } from '@chakra-ui/react'
 import { FC } from 'react'
 import Card from '../components/Card'
 import Navigation from '../components/Navigation'
@@ -6,6 +6,7 @@ import Navigation from '../components/Navigation'
 // @ts-ignore:next-line
 import PacstallLogo from '../../public/pacstall.svg'
 import { Helmet } from 'react-helmet'
+import AsciinemaFrame from '../components/AsciinemaFrame'
 
 
 const Home: FC = () => {
@@ -14,35 +15,65 @@ const Home: FC = () => {
 			<title>Pacstall - The AUR for Ubuntu</title>
 		</Helmet>
 		<Navigation />
-		<Container maxW='900px'>
+		<Container maxW='60em'>
 
-			<Heading size='2xl' textAlign='center' p='7'>Pacstall ~ The AUR for Ubuntu</Heading>
+			<Stack justify='space-between' mt='7' direction={useBreakpointValue({ base: 'column', md: 'row' })}>
+				<div>
+					<Heading size='2xl' pb='3' color='brand.400'>Pacstall</Heading>
+					<Heading size='lg' >The AUR for Ubuntu</Heading>
+				</div>
+				<Image
+					src={PacstallLogo}
+					minW='10em'
+					alt="Pacstall logo"
+					mx='auto'
+					my='1em'
+					position='relative'
+					display={useBreakpointValue({ base: 'none', md: 'initial' })}
+					bottom='1.75em'
 
-			<Stack maxW='lg' margin='auto'>
-				<Card title='Why is this any different than any other package manager?'>
-					<Text>
-						Pacstall uses the stable base of Ubuntu but allows you to use bleeding edge software with little to no compromises, so you don't have to worry about security patches or new features.
-					</Text>
-				</Card>
+					loading="lazy" />
 			</Stack>
 
-			<Stack maxW='lg' margin='auto'>
-				<Card title='How does it work then?'>
-					<Text>
-						Pacstall takes in files known as <Link color='pink.400' href="https://github.com/pacstall/pacstall/wiki/Pacscript-101">pacscripts</Link> (similar to PKGBUILD's) that contain the necessary contents to build packages, and builds them into
-						executables on your system.
-					</Text>
-				</Card>
+
+
+			<Stack direction={useBreakpointValue({ base: 'column', md: 'row' })}>
+				<Stack maxW='2xl'>
+					<Card title='Why is this any different than any other package manager?'>
+						<Text maxW='65ch'>
+							Pacstall uses the stable base of Ubuntu but allows you to use bleeding edge software with little to no compromises, so you don't have to worry about security patches or new features.
+						</Text>
+					</Card>
+				</Stack>
+
+				<Stack maxW='2xl'>
+					<Card title='How does it work then?'>
+						<Text maxW='65ch'>
+							Pacstall takes in files known as <Link color='pink.400' href="https://github.com/pacstall/pacstall/wiki/Pacscript-101">pacscripts</Link> (similar to PKGBUILD's) that contain the necessary contents to build packages, and builds them into
+							executables on your system.
+						</Text>
+					</Card>
+				</Stack>
 			</Stack>
 
-			<Image
-				src={PacstallLogo}
-				width="200px"
-				height="200px"
-				alt="Pacstall logo"
-				m='auto'
-				mt='6'
-				loading="lazy" />
+			<Heading size={'lg'} mb='3' mt='10'>Showcase</Heading>
+			<AsciinemaFrame autoplay loop id="459473" />
+
+			<Heading size={'lg'} mb='3'>Package search</Heading>
+			<AsciinemaFrame id="459474" />
+
+			<Stack justify='center'>
+				<Image
+					src={PacstallLogo}
+					width="200px"
+					height="200px"
+					alt="Pacstall logo"
+					mx='auto'
+					mb='5'
+					display={useBreakpointValue({ base: 'initial', md: 'none' })}
+
+					loading="lazy" />
+			</Stack>
 		</Container>
 	</>
 	)

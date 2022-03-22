@@ -15,7 +15,7 @@ const PrivacyPolicy: FC = () => (
             <title>Privacy Policy - Pacstall</title>
         </Helmet>
         <Navigation />
-        <Container my='10' maxW='900px' textAlign='justify'>
+        <Container my='10' maxW='60em' textAlign='justify'>
             <ResponsiveStack mb='5' justifyContent='space-between'>
                 <Heading textAlign='left'>Privacy Policy</Heading>
                 <Text>Last updated: March 04, 2022</Text>

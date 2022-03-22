@@ -37,8 +37,8 @@ const Packages: FC = () => {
         </Helmet>
         <Navigation />
 
-        <Container maxW='1080px'>
-            <Stack mt='10'>
+        <Container maxW='70em'>
+            <Stack my='10'>
                 <Search isLoading={loading} placeholder={randomPackageName} onSearch={onSearch} />
                 {loaded ? <ComputedPackageList result={result} />
                     : <Box pt='10' textAlign='center'>
