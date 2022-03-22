@@ -45,15 +45,16 @@ func main() {
 
 	setupRequests()
 	log.Println("Successfully registered http requests")
-	log.Println("Attempting to parse existing packages")
-	pacscript.LoadPackages()
 
-	pacscript.ScheduleRefresh(time.Duration(config.Config.PacstallPrograms.UpdateInterval) * time.Millisecond)
-	log.Println("Successfully scheduled package auto-refresh")
 	log.Println("Attempting to start TCP listener")
 
 	listener.OnServerOnline(func() {
 		log.Printf("Server is now online on port %v.\n", port)
+
+		log.Println("Attempting to parse existing packages")
+		pacscript.LoadPackages()
+		pacscript.ScheduleRefresh(time.Duration(config.Config.PacstallPrograms.UpdateInterval) * time.Millisecond)
+		log.Println("Successfully scheduled package auto-refresh")
 
 		printLogo()
 		log.Printf("Booted in %v%v%v\n", "\033[32m", time.Since(startedAt), "\033[0m")
