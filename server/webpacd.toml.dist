@@ -62,7 +62,7 @@ production = true
 path            = "./pacstall-programs"
 tmp_dir         = "./tmp"
 update_interval = 900000
-max_open_files  = 100
+max_open_files  = 10
 
 [tcp_server]
 port        = 3300
