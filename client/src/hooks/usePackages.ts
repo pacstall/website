@@ -20,6 +20,7 @@ const usePackages = () => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
     const [queryParams, setQueryParams] = useQuery()
+    const [trigger, setTrigger] = useState(false)
 
     useEffect(() => {
         const url = `/api/packages?page=${queryParams.get('page') || 0}&size=${queryParams.get('size') || 25}&sort=${queryParams.get('sort') || ''}&sortBy=${queryParams.get('sortBy') || 'default'}&filter=${queryParams.get('filter') || ''}&filterBy=${queryParams.get('filterBy') || 'name'}`
@@ -27,22 +28,22 @@ const usePackages = () => {
         setError(false)
         axios.get<PackageInfoPage>(`${serverConfig.host}${url}`).then(res => {
             setData(res.data)
+            setLoading(false)
+
 
             if (!queryParams.get('page')) {
                 queryParams.set('page', '0')
                 setQueryParams(queryParams, true)
             }
-            setLoading(false)
         }).catch(() => setError(true))
-    }, [queryParams])
+    }, [queryParams, trigger])
 
     const onSearch = (filter: string, filterBy: string) => {
-        setLoading(true)
-
         queryParams.set('page', '0')
         queryParams.set('filter', filter)
         queryParams.set('filterBy', filterBy)
         setQueryParams(queryParams)
+        setTrigger(!trigger)
     }
 
     return {
