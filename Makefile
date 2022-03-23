@@ -1,3 +1,5 @@
+VERSION = 2.0.0
+
 NPROCS = $(shell grep -c 'processor' /proc/cpuinfo)
 MAKEFLAGS += -j$(NPROCS)
 
@@ -12,11 +14,11 @@ webpacd.tar.gz: redist
 
 server/bin:
 	which go
-	$(MAKE) -C server
+	$(MAKE) -s -C server
 
 client/dist:
 	which node
-	$(MAKE) -C client	
+	$(MAKE) -s -C client	
 
 redist: server/bin client/dist
 	mkdir -p redist
@@ -28,7 +30,7 @@ redist: server/bin client/dist
 
 
 #### Commands
-.PHONY: run clean
+.PHONY: run clean version
 
 run: redist
 	cd redist && ./webpacd
@@ -39,3 +41,6 @@ clean:
 	if [ -d client/dist ]; then rm -rf client/dist; fi
 	if [ -d client/.parcel-cache ]; then rm -rf client/.parcel-cache; fi
 	if [ -f webpacd.tar.gz ]; then rm webpacd.tar.gz; fi
+
+version:
+	@echo "$(VERSION)"

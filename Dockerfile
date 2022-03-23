@@ -1,10 +1,14 @@
 FROM golang:1.17
 WORKDIR /app/src
-COPY ./ ./
+
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
     apt update && \
-    apt install make nodejs git -y && \
-    CGO_ENABLED=0 make redist && \
+    apt install make nodejs git -y \
+    npm i -g npm
+
+COPY ./ ./
+
+RUN make redist && \
     mv ./redist/* ../ && \
     cd ../ && \
     ls && \
