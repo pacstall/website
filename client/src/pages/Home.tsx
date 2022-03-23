@@ -56,7 +56,7 @@ const Home: FC = () => {
 			</Stack>
 
 			<Flex justify='center' mt='10'>
-				<Link href="https://github.com/pacstall/pacstall#installing" target="_blank" mr='7'>
+				<Link href="https://github.com/pacstall/pacstall#installing" target="_blank" >
 					<PrimaryButton fontSize='xl' px='7em'>Install</PrimaryButton>
 				</Link>
 			</Flex>

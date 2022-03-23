@@ -91,6 +91,7 @@ export function Navigation() {
                 <Link as={RLink} to={'/privacy'} px='7' fontSize={'md'}
                     fontWeight={500}
                     color={useColorModeValue('brand.800', 'white')}
+                    display={useBreakpointValue({ base: 'none', sm: 'initial' })}
                     pb='1'
                     _hover={{
                         textDecoration: 'none',
@@ -120,7 +121,7 @@ const DesktopNav = () => {
 
     return (
         <Stack direction={'row'} spacing={4}>
-            {NAV_ITEMS.map((navItem) => (
+            {NAV_ITEMS.filter(it => !it.smOnly).map(navItem => (
                 <Box key={navItem.label}>
                     <Popover trigger={'hover'} placement={'bottom-start'}>
                         <PopoverTrigger>
@@ -158,8 +159,9 @@ const DesktopNav = () => {
                         )}
                     </Popover>
                 </Box>
-            ))}
-        </Stack>
+            ))
+            }
+        </Stack >
     );
 };
 
@@ -268,6 +270,7 @@ interface NavItem {
     subLabel?: string;
     children?: Array<NavItem>;
     href?: string;
+    smOnly?: boolean;
 }
 
 const NAV_ITEMS: Array<NavItem> = [
@@ -294,12 +297,25 @@ const NAV_ITEMS: Array<NavItem> = [
             {
                 label: 'Matrix',
                 href: 'https://matrix.to/#/#pacstall:matrix.org'
+            },
+            {
+                label: 'Reddit',
+                href: 'https://www.reddit.com/r/pacstall'
+            },
+            {
+                label: 'Mastodon',
+                href: 'https://social.linux.pizza/@pacstall'
             }
         ]
     },
     {
         label: 'Browse Packages',
         href: '/packages'
+    },
+    {
+        label: 'Privacy Policy',
+        href: '/privacy',
+        smOnly: true
     }
 ];
 
