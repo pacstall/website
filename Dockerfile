@@ -3,8 +3,7 @@ WORKDIR /app/src
 
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
     apt update && \
-    apt install make nodejs git -y \
-    npm i -g npm
+    apt install make nodejs git -y
 
 COPY ./ ./
 
