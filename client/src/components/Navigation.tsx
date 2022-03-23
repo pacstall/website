@@ -15,7 +15,6 @@ import {
     useBreakpointValue,
     useDisclosure,
     useColorMode,
-    Container,
 } from '@chakra-ui/react';
 import {
     HamburgerIcon,
@@ -27,6 +26,7 @@ import {
     ExternalLinkIcon,
 } from '@chakra-ui/icons';
 import { Link as RLink, useNavigate } from 'react-router-dom';
+import { PrimaryButton } from './Button';
 
 export function Navigation() {
     const { isOpen, onToggle } = useDisclosure();
@@ -96,6 +96,11 @@ export function Navigation() {
                         textDecoration: 'none',
                         color: 'brand.400',
                     }}>Privacy Policy</Link>
+
+                <Link href="https://github.com/pacstall/pacstall#installing" target="_blank" mr='7'>
+                    <PrimaryButton px='10'>Install</PrimaryButton>
+                </Link>
+
                 <Button onClick={toggleColorMode}>
                     {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
                 </Button>
@@ -266,10 +271,6 @@ interface NavItem {
 }
 
 const NAV_ITEMS: Array<NavItem> = [
-    {
-        label: 'Install',
-        href: 'https://github.com/pacstall/pacstall#installing'
-    },
     {
         label: 'Contribute',
         children: [

@@ -1,4 +1,4 @@
-import { Container, Heading, Image, Link, Stack, Text, useBreakpointValue } from '@chakra-ui/react'
+import { Button, Container, Flex, Heading, Image, Link, Stack, Text, useBreakpointValue, useColorModeValue } from '@chakra-ui/react'
 import { FC } from 'react'
 import Card from '../components/Card'
 import Navigation from '../components/Navigation'
@@ -7,6 +7,7 @@ import Navigation from '../components/Navigation'
 import PacstallLogo from '../../public/pacstall.svg'
 import { Helmet } from 'react-helmet'
 import AsciinemaFrame from '../components/AsciinemaFrame'
+import { PrimaryButton } from '../components/Button'
 
 
 const Home: FC = () => {
@@ -35,8 +36,6 @@ const Home: FC = () => {
 					loading="lazy" />
 			</Stack>
 
-
-
 			<Stack direction={useBreakpointValue({ base: 'column', md: 'row' })}>
 				<Stack maxW='2xl'>
 					<Card title='Why is this any different than any other package manager?'>
@@ -55,6 +54,12 @@ const Home: FC = () => {
 					</Card>
 				</Stack>
 			</Stack>
+
+			<Flex justify='center' mt='10'>
+				<Link href="https://github.com/pacstall/pacstall#installing" target="_blank" mr='7'>
+					<PrimaryButton fontSize='xl' px='7em'>Install</PrimaryButton>
+				</Link>
+			</Flex>
 
 			<Heading size={'lg'} mb='3' mt='10'>Showcase</Heading>
 			<AsciinemaFrame autoplay loop id="459473" />
