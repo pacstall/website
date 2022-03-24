@@ -98,13 +98,12 @@ const NotFound: FC = () => (
                     <br />      ξ　~  ξ
                     <br />      ξ　   ξ
                     <br />              ξ　   “~~~~~~〇
-                    <br />              ξ　          ξ
+                    <br />             ξ　          ξ
                     <br />              ξ ξ ξ~~~~~ξξ ξ
                     <br />              ξ_ξ ξ_ξ ξ_ξξ_ξ
-                    <br />
+                    <br />             404 Page Not Found
                 </code>
             </chakra.pre>
-            <chakra.p mt='5'>404 Page Not Found</chakra.p>
         </Box>
     </>
 )
