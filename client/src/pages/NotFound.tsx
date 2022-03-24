@@ -1,4 +1,4 @@
-import { Box, useBreakpointValue } from "@chakra-ui/react";
+import { Box, chakra, useBreakpointValue } from "@chakra-ui/react";
 import { FC } from "react";
 import { Helmet } from "react-helmet";
 import Navigation from "../components/Navigation";
@@ -90,7 +90,7 @@ const NotFound: FC = () => (
         </Helmet>
         <Navigation />
         <Box textAlign='center' mt='20vh'>
-            <pre style={{ fontFamily: 'JetBrains Mono' }}>
+            <chakra.pre style={{ fontFamily: 'JetBrains Mono' }} fontSize={useBreakpointValue({ base: 'sm', md: 'md' })}>
                 <code>
                     <ChatBubble />
                     <br />\     ∩~-~∩
@@ -103,7 +103,8 @@ const NotFound: FC = () => (
                     <br />              ξ_ξ ξ_ξ ξ_ξξ_ξ
                     <br />
                 </code>
-            </pre>
+            </chakra.pre>
+            <chakra.p mt='5'>404 Page Not Found</chakra.p>
         </Box>
     </>
 )
