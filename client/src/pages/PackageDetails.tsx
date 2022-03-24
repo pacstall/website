@@ -24,10 +24,6 @@ const PackageDetails: FC = () => {
         }
     })
 
-    if (error) {
-        return <Navigate to="/not-found" />
-    }
-
     useEffect(() => {
         if (openPopup === 'dependencies') {
             dependenciesModal.onOpen()
@@ -68,6 +64,10 @@ const PackageDetails: FC = () => {
         ...(data?.optionalDependencies || []),
         ...(data?.pacstallDependencies || [])
     ], [data]);
+
+    if (error) {
+        return <Navigate to="/not-found" />
+    }
 
     return (
         !loading && !error && !!data && (
