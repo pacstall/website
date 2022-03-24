@@ -48,7 +48,7 @@ const Home: FC = () => {
 				<Stack maxW='2xl'>
 					<Card title='How does it work then?'>
 						<Text maxW='65ch'>
-							Pacstall takes in files known as <Link color='pink.400' href="https://github.com/pacstall/pacstall/wiki/Pacscript-101">pacscripts</Link> (similar to PKGBUILD's) that contain the necessary contents to build packages, and builds them into
+							Pacstall takes in files known as <Link color='blue.400' href="https://github.com/pacstall/pacstall/wiki/Pacscript-101">pacscripts</Link> (similar to PKGBUILD's) that contain the necessary contents to build packages, and builds them into
 							executables on your system.
 						</Text>
 					</Card>
