@@ -1,4 +1,4 @@
-import { Button, HStack, Link, LinkBox, LinkOverlay, useColorModeValue } from "@chakra-ui/react"
+import { Button, HStack, LinkBox, useColorModeValue } from "@chakra-ui/react";
 import { FC } from "react"
 import { Link as Rlink } from "react-router-dom"
 

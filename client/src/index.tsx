@@ -10,8 +10,6 @@ import { setupCache } from "axios-cache-adapter";
 import { RecoilRoot } from "recoil";
 import { Box, ChakraProvider, extendTheme, localStorageManager, Spinner, StylesProvider, Text } from '@chakra-ui/react'
 
-import '@fontsource/raleway/400.css'
-import '@fontsource/open-sans/700.css'
 import serverConfig from "./config/server";
 import CookieBanner from "./components/CookieBanner";
 

@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import { Stack, Text, Button } from '@chakra-ui/react';
+import { FC } from 'react';
+import { Stack, Text } from '@chakra-ui/react';
 
 const Card: FC<{ title: string; }> = ({ title, children }) => {
     return (

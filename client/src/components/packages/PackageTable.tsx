@@ -1,4 +1,4 @@
-import { Table, Tbody, Th, Thead, Tr, useBreakpointValue, useMediaQuery } from "@chakra-ui/react"
+import { Table, Tbody, Th, Thead, Tr, useBreakpointValue } from "@chakra-ui/react";
 import { FC } from "react"
 import PackageInfo from "../../types/package-info"
 import PackageTableRow from "./PackageTableRow"

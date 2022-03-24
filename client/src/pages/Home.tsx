@@ -1,4 +1,4 @@
-import { Button, Container, Flex, Heading, Image, Link, Stack, Text, useBreakpointValue, useColorModeValue } from '@chakra-ui/react'
+import { Container, Flex, Heading, Image, Link, Stack, Text, useBreakpointValue } from '@chakra-ui/react';
 import { FC } from 'react'
 import Card from '../components/Card'
 import Navigation from '../components/Navigation'

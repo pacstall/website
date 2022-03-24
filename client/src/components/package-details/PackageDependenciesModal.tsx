@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 import { FC } from "react";
 import usePackageDependencies from "../../hooks/usePackageDependencies";
-import ComponentLoader from "../ComponentLoader";
 import MinimalPackageTable from "./MinimalPackageTable";
 
 const PackageDependenciesModal: FC<{ name: string } & UseDisclosureProps> = ({ name, isOpen, onClose }) => {

@@ -1,8 +1,8 @@
 import { chakra, SkeletonText, useColorModeValue } from "@chakra-ui/react";
-import { CSSProperties, FC, MutableRefObject, useCallback, useReducer, useRef } from "react";
+import { CSSProperties, FC, MutableRefObject, useRef } from "react";
 import { useRecoilState } from "recoil";
 import useNotification from "../hooks/useNotification";
-import { featureFlagsState, useFeatureFlags } from "../state/feature-flags";
+import { featureFlagsState } from "../state/feature-flags";
 import Notification from "../types/notifications";
 
 
@@ -55,7 +55,7 @@ const OneLineCodeSnippet: FC<{ size?: 'xs' | 'sm' | 'md' | 'lg' }> = ({ children
             <chakra.span
                 p='1'
                 px='2'
-                fontFamily='Source Code Pro'
+                fontFamily='JetBrains Mono'
                 bg={useColorModeValue('gray.100', 'gray.900')}
                 color={useColorModeValue('teal.500', 'teal.400')}
                 fontWeight='500'

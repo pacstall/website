@@ -1,9 +1,8 @@
-import { Component, FC, useEffect, useMemo } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import PackageDetailsPage from "../components/package-details/PackageDetailsPage";
 import usePackageInfo from "../hooks/usePackageInfo";
 import useDeviceType from "../hooks/useDeviceType";
-import ComponentLoader from "../components/ComponentLoader";
 import { Box, Spinner, useDisclosure } from "@chakra-ui/react";
 import { useQueryParam } from "use-query-params";
 
