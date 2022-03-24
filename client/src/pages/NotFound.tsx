@@ -38,39 +38,39 @@ const ChatBubbleOption4Desktop: FC = () => (<>
 </>)
 
 const ChatBubbleOption0Mobile: FC = () => (<>
-    <br />╭────────────────────────────────╮
-    <br />│ Oh, you thought it was <strong>404</strong>     │
-    <br />│ but it was me, Pac the alpaca! │
-    <br />╰────────────────────────────────╯
+    <br />╭───────────────────────────╮
+    <br />│ Oh, you thought it was <strong>404</strong>      │
+    <br />│ but it was me, Pac the alpaca!  │
+    <br />╰───────────────────────────╯
 </>)
 
 const ChatBubbleOption1Mobile: FC = () => (<>
-    <br />╭───────────────────────────────╮
-    <br />│ Ooops, I can't find that page |
-    <br />| using my Alpaca skills :(     │
-    <br />╰───────────────────────────────╯
+    <br />╭──────────────────────────╮
+    <br />│ Ooops, I can't find that page  |
+    <br />| using my Alpaca skills :(      │
+    <br />╰──────────────────────────╯
 </>)
 
 const ChatBubbleOption2Mobile: FC = () => (<>
-    <br />╭───────────────────────────────────╮
-    <br />│ Hey, cheer up. Instead of finding |
-    <br />| the page, you found me, Pac!      │
-    <br />╰───────────────────────────────────╯
+    <br />╭──────────────────────────────╮
+    <br />│ Hey, cheer up. Instead of finding   |
+    <br />| the page, you found me, Pac!        │
+    <br />╰──────────────────────────────╯
 </>)
 
 const ChatBubbleOption3Mobile: FC = () => (<>
-    <br />╭────────────────────────────────╮
-    <br />│ Have you seen my cousin Stall? |
-    <br />| They were supposed to be       |
-    <br />| on this page...                │
-    <br />╰────────────────────────────────╯
+    <br />╭───────────────────────────╮
+    <br />│ Have you seen my cousin Stall?  |
+    <br />| They were supposed to be        |
+    <br />| on this page...                 │
+    <br />╰───────────────────────────╯
 </>)
 
 const ChatBubbleOption4Mobile: FC = () => (<>
-    <br />╭─────────────────────────────╮
-    <br />│ Alpaca your bags,           |
-    <br />|'cause there is nothing here │
-    <br />╰─────────────────────────────╯
+    <br />╭─────────────────────────╮
+    <br />│ Alpaca your bags,            |
+    <br />|'cause there is nothing here  │
+    <br />╰─────────────────────────╯
 </>)
 
 const ChatBubble: FC = () => {
