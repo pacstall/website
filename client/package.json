@@ -9,7 +9,7 @@
     "@chakra-ui/icons": "^1.1.7",
     "@types/node": "^17.0.21",
     "@types/react": "^17.0.38",
-    "@types/react-dom": "^17.0.11",
+    "@types/react-dom": "^17.0.14",
     "@types/react-helmet": "^6.1.5",
     "@types/react-router-dom": "^5.3.2",
     "autoprefixer": "^10.4.2",
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.1.7",
-    "@chakra-ui/react": "^1.8.5",
+    "@chakra-ui/react": "^1.8.6",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "axios": "^0.24.0",
