@@ -13,7 +13,7 @@
     "@types/react-helmet": "^6.1.5",
     "@types/react-router-dom": "^5.3.2",
     "autoprefixer": "^10.4.2",
-    "parcel": "^2.2.1",
+    "parcel": "^2.4.0",
     "parcel-plugin-static-files-copy": "^2.6.0",
     "postcss": "^8.4.7",
     "postcss-modules": "^4.3.1",
