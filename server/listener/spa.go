@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 type spaHandler struct {
@@ -19,6 +20,11 @@ func (h spaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	htmlFilePath := filepath.Join(h.staticPath, path)
+	if strings.Contains(htmlFilePath, "..") {
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		return
+	}
+
 	_, err = os.Stat(htmlFilePath)
 	if os.IsNotExist(err) {
 		// file does not exist, serve index.html
