@@ -5,11 +5,14 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	html "html/template"
+
+	"pacstall.dev/webserver/ssr"
 )
 
 type spaHandler struct {
 	staticPath string
-	indexPath  string
 }
 
 func (h spaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -19,16 +22,22 @@ func (h spaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	htmlFilePath := filepath.Join(h.staticPath, path)
-	if strings.Contains(htmlFilePath, "..") {
+	filePath := filepath.Join(h.staticPath, path)
+	if strings.Contains(filePath, "..") {
 		http.Error(w, "Forbidden", http.StatusForbidden)
 		return
 	}
 
-	_, err = os.Stat(htmlFilePath)
-	if os.IsNotExist(err) {
+	_, err = os.Stat(filePath)
+	fileNotFound := os.IsNotExist(err)
+	isAPI := strings.Contains(filePath, "/api/")
+
+	if fileNotFound && !isAPI {
 		// file does not exist, serve index.html
-		http.ServeFile(w, r, filepath.Join(h.staticPath, h.indexPath))
+		serveIndexHtml(w, r, h.staticPath)
+		return
+	} else if fileNotFound && isAPI {
+		http.Error(w, "Not Found", http.StatusNotFound)
 		return
 	} else if err != nil {
 		// if we got an error (that wasn't that the file doesn't exist) stating the
@@ -39,4 +48,14 @@ func (h spaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	// otherwise, use http.FileServer to serve the static dir
 	http.FileServer(http.Dir(h.staticPath)).ServeHTTP(w, r)
+}
+
+func serveIndexHtml(w http.ResponseWriter, r *http.Request, staticPath string) {
+	templateData := ssr.GetTemplateForPath(r.URL.Path)
+	template := html.Must(html.ParseFiles(filepath.Join(staticPath, "index.html")))
+
+	w.Header().Add("Content-Type", "text/html")
+	if template.Execute(w, templateData) != nil {
+		http.Error(w, "Could not execute template", http.StatusInternalServerError)
+	}
 }

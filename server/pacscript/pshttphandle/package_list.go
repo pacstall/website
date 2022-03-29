@@ -5,27 +5,27 @@ import (
 	"math"
 	"net/http"
 
-	"pacstall.dev/website/listener"
-	"pacstall.dev/website/listener/query"
-	"pacstall.dev/website/pacscript"
-	"pacstall.dev/website/types"
+	"pacstall.dev/webserver/listener"
+	"pacstall.dev/webserver/listener/query"
+	"pacstall.dev/webserver/pacscript"
+	"pacstall.dev/webserver/types"
 )
 
 type packageListPage struct {
-	Page     int                  `json:"page"`
-	Size     int                  `json:"size"`
-	Sort     string               `json:"sort"`
-	SortBy   string               `json:"sortBy"`
-	Filter   string               `json:"filter"`
-	FilterBy string               `json:"filterBy"`
-	Total    int                  `json:"total"`
-	LastPage int                  `json:"lastPage"`
-	Data     []*types.PackageInfo `json:"data"`
+	Page     int                `json:"page"`
+	Size     int                `json:"size"`
+	Sort     string             `json:"sort"`
+	SortBy   string             `json:"sortBy"`
+	Filter   string             `json:"filter"`
+	FilterBy string             `json:"filterBy"`
+	Total    int                `json:"total"`
+	LastPage int                `json:"lastPage"`
+	Data     []*types.Pacscript `json:"data"`
 }
 
-func GetPackageListHandle(w http.ResponseWriter, req *http.Request) {
+func GetPacscriptListHandle(w http.ResponseWriter, req *http.Request) {
 
-	packages := pacscript.PackageList()
+	packages := pacscript.GetAll().ToSlice()
 	params, err := query.
 		New(req).
 		OptionalInt(pacscript.PageKey, 0).
@@ -77,12 +77,12 @@ func GetPackageListHandle(w http.ResponseWriter, req *http.Request) {
 	listener.Json(w, result)
 }
 
-func computePage(packages []*types.PackageInfo, page, pageSize int) []*types.PackageInfo {
+func computePage(packages []*types.Pacscript, page, pageSize int) []*types.Pacscript {
 	startIndex := page * pageSize
 	endIndex := startIndex + pageSize
 
 	if len(packages) < startIndex {
-		return make([]*types.PackageInfo, 0)
+		return make([]*types.Pacscript, 0)
 	}
 
 	if len(packages) < endIndex {

@@ -1,6 +1,6 @@
 package types
 
-type PackageInfo struct {
+type Pacscript struct {
 	Name                 string   `json:"name"`
 	Version              string   `json:"version"`
 	PackageName          string   `json:"packageName"`

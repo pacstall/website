@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"pacstall.dev/website/config"
+	"pacstall.dev/webserver/config"
 )
 
 var router mux.Router = *mux.NewRouter()
@@ -32,7 +32,7 @@ func Listen(port int) {
 	go triggerServerOnline(port)
 
 	if config.Config.Production {
-		Router().PathPrefix("/").Handler(spaHandler{staticPath: config.Config.TCPServer.PublicDir, indexPath: "index.html"})
+		Router().PathPrefix("/").Handler(spaHandler{staticPath: config.Config.TCPServer.PublicDir})
 	}
 
 	server := &http.Server{

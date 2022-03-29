@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"pacstall.dev/website/config"
+	"pacstall.dev/webserver/config"
 )
 
 type AlreadyResponded = bool

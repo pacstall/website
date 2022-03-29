@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"strings"
 
-	"pacstall.dev/website/types"
+	"pacstall.dev/webserver/types"
 )
 
-type rawPackageInfo struct {
+type rawPacscript struct {
 	Name                 string   `yaml:"name"`
 	Version              string   `yaml:"version"`
 	PackageName          string   `yaml:"packageName"`
@@ -82,9 +82,9 @@ func removeDebianCheck(script string) string {
 	return script[debianCheckEnd+len("fi"):]
 }
 
-func buildYamlScript(header string) string {
+func buildYamlScript(header []byte) []byte {
 	// TODO: remove after `preinstall` gets implemented
-	script := removeDebianCheck(header) + "\n"
+	script := removeDebianCheck(string(header)) + "\n"
 	script = script + "echo ''\n"
 
 	for jsonName, bashName := range pacstallVars {
@@ -113,10 +113,10 @@ func buildYamlScript(header string) string {
 
 	script += strings.Join(mapsPartialScript, "\n")
 
-	return script
+	return []byte(script)
 }
 
-func RepairPackageInfo(pkg *types.PackageInfo) error {
+func RepairPacscript(pkg *types.Pacscript) error {
 	bytes, err := json.Marshal(pkg)
 	if err != nil {
 		return err
@@ -135,8 +135,8 @@ func RepairPackageInfo(pkg *types.PackageInfo) error {
 	return nil
 }
 
-func (rp rawPackageInfo) toPackageInfo() types.PackageInfo {
-	out := types.PackageInfo{
+func (rp rawPacscript) toPacscript() types.Pacscript {
+	out := types.Pacscript{
 		Name:                 rp.Name,
 		PackageName:          rp.PackageName,
 		Maintainer:           rp.Maintainer,
@@ -163,7 +163,7 @@ func (rp rawPackageInfo) toPackageInfo() types.PackageInfo {
 	return out
 }
 
-func computeRequiredBy(pkgs []*types.PackageInfo) []*types.PackageInfo {
+func computeRequiredBy(pkgs []*types.Pacscript) []*types.Pacscript {
 	pickBeforeColon := func(arr []string) []string {
 		out := make([]string, len(arr))
 		for _, it := range arr {

@@ -3,15 +3,15 @@ package pshttphandle
 import (
 	"fmt"
 	"net/http"
-	"strings"
 
 	"github.com/gorilla/mux"
-	"pacstall.dev/website/listener"
-	"pacstall.dev/website/pacscript"
-	"pacstall.dev/website/types"
+	"pacstall.dev/webserver/listener"
+	"pacstall.dev/webserver/pacscript"
+	"pacstall.dev/webserver/types"
+	"pacstall.dev/webserver/types/list"
 )
 
-func GetPackagesRequiredByHandle(w http.ResponseWriter, req *http.Request) {
+func GetPacscriptRequiredByHandle(w http.ResponseWriter, req *http.Request) {
 	params := mux.Vars(req)
 	name, ok := params["name"]
 
@@ -26,28 +26,18 @@ func GetPackagesRequiredByHandle(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	allPackages := pacscript.PackageList()
+	allPackages := pacscript.GetAll()
 
-	var pacpkg *types.PackageInfo
-	for _, it := range allPackages {
-		if name == it.Name {
-			pacpkg = it
-			break
-		}
-	}
-
-	if pacpkg == nil {
+	pacpkg, err := allPackages.FindByName(name)
+	if err != nil {
 		w.WriteHeader(404)
 		return
 	}
 
-	requiredBy := make([]*types.PackageInfo, 0)
-	for _, pkg := range allPackages {
-		for _, requiredByName := range pacpkg.RequiredBy {
-			if strings.Compare(pkg.Name, requiredByName) == 0 {
-				requiredBy = append(requiredBy, pkg)
-				break
-			}
+	requiredBy := make([]*types.Pacscript, 0)
+	for _, pkg := range allPackages.ToSlice() {
+		if list.List[string](pacpkg.RequiredBy).Contains(list.Is(pkg.Name)) {
+			requiredBy = append(requiredBy, pkg)
 		}
 	}
 

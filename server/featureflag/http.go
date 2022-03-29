@@ -3,8 +3,8 @@ package featureflag
 import (
 	"net/http"
 
-	"pacstall.dev/website/config"
-	"pacstall.dev/website/listener"
+	"pacstall.dev/webserver/config"
+	"pacstall.dev/webserver/listener"
 )
 
 type packageDetailsPageFeatureFlagsJson struct {

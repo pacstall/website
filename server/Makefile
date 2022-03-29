@@ -1,4 +1,4 @@
-all: clean gen bin/pacserver
+all: clean bin/pacserver
 
 run:
 	go run .
@@ -10,5 +10,5 @@ bin/pacserver: $(shell find ./ -name '*.go')
 clean:
 	[ -d ./bin ] && rm -r bin || :
 
-gen:
-	go run ./codegen/main.go
+test:
+	grc go test -v ./...

@@ -1,10 +1,10 @@
 package pacscript
 
 import (
-	"sort"
 	"strings"
 
-	"pacstall.dev/website/types"
+	"pacstall.dev/webserver/types"
+	"pacstall.dev/webserver/types/list"
 )
 
 const DEFAULT = "default"
@@ -22,19 +22,9 @@ const (
 	FilterKey   = "filter"
 )
 
-func FindPackageInList(name string, packages []*types.PackageInfo) *types.PackageInfo {
-	for _, pkg := range packages {
-		if strings.Compare(pkg.Name, name) == 0 {
-			return pkg
-		}
-	}
-
-	return nil
-}
-
-func FilterPackages(packages []*types.PackageInfo, filter, filterBy string) []*types.PackageInfo {
-	filterByFunc := func(matches func(*types.PackageInfo) bool) []*types.PackageInfo {
-		out := make([]*types.PackageInfo, 0)
+func FilterPackages(packages []*types.Pacscript, filter, filterBy string) []*types.Pacscript {
+	filterByFunc := func(matches func(*types.Pacscript) bool) []*types.Pacscript {
+		out := make([]*types.Pacscript, 0)
 		for _, pkg := range packages {
 			if matches(pkg) {
 				out = append(out, pkg)
@@ -45,7 +35,7 @@ func FilterPackages(packages []*types.PackageInfo, filter, filterBy string) []*t
 
 	switch filterBy {
 	case "name":
-		return filterByFunc(func(pi *types.PackageInfo) bool {
+		return filterByFunc(func(pi *types.Pacscript) bool {
 			return strings.Contains(pi.Name, filter) ||
 				strings.Contains(pi.PackageName, filter) ||
 				strings.Contains(pi.Gives, filter) ||
@@ -53,7 +43,7 @@ func FilterPackages(packages []*types.PackageInfo, filter, filterBy string) []*t
 		})
 
 	case "maintainer":
-		return filterByFunc(func(pi *types.PackageInfo) bool {
+		return filterByFunc(func(pi *types.Pacscript) bool {
 			return strings.Contains(pi.Maintainer, filter)
 		})
 	default:
@@ -61,38 +51,49 @@ func FilterPackages(packages []*types.PackageInfo, filter, filterBy string) []*t
 	}
 }
 
-func SortPackages(packages []*types.PackageInfo, sortType, sortBy string) []*types.PackageInfo {
+func SortPackages(packages []*types.Pacscript, sortType, sortBy string) []*types.Pacscript {
 	if sortType == DEFAULT {
 		return packages
 	}
 
-	clone := make([]*types.PackageInfo, 0)
-	clone = append(clone, packages...)
+	out := list.From(packages)
 
 	switch sortBy {
 	case "name":
 		if strings.Compare(sortType, "asc") == 0 {
-			sort.Sort(SortByName{clone})
+			out = out.SortBy(func(a, b *types.Pacscript) bool {
+				return strings.Compare(a.Name, b.Name) < 0
+			})
 		} else {
-			sort.Sort(SortByNameDesc{clone})
+			out = out.SortBy(func(a, b *types.Pacscript) bool {
+				return strings.Compare(a.Name, b.Name) > 0
+			})
 		}
 
 	case "maintainer":
 		if strings.Compare(sortType, "asc") == 0 {
-			sort.Sort(SortByMaintainer{clone})
+			out = out.SortBy(func(a, b *types.Pacscript) bool {
+				return strings.Compare(a.Maintainer, b.Maintainer) < 0
+			})
 		} else {
-			sort.Sort(SortByMaintainerDesc{clone})
+			out = out.SortBy(func(a, b *types.Pacscript) bool {
+				return strings.Compare(a.Maintainer, b.Maintainer) > 0
+			})
 		}
 
 	case "version":
 		if strings.Compare(sortType, "asc") == 0 {
-			sort.Sort(SortByVersion{clone})
+			out = out.SortBy(func(a, b *types.Pacscript) bool {
+				return strings.Compare(a.Version, b.Version) < 0
+			})
 		} else {
-			sort.Sort(SortByVersionDesc{clone})
+			out = out.SortBy(func(a, b *types.Pacscript) bool {
+				return strings.Compare(a.Version, b.Version) > 0
+			})
 		}
 	default:
 		break
 	}
 
-	return clone
+	return out
 }

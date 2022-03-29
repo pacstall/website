@@ -6,19 +6,19 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"pacstall.dev/website/listener"
-	"pacstall.dev/website/pacscript"
-	"pacstall.dev/website/types"
+	"pacstall.dev/webserver/listener"
+	"pacstall.dev/webserver/pacscript"
+	"pacstall.dev/webserver/types"
 )
 
-type packageDependencies struct {
-	RuntimeDependencies  []string             `json:"runtimeDependencies"`
-	BuildDependencies    []string             `json:"buildDependencies"`
-	OptionalDependencies []string             `json:"optionalDependencies"`
-	PacstallDependencies []*types.PackageInfo `json:"pacstallDependencies"`
+type pacscriptDependencies struct {
+	RuntimeDependencies  []string           `json:"runtimeDependencies"`
+	BuildDependencies    []string           `json:"buildDependencies"`
+	OptionalDependencies []string           `json:"optionalDependencies"`
+	PacstallDependencies []*types.Pacscript `json:"pacstallDependencies"`
 }
 
-func GetPackageDependenciesHandle(w http.ResponseWriter, req *http.Request) {
+func GetPacscriptDependenciesHandle(w http.ResponseWriter, req *http.Request) {
 	params := mux.Vars(req)
 	name, ok := params["name"]
 
@@ -33,31 +33,24 @@ func GetPackageDependenciesHandle(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	allPackages := pacscript.PackageList()
+	allPacscripts := pacscript.GetAll()
 
-	var pacpkg *types.PackageInfo
-	for _, it := range allPackages {
-		if name == it.Name {
-			pacpkg = it
-			break
-		}
-	}
-
-	if pacpkg == nil {
+	pacpkg, err := allPacscripts.FindByName(name)
+	if err != nil {
 		w.WriteHeader(404)
 		return
 	}
 
-	pacstallDependencies := make([]*types.PackageInfo, 0)
+	pacstallDependencies := make([]*types.Pacscript, 0)
 	for _, pkg := range pacpkg.PacstallDependencies {
-		if found := pacscript.FindPackageInList(pkg, allPackages); found != nil {
+		if found, err := pacscript.GetAll().FindBy(func(pi *types.Pacscript) bool { return pkg == pi.Name }); err == nil {
 			pacstallDependencies = append(pacstallDependencies, found)
 		} else {
 			log.Printf("Could not find pacstall dependency %s of package %s.\n", pkg, pacpkg.Name)
 		}
 	}
 
-	response := packageDependencies{
+	response := pacscriptDependencies{
 		RuntimeDependencies:  pacpkg.RuntimeDependencies,
 		BuildDependencies:    pacpkg.BuildDependencies,
 		OptionalDependencies: pacpkg.OptionalDependencies,
