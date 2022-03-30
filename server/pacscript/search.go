@@ -3,8 +3,8 @@ package pacscript
 import (
 	"strings"
 
-	"pacstall.dev/webserver/types"
 	"pacstall.dev/webserver/types/list"
+	"pacstall.dev/webserver/types/pac"
 )
 
 const DEFAULT = "default"
@@ -22,9 +22,9 @@ const (
 	FilterKey   = "filter"
 )
 
-func FilterPackages(packages []*types.Pacscript, filter, filterBy string) []*types.Pacscript {
-	filterByFunc := func(matches func(*types.Pacscript) bool) []*types.Pacscript {
-		out := make([]*types.Pacscript, 0)
+func FilterPackages(packages []*pac.Script, filter, filterBy string) []*pac.Script {
+	filterByFunc := func(matches func(*pac.Script) bool) []*pac.Script {
+		out := make([]*pac.Script, 0)
 		for _, pkg := range packages {
 			if matches(pkg) {
 				out = append(out, pkg)
@@ -35,7 +35,7 @@ func FilterPackages(packages []*types.Pacscript, filter, filterBy string) []*typ
 
 	switch filterBy {
 	case "name":
-		return filterByFunc(func(pi *types.Pacscript) bool {
+		return filterByFunc(func(pi *pac.Script) bool {
 			return strings.Contains(pi.Name, filter) ||
 				strings.Contains(pi.PackageName, filter) ||
 				strings.Contains(pi.Gives, filter) ||
@@ -43,7 +43,7 @@ func FilterPackages(packages []*types.Pacscript, filter, filterBy string) []*typ
 		})
 
 	case "maintainer":
-		return filterByFunc(func(pi *types.Pacscript) bool {
+		return filterByFunc(func(pi *pac.Script) bool {
 			return strings.Contains(pi.Maintainer, filter)
 		})
 	default:
@@ -51,7 +51,7 @@ func FilterPackages(packages []*types.Pacscript, filter, filterBy string) []*typ
 	}
 }
 
-func SortPackages(packages []*types.Pacscript, sortType, sortBy string) []*types.Pacscript {
+func SortPackages(packages []*pac.Script, sortType, sortBy string) []*pac.Script {
 	if sortType == DEFAULT {
 		return packages
 	}
@@ -61,33 +61,33 @@ func SortPackages(packages []*types.Pacscript, sortType, sortBy string) []*types
 	switch sortBy {
 	case "name":
 		if strings.Compare(sortType, "asc") == 0 {
-			out = out.SortBy(func(a, b *types.Pacscript) bool {
+			out = out.SortBy(func(a, b *pac.Script) bool {
 				return strings.Compare(a.Name, b.Name) < 0
 			})
 		} else {
-			out = out.SortBy(func(a, b *types.Pacscript) bool {
+			out = out.SortBy(func(a, b *pac.Script) bool {
 				return strings.Compare(a.Name, b.Name) > 0
 			})
 		}
 
 	case "maintainer":
 		if strings.Compare(sortType, "asc") == 0 {
-			out = out.SortBy(func(a, b *types.Pacscript) bool {
+			out = out.SortBy(func(a, b *pac.Script) bool {
 				return strings.Compare(a.Maintainer, b.Maintainer) < 0
 			})
 		} else {
-			out = out.SortBy(func(a, b *types.Pacscript) bool {
+			out = out.SortBy(func(a, b *pac.Script) bool {
 				return strings.Compare(a.Maintainer, b.Maintainer) > 0
 			})
 		}
 
 	case "version":
 		if strings.Compare(sortType, "asc") == 0 {
-			out = out.SortBy(func(a, b *types.Pacscript) bool {
+			out = out.SortBy(func(a, b *pac.Script) bool {
 				return strings.Compare(a.Version, b.Version) < 0
 			})
 		} else {
-			out = out.SortBy(func(a, b *types.Pacscript) bool {
+			out = out.SortBy(func(a, b *pac.Script) bool {
 				return strings.Compare(a.Version, b.Version) > 0
 			})
 		}

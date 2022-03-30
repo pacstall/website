@@ -8,19 +8,19 @@ import (
 	"pacstall.dev/webserver/listener"
 	"pacstall.dev/webserver/listener/query"
 	"pacstall.dev/webserver/pacscript"
-	"pacstall.dev/webserver/types"
+	"pacstall.dev/webserver/types/pac"
 )
 
 type packageListPage struct {
-	Page     int                `json:"page"`
-	Size     int                `json:"size"`
-	Sort     string             `json:"sort"`
-	SortBy   string             `json:"sortBy"`
-	Filter   string             `json:"filter"`
-	FilterBy string             `json:"filterBy"`
-	Total    int                `json:"total"`
-	LastPage int                `json:"lastPage"`
-	Data     []*types.Pacscript `json:"data"`
+	Page     int           `json:"page"`
+	Size     int           `json:"size"`
+	Sort     string        `json:"sort"`
+	SortBy   string        `json:"sortBy"`
+	Filter   string        `json:"filter"`
+	FilterBy string        `json:"filterBy"`
+	Total    int           `json:"total"`
+	LastPage int           `json:"lastPage"`
+	Data     []*pac.Script `json:"data"`
 }
 
 func GetPacscriptListHandle(w http.ResponseWriter, req *http.Request) {
@@ -39,8 +39,9 @@ func GetPacscriptListHandle(w http.ResponseWriter, req *http.Request) {
 		Parse()
 
 	if err != nil {
-		w.Header().Add("Content-Type", "application/json")
-		http.Error(w, fmt.Sprintf("{ error: \"%v\" }", err), 400)
+		// w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(`{"error": "` + err.Error() + `"}`))
 		return
 	}
 
@@ -77,12 +78,12 @@ func GetPacscriptListHandle(w http.ResponseWriter, req *http.Request) {
 	listener.Json(w, result)
 }
 
-func computePage(packages []*types.Pacscript, page, pageSize int) []*types.Pacscript {
+func computePage(packages []*pac.Script, page, pageSize int) []*pac.Script {
 	startIndex := page * pageSize
 	endIndex := startIndex + pageSize
 
 	if len(packages) < startIndex {
-		return make([]*types.Pacscript, 0)
+		return make([]*pac.Script, 0)
 	}
 
 	if len(packages) < endIndex {

@@ -8,14 +8,14 @@ import (
 	"github.com/gorilla/mux"
 	"pacstall.dev/webserver/listener"
 	"pacstall.dev/webserver/pacscript"
-	"pacstall.dev/webserver/types"
+	"pacstall.dev/webserver/types/pac"
 )
 
 type pacscriptDependencies struct {
-	RuntimeDependencies  []string           `json:"runtimeDependencies"`
-	BuildDependencies    []string           `json:"buildDependencies"`
-	OptionalDependencies []string           `json:"optionalDependencies"`
-	PacstallDependencies []*types.Pacscript `json:"pacstallDependencies"`
+	RuntimeDependencies  []string      `json:"runtimeDependencies"`
+	BuildDependencies    []string      `json:"buildDependencies"`
+	OptionalDependencies []string      `json:"optionalDependencies"`
+	PacstallDependencies []*pac.Script `json:"pacstallDependencies"`
 }
 
 func GetPacscriptDependenciesHandle(w http.ResponseWriter, req *http.Request) {
@@ -41,9 +41,9 @@ func GetPacscriptDependenciesHandle(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	pacstallDependencies := make([]*types.Pacscript, 0)
+	pacstallDependencies := make([]*pac.Script, 0)
 	for _, pkg := range pacpkg.PacstallDependencies {
-		if found, err := pacscript.GetAll().FindBy(func(pi *types.Pacscript) bool { return pkg == pi.Name }); err == nil {
+		if found, err := pacscript.GetAll().FindBy(func(pi *pac.Script) bool { return pkg == pi.Name }); err == nil {
 			pacstallDependencies = append(pacstallDependencies, found)
 		} else {
 			log.Printf("Could not find pacstall dependency %s of package %s.\n", pkg, pacpkg.Name)

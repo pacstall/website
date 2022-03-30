@@ -7,8 +7,8 @@ import (
 	"github.com/gorilla/mux"
 	"pacstall.dev/webserver/listener"
 	"pacstall.dev/webserver/pacscript"
-	"pacstall.dev/webserver/types"
 	"pacstall.dev/webserver/types/list"
+	"pacstall.dev/webserver/types/pac"
 )
 
 func GetPacscriptRequiredByHandle(w http.ResponseWriter, req *http.Request) {
@@ -28,18 +28,15 @@ func GetPacscriptRequiredByHandle(w http.ResponseWriter, req *http.Request) {
 
 	allPackages := pacscript.GetAll()
 
-	pacpkg, err := allPackages.FindByName(name)
+	found, err := allPackages.FindByName(name)
 	if err != nil {
 		w.WriteHeader(404)
 		return
 	}
 
-	requiredBy := make([]*types.Pacscript, 0)
-	for _, pkg := range allPackages.ToSlice() {
-		if list.List[string](pacpkg.RequiredBy).Contains(list.Is(pkg.Name)) {
-			requiredBy = append(requiredBy, pkg)
-		}
-	}
+	requiredBy := allPackages.Filter(func(p *pac.Script) bool {
+		return list.List[string](found.RequiredBy).Contains(list.Is(p.Name))
+	})
 
 	listener.Json(w, requiredBy)
 }

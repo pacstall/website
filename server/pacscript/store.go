@@ -3,25 +3,25 @@ package pacscript
 import (
 	"time"
 
-	"pacstall.dev/webserver/types"
 	"pacstall.dev/webserver/types/list"
+	"pacstall.dev/webserver/types/pac"
 )
 
-type PackageList struct {
-	list.List[*types.Pacscript]
+type PacscriptList struct {
+	list.List[*pac.Script]
 }
 
 var lastModified time.Time
-var loadedPackages list.List[*types.Pacscript]
+var loadedPacscripts list.List[*pac.Script]
 
-func (l PackageList) FindByName(name string) (*types.Pacscript, error) {
-	return l.FindBy(func(pi *types.Pacscript) bool {
+func (l PacscriptList) FindByName(name string) (*pac.Script, error) {
+	return l.FindBy(func(pi *pac.Script) bool {
 		return pi.Name == name
 	})
 }
 
-func (l PackageList) FindByMaintainer(maintainer string) (*types.Pacscript, error) {
-	return l.FindBy(func(pi *types.Pacscript) bool {
+func (l PacscriptList) FindByMaintainer(maintainer string) (*pac.Script, error) {
+	return l.FindBy(func(pi *pac.Script) bool {
 		return pi.Maintainer == maintainer
 	})
 }

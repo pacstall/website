@@ -2,6 +2,7 @@ package list
 
 import (
 	"fmt"
+	"sync/atomic"
 )
 
 type List[T any] []T
@@ -134,6 +135,13 @@ func (list List[T]) MapIndex(mapper func(int, T) T) List[T] {
 func (list List[T]) Map(mapper func(T) T) List[T] {
 	return list.MapIndex(func(i int, t T) T {
 		return mapper(t)
+	})
+}
+
+func (list List[T]) MapExt(mapper func(T, List[T]) T) List[T] {
+	clone := list.Clone()
+	return list.MapIndex(func(i int, t T) T {
+		return mapper(t, clone)
 	})
 }
 
@@ -286,4 +294,43 @@ func (list List[T]) Filter(predicate func(T) bool) List[T] {
 	return list.FilterIndex(func(i int, t T) bool {
 		return predicate(t)
 	})
+}
+
+func (list List[T]) All(predicate func(T) bool) bool {
+	for _, it := range list.ToSlice() {
+		if !predicate(it) {
+			return false
+		}
+	}
+
+	return true
+}
+
+func (list List[T]) Any(predicate func(T) bool) bool {
+	passes := false
+	for _, it := range list.ToSlice() {
+		if predicate(it) {
+			passes = true
+		}
+	}
+
+	return passes
+}
+
+func (list List[T]) ToBufChan(ch chan T) chan T {
+	left := int32(list.Len())
+	for _, item := range list.ToSlice() {
+		go func(item T) {
+			ch <- item
+			atomic.AddInt32(&left, -1)
+			if left == 0 {
+				close(ch)
+			}
+		}(item)
+	}
+	return ch
+}
+
+func (list List[T]) ToChan() (ch chan T) {
+	return list.ToBufChan(ch)
 }

@@ -183,7 +183,7 @@ func (q *Query) Parse() (*QueryResult, error) {
 		_, okInt = intParams[required]
 
 		if !okStr && !okInt {
-			return nil, fmt.Errorf("constraint error: param '%v' exists and requires '%v' but does not exit", key, required)
+			return nil, fmt.Errorf("constraint error: param '%v' requires '%v' but it does not exit", key, required)
 		}
 	}
 

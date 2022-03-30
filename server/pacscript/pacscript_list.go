@@ -1,10 +1,8 @@
 package pacscript
 
-import (
-	"pacstall.dev/webserver/types"
-)
+import "pacstall.dev/webserver/types/pac"
 
-type PacscriptListWrapper []*types.Pacscript
+type PacscriptListWrapper []*pac.Script
 
 func (w PacscriptListWrapper) Len() int {
 	return len(w)
