@@ -17,4 +17,14 @@ updates:
       interval: "daily"
     assignees:
      - "saenai255"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    assignees:
+     - "wizard-28"
+    commit-message:
+      prefix: "ci"
+      prefix-development: "ci"
+      include: "scope"
 
