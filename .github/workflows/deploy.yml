@@ -25,7 +25,7 @@ jobs:
     - name: Install make
       run: sudo apt install make
 
-    - uses: little-core-labs/get-git-tag@v3.0.1
+    - uses: little-core-labs/get-git-tag@v3.0.2
       id: tagName
 
     - name: Build Sources
