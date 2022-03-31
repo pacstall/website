@@ -7,8 +7,13 @@ import DefaultAppImg from "../../../public/app.png";
 import { useFeatureFlag } from "../../state/feature-flags";
 
 
-const toTitle = (str: string): string => {
-    const parts = str.split('-')
+const getTitle = (pkg: PackageInfo): string => {
+    if (pkg.prettyName && !pkg.prettyName.includes('-') && pkg.prettyName !== pkg.prettyName.toLowerCase()) {
+        return pkg.prettyName
+    }
+
+
+    const parts = pkg.name.split('-')
 
     if (['deb', 'git', 'app', 'bin'].includes(parts[parts.length - 1])) {
         parts.pop()
@@ -19,7 +24,7 @@ const toTitle = (str: string): string => {
         .join(' ')
 }
 
-const PackageDetailsHeader: FC<{ data: PackageInfo, isMobile: boolean }> = ({ data: { name, description } }, isMobile) => {
+const PackageDetailsHeader: FC<{ data: PackageInfo, isMobile: boolean }> = ({ data }, isMobile) => {
     const installButtonEnabled = useFeatureFlag(flags => flags.packageDetailsPage.installProtocol)
 
     return (
@@ -27,12 +32,12 @@ const PackageDetailsHeader: FC<{ data: PackageInfo, isMobile: boolean }> = ({ da
             <HStack justify='space-between'>
                 <HStack>
                     <Image src={DefaultAppImg} maxW='64px' />
-                    <Heading>{toTitle(name)}</Heading>
+                    <Heading>{getTitle(data)}</Heading>
                 </HStack>
                 {!isMobile && installButtonEnabled && <InstallNowButton />}
             </HStack>
 
-            <Text mt='5'>{description}</Text>
+            <Text mt='5'>{data.description}</Text>
         </>
     )
 }

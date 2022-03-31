@@ -1,14 +1,12 @@
-all: clean bin/pacserver
+all: clean test dist/webserver
 
 run:
 	go run bin/webserver/main.go
-bin/pacserver: $(shell find ./ -name '*.go')
-	go build -ldflags "-w -s" .
-	mkdir -p bin
-	mv ./website ./bin/webpacd
-	cp ./webpacd.toml.dist ./bin
+dist/webserver: $(shell find ./ -name '*.go')
+	go build -o dist/webserver -ldflags "-w -s" bin/webserver/main.go
+	cp ./webserver.toml.dist ./dist
 clean:
-	[ -d ./bin ] && rm -r bin || :
+	[ -d ./dist ] && rm -r dist || :
 
 test:
 	grc go test -v ./...

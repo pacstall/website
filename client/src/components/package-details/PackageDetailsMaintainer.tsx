@@ -31,7 +31,7 @@ const PackageDetailsMaintainer: FC<{ text: string }> = ({ text }) => {
     return (
         <>
             <span>{name}, </span>
-            <Link color='pink.400' href={"mailto: " + fullEmail}>
+            <Link title={`Contact ${name} via email`} color='pink.400' href={"mailto: " + fullEmail}>
                 {shortEmail} <Icon size='md' mx='2px' as={EmailIcon} />
             </Link>
         </>

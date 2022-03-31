@@ -3,16 +3,16 @@ WORKDIR /app/src
 
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
     apt update && \
-    apt install make nodejs git -y
+    apt install make nodejs git grc -y
 
 COPY ./ ./
 
-RUN make redist && \
-    mv ./redist/* ../ && \
+RUN make dist && \
+    mv ./dist/* ../ && \
     cd ../ && \
     ls && \
-    mv ./webpacd.toml.dist ./webpacd.toml && \
+    mv ./webserver.toml.dist ./webserver.toml && \
     rm -rf ./src
 WORKDIR /app
-ENTRYPOINT [ "./webpacd" ]
+ENTRYPOINT [ "./webserver" ]
 EXPOSE 3300

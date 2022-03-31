@@ -8,7 +8,7 @@ import (
 	"github.com/BurntSushi/toml"
 )
 
-const CONFIG_PATH = "./webpacd.toml"
+const CONFIG_PATH = "./webserver.toml"
 
 type configuration struct {
 	TCPServer        tcpServerConfig        `toml:"tcp_server"`
