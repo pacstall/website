@@ -2,11 +2,11 @@ package pshttphandle
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
 	"pacstall.dev/webserver/listener"
+	"pacstall.dev/webserver/log"
 	"pacstall.dev/webserver/pacscript"
 	"pacstall.dev/webserver/types/pac"
 )
@@ -46,7 +46,7 @@ func GetPacscriptDependenciesHandle(w http.ResponseWriter, req *http.Request) {
 		if found, err := pacscript.GetAll().FindBy(func(pi *pac.Script) bool { return pkg == pi.Name }); err == nil {
 			pacstallDependencies = append(pacstallDependencies, found)
 		} else {
-			log.Printf("Could not find pacstall dependency %s of package %s.\n", pkg, pacpkg.Name)
+			log.Error.Printf("Could not find pacstall dependency %s of package %s.\n", pkg, pacpkg.Name)
 		}
 	}
 

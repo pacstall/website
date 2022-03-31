@@ -2,8 +2,9 @@ package config
 
 import (
 	"encoding/json"
-	"log"
 	"os"
+
+	"pacstall.dev/webserver/log"
 
 	"github.com/BurntSushi/toml"
 )
@@ -42,22 +43,26 @@ type pacstallProgramsConfig struct {
 	MaxOpenFiles   int    `toml:"max_open_files"`
 }
 
-var Config configuration = loadConfig()
+var Config configuration = configuration{}
+
+func Load() {
+	Config = loadConfig()
+}
 
 func loadConfig() configuration {
 	data := configuration{}
 	bytes, err := os.ReadFile(CONFIG_PATH)
 	if err != nil {
-		log.Fatalf("Could not read file '%s'\n%v", CONFIG_PATH, err)
+		log.Error.Fatalf("Could not read file '%s'\n%v", CONFIG_PATH, err)
 	}
 
 	if err = toml.Unmarshal(bytes, &data); err != nil {
-		log.Fatalf("Could not parse file '%s'\n%v", CONFIG_PATH, err)
+		log.Error.Fatalf("Could not parse file '%s'\n%v", CONFIG_PATH, err)
 	}
 
 	validate(data)
 
-	log.Printf("Configuration successfully loaded %v", prettify(data))
+	log.Debug.Printf("Configuration successfully loaded %v", prettify(data))
 
 	return data
 }
@@ -65,7 +70,7 @@ func loadConfig() configuration {
 func prettify(data configuration) string {
 	out, err := json.MarshalIndent(data, "", "  ")
 	if err != nil {
-		log.Fatalf(err.Error())
+		log.Warn.Fatalf(err.Error())
 	}
 	return string(out)
 }
@@ -80,26 +85,38 @@ func validate(data configuration) {
 	}()
 
 	if data.PacstallPrograms.Path == "" {
-		log.Println("Configuration file 'config.toml' is missing required attribute `pacstall_programs.path`")
+		log.Error.Println("Configuration file 'webserver.toml' is missing required attribute `pacstall_programs.path`")
+		config_error = true
+
 	}
 
 	if data.PacstallPrograms.TempDir == "" {
-		log.Println("Configuration file 'config.toml' is missing required attribute `pacstall_programs.tmp_dir`")
+		log.Error.Println("Configuration file 'webserver.toml' is missing required attribute `pacstall_programs.tmp_dir`")
+		config_error = true
+
 	}
 
 	if data.PacstallPrograms.UpdateInterval == 0 {
-		log.Println("Configuration file 'config.toml' is missing required attribute `pacstall_programs.update_interval`")
+		log.Error.Println("Configuration file 'webserver.toml' is missing required attribute `pacstall_programs.update_interval`")
+		config_error = true
+
 	}
 
 	if data.PacstallPrograms.MaxOpenFiles == 0 {
-		log.Println("Configuration file 'config.toml' is missing required attribute `pacstall_programs.max_open_files`")
+		log.Error.Println("Configuration file 'webserver.toml' is missing required attribute `pacstall_programs.max_open_files`")
+		config_error = true
+
 	}
 
 	if data.TCPServer.Port == 0 {
-		log.Println("Configuration file 'config.toml' is missing required attribute `tcp_server.port`")
+		log.Error.Println("Configuration file 'webserver.toml' is missing required attribute `tcp_server.port`")
+		config_error = true
+
 	}
 
 	if data.TCPServer.PublicDir == "" {
-		log.Println("Configuration file 'config.toml' is missing required attribute `tcp_server.public_dir`")
+		log.Error.Println("Configuration file 'webserver.toml' is missing required attribute `tcp_server.public_dir`")
+		config_error = true
+
 	}
 }

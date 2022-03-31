@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"time"
 
 	"pacstall.dev/webserver/config"
 	"pacstall.dev/webserver/featureflag"
 	"pacstall.dev/webserver/listener"
+	"pacstall.dev/webserver/log"
 	"pacstall.dev/webserver/pacscript"
 	"pacstall.dev/webserver/pacscript/pshttphandle"
 	pacssr "pacstall.dev/webserver/pacscript/ssr"
@@ -44,25 +44,28 @@ func setupRequests() {
 }
 
 func main() {
+	log.Init(config.Config.Production)
+	config.Load()
+
 	startedAt := time.Now()
 	port := config.Config.TCPServer.Port
 	refreshTimer := time.Duration(config.Config.PacstallPrograms.UpdateInterval) * time.Millisecond
 
 	setupRequests()
-	log.Println("Registered http requests")
+	log.Info.Println("Registered http requests")
 
-	log.Println("Attempting to start TCP listener")
+	log.Info.Println("Attempting to start TCP listener")
 
 	listener.OnServerOnline(func() {
-		log.Printf("Server is now online on port %v.\n", port)
+		log.Info.Printf("Server is now online on port %v.\n", port)
 
-		log.Println("Attempting to parse existing pacscripts")
+		log.Info.Println("Attempting to parse existing pacscripts")
 		pacscript.Load()
 		pacscript.ScheduleRefresh(refreshTimer)
-		log.Println("Scheduled pacscripts to auto-refresh every", refreshTimer)
+		log.Info.Println("Scheduled pacscripts to auto-refresh every", refreshTimer)
 
 		printLogo()
-		log.Printf("Booted in %v%v%v\n", "\033[32m", time.Since(startedAt), "\033[0m")
+		log.Info.Printf("Booted in %v%v%v\n", "\033[32m", time.Since(startedAt), "\033[0m")
 	})
 
 	listener.Listen(port)

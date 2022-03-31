@@ -2,6 +2,7 @@ package list
 
 import (
 	"fmt"
+	"sort"
 	"sync/atomic"
 )
 
@@ -9,6 +10,23 @@ type List[T any] []T
 
 type Ordered interface {
 	~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64 | ~uintptr | ~float32 | ~float64 | ~string
+}
+
+type sorter[T any] struct {
+	list []T
+	less func(T, T) bool
+}
+
+func (s *sorter[T]) Swap(i, j int) {
+	s.list[i], s.list[j] = s.list[j], s.list[i]
+}
+
+func (s *sorter[T]) Len() int {
+	return len(s.list)
+}
+
+func (s *sorter[T]) Less(i, j int) bool {
+	return s.less(s.list[i], s.list[j])
 }
 
 type ComparableList[T Ordered] struct {
@@ -230,8 +248,12 @@ func (list List[T]) ToSlice() []T {
 }
 
 func (list List[T]) SortBy(isLessThan func(T, T) bool) List[T] {
-	a := list.Clone()
-	return quicksort(a, isLessThan)
+	a := list.Clone().ToSlice()[:]
+	sort.SliceStable(a, func(i, j int) bool {
+		return isLessThan(a[i], a[j])
+	})
+
+	return a
 }
 
 func quicksort[T any](a []T, isLessThan func(T, T) bool) List[T] {

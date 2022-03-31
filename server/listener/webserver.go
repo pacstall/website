@@ -2,13 +2,13 @@ package listener
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"strings"
 	"time"
 
 	"github.com/gorilla/mux"
 	"pacstall.dev/webserver/config"
+	"pacstall.dev/webserver/log"
 )
 
 var router mux.Router = *mux.NewRouter()
@@ -43,5 +43,5 @@ func Listen(port int) {
 	}
 
 	err := server.ListenAndServe()
-	log.Panicf("Could not start TCP listener on port %v. Got error: %v", port, err)
+	log.Error.Fatalf("Could not start TCP listener on port %v. Got error: %v\n", port, err)
 }
