@@ -108,7 +108,7 @@ func (p *progressLog) Error(err error) {
 }
 
 func NewProgress(total int, title, description string) Progress {
-	if isProduction {
+	if fancyLogsEnabled {
 		out := progressLog{
 			total:   total,
 			title:   title,

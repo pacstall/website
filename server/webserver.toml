@@ -51,7 +51,13 @@
 # `feature_flags.package_details_page.install_protocol` = `bool`
 # `feature_flags.package_details_page.comments`         = `bool`
 
+#                 #
+# --- Logging --- #
+#                 #
 
+# Uses dynamic progress bars and colors if enabled
+# `logging.fancy_logs` = `bool`
+# `logging.log_level`  = `bool`
 
 #------------------------------------------------------------------------------#
 
@@ -77,5 +83,9 @@ votes            = false
 popularity       = false
 install_protocol = false
 comments         = false
+
+[logging]
+log_level = "info"
+fancy_logs = true
 
 #------------------------------------------------------------------------------#

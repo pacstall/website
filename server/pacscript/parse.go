@@ -10,7 +10,7 @@ import (
 	"pacstall.dev/webserver/config"
 	"pacstall.dev/webserver/git"
 	"pacstall.dev/webserver/log"
-	"pacstall.dev/webserver/pacscript/file"
+	"pacstall.dev/webserver/pacscript/pacsh"
 	"pacstall.dev/webserver/parallelism/batch"
 	"pacstall.dev/webserver/parallelism/channels"
 	"pacstall.dev/webserver/repology"
@@ -30,7 +30,7 @@ func LastModified() time.Time {
 }
 
 func Load() {
-	if err := git.HardResetAndPull(config.Config.PacstallPrograms.Path); err != nil {
+	if err := git.HardResetAndPull(config.PacstallPrograms.Path); err != nil {
 		log.Error.Panicln("Could not update repository 'pacstall-programs'", err)
 	}
 
@@ -47,7 +47,7 @@ func Load() {
 }
 
 func readKnownPacscriptNames() (list.List[string], error) {
-	pkglistPath := path.Join(config.Config.PacstallPrograms.Path, "./packagelist")
+	pkglistPath := path.Join(config.PacstallPrograms.Path, "./packagelist")
 	bytes, err := os.ReadFile(pkglistPath)
 	if err != nil {
 		return nil, err
@@ -68,14 +68,14 @@ func benchmark(name string, f func()) {
 }
 
 func parsePacscriptFiles(names []string) []*pac.Script {
-	if err := file.CreateTempDirectory(config.Config.PacstallPrograms.TempDir); err != nil {
+	if err := pacsh.CreateTempDirectory(config.PacstallPrograms.TempDir); err != nil {
 		log.Error.Println(err)
 		return nil
 	}
 
 	progress := log.NewProgress(len(names), "Parsing pacscripts", "Parsing pacscripts")
-	outChan := batch.Run(config.Config.PacstallPrograms.MaxOpenFiles, names, func(t string) (*pac.Script, error) {
-		out, err := parsePacscriptFile(config.Config.PacstallPrograms.Path, t)
+	outChan := batch.Run(int(config.PacstallPrograms.MaxOpenFiles), names, func(t string) (*pac.Script, error) {
+		out, err := parsePacscriptFile(config.PacstallPrograms.Path, t)
 		progress.Describe(fmt.Sprintf("'%v' ok", t))
 		progress.Add(1)
 		return &out, err
@@ -102,7 +102,7 @@ func readPacscriptFile(rootDir, name string) (scriptBytes []byte, fileName strin
 	scriptBytes, err = os.ReadFile(scriptPath)
 
 	if err != nil {
-		log.Error.Printf("Failed to read package file '%v'\n%v", scriptPath, err)
+		log.Error.Printf("Failed to read package pacsh '%v'\n%v", scriptPath, err)
 		return
 	}
 
@@ -110,17 +110,17 @@ func readPacscriptFile(rootDir, name string) (scriptBytes []byte, fileName strin
 }
 
 func parsePacscriptFile(programsDirPath, name string) (pac.Script, error) {
-	pacsh, filename, err := readPacscriptFile(programsDirPath, name)
+	pacshell, filename, err := readPacscriptFile(programsDirPath, name)
 	if err != nil {
 		return pac.Script{}, err
 	}
 
-	pacsh = buildCustomFormatScript(pacsh)
+	pacshell = buildCustomFormatScript(pacshell)
 
-	stdout, err := file.ExecBash(config.Config.PacstallPrograms.TempDir, filename, pacsh)
+	stdout, err := pacsh.ExecBash(config.PacstallPrograms.TempDir, filename, pacshell)
 	if err != nil {
 		return pac.Script{}, err
 	}
 
-	return file.ParsePacOutput(stdout), nil
+	return pacsh.ParsePacOutput(stdout), nil
 }

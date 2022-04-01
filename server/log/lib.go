@@ -13,9 +13,10 @@ var Info = glog.New(os.Stdout, fmt.Sprintf("%s: ", color.HiBlueString("INFO")), 
 var Error = glog.New(os.Stdout, fmt.Sprintf("%s: ", color.HiRedString("ERROR")), glog.Ldate|glog.Ltime|glog.Lshortfile)
 var Warn = glog.New(os.Stdout, fmt.Sprintf("%s: ", color.YellowString("WARN")), glog.Ldate|glog.Ltime|glog.Lshortfile)
 
-var isProduction = false
+var fancyLogsEnabled = false
 
-func Init(production bool) {
-	color.NoColor = production
-	isProduction = production
+func Init(fancyLogs bool, level Level) {
+	color.NoColor = fancyLogs
+	fancyLogsEnabled = fancyLogs
+	setLogLevel(level)
 }

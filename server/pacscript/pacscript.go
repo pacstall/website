@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"pacstall.dev/webserver/pacscript/file"
+	"pacstall.dev/webserver/pacscript/pacsh"
 	"pacstall.dev/webserver/types/list"
 	"pacstall.dev/webserver/types/pac"
 )
@@ -35,16 +35,16 @@ func buildCustomFormatScript(header []byte) []byte {
 
 	script = script + "echo ''\n"
 
-	for _, bashName := range file.PacstallCVars {
+	for _, bashName := range pacsh.PacstallCVars {
 		script += fmt.Sprintf("echo \"%s $%v\"", categoryToken, bashName) + "\n"
 	}
 
-	for _, bashName := range file.PacstallCArrays {
+	for _, bashName := range pacsh.PacstallCArrays {
 		script += fmt.Sprintf("echo \"%s $%v\"", categoryToken, bashName) + "\n"
 	}
 
 	mapsPartialScript := make([]string, 0)
-	for _, bashName := range file.PacstallCMaps {
+	for _, bashName := range pacsh.PacstallCMaps {
 		partial := "echo " + categoryToken + "\n"
 
 		partial += fmt.Sprintf("printf '%s%%s\\n' \"${%v[@]}\"\n", subcategoryToken, bashName)

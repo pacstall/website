@@ -1,4 +1,4 @@
-package file
+package pacsh
 
 import (
 	"io/fs"

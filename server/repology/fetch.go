@@ -121,6 +121,8 @@ func fetchRepologyProject(search []string) (rpProj repologyProject, err error) {
 		}
 
 		return v1.GreaterThan(v2)
+	}).SortBy(func(rsrp1, rsrp2 repologySemiRawProject) bool {
+		return !(rsrp1.Status == "newest" && rsrp2.Status != "newest")
 	})
 
 	if foundPackagesRaw.Len() == 0 {

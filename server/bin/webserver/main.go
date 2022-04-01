@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/fatih/color"
 	"pacstall.dev/webserver/config"
 	"pacstall.dev/webserver/featureflag"
 	"pacstall.dev/webserver/listener"
@@ -14,18 +15,19 @@ import (
 )
 
 func printLogo() {
-	fmt.Println("\033[34m" + `
-     ____                  __        ____         
-    / __ \____ ___________/ /_____ _/ / /         
-   / /_/ / __ '/ ___/ ___/ __/ __ '/ / /          
-  / ____/ /_/ / /__(__  ) /_/ /_/ / / /           
- /_/   _\__,_/\___/____/\__/\__,_/_/_/            
+	logoColor := color.New(color.FgHiMagenta, color.Bold).SprintFunc()
+	fmt.Println(logoColor(`
+    ____                  __        ____         
+   / __ \____ ___________/ /_____ _/ / /         
+  / /_/ / __ '/ ___/ ___/ __/ __ '/ / /          
+ / ____/ /_/ / /__(__  ) /_/ /_/ / / /           
+/_/   _\__,_/\___/____/\__/\__,_/_/_/            
 | |     / /__  / /_ / ___/___  ______   _____  _____
 | | /| / / _ \/ __ \\__ \/ _ \/ ___/ | / / _ \/ ___/
 | |/ |/ /  __/ /_/ /__/ /  __/ /   | |/ /  __/ /    
 |__/|__/\___/_.___/____/\___/_/    |___/\___/_/     
-         coded by saenai255, owned by Pacstall Org		  
-	` + "\033[0m")
+		coded by saenai255, owned by Pacstall Org		  
+   `))
 }
 
 func setupRequests() {
@@ -44,12 +46,12 @@ func setupRequests() {
 }
 
 func main() {
-	log.Init(config.Config.Production)
 	config.Load()
+	log.Init(config.IsProduction, config.Logging.Level)
 
 	startedAt := time.Now()
-	port := config.Config.TCPServer.Port
-	refreshTimer := time.Duration(config.Config.PacstallPrograms.UpdateInterval) * time.Millisecond
+	port := config.TCPServer.Port
+	refreshTimer := config.PacstallPrograms.UpdateInterval
 
 	setupRequests()
 	log.Info.Println("Registered http requests")
@@ -59,13 +61,13 @@ func main() {
 	listener.OnServerOnline(func() {
 		log.Info.Printf("Server is now online on port %v.\n", port)
 
+		printLogo()
+		log.Info.Printf("Booted in %v\n", color.GreenString("%v", time.Since(startedAt)))
+
 		log.Info.Println("Attempting to parse existing pacscripts")
 		pacscript.Load()
 		pacscript.ScheduleRefresh(refreshTimer)
 		log.Info.Println("Scheduled pacscripts to auto-refresh every", refreshTimer)
-
-		printLogo()
-		log.Info.Printf("Booted in %v%v%v\n", "\033[32m", time.Since(startedAt), "\033[0m")
 	})
 
 	listener.Listen(port)

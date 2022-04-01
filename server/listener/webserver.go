@@ -17,7 +17,7 @@ func Router() *mux.Router {
 	return &router
 }
 
-func Listen(port int) {
+func Listen(port uint16) {
 	registerHealthCheck()
 
 	Router().Use(func(next http.Handler) http.Handler {
@@ -31,8 +31,8 @@ func Listen(port int) {
 
 	go triggerServerOnline(port)
 
-	if config.Config.Production {
-		Router().PathPrefix("/").Handler(spaHandler{staticPath: config.Config.TCPServer.PublicDir})
+	if config.IsProduction {
+		Router().PathPrefix("/").Handler(spaHandler{staticPath: config.TCPServer.PublicDir})
 	}
 
 	server := &http.Server{

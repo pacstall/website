@@ -21,7 +21,7 @@ func ApplyHeaders(etag string, w http.ResponseWriter, r *http.Request) AlreadyRe
 		}
 	}
 
-	if !config.Config.Production {
+	if !config.IsProduction {
 		w.Header().Add("Access-Control-Allow-Origin", "http://localhost:1234")
 		w.Header().Add("Access-Control-Allow-Headers", "Origin, Content-Type, Accept")
 		w.Header().Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
