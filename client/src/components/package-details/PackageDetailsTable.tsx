@@ -1,9 +1,9 @@
 import { ExternalLinkIcon } from "@chakra-ui/icons";
-import { Table, Tbody, Link, Tr, Th, Td, useColorModeValue, Text, Icon, UseDisclosureProps } from "@chakra-ui/react";
+import { Table, Tbody, Link, Tr, Th, Td, Text, Icon, UseDisclosureProps } from "@chakra-ui/react";
 import { FC } from "react";
 import { Link as Rlink } from 'react-router-dom'
 import { useFeatureFlag } from "../../state/feature-flags";
-import PackageInfo, { UpdateStatus } from "../../types/package-info";
+import PackageInfo from "../../types/package-info";
 import SemanticVersionColor from "../SemanticVersionColor";
 import PackageDetailsMaintainer from "./PackageDetailsMaintainer";
 
