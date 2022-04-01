@@ -8,7 +8,7 @@ import SemanticVersionColor from "../SemanticVersionColor";
 const PackageTableRow: FC<{ pkg: PackageInfo, disabled?: boolean }> = ({ pkg, disabled }) => (
     <Tr key={pkg.name}>
         <Td>
-            <Text fontSize='md' fontWeight='500' title={pkg.description}>
+            <Text fontSize='md' fontWeight={useColorModeValue('700', '500')} title={pkg.description}>
                 {disabled === true ? <span>{pkg.name}</span> : <Link as={Rlink} color={useColorModeValue('pink.600', 'pink.400')} to={`/packages/${pkg.name}`} >{pkg.name}</Link>}
             </Text>
         </Td>
@@ -20,7 +20,7 @@ const PackageTableRow: FC<{ pkg: PackageInfo, disabled?: boolean }> = ({ pkg, di
         </Td>
         <Td display={useBreakpointValue({ base: 'none', sm: 'table-cell' })}>
             <Text fontSize='sm'>
-                <SemanticVersionColor version={pkg.version.substring(0, 14)} status={pkg.updateStatus} />
+                <SemanticVersionColor fill version={pkg.version.substring(0, 14)} status={pkg.updateStatus} />
             </Text>
 
         </Td>

@@ -2,7 +2,7 @@ import { chakra, useColorModeValue } from "@chakra-ui/react";
 import { FC } from "react";
 import { UpdateStatus } from "../types/package-info";
 
-const SemanticVersionColor: FC<{ version: string; status: UpdateStatus }> = ({ version, status }) => {
+const SemanticVersionColor: FC<{ version: string; status: UpdateStatus, fill?: boolean }> = ({ version, status, fill }) => {
     const versionColors: Record<UpdateStatus, string> = {
         [UpdateStatus.Unknown]: useColorModeValue('blue.100', 'blue.600'),
         [UpdateStatus.Latest]: useColorModeValue('green.200', 'green.500'),
@@ -24,7 +24,12 @@ const SemanticVersionColor: FC<{ version: string; status: UpdateStatus }> = ({ v
         p='1'
         px='2'
         borderRadius='lg'
+        display={fill ? 'block' : 'inline-block'}
+        minW={fill ? 'initial' : '4em'}
+        m={0}
+        textAlign='center'
         title={versionTooltip[status]}
+        fontWeight='700'
         color={useColorModeValue('black', 'white')}>
         {version}
     </chakra.span>

@@ -40,7 +40,7 @@ const HowToInstallFull: FC<{ name: string, isMobile: boolean }> = ({ name, isMob
     )
 }
 
-const HowToInstallViaTerminal: FC<{ name: string, isMobile: boolean }> = ({ name, isMobile }) => {
+const HowToInstallViaTerminal: FC<{ name: string, prettyName: string, isMobile: boolean }> = ({ name, isMobile, prettyName }) => {
     const ResponsiveStack = isMobile ? Stack : HStack;
 
     return (
@@ -48,14 +48,14 @@ const HowToInstallViaTerminal: FC<{ name: string, isMobile: boolean }> = ({ name
             <Heading size='lg'>How to Install</Heading>
 
             <ResponsiveStack justify='space-between'>
-                <Text fontWeight='semibold' m='3'>Step 1:  Install Pacstall</Text>
+                <Text fontWeight='semibold' m='3'>Step 1:  Setup Pacstall</Text>
                 <Box>
                     <OneLineCodeSnippet size="sm">sudo bash -c "$(wget -q https://git.io/JsADh -O -)"</OneLineCodeSnippet>
                 </Box>
             </ResponsiveStack>
 
             <ResponsiveStack justify='space-between'>
-                <Text fontWeight='semibold' m='3'>Step 2:  Open a Terminal and Run</Text>
+                <Text fontWeight='semibold' m='3'>Step 2:  Install {prettyName}</Text>
                 <Box>
                     <SmartCodeSnippetInstall size="sm" name={name} />
                 </Box>
@@ -64,7 +64,7 @@ const HowToInstallViaTerminal: FC<{ name: string, isMobile: boolean }> = ({ name
     )
 }
 
-const HowToInstall: FC<{ name: string, isMobile: boolean }> = props => {
+const HowToInstall: FC<{ name: string, prettyName: string, isMobile: boolean }> = props => {
     const installProtocolEnabled = useFeatureFlag(flags => flags.packageDetailsPage.installProtocol)
     return installProtocolEnabled
         ? <HowToInstallFull {...props} />
