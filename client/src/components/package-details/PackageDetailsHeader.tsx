@@ -1,9 +1,7 @@
-import { HStack, Heading, Image, Text } from "@chakra-ui/react";
+import { HStack, Heading, Text } from "@chakra-ui/react";
 import { FC } from "react";
 import PackageInfo from "../../types/package-info";
 import InstallNowButton from "./InstallNowButton";
-// @ts-ignore:next-line
-import DefaultAppImg from "../../../public/app.png";
 import { useFeatureFlag } from "../../state/feature-flags";
 
 
@@ -31,7 +29,6 @@ const PackageDetailsHeader: FC<{ data: PackageInfo, isMobile: boolean }> = ({ da
         <>
             <HStack justify='space-between'>
                 <HStack>
-                    <Image src={DefaultAppImg} maxW='64px' />
                     <Heading>{getTitle(data)}</Heading>
                 </HStack>
                 {!isMobile && installButtonEnabled && <InstallNowButton />}
