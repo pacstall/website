@@ -7,11 +7,11 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
 
 COPY ./ ./
 
-RUN make dist && \
+RUN npm install --global --force npm \
+    make dist && \
     mv ./dist/* ../ && \
     cd ../ && \
     ls && \
-    mv ./webserver.toml.dist ./webserver.toml && \
     rm -rf ./src
 WORKDIR /app
 ENTRYPOINT [ "./webserver" ]
