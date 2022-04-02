@@ -41,6 +41,8 @@ func Load() {
 
 	loadedPacscripts = list.From(parsePacscriptFiles(pkgList)).MapExt(func(p *pac.Script, scripts list.List[*pac.Script]) *pac.Script {
 		return computeRequiredBy(*p, scripts)
+	}).SortBy(func(s1, s2 *pac.Script) bool {
+		return s1.Name < s2.Name
 	})
 	lastModified = time.Now()
 	log.Info.Printf("Successfully parsed %v (%v / %v) packages", types.Percent(float64(len(loadedPacscripts))/float64(pkgList.Len())), loadedPacscripts.Len(), pkgList.Len())
