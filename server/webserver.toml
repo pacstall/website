@@ -22,18 +22,18 @@
 # Temporary dir path to store scripts. If the dir doesn't exist, it gets created
 # `pacstall_programs.tmp_dir`          = `string`
 
-#  How often to pull git commits. Time in milliseconds
+#  How often to pull git commits. Time in seconds
 # `pacstall_programs.update_interval`  = `int`
 
 #  Maximum number of open files during the package scanning
-# `pacstall_programs.max_open_files`   = `int`
+# `pacstall_programs.max_open_files`   = `uint8`
 
 #                    #
 # --- TCP Server --- #
 #                    #
 
 # What port to listen on
-# `tcp_server.port`        = `int`
+# `tcp_server.port`        = `uint16`
 
 # Directory containing all public html files
 # `tcp_server.public_dir`  = `string` 
@@ -57,7 +57,7 @@
 
 # Uses dynamic progress bars and colors if enabled
 # `logging.fancy_logs` = `bool`
-# `logging.log_level`  = `bool`
+# `logging.log_level`  = `debug` | `info` | `warn` | `error`
 
 #------------------------------------------------------------------------------#
 
@@ -67,7 +67,7 @@ production = false
 [pacstall_programs]
 path            = "../../pacstall-programs"
 tmp_dir         = "./tmp"
-update_interval = 900000
+update_interval = 900
 max_open_files  = 100
 
 [tcp_server]
