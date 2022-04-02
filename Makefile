@@ -1,4 +1,4 @@
-VERSION = 2.1.0-rc
+VERSION = 2.1.0-rc3
 
 NPROCS = $(shell grep -c 'processor' /proc/cpuinfo)
 MAKEFLAGS += -j$(NPROCS)
