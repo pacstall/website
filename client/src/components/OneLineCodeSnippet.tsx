@@ -53,6 +53,7 @@ const OneLineCodeSnippet: FC<{ size?: 'xs' | 'sm' | 'md' | 'lg' }> = ({ children
     return (
         <>
             <chakra.span
+                title="Click to copy"
                 p='1'
                 px='2'
                 fontFamily='JetBrains Mono'

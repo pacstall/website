@@ -1,14 +1,12 @@
-all: clean gen bin/pacserver
+all: clean test dist/webserver
 
 run:
-	go run .
-bin/pacserver: $(shell find ./ -name '*.go')
-	go build -ldflags "-w -s" .
-	mkdir -p bin
-	mv ./website ./bin/webpacd
-	cp ./webpacd.toml.dist ./bin
+	go run bin/webserver/main.go
+dist/webserver: $(shell find ./ -name '*.go')
+	CGO_ENABLED=0 go build -o dist/webserver -ldflags "-w -s" bin/webserver/main.go
+	cp ./webserver.toml.dist ./dist/webserver.toml
 clean:
-	[ -d ./bin ] && rm -r bin || :
+	[ -d ./dist ] && rm -r dist || :
 
-gen:
-	go run ./codegen/main.go
+test:
+	go test -v ./...

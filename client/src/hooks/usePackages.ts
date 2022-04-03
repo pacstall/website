@@ -23,6 +23,12 @@ const usePackages = () => {
     const [trigger, setTrigger] = useState(false)
 
     useEffect(() => {
+        if (queryParams.get('page') === null || isNaN(+queryParams.get('page'))) {
+            queryParams.set('page', '0')
+            setQueryParams(queryParams, true)
+            return
+        }
+
         const url = `/api/packages?page=${queryParams.get('page') || 0}&size=${queryParams.get('size') || 25}&sort=${queryParams.get('sort') || ''}&sortBy=${queryParams.get('sortBy') || 'default'}&filter=${queryParams.get('filter') || ''}&filterBy=${queryParams.get('filterBy') || 'name'}`
         setLoading(true)
         setError(false)
@@ -30,9 +36,8 @@ const usePackages = () => {
             setData(res.data)
             setLoading(false)
 
-
-            if (!queryParams.get('page')) {
-                queryParams.set('page', '0')
+            if (+queryParams.get('page') > res.data.lastPage) {
+                queryParams.set('page', res.data.lastPage.toString())
                 setQueryParams(queryParams, true)
             }
         }).catch(() => setError(true))

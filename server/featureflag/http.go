@@ -3,8 +3,8 @@ package featureflag
 import (
 	"net/http"
 
-	"pacstall.dev/website/config"
-	"pacstall.dev/website/listener"
+	"pacstall.dev/webserver/config"
+	"pacstall.dev/webserver/listener"
 )
 
 type packageDetailsPageFeatureFlagsJson struct {
@@ -24,13 +24,13 @@ func GetFeatureFlags(w http.ResponseWriter, req *http.Request) {
 	listener.ApplyHeaders("default", w, req)
 
 	response := featureFlagsJson{
-		OldSyntax: config.Config.FeatureFlags.OldSyntax,
+		OldSyntax: config.FeatureFlags.OldSyntax,
 		PackageDetailsPage: packageDetailsPageFeatureFlagsJson{
-			LastUpdated:     config.Config.FeatureFlags.PackageDetailsPage.LastUpdated,
-			Votes:           config.Config.FeatureFlags.PackageDetailsPage.Votes,
-			Popularity:      config.Config.FeatureFlags.PackageDetailsPage.Popularity,
-			InstallProtocol: config.Config.FeatureFlags.PackageDetailsPage.InstallProtocol,
-			Comments:        config.Config.FeatureFlags.PackageDetailsPage.Comments,
+			LastUpdated:     config.FeatureFlags.PackageDetailsPage.LastUpdated,
+			Votes:           config.FeatureFlags.PackageDetailsPage.Votes,
+			Popularity:      config.FeatureFlags.PackageDetailsPage.Popularity,
+			InstallProtocol: config.FeatureFlags.PackageDetailsPage.InstallProtocol,
+			Comments:        config.FeatureFlags.PackageDetailsPage.Comments,
 		},
 	}
 

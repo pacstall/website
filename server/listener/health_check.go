@@ -2,9 +2,10 @@ package listener
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"time"
+
+	"pacstall.dev/webserver/log"
 )
 
 func registerHealthCheck() {
@@ -19,7 +20,7 @@ func OnServerOnline(handle func()) {
 	onServerOnlineHandlers = append(onServerOnlineHandlers, handle)
 }
 
-func triggerServerOnline(port int) {
+func triggerServerOnline(port uint16) {
 	retryDelay := 100
 	timeout := 5000
 	for ; timeout > 0; timeout -= retryDelay {
@@ -32,7 +33,7 @@ func triggerServerOnline(port int) {
 	}
 
 	if timeout <= 0 {
-		log.Fatalln("TCP server bootstrapping timed out.")
+		log.Error.Fatalln("TCP server bootstrapping timed out.")
 		return
 	}
 

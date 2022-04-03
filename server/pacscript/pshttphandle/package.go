@@ -3,14 +3,13 @@ package pshttphandle
 import (
 	"fmt"
 	"net/http"
-	"strings"
 
 	"github.com/gorilla/mux"
-	"pacstall.dev/website/listener"
-	"pacstall.dev/website/pacscript"
+	"pacstall.dev/webserver/listener"
+	"pacstall.dev/webserver/pacscript"
 )
 
-func GetPackageHandle(w http.ResponseWriter, req *http.Request) {
+func GetPacscriptHandle(w http.ResponseWriter, req *http.Request) {
 	params := mux.Vars(req)
 	name, ok := params["name"]
 	if !ok || len(name) < 2 {
@@ -22,12 +21,11 @@ func GetPackageHandle(w http.ResponseWriter, req *http.Request) {
 		return // req is cached
 	}
 
-	for _, pkg := range pacscript.PackageList() {
-		if strings.Compare(pkg.Name, name) == 0 {
-			listener.Json(w, pkg)
-			return
-		}
+	pkg, err := pacscript.GetAll().FindByName(name)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
 	}
 
-	w.WriteHeader(404)
+	listener.Json(w, pkg)
 }

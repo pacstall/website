@@ -1,4 +1,4 @@
-website
+./webserver
 *_generated.go
-bin/
 tmp/
+dist/

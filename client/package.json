@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "npm run clean && mkdir -p dist/public && cp -r public/ dist/public && npx parcel index.html",
-    "build": "rm -rf dist && NODE_ENV=production VERSION=\"$(npm run version)\" npx parcel build index.html && cp -r public/ dist/public",
+    "build": "rm -rf dist && NODE_ENV=production VERSION=\"$(npm run version)\" npx parcel build index.production.html && cp -r public/ dist/public && mv dist/index.production.html dist/index.html",
     "version": "(cd ../; make version)",
     "clean": "rm -rf .parcel-cache && rm -rf dist"
   },
