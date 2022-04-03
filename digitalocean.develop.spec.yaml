@@ -6,9 +6,9 @@ region: fra
 services:
 - dockerfile_path: Dockerfile.development
   github:
-    branch: master
+    branch: develop
     deploy_on_push: false
-    repo: saenai255/pacstall-website
+    repo: pacstall/website
   http_port: 3300
   instance_count: 1
   instance_size_slug: basic-xxs
