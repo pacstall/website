@@ -21,7 +21,7 @@ jobs:
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        password: ${{ secrets.PUBLISH_PACKAGE_PAT }}
 
     - name: Build Docker image
       run: |
