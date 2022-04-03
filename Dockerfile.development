@@ -1,5 +1,3 @@
 FROM ghcr.io/pacstall/webserver:development
 
-WORKDIR /app
-ENTRYPOINT [ "./webserver" ]
 EXPOSE 3300
