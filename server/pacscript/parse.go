@@ -63,12 +63,6 @@ func readKnownPacscriptNames() (list.List[string], error) {
 	return names, nil
 }
 
-func benchmark(name string, f func()) {
-	start := time.Now()
-	f()
-	log.Info.Printf("%v took %v", name, time.Since(start))
-}
-
 func parsePacscriptFiles(names []string) []*pac.Script {
 	if err := pacsh.CreateTempDirectory(config.PacstallPrograms.TempDir); err != nil {
 		log.Error.Println(err)
@@ -85,7 +79,7 @@ func parsePacscriptFiles(names []string) []*pac.Script {
 
 	results := channels.ToSlice(outChan)
 
-	repologySync := repology.NewSyncer(10)
+	repologySync := repology.NewSyncer(15)
 	progressSync := log.NewProgress(len(names), "Syncing with repology", "Syncing with repology")
 	for _, result := range results {
 		progressSync.Describe(fmt.Sprintf("fetching '%v'", result.Name))

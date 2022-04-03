@@ -1,6 +1,11 @@
 package config
 
-import "time"
+import (
+	"path/filepath"
+	"time"
+
+	"pacstall.dev/webserver/log"
+)
 
 type PacstallProgramsConfig struct {
 	Path           string
@@ -12,9 +17,20 @@ type PacstallProgramsConfig struct {
 var PacstallPrograms = PacstallProgramsConfig{}
 
 func setPacstallPrograms(conf tomlPacstallProgramsConfig) {
+	path, err := filepath.Abs(conf.Path)
+
+	if err != nil {
+		log.Error.Fatalf("Could not parse file '%s'\n%v", *configPath, err)
+	}
+
+	tempDir, err := filepath.Abs(conf.TempDir)
+	if err != nil {
+		log.Error.Fatalf("Could not parse file '%s'\n%v", *configPath, err)
+	}
+
 	PacstallPrograms = PacstallProgramsConfig{
-		Path:           conf.Path,
-		TempDir:        conf.TempDir,
+		Path:           path,
+		TempDir:        tempDir,
 		UpdateInterval: time.Duration(conf.UpdateInterval) * time.Second,
 		MaxOpenFiles:   conf.MaxOpenFiles,
 	}

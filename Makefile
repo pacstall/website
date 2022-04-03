@@ -1,8 +1,3 @@
-VERSION = 2.1.0-rc5
-
-NPROCS = $(shell grep -c 'processor' /proc/cpuinfo)
-MAKEFLAGS += -j$(NPROCS)
-
 server/dist:
 	which go
 	+$(MAKE) -s -C server
@@ -31,7 +26,6 @@ clean:
 	if [ -d dist ]; then rm -rf dist; fi
 	if [ -d client/dist ]; then rm -rf client/dist; fi
 	if [ -d client/.parcel-cache ]; then rm -rf client/.parcel-cache; fi
-	if [ -f webserver.tar.gz ]; then rm webserver.tar.gz; fi
 
 version:
-	@echo "$(VERSION)"
+	@cat ./VERSION

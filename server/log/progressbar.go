@@ -67,7 +67,7 @@ func (p *progressLog) start() {
 			}
 
 			if time.Now().Sub(lastCheck) > time.Second*2 {
-				Info.Printf("[%s] (%.2v%%) %s\n", p.title, types.Percent(float64(p.current)/float64(p.total)), p.desc)
+				Info.Printf("[%s] (%v) %s\n", p.title, types.Percent(float64(p.current)/float64(p.total)), p.desc)
 				lastCheck = time.Now()
 			}
 
@@ -108,7 +108,7 @@ func (p *progressLog) Error(err error) {
 }
 
 func NewProgress(total int, title, description string) Progress {
-	if fancyLogsEnabled {
+	if !fancyLogsEnabled {
 		out := progressLog{
 			total:   total,
 			title:   title,

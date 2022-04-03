@@ -72,7 +72,7 @@ max_open_files  = 100
 
 [tcp_server]
 port        = 3300
-public_dir  = "./public"
+public_dir  = "../client/dist"
 
 [feature_flags]
 old_syntax = true
@@ -85,7 +85,7 @@ install_protocol = false
 comments         = false
 
 [logging]
-log_level = "info"
-fancy_logs = true
+log_level = "debug"
+fancy_logs = false
 
 #------------------------------------------------------------------------------#

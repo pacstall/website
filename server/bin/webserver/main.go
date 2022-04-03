@@ -47,7 +47,7 @@ func setupRequests() {
 
 func main() {
 	config.Load()
-	log.Init(config.IsProduction, config.Logging.Level)
+	log.Init(config.Logging.FancyLogs, config.Logging.Level)
 
 	startedAt := time.Now()
 	port := config.TCPServer.Port

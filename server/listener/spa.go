@@ -32,8 +32,7 @@ func (h spaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fileNotFound := os.IsNotExist(err)
 	isAPI := strings.Contains(filePath, "/api/")
 
-	if fileNotFound && !isAPI {
-		// file does not exist, serve index.html
+	if (fileNotFound && !isAPI) || (!fileNotFound && !isAPI && filePath == h.staticPath) {
 		serveIndexHtml(w, r, h.staticPath)
 		return
 	} else if fileNotFound && isAPI {
