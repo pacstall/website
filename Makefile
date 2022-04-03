@@ -1,32 +1,23 @@
-VERSION = 2.1.0-rc3
+VERSION = 2.1.0-rc5
 
 NPROCS = $(shell grep -c 'processor' /proc/cpuinfo)
 MAKEFLAGS += -j$(NPROCS)
 
-all: webserver.tar.gz
-
-### Binaries
-
-webserver.tar.gz: dist
-	[ -d ./dist/pacstall-programs ] && rm -rf dist/pacstall-programs || :
-	cd dist && tar -zcvf release *
-	mv ./dist/release ./webserver.tar.gz 
-
 server/dist:
 	which go
-	$(MAKE) -s -C server
+	+$(MAKE) -s -C server
 
 client/dist:
 	which node
-	$(MAKE) -s -C client	
+	+$(MAKE) -s -C client	
 
-dist: server/dist client/dist
+dist:
 	mkdir -p dist
 	mkdir -p dist/public
 	[ -d ./dist/pacstall-programs ] && rm -rf dist/pacstall-programs || :
-	git clone https://github.com/pacstall/pacstall-programs dist/pacstall-programs
 	cp -r client/dist/* dist/public
 	cp -r server/dist/* dist
+#git clone https://github.com/pacstall/pacstall-programs dist/pacstall-programs
 
 
 #### Commands

@@ -1,18 +1,38 @@
-FROM golang:1.18
-WORKDIR /app/src
+FROM node:lts-alpine AS client
 
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
-    apt update && \
-    apt install make nodejs git grc -y
+WORKDIR /root/
 
-COPY ./ ./
+COPY ./client ./client
+COPY ./Makefile ./Makefile
 
-RUN npm install --global --force npm \
-    make dist && \
-    mv ./dist/* ../ && \
-    cd ../ && \
-    ls && \
-    rm -rf ./src
-WORKDIR /app
-ENTRYPOINT [ "./webserver" ]
+RUN apk add --no-cache make
+RUN make client/dist
+
+
+FROM golang:1.18-alpine AS server
+WORKDIR /root/
+
+COPY ./server ./server
+COPY ./Makefile ./Makefile
+
+RUN apk add --no-cache make gcc musl-dev
+RUN make server/dist
+
+FROM debian:buster-slim
+WORKDIR /root/
+
+COPY --from=client /root/client/dist/ /root/client/dist/
+COPY --from=server /root/server/dist/ /root/server/dist/
+COPY ./Makefile ./Makefile
+
+RUN apt update && apt install make git -y
+RUN make dist \
+    && rm -rf server \
+    && rm -rf client
+
+WORKDIR /root/dist/
+
+RUN ls -al /root/dist
+
+CMD [ "sh", "-c", "git clone https://github.com/pacstall/pacstall-programs && ./webserver" ]
 EXPOSE 3300
