@@ -22,7 +22,7 @@ const MinimalPackageTableRow: FC<{ pkg: string, external: boolean }> = ({ pkg, e
         </Td>
         <Td py='8px' textAlign='right'>
             <Text fontSize='sm'>
-                {external ? 'External / APT' : 'Pacstall Repository'}
+                {external ? 'APT' : 'Pacstall Repository'}
             </Text>
         </Td>
     </Tr>
