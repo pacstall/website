@@ -30,6 +30,11 @@ func syncToPacscript(project repologyProject, script *pac.Script) (err error) {
 		return
 	}
 
+	if latest.LessThanOrEqual(current) {
+		script.UpdateStatus = pac.UpdateStatus.Latest
+		return
+	}
+
 	currentVersionParts := current.Segments64()
 	latestVersionParts := latest.Segments64()
 
@@ -75,8 +80,10 @@ func versionCompare(current, latest string) pac.UpdateStatusValue {
 	minParts := min(len(currentParts), len(latestParts))
 	versionDiff := 0
 	for i := 0; i < minParts; i++ {
-		if currentParts[i] != latestParts[i] {
+		if currentParts[i] < latestParts[i] {
 			break
+		} else if currentParts[i] > latestParts[i] {
+			return pac.UpdateStatus.Latest
 		}
 
 		versionDiff += 1
