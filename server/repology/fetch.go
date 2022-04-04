@@ -16,7 +16,7 @@ var repologyCache = make(map[string][]repologyRawProject)
 var cachedUpdatedAt = time.Now()
 
 func fetchRaw(project string) ([]repologyRawProject, error) {
-	if cachedUpdatedAt.After(time.Now().Add(-time.Minute*5)) && repologyCache[project] != nil {
+	if cachedUpdatedAt.Add(3*time.Minute).After(time.Now()) && repologyCache[project] != nil {
 		return repologyCache[project], nil
 	}
 
@@ -37,6 +37,7 @@ func fetchRaw(project string) ([]repologyRawProject, error) {
 	}
 
 	repologyCache[project] = result
+	cachedUpdatedAt = time.Now()
 
 	if len(result) == 0 {
 		return nil, fmt.Errorf("No results for '%v'", project)
@@ -122,7 +123,7 @@ func fetchRepologyProject(search []string) (rpProj repologyProject, err error) {
 
 		return v1.GreaterThan(v2)
 	}).SortBy(func(rsrp1, rsrp2 repologySemiRawProject) bool {
-		return !(rsrp1.Status == "newest" && rsrp2.Status != "newest")
+		return rsrp1.Status == "newest" && rsrp2.Status != "newest"
 	})
 
 	if foundPackagesRaw.Len() == 0 {
@@ -145,15 +146,5 @@ func fetchRepologyProject(search []string) (rpProj repologyProject, err error) {
 	}
 
 	rpProj.PrettyName = kindaPrettyList[0].VisibleName
-
-	veryPrettyList := list.From(kindaPrettyList).Filter(func(p repologySemiRawProject) bool {
-		return strings.Contains(p.VisibleName, " ")
-	})
-
-	if veryPrettyList.IsEmpty() {
-		return
-	}
-
-	rpProj.PrettyName = veryPrettyList[0].VisibleName
 	return
 }
