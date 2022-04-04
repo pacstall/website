@@ -1,10 +1,10 @@
-package pacscript
+package parser
 
 import (
 	"fmt"
 	"strings"
 
-	"pacstall.dev/webserver/pacscript/pacsh"
+	"pacstall.dev/webserver/parser/pacsh"
 	"pacstall.dev/webserver/types/list"
 	"pacstall.dev/webserver/types/pac"
 )

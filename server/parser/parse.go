@@ -1,35 +1,25 @@
-package pacscript
+package parser
 
 import (
 	"fmt"
 	"os"
 	"path"
 	"strings"
-	"time"
 
 	"pacstall.dev/webserver/config"
 	"pacstall.dev/webserver/git"
 	"pacstall.dev/webserver/log"
-	"pacstall.dev/webserver/pacscript/pacsh"
 	"pacstall.dev/webserver/parallelism/batch"
 	"pacstall.dev/webserver/parallelism/channels"
+	"pacstall.dev/webserver/parser/pacsh"
 	"pacstall.dev/webserver/repology"
+	"pacstall.dev/webserver/store/pacstore"
 	"pacstall.dev/webserver/types"
 	"pacstall.dev/webserver/types/list"
 	"pacstall.dev/webserver/types/pac"
 )
 
-func GetAll() PacscriptList {
-	return PacscriptList{
-		loadedPacscripts,
-	}
-}
-
-func LastModified() time.Time {
-	return lastModified
-}
-
-func Load() {
+func ParseAll() {
 	if err := git.HardResetAndPull(config.PacstallPrograms.Path); err != nil {
 		log.Error.Panicln("Could not update repository 'pacstall-programs'", err)
 	}
@@ -39,12 +29,13 @@ func Load() {
 		log.Error.Panicln("Failed to parse packagelist", err)
 	}
 
-	loadedPacscripts = list.From(parsePacscriptFiles(pkgList)).MapExt(func(p *pac.Script, scripts list.List[*pac.Script]) *pac.Script {
+	loadedPacscripts := list.From(parsePacscriptFiles(pkgList)).MapExt(func(p *pac.Script, scripts list.List[*pac.Script]) *pac.Script {
 		return computeRequiredBy(*p, scripts)
 	}).SortBy(func(s1, s2 *pac.Script) bool {
 		return s1.Name < s2.Name
 	})
-	lastModified = time.Now()
+
+	pacstore.Update(loadedPacscripts)
 	log.Info.Printf("Successfully parsed %v (%v / %v) packages", types.Percent(float64(len(loadedPacscripts))/float64(pkgList.Len())), loadedPacscripts.Len(), pkgList.Len())
 }
 

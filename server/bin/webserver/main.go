@@ -5,13 +5,14 @@ import (
 	"time"
 
 	"github.com/fatih/color"
+	psapi "pacstall.dev/webserver/api/pacscripts"
+	repology_api "pacstall.dev/webserver/api/repology"
 	"pacstall.dev/webserver/config"
 	"pacstall.dev/webserver/featureflag"
 	"pacstall.dev/webserver/listener"
 	"pacstall.dev/webserver/log"
-	"pacstall.dev/webserver/pacscript"
-	"pacstall.dev/webserver/pacscript/pshttphandle"
-	pacssr "pacstall.dev/webserver/pacscript/ssr"
+	"pacstall.dev/webserver/parser"
+	pacssr "pacstall.dev/webserver/ssr/pacscript"
 )
 
 func printLogo() {
@@ -36,10 +37,11 @@ func setupRequests() {
 	/* Packages */
 	pacssr.EnableSSR()
 
-	router.HandleFunc("/api/packages", pshttphandle.GetPacscriptListHandle).Methods("GET")
-	router.HandleFunc("/api/packages/{name}", pshttphandle.GetPacscriptHandle).Methods("GET")
-	router.HandleFunc("/api/packages/{name}/requiredBy", pshttphandle.GetPacscriptRequiredByHandle).Methods("GET")
-	router.HandleFunc("/api/packages/{name}/dependencies", pshttphandle.GetPacscriptDependenciesHandle).Methods("GET")
+	router.HandleFunc("/api/repology", repology_api.GetRepologyPackageListHandle).Methods("GET")
+	router.HandleFunc("/api/packages", psapi.GetPacscriptListHandle).Methods("GET")
+	router.HandleFunc("/api/packages/{name}", psapi.GetPacscriptHandle).Methods("GET")
+	router.HandleFunc("/api/packages/{name}/requiredBy", psapi.GetPacscriptRequiredByHandle).Methods("GET")
+	router.HandleFunc("/api/packages/{name}/dependencies", psapi.GetPacscriptDependenciesHandle).Methods("GET")
 
 	/* Feature Flags */
 	router.HandleFunc("/api/feature-flags", featureflag.GetFeatureFlags).Methods("GET")
@@ -65,8 +67,8 @@ func main() {
 		log.Info.Printf("Booted in %v\n", color.GreenString("%v", time.Since(startedAt)))
 
 		log.Info.Println("Attempting to parse existing pacscripts")
-		pacscript.Load()
-		pacscript.ScheduleRefresh(refreshTimer)
+		parser.ParseAll()
+		parser.ScheduleRefresh(refreshTimer)
 		log.Info.Println("Scheduled pacscripts to auto-refresh every", refreshTimer)
 	})
 

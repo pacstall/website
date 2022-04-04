@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"regexp"
 
-	"pacstall.dev/webserver/pacscript"
 	r "pacstall.dev/webserver/ssr"
+	"pacstall.dev/webserver/store/pacstore"
 )
 
 func registerPacscriptSSRData() {
@@ -14,7 +14,7 @@ func registerPacscriptSSRData() {
 		func(path string, groups []string) r.IndexTemplateData {
 			name := groups[1]
 
-			pkg, err := pacscript.GetAll().FindByName(name)
+			pkg, err := pacstore.GetAll().FindByName(name)
 			if err != nil {
 				return r.GenerateDefaultIndexTemplateData()
 			}

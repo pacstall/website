@@ -1,4 +1,4 @@
-package pshttphandle
+package psapi
 
 import (
 	"fmt"
@@ -7,7 +7,8 @@ import (
 
 	"pacstall.dev/webserver/listener"
 	"pacstall.dev/webserver/listener/query"
-	"pacstall.dev/webserver/pacscript"
+	"pacstall.dev/webserver/parser"
+	"pacstall.dev/webserver/store/pacstore"
 	"pacstall.dev/webserver/types/pac"
 )
 
@@ -25,17 +26,17 @@ type packageListPage struct {
 
 func GetPacscriptListHandle(w http.ResponseWriter, req *http.Request) {
 
-	packages := pacscript.GetAll().ToSlice()
+	packages := pacstore.GetAll().ToSlice()
 	params, err := query.
 		New(req).
-		OptionalInt(pacscript.PageKey, 0).
-		OptionalInt(pacscript.SizeKey, 50).
-		OptionalEnum(pacscript.SortByKey, pacscript.SortableProperties, pacscript.DEFAULT).
-		OptionalEnum(pacscript.SortKey, pacscript.SortTypes, pacscript.DEFAULT).
-		OptionalEnum(pacscript.FilterByKey, pacscript.FilterableProperties, pacscript.DEFAULT).
-		OptionalStr(pacscript.FilterKey, pacscript.DEFAULT).
-		MustComeTogheter([]string{pacscript.SortKey, pacscript.SortByKey}).
-		MustComeTogheter([]string{pacscript.FilterKey, pacscript.FilterByKey}).
+		OptionalInt(parser.PageKey, 0).
+		OptionalInt(parser.SizeKey, 50).
+		OptionalEnum(parser.SortByKey, parser.SortableProperties, parser.DEFAULT).
+		OptionalEnum(parser.SortKey, parser.SortTypes, parser.DEFAULT).
+		OptionalEnum(parser.FilterByKey, parser.FilterableProperties, parser.DEFAULT).
+		OptionalStr(parser.FilterKey, parser.DEFAULT).
+		MustComeTogheter([]string{parser.SortKey, parser.SortByKey}).
+		MustComeTogheter([]string{parser.FilterKey, parser.FilterByKey}).
 		Parse()
 
 	if err != nil {
@@ -45,21 +46,21 @@ func GetPacscriptListHandle(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	page := params.Ints[pacscript.PageKey]
-	pageSize := params.Ints[pacscript.SizeKey]
-	sort := params.Strings[pacscript.SortKey]
-	sortBy := params.Strings[pacscript.SortByKey]
-	filter := params.Strings[pacscript.FilterKey]
-	filterBy := params.Strings[pacscript.FilterByKey]
+	page := params.Ints[parser.PageKey]
+	pageSize := params.Ints[parser.SizeKey]
+	sort := params.Strings[parser.SortKey]
+	sortBy := params.Strings[parser.SortByKey]
+	filter := params.Strings[parser.FilterKey]
+	filterBy := params.Strings[parser.FilterByKey]
 
-	etag := fmt.Sprintf("%v-%v-%v-%v-%v-%v-%v", pacscript.LastModified().UTC().String(), page, pageSize, sort, sortBy, filter, filterBy)
+	etag := fmt.Sprintf("%v-%v-%v-%v-%v-%v-%v", pacstore.LastModified().UTC().String(), page, pageSize, sort, sortBy, filter, filterBy)
 	if listener.ApplyHeaders(etag, w, req) {
 		// Response was cached and already sent
 		return
 	}
 
-	packages = pacscript.FilterPackages(packages, filter, filterBy)
-	packages = pacscript.SortPackages(packages, sort, sortBy)
+	packages = parser.FilterPackages(packages, filter, filterBy)
+	packages = parser.SortPackages(packages, sort, sortBy)
 	found := len(packages)
 	packages = computePage(packages, page, pageSize)
 

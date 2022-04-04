@@ -1,6 +1,8 @@
 package repology
 
 import (
+	"strings"
+
 	"github.com/hashicorp/go-version"
 	"pacstall.dev/webserver/types/pac"
 )
@@ -17,14 +19,14 @@ func syncToPacscript(project repologyProject, script *pac.Script) (err error) {
 	current, err := version.NewVersion(script.Version)
 	if err != nil {
 		err = nil
-		script.UpdateStatus = pac.UpdateStatus.Unknown
+		script.UpdateStatus = versionCompare(script.Version, script.LatestVersion)
 		return
 	}
 
 	latest, err := version.NewVersion(script.LatestVersion)
 	if err != nil {
 		err = nil
-		script.UpdateStatus = pac.UpdateStatus.Unknown
+		script.UpdateStatus = versionCompare(script.Version, script.LatestVersion)
 		return
 	}
 
@@ -58,4 +60,43 @@ func syncToPacscript(project repologyProject, script *pac.Script) (err error) {
 	}
 
 	return
+}
+
+func versionCompare(current, latest string) pac.UpdateStatusValue {
+	min := func(a, b int) int {
+		if a < b {
+			return a
+		}
+		return b
+	}
+
+	currentParts := strings.Split(current, ".")
+	latestParts := strings.Split(latest, ".")
+	minParts := min(len(currentParts), len(latestParts))
+	versionDiff := 0
+	for i := 0; i < minParts; i++ {
+		if currentParts[i] != latestParts[i] {
+			break
+		}
+
+		versionDiff += 1
+	}
+
+	if minParts == 0 {
+		return pac.UpdateStatus.Unknown
+	}
+
+	if versionDiff == minParts {
+		return pac.UpdateStatus.Latest
+	}
+
+	if versionDiff == 1 {
+		return pac.UpdateStatus.Major
+	}
+
+	if versionDiff == 2 {
+		return pac.UpdateStatus.Minor
+	}
+
+	return pac.UpdateStatus.Patch
 }

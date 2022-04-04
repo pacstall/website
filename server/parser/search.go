@@ -1,4 +1,4 @@
-package pacscript
+package parser
 
 import (
 	"strings"

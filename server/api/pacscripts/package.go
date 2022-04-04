@@ -1,4 +1,4 @@
-package pshttphandle
+package psapi
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"pacstall.dev/webserver/listener"
-	"pacstall.dev/webserver/pacscript"
+	"pacstall.dev/webserver/store/pacstore"
 )
 
 func GetPacscriptHandle(w http.ResponseWriter, req *http.Request) {
@@ -17,11 +17,11 @@ func GetPacscriptHandle(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	if listener.ApplyHeaders(fmt.Sprintf("%v-%v", pacscript.LastModified().UTC().String(), name), w, req) {
+	if listener.ApplyHeaders(fmt.Sprintf("%v-%v", pacstore.LastModified().UTC().String(), name), w, req) {
 		return // req is cached
 	}
 
-	pkg, err := pacscript.GetAll().FindByName(name)
+	pkg, err := pacstore.GetAll().FindByName(name)
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		return

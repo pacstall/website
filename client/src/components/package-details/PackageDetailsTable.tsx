@@ -33,7 +33,7 @@ const PackageDetailsTable: FC<{ data: PackageInfo, dependencyCount: number, requ
                 <Entry header="Version">
                     <Text
                         fontWeight='bold'>
-                        <SemanticVersionColor version={data.version} status={data.updateStatus} />
+                        <SemanticVersionColor git={data.name.endsWith("-git")} version={data.version} status={data.updateStatus} />
                     </Text>
                 </Entry>
 

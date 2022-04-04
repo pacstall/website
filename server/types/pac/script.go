@@ -1,11 +1,11 @@
 package pac
 
 type updateStatus struct {
-	Unknown int
-	Latest  int
-	Minor   int
-	Major   int
-	Patch   int
+	Unknown UpdateStatusValue
+	Latest  UpdateStatusValue
+	Minor   UpdateStatusValue
+	Major   UpdateStatusValue
+	Patch   UpdateStatusValue
 }
 
 var UpdateStatus = updateStatus{
@@ -15,6 +15,8 @@ var UpdateStatus = updateStatus{
 	Latest:  0,
 	Unknown: -1,
 }
+
+type UpdateStatusValue = int
 
 type Script struct {
 	Name                 string   `json:"name"`

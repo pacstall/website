@@ -20,7 +20,7 @@ const PackageTableRow: FC<{ pkg: PackageInfo, disabled?: boolean }> = ({ pkg, di
         </Td>
         <Td display={useBreakpointValue({ base: 'none', sm: 'table-cell' })}>
             <Text fontSize='sm'>
-                <SemanticVersionColor fill version={pkg.version.substring(0, 14)} status={pkg.updateStatus} />
+                <SemanticVersionColor git={pkg.name.endsWith("-git")} fill version={pkg.version.substring(0, 14)} status={pkg.updateStatus} />
             </Text>
 
         </Td>

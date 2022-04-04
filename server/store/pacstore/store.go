@@ -1,4 +1,4 @@
-package pacscript
+package pacstore
 
 import (
 	"time"
@@ -12,7 +12,7 @@ type PacscriptList struct {
 }
 
 var lastModified time.Time
-var loadedPacscripts list.List[*pac.Script]
+var loadedPacscripts PacscriptList
 
 func (l PacscriptList) FindByName(name string) (*pac.Script, error) {
 	return l.FindBy(func(pi *pac.Script) bool {
@@ -24,4 +24,21 @@ func (l PacscriptList) FindByMaintainer(maintainer string) (*pac.Script, error) 
 	return l.FindBy(func(pi *pac.Script) bool {
 		return pi.Maintainer == maintainer
 	})
+}
+
+func GetAll() PacscriptList {
+	return PacscriptList{
+		loadedPacscripts.Clone().ToSlice(),
+	}
+}
+
+func LastModified() time.Time {
+	return lastModified
+}
+
+func Update(scripts list.List[*pac.Script]) {
+	lastModified = time.Now()
+	loadedPacscripts = PacscriptList{
+		scripts.Clone(),
+	}
 }
