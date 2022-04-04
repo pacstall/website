@@ -11,7 +11,7 @@ import (
 type AlreadyResponded = bool
 
 func ApplyHeaders(etag string, w http.ResponseWriter, r *http.Request) AlreadyResponded {
-	w.Header().Add("Cache-Control", "max-age:420") // 7 minutes
+	w.Header().Add("Cache-Control", "max-age:60")
 	w.Header().Add("Etag", etag)
 
 	if match := r.Header.Get("If-None-Match"); match != "" {
