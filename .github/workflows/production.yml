@@ -1,0 +1,43 @@
+name: production
+on:
+  push:
+    tags:
+      - '*'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set ENV
+      run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.PUBLISH_PACKAGE_PAT }}
+
+    - name: Build Docker image
+      run: |
+        docker build --build-arg version="$RELEASE_VERSION" --no-cache -t webserver .
+        docker tag webserver "ghcr.io/pacstall/webserver:$RELEASE_VERSION"
+        docker tag webserver ghcr.io/pacstall/webserver:latest
+
+    - name: Push Image
+      run: |
+        docker push "ghcr.io/pacstall/webserver:$RELEASE_VERSION"
+        docker push ghcr.io/pacstall/webserver:latest
+    
+    - name: Deploy 
+      uses: fjogeleit/http-request-action@v1
+      with:
+        url: 'https://api.digitalocean.com/v2/apps/${{ secrets.DIGITALOCEAN_PRODUCTION_APP_ID }}/deployments'
+        method: 'POST'
+        bearerToken: ${{ secrets.DIGITALOCEAN_PRODUCTION_TOKEN }}
+        data: '{ "force_build": true }'

@@ -2,13 +2,13 @@ package listener
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"strings"
 	"time"
 
 	"github.com/gorilla/mux"
-	"pacstall.dev/website/config"
+	"pacstall.dev/webserver/config"
+	"pacstall.dev/webserver/log"
 )
 
 var router mux.Router = *mux.NewRouter()
@@ -17,7 +17,7 @@ func Router() *mux.Router {
 	return &router
 }
 
-func Listen(port int) {
+func Listen(port uint16) {
 	registerHealthCheck()
 
 	Router().Use(func(next http.Handler) http.Handler {
@@ -31,8 +31,8 @@ func Listen(port int) {
 
 	go triggerServerOnline(port)
 
-	if config.Config.Production {
-		Router().PathPrefix("/").Handler(spaHandler{staticPath: config.Config.TCPServer.PublicDir, indexPath: "index.html"})
+	if config.IsProduction {
+		Router().PathPrefix("/").Handler(spaHandler{staticPath: config.TCPServer.PublicDir})
 	}
 
 	server := &http.Server{
@@ -43,5 +43,5 @@ func Listen(port int) {
 	}
 
 	err := server.ListenAndServe()
-	log.Panicf("Could not start TCP listener on port %v. Got error: %v", port, err)
+	log.Error.Fatalf("Could not start TCP listener on port %v. Got error: %v\n", port, err)
 }

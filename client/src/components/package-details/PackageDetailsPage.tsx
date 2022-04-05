@@ -11,6 +11,7 @@ import PackageDetailsTable from "./PackageDetailsTable"
 import PackageRequiredByModal from "./PackageRequiredByModal"
 // @ts-ignore:next-line
 import DefaultAppImg from "../../../public/app.png"
+import toTitleCase from "../../util/title-case"
 
 
 type PackageDetailsPageProps = {
@@ -39,7 +40,7 @@ const PackageDetailsPage: FC<PackageDetailsPageProps> = ({ allDependencies, data
         <Container maxW='60em' mt='10'>
             <PackageDetailsHeader data={data} isMobile={isMobile} />
             <PackageDetailsTable data={data} dependencyCount={allDependencies.length} dependenciesModal={dependenciesModal} requiredByModal={requiredByModal} />
-            <HowToInstall name={data.name} isMobile={isMobile} />
+            <HowToInstall name={data.name} prettyName={toTitleCase(data)} isMobile={isMobile} />
             <PackageDetailsComments />
         </Container>
         <PackageRequiredByModal name={data.name} {...requiredByModal} />

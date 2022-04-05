@@ -1,10 +1,11 @@
 import { FC, useEffect, useMemo } from "react";
-import { useParams, Navigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import PackageDetailsPage from "../components/package-details/PackageDetailsPage";
 import usePackageInfo from "../hooks/usePackageInfo";
 import useDeviceType from "../hooks/useDeviceType";
 import { Box, Spinner, useDisclosure } from "@chakra-ui/react";
 import { useQueryParam } from "use-query-params";
+import NotFound from "./NotFound";
 
 type OpenPopup = 'required' | 'dependencies' | null
 
@@ -66,7 +67,7 @@ const PackageDetails: FC = () => {
     ], [data]);
 
     if (error) {
-        return <Navigate to="/not-found" />
+        return <NotFound />
     }
 
     return (

@@ -16,6 +16,17 @@ export default interface PackageInfo {
     pacstallDependencies: string[];
     patch: string[];
     requiredBy: string[];
+    latestVersion: string;
+    prettyName: string;
+    updateStatus: UpdateStatus;
+}
+
+export enum UpdateStatus {
+    Unknown = -1,
+    Latest = 0,
+    Major = 3,
+    Minor = 2,
+    Patch = 1,
 }
 
 export interface PackageInfoPage {

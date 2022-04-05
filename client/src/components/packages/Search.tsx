@@ -19,8 +19,8 @@ const Search: FC<{ isLoading: boolean, placeholder: string, onSearch: (filter: s
                     defaultValue="name"
                     ref={selectRef}
                     className="focus:outline-none appearance-none h-full rounded-l rounded-r border sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
-                    <option value="name">Package</option>
-                    <option value="maintainer">Maintainer</option>
+                    <option value="name" title="Searches in package names and descriptions">Package</option>
+                    <option value="maintainer" title="Searches by maintainer names and emails">Maintainer</option>
                 </Select>
 
                 <Input minW={{ base: 'sm', xs: '0' }} onKeyUp={onPressEnterKey} placeholder={placeholder} ref={inputRef} />

@@ -1,18 +1,18 @@
 package cache
 
-import "pacstall.dev/website/types"
+import "pacstall.dev/webserver/types/pac"
 
-var cache map[string][]*types.PackageInfo = make(map[string][]*types.PackageInfo)
+var cache map[string][]*pac.Script = make(map[string][]*pac.Script)
 
-func Get(etag string) ([]*types.PackageInfo, bool) {
+func Get(etag string) ([]*pac.Script, bool) {
 	found, ok := cache[etag]
 	return found, ok
 }
 
-func Set(etag string, pkgs []*types.PackageInfo) {
+func Set(etag string, pkgs []*pac.Script) {
 	cache[etag] = pkgs
 }
 
 func Invalidate() {
-	cache = make(map[string][]*types.PackageInfo)
+	cache = make(map[string][]*pac.Script)
 }

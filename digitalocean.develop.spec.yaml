@@ -1,0 +1,18 @@
+alerts:
+- rule: DEPLOYMENT_FAILED
+- rule: DOMAIN_FAILED
+name: pacstall-website
+region: fra
+services:
+- dockerfile_path: Dockerfile.development
+  github:
+    branch: develop
+    deploy_on_push: false
+    repo: pacstall/website
+  http_port: 3300
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  name: webserver-development
+  routes:
+  - path: /
+  source_dir: /

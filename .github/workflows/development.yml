@@ -1,0 +1,44 @@
+name: development
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set ENV
+      run: | 
+        echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.PUBLISH_PACKAGE_PAT }}
+
+    - name: Build Docker Images
+      run: |
+        docker build --build-arg version="${SHORT_SHA}-dev" --no-cache -t webserver .
+        docker tag webserver "ghcr.io/pacstall/webserver:$SHORT_SHA"
+        docker tag webserver ghcr.io/pacstall/webserver:development
+
+    - name: Push Images
+      run: |
+        docker push "ghcr.io/pacstall/webserver:$SHORT_SHA"
+        docker push ghcr.io/pacstall/webserver:development
+    
+    - name: Deploy 
+      uses: fjogeleit/http-request-action@v1
+      with:
+        url: 'https://api.digitalocean.com/v2/apps/${{ secrets.DIGITALOCEAN_DEVELOPMENT_APP_ID }}/deployments'
+        method: 'POST'
+        bearerToken: ${{ secrets.DIGITALOCEAN_DEVELOPMENT_TOKEN }}
+        data: '{ "force_build": true }'

@@ -1,9 +1,10 @@
 import { ExternalLinkIcon } from "@chakra-ui/icons";
-import { Table, Tbody, Link, Tr, Th, Td, useColorModeValue, Text, Icon, UseDisclosureProps } from "@chakra-ui/react";
+import { Table, Tbody, Link, Tr, Th, Td, Text, Icon, UseDisclosureProps } from "@chakra-ui/react";
 import { FC } from "react";
 import { Link as Rlink } from 'react-router-dom'
 import { useFeatureFlag } from "../../state/feature-flags";
 import PackageInfo from "../../types/package-info";
+import SemanticVersionColor from "../SemanticVersionColor";
 import PackageDetailsMaintainer from "./PackageDetailsMaintainer";
 
 const Entry: FC<{ header: string, disabled?: boolean }> = ({ header, children, disabled }) => (
@@ -31,14 +32,8 @@ const PackageDetailsTable: FC<{ data: PackageInfo, dependencyCount: number, requ
 
                 <Entry header="Version">
                     <Text
-                        fontWeight='bold'
-                        color={useColorModeValue('black', 'white')}
-                        as='span'
-                        p='1'
-                        px='2'
-                        borderRadius='lg'
-                        bg={useColorModeValue('gray.100', 'gray.700')}>
-                        {data.version}
+                        fontWeight='bold'>
+                        <SemanticVersionColor git={data.name.endsWith("-git")} version={data.version} status={data.updateStatus} />
                     </Text>
                 </Entry>
 

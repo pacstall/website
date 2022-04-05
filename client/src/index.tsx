@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { FC, lazy, Suspense } from "react";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
@@ -70,8 +70,7 @@ ReactDOM.render(<>
                                 <Route path="/packages" element={<Packages />} />
                                 <Route path="/packages/:name" element={<PackageDetails />} />
                                 <Route path="/privacy" element={<PrivacyPolicy />} />
-                                <Route path="/not-found" element={<NotFound />} />
-                                <Route path="*" element={<Navigate to="/not-found" />} />
+                                <Route path="*" element={<NotFound />} />
                             </Routes>
                         </Suspense>
                         <Footer />
