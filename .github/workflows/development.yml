@@ -1,4 +1,4 @@
-name: development
+name: Publish Dev Image
 on:
   push:
     branches:
@@ -34,11 +34,3 @@ jobs:
       run: |
         docker push "ghcr.io/pacstall/webserver:$SHORT_SHA"
         docker push ghcr.io/pacstall/webserver:development
-    
-    - name: Deploy 
-      uses: fjogeleit/http-request-action@v1
-      with:
-        url: 'https://api.digitalocean.com/v2/apps/${{ secrets.DIGITALOCEAN_DEVELOPMENT_APP_ID }}/deployments'
-        method: 'POST'
-        bearerToken: ${{ secrets.DIGITALOCEAN_DEVELOPMENT_TOKEN }}
-        data: '{ "force_build": true }'

@@ -1,3 +1,0 @@
-FROM ghcr.io/pacstall/webserver:latest
-
-EXPOSE 3300

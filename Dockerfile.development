@@ -1,3 +1,0 @@
-FROM ghcr.io/pacstall/webserver:development
-
-EXPOSE 3300
