@@ -190,7 +190,7 @@ func Map[T any, E any](list List[T], mapper func(int, T) E) List[E] {
 func ReduceIndex[T any, E any](list List[T], reducer func(int, T, E) E, accumulator E) E {
 	out := accumulator
 	for idx, item := range list {
-		accumulator = reducer(idx, item, accumulator)
+		out = reducer(idx, item, out)
 	}
 
 	return out
