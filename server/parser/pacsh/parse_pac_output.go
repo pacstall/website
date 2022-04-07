@@ -60,6 +60,11 @@ func parseOutput(data []byte) (out pac.Script) {
 	ppa := categories[ppaIdx]
 	repology := categories[repologyIdx]
 
+	hashPtr := &hash
+	if hash == "" {
+		hashPtr = nil
+	}
+
 	out = pac.Script{
 		Name:                 name,
 		PackageName:          packageName,
@@ -67,7 +72,7 @@ func parseOutput(data []byte) (out pac.Script) {
 		Description:          description,
 		URL:                  url,
 		Gives:                gives,
-		Hash:                 hash,
+		Hash:                 hashPtr,
 		Version:              version,
 		RuntimeDependencies:  strings.Fields(runtimeDependencies),
 		Breaks:               strings.Fields(breaks),
@@ -79,13 +84,15 @@ func parseOutput(data []byte) (out pac.Script) {
 		Patch:                parseSubcategory(patch),
 		RequiredBy:           make([]string, 0),
 		Repology:             parseSubcategory(repology),
-		LatestVersion:        "Unknown",
+		LatestVersion:        nil,
 		UpdateStatus:         pac.UpdateStatus.Unknown,
 	}
 
 	if out.PackageName == "" {
 		out.PackageName = out.Name
 	}
+
+	out.PrettyName = getPrettyName(out)
 
 	return out
 }

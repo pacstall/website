@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"strings"
 
-	"pacstall.dev/webserver/log"
-	"pacstall.dev/webserver/types/list"
 	"pacstall.dev/webserver/types/pac"
 )
 
@@ -30,7 +28,7 @@ type repologyPackage struct {
 func newRepologyPackage(p pac.Script) repologyPackage {
 	return repologyPackage{
 		Name:              p.Name,
-		VisibleName:       getPrettyName(p),
+		VisibleName:       p.PrettyName,
 		Description:       p.Description,
 		Maintainer:        getMaintainer(p),
 		Version:           p.Version,
@@ -47,35 +45,6 @@ var pacTypes = map[string]string{
 	"-git": "Source Code",
 	"-bin": "Precompiled",
 	"-app": "AppImage",
-}
-
-func getPrettyName(p pac.Script) string {
-	name := p.PrettyName
-
-	if name == "" {
-		name = p.Name
-	}
-
-	for suffix := range pacTypes {
-		if strings.HasSuffix(name, suffix) {
-			name = name[0 : len(name)-len(suffix)]
-		}
-	}
-
-	return titleCase(name)
-}
-
-func titleCase(s string) string {
-	out := list.Reduce(strings.Split(s, "-"), func(word string, acc string) string {
-		if acc != "" {
-			acc += " "
-		}
-		return acc + strings.ToUpper(word[:1]) + strings.ToLower(word[1:])
-	}, "")
-
-	log.Warn.Printf("Title case: %s -> %s", s, out)
-
-	return out
 }
 
 func getMaintainer(p pac.Script) maintainerDetails {
