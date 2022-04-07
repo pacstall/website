@@ -9,9 +9,9 @@ import (
 
 func syncToPacscript(project repologyProject, script *pac.Script) (err error) {
 	script.PrettyName = project.PrettyName
-	script.LatestVersion = project.Version
+	script.LatestVersion = &project.Version
 
-	if script.LatestVersion == script.Version {
+	if *script.LatestVersion == script.Version {
 		script.UpdateStatus = pac.UpdateStatus.Latest
 		return
 	}
@@ -19,14 +19,14 @@ func syncToPacscript(project repologyProject, script *pac.Script) (err error) {
 	current, err := version.NewVersion(script.Version)
 	if err != nil {
 		err = nil
-		script.UpdateStatus = versionCompare(script.Version, script.LatestVersion)
+		script.UpdateStatus = versionCompare(script.Version, *script.LatestVersion)
 		return
 	}
 
-	latest, err := version.NewVersion(script.LatestVersion)
+	latest, err := version.NewVersion(*script.LatestVersion)
 	if err != nil {
 		err = nil
-		script.UpdateStatus = versionCompare(script.Version, script.LatestVersion)
+		script.UpdateStatus = versionCompare(script.Version, *script.LatestVersion)
 		return
 	}
 

@@ -11,12 +11,12 @@ export default interface PackageInfo {
     breaks: string[];
     gives: string;
     replace: string[];
-    hash: string;
+    hash?: string;
     ppa: string[];
     pacstallDependencies: string[];
     patch: string[];
     requiredBy: string[];
-    latestVersion: string;
+    latestVersion?: string;
     prettyName: string;
     updateStatus: UpdateStatus;
 }

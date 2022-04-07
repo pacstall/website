@@ -12,7 +12,7 @@ const PackageDetailsHeader: FC<{ data: PackageInfo, isMobile: boolean }> = ({ da
         <>
             <HStack justify='space-between'>
                 <HStack>
-                    <Heading>{toTitleCase(data)}</Heading>
+                    <Heading>{data.prettyName}</Heading>
                 </HStack>
                 {!isMobile && installButtonEnabled && <InstallNowButton />}
             </HStack>

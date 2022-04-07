@@ -22,7 +22,7 @@ type Script struct {
 	Name                 string   `json:"name"`
 	PrettyName           string   `json:"prettyName"`
 	Version              string   `json:"version"`
-	LatestVersion        string   `json:"latestVersion"`
+	LatestVersion        *string  `json:"latestVersion"`
 	PackageName          string   `json:"packageName"`
 	Maintainer           string   `json:"maintainer"`
 	Description          string   `json:"description"`
@@ -33,7 +33,7 @@ type Script struct {
 	Breaks               []string `json:"breaks"`
 	Gives                string   `json:"gives"`
 	Replace              []string `json:"replace"`
-	Hash                 string   `json:"hash"`
+	Hash                 *string  `json:"hash"`
 	PPA                  []string `json:"ppa"`
 	PacstallDependencies []string `json:"pacstallDependencies"`
 	Patch                []string `json:"patch"`
