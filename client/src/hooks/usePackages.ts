@@ -1,54 +1,51 @@
-import axios from "axios"
-import React from "react"
-import { useState, useEffect } from "react"
-import { useLocation, useNavigate } from "react-router-dom"
-import serverConfig from "../config/server"
-import { PackageInfoPage } from "../types/package-info"
+import Joi from "joi";
+import { useEffect } from "react";
+import { PackageInfoPage, Page } from "../types/package-info"
+import useCache from "./useCache"
+import useQuery from "./useQuery";
+import { useFetcher, UseFetcherResult } from "./useFetcher"
 
-const useQuery = (): [URLSearchParams, (query: URLSearchParams, replace?: boolean) => void] => {
-    const { search, pathname } = useLocation();
-    const navigate = useNavigate()
-
-    const data = React.useMemo(() => new URLSearchParams(search), [search]);
-    const setData = (query: URLSearchParams, replace = false) => navigate(`${pathname}?${query.toString()}`, { replace })
-
-    return [data, setData]
+const useFetchPackages = (page: Page): UseFetcherResult<PackageInfoPage> => {
+    const cache = useCache<Page, PackageInfoPage>('packages')
+    return useFetcher<PackageInfoPage>(`/api/packages`, { params: page, cache })
 }
 
 const usePackages = () => {
-    const [data, setData] = useState<PackageInfoPage>(null as any)
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(false)
-    const [queryParams, setQueryParams] = useQuery()
-    const [trigger, setTrigger] = useState(false)
+    const [queryParams, setQueryParams] = useQuery<Page>(Joi.object({
+        page: Joi.alt().try(Joi.number().min(0)).default(0),
+        size: Joi.alt().try(Joi.number().integer().min(1)).default(25),
+        sortBy: Joi.alt().try(Joi.string().valid('default')).default('name'),
+        sort: Joi.alt().try(Joi.string().valid('asc', 'desc')).default('asc'),
+        filter: Joi.alt().try(Joi.string().allow('')).default(''),
+        filterBy: Joi.alt().try(Joi.string().valid('name', 'maintainer')).default('name'),
+    }), {
+        page: 0,
+        size: 25,
+        sortBy: 'default',
+        sort: 'asc',
+        filter: '',
+        filterBy: 'name',
+    })
+
+    const { error, loading, data } = useFetchPackages(queryParams)
+
 
     useEffect(() => {
-        if (queryParams.get('page') === null || isNaN(+queryParams.get('page'))) {
-            queryParams.set('page', '0')
-            setQueryParams(queryParams, true)
-            return
+        if (!error && !loading && queryParams.page > data.lastPage) {
+            setQueryParams({
+                ...queryParams,
+                page: data.lastPage
+            }, true)
         }
-
-        const url = `/api/packages?page=${queryParams.get('page') || 0}&size=${queryParams.get('size') || 25}&sort=${queryParams.get('sort') || ''}&sortBy=${queryParams.get('sortBy') || 'default'}&filter=${queryParams.get('filter') || ''}&filterBy=${queryParams.get('filterBy') || 'name'}`
-        setLoading(true)
-        setError(false)
-        axios.get<PackageInfoPage>(`${serverConfig.host}${url}`).then(res => {
-            setData(res.data)
-            setLoading(false)
-
-            if (+queryParams.get('page') > res.data.lastPage) {
-                queryParams.set('page', res.data.lastPage.toString())
-                setQueryParams(queryParams, true)
-            }
-        }).catch(() => setError(true))
-    }, [queryParams, trigger])
+    }, [loading])
 
     const onSearch = (filter: string, filterBy: string) => {
-        queryParams.set('page', '0')
-        queryParams.set('filter', filter)
-        queryParams.set('filterBy', filterBy)
-        setQueryParams(queryParams)
-        setTrigger(!trigger)
+        setQueryParams({
+            ...queryParams,
+            page: 0,
+            filter,
+            filterBy,
+        })
     }
 
     return {

@@ -1,4 +1,4 @@
-import { chakra, useColorModeValue } from "@chakra-ui/react";
+import { chakra, Tooltip, useColorModeValue } from "@chakra-ui/react";
 import { FC } from "react";
 import { UpdateStatus } from "../types/package-info";
 
@@ -21,20 +21,21 @@ const SemanticVersionColor: FC<{ version: string; status: UpdateStatus, fill?: b
 
     const tooltip = status !== UpdateStatus.Unknown ? versionTooltip[status] : (git ? 'This package is built from a specific Git commit' : versionTooltip[UpdateStatus.Unknown])
 
-    return <chakra.span
-        bg={versionColors[status]}
-        p='1'
-        px='2'
-        borderRadius='lg'
-        display={fill ? 'block' : 'inline-block'}
-        minW={fill ? 'initial' : '4em'}
-        m={0}
-        textAlign='center'
-        title={tooltip}
-        fontWeight='700'
-        color={useColorModeValue('black', 'white')}>
-        {version}
-    </chakra.span>
+    return <Tooltip openDelay={500} label={tooltip}>
+        <chakra.span
+            bg={versionColors[status]}
+            p='1'
+            px='2'
+            borderRadius='lg'
+            display={fill ? 'block' : 'inline-block'}
+            minW={fill ? 'initial' : '4em'}
+            m={0}
+            textAlign='center'
+            fontWeight='700'
+            color={useColorModeValue('black', 'white')}>
+            {version}
+        </chakra.span>
+    </Tooltip>
 }
 
 export default SemanticVersionColor

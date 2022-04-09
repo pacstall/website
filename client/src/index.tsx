@@ -8,10 +8,11 @@ import { QueryParamProvider } from "use-query-params";
 import axios from "axios";
 import { setupCache } from "axios-cache-adapter";
 import { RecoilRoot } from "recoil";
-import { Box, ChakraProvider, extendTheme, localStorageManager, Spinner, StylesProvider, Text } from '@chakra-ui/react'
+import { ChakraProvider, extendTheme, localStorageManager, StylesProvider, Text } from '@chakra-ui/react';
 
 import serverConfig from "./config/server";
 import CookieBanner from "./components/CookieBanner";
+import Navigation from "./components/Navigation";
 
 axios.defaults.adapter = setupCache({
     clearOnError: true,
@@ -64,7 +65,8 @@ ReactDOM.render(<>
             <RecoilRoot>
                 <QueryParamProvider>
                     <BrowserRouter>
-                        <Suspense fallback={<Box textAlign='center' mt='20vh'><Spinner size='lg' /></Box>}>
+                        <Navigation />
+                        <Suspense fallback={<></>}>
                             <Routes>
                                 <Route index element={<Home />} />
                                 <Route path="/packages" element={<Packages />} />
@@ -77,7 +79,7 @@ ReactDOM.render(<>
                         <CookieBanner />
                     </BrowserRouter>
                 </QueryParamProvider>
-            </RecoilRoot>
-        </StylesProvider>
-    </ChakraProvider>
+            </RecoilRoot >
+        </StylesProvider >
+    </ChakraProvider >
 </>, app);

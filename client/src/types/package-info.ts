@@ -39,4 +39,13 @@ export interface PackageInfoPage {
     lastPage: number;
     total: number;
     data: PackageInfo[];
-} 
+}
+
+export interface Page {
+    page: number;
+    size: number;
+    filter: string;
+    filterBy: string;
+    sort: string;
+    sortBy: string;
+}

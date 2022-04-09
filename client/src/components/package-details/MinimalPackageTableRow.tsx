@@ -1,4 +1,4 @@
-import { Link, Td, Text, Tr, useColorModeValue } from "@chakra-ui/react";
+import { Link, Td, Text, Tooltip, Tr, useColorModeValue } from "@chakra-ui/react";
 import { FC } from "react";
 import { Link as Rlink } from "react-router-dom";
 
@@ -13,12 +13,14 @@ const getName = (nameWithDescription: string): string => {
 const MinimalPackageTableRow: FC<{ pkg: string, external: boolean }> = ({ pkg, external }) => (
     <Tr key={pkg}>
         <Td py='8px'>
-            <Text fontSize='md' fontWeight='500' title={getDescription(pkg) || 'No description available'}>
-                {external
-                    ? <>{getName(pkg)}</>
-                    : <Link as={Rlink} target='_blank' color={useColorModeValue('pink.600', 'pink.400')} to={`/packages/${getName(pkg)}`} >{getName(pkg)}</Link>
-                }
-            </Text>
+            <Tooltip openDelay={500} label={getDescription(pkg) || 'No description available'}>
+                <Text fontSize='md' fontWeight='500'>
+                    {external
+                        ? <>{getName(pkg)}</>
+                        : <Link as={Rlink} target='_blank' color={useColorModeValue('pink.600', 'pink.400')} to={`/packages/${getName(pkg)}`} >{getName(pkg)}</Link>
+                    }
+                </Text>
+            </Tooltip>
         </Td>
         <Td py='8px' textAlign='right'>
             <Text fontSize='sm'>

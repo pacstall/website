@@ -6,7 +6,7 @@ on:
         description: 'Version'     
         required: true
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -32,3 +32,7 @@ jobs:
       run: |
         docker push "ghcr.io/pacstall/webserver:${{ github.event.inputs.version }}"
         docker push ghcr.io/pacstall/webserver:latest
+    
+    - uses: rickstaa/action-create-tag@v1
+      with:
+        tag: ${{ github.event.inputs.version }}
