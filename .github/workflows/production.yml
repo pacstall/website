@@ -36,3 +36,4 @@ jobs:
     - uses: rickstaa/action-create-tag@v1
       with:
         tag: ${{ github.event.inputs.version }}
+        github_token: ${{ secrets.REPO_PAT }}
