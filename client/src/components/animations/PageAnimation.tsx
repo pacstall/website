@@ -1,12 +1,24 @@
 import { Fade } from '@chakra-ui/react'
-import { FC } from 'react'
+import { FC, useMemo } from 'react'
+import browser from '../../util/browser'
 
-const PageAnimation: FC = ({ children }) => (
-    <Fade
-        in
-        transition={{ enter: { type: 'spring', damping: 5, stiffness: 50 } }}
-    >
-        {children}
-    </Fade>
-)
+const Empty: FC<any> = ({ children }) => <>{children}</>
+
+const PageAnimation: FC = ({ children }) => {
+    const Fader: typeof Fade = useMemo(
+        () => (browser.isFirefox ? (Empty as any) : Fade),
+        [],
+    )
+
+    return (
+        <Fader
+            in
+            transition={{
+                enter: { type: 'spring', damping: 5, stiffness: 50 },
+            }}
+        >
+            {children}
+        </Fader>
+    )
+}
 export default PageAnimation
