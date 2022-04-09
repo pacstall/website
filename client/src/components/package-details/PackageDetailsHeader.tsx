@@ -1,12 +1,17 @@
-import { HStack, Heading, Text } from "@chakra-ui/react";
-import { FC } from "react";
-import PackageInfo from "../../types/package-info";
-import InstallNowButton from "./InstallNowButton";
-import { useFeatureFlag } from "../../state/feature-flags";
-import toTitleCase from "../../util/title-case";
+import { HStack, Heading, Text } from '@chakra-ui/react'
+import { FC } from 'react'
+import PackageInfo from '../../types/package-info'
+import InstallNowButton from './InstallNowButton'
+import { useFeatureFlag } from '../../state/feature-flags'
+import toTitleCase from '../../util/title-case'
 
-const PackageDetailsHeader: FC<{ data: PackageInfo, isMobile: boolean }> = ({ data }, isMobile) => {
-    const installButtonEnabled = useFeatureFlag(flags => flags.packageDetailsPage.installProtocol)
+const PackageDetailsHeader: FC<{ data: PackageInfo; isMobile: boolean }> = (
+    { data },
+    isMobile,
+) => {
+    const installButtonEnabled = useFeatureFlag(
+        flags => flags.packageDetailsPage.installProtocol,
+    )
 
     return (
         <>

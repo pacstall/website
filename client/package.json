@@ -1,45 +1,48 @@
 {
-  "scripts": {
-    "start": "npm run clean && mkdir -p dist/public && cp -r public/ dist/public && npx parcel index.html",
-    "build": "rm -rf dist && NODE_ENV=production VERSION=\"$(npm run version)\" npx parcel build index.production.html && cp -r public/ dist/public && mv dist/index.production.html dist/index.html",
-    "version": "(cd ../; make version)",
-    "clean": "rm -rf .parcel-cache && rm -rf dist"
-  },
-  "devDependencies": {
-    "@chakra-ui/icons": "^1.1.7",
-    "@types/node": "^17.0.23",
-    "@types/react": "^17.0.43",
-    "@types/react-dom": "^17.0.14",
-    "@types/react-helmet": "^6.1.5",
-    "@types/react-router-dom": "^5.3.3",
-    "autoprefixer": "^10.4.4",
-    "parcel": "^2.4.1",
-    "parcel-plugin-static-files-copy": "^2.6.0",
-    "postcss": "^8.4.12",
-    "postcss-modules": "^4.3.1",
-    "typescript": "^4.6.3"
-  },
-  "dependencies": {
-    "@chakra-ui/icons": "^1.1.7",
-    "@chakra-ui/react": "^1.8.7",
-    "@emotion/react": "^11",
-    "@emotion/styled": "^11",
-    "axios": "^0.26.1",
-    "axios-cache-adapter": "^2.7.3",
-    "joi": "^17.6.0",
-    "lodash": "^4.17.21",
-    "query-string": "^7.1.1",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-helmet": "^6.1.0",
-    "react-router-dom": "^6.3.0",
-    "react-use-cookie": "^1.4.0",
-    "recoil": "^0.7.0",
-    "use-query-params": "^1.2.3"
-  },
-  "staticFiles": {
-    "staticPath": [
-      "public"
-    ]
-  }
+    "scripts": {
+        "start": "npm run clean && mkdir -p dist/public && cp -r public/ dist/public && npx parcel index.html",
+        "build": "rm -rf dist && NODE_ENV=production VERSION=\"$(npm run version)\" npx parcel build index.production.html && cp -r public/ dist/public && mv dist/index.production.html dist/index.html",
+        "version": "(cd ../; make version)",
+        "lint": "prettier --check .",
+        "lint:fix": "prettier --write .",
+        "clean": "rm -rf .parcel-cache && rm -rf dist"
+    },
+    "devDependencies": {
+        "@chakra-ui/icons": "^1.1.7",
+        "@types/node": "^17.0.23",
+        "@types/react": "^17.0.43",
+        "@types/react-dom": "^17.0.14",
+        "@types/react-helmet": "^6.1.5",
+        "@types/react-router-dom": "^5.3.3",
+        "autoprefixer": "^10.4.4",
+        "parcel": "^2.4.1",
+        "parcel-plugin-static-files-copy": "^2.6.0",
+        "postcss": "^8.4.12",
+        "postcss-modules": "^4.3.1",
+        "prettier": "2.6.2",
+        "typescript": "^4.6.3"
+    },
+    "dependencies": {
+        "@chakra-ui/icons": "^1.1.7",
+        "@chakra-ui/react": "^1.8.7",
+        "@emotion/react": "^11",
+        "@emotion/styled": "^11",
+        "axios": "^0.26.1",
+        "axios-cache-adapter": "^2.7.3",
+        "joi": "^17.6.0",
+        "lodash": "^4.17.21",
+        "query-string": "^7.1.1",
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0",
+        "react-helmet": "^6.1.0",
+        "react-router-dom": "^6.3.0",
+        "react-use-cookie": "^1.4.0",
+        "recoil": "^0.7.0",
+        "use-query-params": "^1.2.3"
+    },
+    "staticFiles": {
+        "staticPath": [
+            "public"
+        ]
+    }
 }

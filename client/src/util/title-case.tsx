@@ -1,10 +1,13 @@
-import PackageInfo from "../types/package-info"
+import PackageInfo from '../types/package-info'
 
 export default function toTitleCase(pkg: PackageInfo): string {
-    if (pkg.prettyName && !pkg.prettyName.includes('-') && pkg.prettyName !== pkg.prettyName.toLowerCase()) {
+    if (
+        pkg.prettyName &&
+        !pkg.prettyName.includes('-') &&
+        pkg.prettyName !== pkg.prettyName.toLowerCase()
+    ) {
         return pkg.prettyName
     }
-
 
     const parts = pkg.name.split('-')
 

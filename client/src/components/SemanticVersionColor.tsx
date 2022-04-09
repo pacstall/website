@@ -1,8 +1,13 @@
-import { chakra, Tooltip, useColorModeValue } from "@chakra-ui/react";
-import { FC } from "react";
-import { UpdateStatus } from "../types/package-info";
+import { chakra, Tooltip, useColorModeValue } from '@chakra-ui/react'
+import { FC } from 'react'
+import { UpdateStatus } from '../types/package-info'
 
-const SemanticVersionColor: FC<{ version: string; status: UpdateStatus, fill?: boolean, git?: boolean }> = ({ version, status, fill, git }) => {
+const SemanticVersionColor: FC<{
+    version: string
+    status: UpdateStatus
+    fill?: boolean
+    git?: boolean
+}> = ({ version, status, fill, git }) => {
     const versionColors: Record<UpdateStatus, string> = {
         [UpdateStatus.Unknown]: useColorModeValue('blue.100', 'blue.600'),
         [UpdateStatus.Latest]: useColorModeValue('green.200', 'green.500'),
@@ -19,23 +24,31 @@ const SemanticVersionColor: FC<{ version: string; status: UpdateStatus, fill?: b
         [UpdateStatus.Major]: 'This package has a major update available',
     }
 
-    const tooltip = status !== UpdateStatus.Unknown ? versionTooltip[status] : (git ? 'This package is built from a specific Git commit' : versionTooltip[UpdateStatus.Unknown])
+    const tooltip =
+        status !== UpdateStatus.Unknown
+            ? versionTooltip[status]
+            : git
+            ? 'This package is built from a specific Git commit'
+            : versionTooltip[UpdateStatus.Unknown]
 
-    return <Tooltip openDelay={500} label={tooltip}>
-        <chakra.span
-            bg={versionColors[status]}
-            p='1'
-            px='2'
-            borderRadius='lg'
-            display={fill ? 'block' : 'inline-block'}
-            minW={fill ? 'initial' : '4em'}
-            m={0}
-            textAlign='center'
-            fontWeight='700'
-            color={useColorModeValue('black', 'white')}>
-            {version}
-        </chakra.span>
-    </Tooltip>
+    return (
+        <Tooltip openDelay={500} label={tooltip}>
+            <chakra.span
+                bg={versionColors[status]}
+                p='1'
+                px='2'
+                borderRadius='lg'
+                display={fill ? 'block' : 'inline-block'}
+                minW={fill ? 'initial' : '4em'}
+                m={0}
+                textAlign='center'
+                fontWeight='700'
+                color={useColorModeValue('black', 'white')}
+            >
+                {version}
+            </chakra.span>
+        </Tooltip>
+    )
 }
 
 export default SemanticVersionColor

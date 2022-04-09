@@ -1,28 +1,28 @@
-import { atom } from "recoil";
-import { PackageInfoPage } from "../types/package-info";
+import { atom } from 'recoil'
+import { PackageInfoPage } from '../types/package-info'
 
 interface PackageInfoPageStateUnloaded {
-    data: null;
-    loading: false;
-    error: false;
+    data: null
+    loading: false
+    error: false
 }
 
 interface PackageInfoStateSuccess {
-    data: PackageInfoPage;
-    loading: false;
-    error: false;
+    data: PackageInfoPage
+    loading: false
+    error: false
 }
 
 interface PackageInfoStateLoading {
-    data: null;
-    loading: true;
-    error: false;
+    data: null
+    loading: true
+    error: false
 }
 
 interface PackageInfoStateError {
-    data: null;
-    loading: false;
-    error: true;
+    data: null
+    loading: false
+    error: true
 }
 
 export type PackagePageState =
@@ -32,10 +32,10 @@ export type PackagePageState =
     | PackageInfoStateError
 
 export const packageInfoState = atom<PackagePageState>({
-    key: "packageInfoState",
+    key: 'packageInfoState',
     default: {
         loading: false,
         error: false,
-        data: null
-    }
+        data: null,
+    },
 })

@@ -1,11 +1,13 @@
-import { useMediaQuery } from "@chakra-ui/react"
+import { useMediaQuery } from '@chakra-ui/react'
 
 const useDeviceType = () => {
-    const [isMobile] = useMediaQuery('only screen and (max-device-width: 480px)')
+    const [isMobile] = useMediaQuery(
+        'only screen and (max-device-width: 480px)',
+    )
 
     return {
         isMobile,
-        isDesktop: !isMobile
+        isDesktop: !isMobile,
     }
 }
 

@@ -1,4 +1,4 @@
-import PackageInfo from "./package-info";
+import PackageInfo from './package-info'
 
-type PackageRequiredBy = PackageInfo[];
+type PackageRequiredBy = PackageInfo[]
 export default PackageRequiredBy

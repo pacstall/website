@@ -1,12 +1,12 @@
-import { FC, useEffect, useMemo } from "react";
-import { useParams } from "react-router-dom";
-import PackageDetailsPage from "../components/package-details/PackageDetailsPage";
-import usePackageInfo from "../hooks/usePackageInfo";
-import useDeviceType from "../hooks/useDeviceType";
-import { useDisclosure } from "@chakra-ui/react";
-import { useQueryParam } from "use-query-params";
-import NotFound from "./NotFound";
-import PageAnimation from "../components/animations/PageAnimation";
+import { FC, useEffect, useMemo } from 'react'
+import { useParams } from 'react-router-dom'
+import PackageDetailsPage from '../components/package-details/PackageDetailsPage'
+import usePackageInfo from '../hooks/usePackageInfo'
+import useDeviceType from '../hooks/useDeviceType'
+import { useDisclosure } from '@chakra-ui/react'
+import { useQueryParam } from 'use-query-params'
+import NotFound from './NotFound'
+import PageAnimation from '../components/animations/PageAnimation'
 
 type OpenPopup = 'required' | 'dependencies' | null
 
@@ -19,11 +19,13 @@ const PackageDetails: FC = () => {
     const [openPopup, setOpenPopup] = useQueryParam<OpenPopup>('popup', {
         decode(value) {
             const val = value || ''
-            return ['required', 'dependencies'].includes(val.toString()) ? val as OpenPopup : null
+            return ['required', 'dependencies'].includes(val.toString())
+                ? (val as OpenPopup)
+                : null
         },
         encode(value) {
             return value
-        }
+        },
     })
 
     useEffect(() => {
@@ -60,27 +62,32 @@ const PackageDetails: FC = () => {
         }
     }, [requiredByModal, dependenciesModal])
 
-    const allDependencies = useMemo(() => [
-        ...(data?.buildDependencies || []),
-        ...(data?.runtimeDependencies || []),
-        ...(data?.optionalDependencies || []),
-        ...(data?.pacstallDependencies || [])
-    ], [data]);
+    const allDependencies = useMemo(
+        () => [
+            ...(data?.buildDependencies || []),
+            ...(data?.runtimeDependencies || []),
+            ...(data?.optionalDependencies || []),
+            ...(data?.pacstallDependencies || []),
+        ],
+        [data],
+    )
 
     if (error) {
         return <NotFound />
     }
 
     if (!loading && !!data) {
-        return <PageAnimation>
-            <PackageDetailsPage
-                allDependencies={allDependencies}
-                isMobile={isMobile}
-                data={data}
-                requiredByModal={requiredByModal}
-                dependenciesModal={dependenciesModal}
-            />
-        </PageAnimation>
+        return (
+            <PageAnimation>
+                <PackageDetailsPage
+                    allDependencies={allDependencies}
+                    isMobile={isMobile}
+                    data={data}
+                    requiredByModal={requiredByModal}
+                    dependenciesModal={dependenciesModal}
+                />
+            </PageAnimation>
+        )
     }
 
     return <></>

@@ -1,8 +1,8 @@
-server/dist:
+server/dist: $(shell find server -not \( -path server/tmp -prune \) -not \( -path server/dist -prune \) -type f)
 	which go
 	+$(MAKE) -s -C server
 
-client/dist:
+client/dist: $(shell find client -not \( -path client/dist -prune \) -not \( -path client/.parcel-cache -prune \) -type f)
 	which node
 	+$(MAKE) -s -C client	
 
@@ -12,13 +12,12 @@ dist:
 	[ -d ./dist/pacstall-programs ] && rm -rf dist/pacstall-programs || :
 	cp -r client/dist/* dist/public
 	cp -r server/dist/* dist
-#git clone https://github.com/pacstall/pacstall-programs dist/pacstall-programs
 
 
 #### Commands
 .PHONY: run clean version
 
-run: dist
+run: server/dist client/dist dist
 	cd dist && ./webserver
 
 clean:
@@ -29,3 +28,9 @@ clean:
 
 version:
 	@cat ./VERSION
+
+prepare: .git/hooks/pre-commit
+
+.git/hooks/pre-commit: ./hooks/client.sh
+	cp ./hooks/client.sh .git/hooks/pre-commit
+	chmod +x .git/hooks/pre-commit
