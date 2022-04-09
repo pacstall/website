@@ -1,5 +1,5 @@
 import { EmailIcon } from "@chakra-ui/icons"
-import { Icon, Link } from "@chakra-ui/react"
+import { Icon, Link, Tooltip } from "@chakra-ui/react"
 import { FC } from "react"
 
 const PackageDetailsMaintainer: FC<{ text: string }> = ({ text }) => {
@@ -31,9 +31,11 @@ const PackageDetailsMaintainer: FC<{ text: string }> = ({ text }) => {
     return (
         <>
             <span>{name}, </span>
-            <Link title={`Contact ${name} via email`} color='pink.400' href={"mailto: " + fullEmail}>
-                {shortEmail} <Icon size='md' mx='2px' as={EmailIcon} />
-            </Link>
+            <Tooltip openDelay={500} label={`Contact ${name} via email`}>
+                <Link color='pink.400' href={"mailto: " + fullEmail}>
+                    {shortEmail} <Icon size='md' mx='2px' as={EmailIcon} />
+                </Link>
+            </Tooltip>
         </>
     )
 }

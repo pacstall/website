@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useReducer } from "react";
+import { useEffect } from "react";
 import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 import serverConfig from "../config/server";
 import useNotification from "../hooks/useNotification";
@@ -90,7 +90,6 @@ export const useFeatureFlags = () => {
             })
         })
 
-        console.log(flags)
     }, [])
 
     useEffect(() => {

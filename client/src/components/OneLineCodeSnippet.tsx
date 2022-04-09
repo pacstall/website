@@ -1,4 +1,4 @@
-import { chakra, SkeletonText, useColorModeValue } from "@chakra-ui/react";
+import { chakra, SkeletonText, Tooltip, useColorModeValue } from "@chakra-ui/react";
 import { CSSProperties, FC, MutableRefObject, useRef } from "react";
 import { useRecoilState } from "recoil";
 import useNotification from "../hooks/useNotification";
@@ -25,6 +25,7 @@ const onCommandCopy = async (ref: MutableRefObject<HTMLInputElement | undefined>
 
     ref.current.focus()
     ref.current.select()
+    ref.current.style.display = 'initial'
     if (document.execCommand('copy', true)) {
         notifyCopied()
     } else if ('clipboard' in navigator) {
@@ -37,6 +38,8 @@ const onCommandCopy = async (ref: MutableRefObject<HTMLInputElement | undefined>
     } else {
         notifyError()
     }
+
+    ref.current.style.display = 'non'
 }
 
 const nonSelectableStyle: CSSProperties = {
@@ -52,21 +55,23 @@ const OneLineCodeSnippet: FC<{ size?: 'xs' | 'sm' | 'md' | 'lg' }> = ({ children
     const text = children!.toString() as string
     return (
         <>
-            <chakra.span
-                title="Click to copy"
-                p='1'
-                px='2'
-                fontFamily='JetBrains Mono'
-                bg={useColorModeValue('gray.100', 'gray.900')}
-                color={useColorModeValue('teal.500', 'teal.400')}
-                fontWeight='500'
-                onClick={() => onCommandCopy(ref, notify)}
-                cursor='pointer'
-                wordBreak='break-all'
-                fontSize={size}
-                borderRadius='md'>
-                <chakra.span color='pink.400' fontWeight='800' style={nonSelectableStyle}>$ </chakra.span>{text}
-            </chakra.span>
+            <Tooltip openDelay={500} label="Click to Copy">
+                <chakra.span
+                    p='1'
+                    px='2'
+                    fontFamily='JetBrains Mono'
+                    bg={useColorModeValue('gray.100', 'gray.900')}
+                    color={useColorModeValue('teal.500', 'teal.400')}
+                    fontWeight='500'
+                    onClick={() => onCommandCopy(ref, notify)}
+                    cursor='pointer'
+                    wordBreak='break-all'
+                    fontSize={size}
+                    borderRadius='md'>
+                    <chakra.span color='pink.400' fontWeight='800' style={nonSelectableStyle}>$ </chakra.span>{text}
+                </chakra.span>
+            </Tooltip>
+
             <input ref={ref as any} type="text" style={{ display: "none", maxWidth: "1px" }} readOnly defaultValue={text} />
         </>
     )

@@ -3,9 +3,10 @@ import { useParams } from "react-router-dom";
 import PackageDetailsPage from "../components/package-details/PackageDetailsPage";
 import usePackageInfo from "../hooks/usePackageInfo";
 import useDeviceType from "../hooks/useDeviceType";
-import { Box, Spinner, useDisclosure } from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 import { useQueryParam } from "use-query-params";
 import NotFound from "./NotFound";
+import PageAnimation from "../components/animations/PageAnimation";
 
 type OpenPopup = 'required' | 'dependencies' | null
 
@@ -70,8 +71,8 @@ const PackageDetails: FC = () => {
         return <NotFound />
     }
 
-    return (
-        !loading && !error && !!data && (
+    if (!loading && !!data) {
+        return <PageAnimation>
             <PackageDetailsPage
                 allDependencies={allDependencies}
                 isMobile={isMobile}
@@ -79,13 +80,10 @@ const PackageDetails: FC = () => {
                 requiredByModal={requiredByModal}
                 dependenciesModal={dependenciesModal}
             />
-        ) || (
-            <Box pt='10' textAlign='center'>
-                <Spinner size='lg' />
-            </Box>
-        )
-    )
+        </PageAnimation>
+    }
 
+    return <></>
 }
 
 export default PackageDetails

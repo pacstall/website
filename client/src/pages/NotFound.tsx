@@ -1,7 +1,7 @@
 import { Box, chakra, useBreakpointValue } from "@chakra-ui/react";
 import { FC } from "react";
 import { Helmet } from "react-helmet";
-import Navigation from "../components/Navigation";
+import PageAnimation from "../components/animations/PageAnimation";
 
 
 
@@ -88,23 +88,24 @@ const NotFound: FC = () => (
         <Helmet>
             <title>Not Found - Pacstall</title>
         </Helmet>
-        <Navigation />
-        <Box textAlign='center' mt='20vh'>
-            <chakra.pre style={{ fontFamily: 'JetBrains Mono' }} fontSize={useBreakpointValue({ base: 'sm', md: 'md' })}>
-                <code>
-                    <ChatBubble />
-                    <br />\     ∩~-~∩
-                    <br />  \   ξ •×• ξ
-                    <br />      ξ　~  ξ
-                    <br />      ξ　   ξ
-                    <br />              ξ　   “~~~~~~〇
-                    <br />             ξ　          ξ
-                    <br />              ξ ξ ξ~~~~~ξξ ξ
-                    <br />              ξ_ξ ξ_ξ ξ_ξξ_ξ
-                    <br />             404 Page Not Found
-                </code>
-            </chakra.pre>
-        </Box>
+        <PageAnimation>
+            <Box textAlign='center' mt='20vh'>
+                <chakra.pre style={{ fontFamily: 'JetBrains Mono' }} fontSize={useBreakpointValue({ base: 'sm', md: 'md' })}>
+                    <code>
+                        <ChatBubble />
+                        <br />\     ∩~-~∩
+                        <br />  \   ξ •×• ξ
+                        <br />      ξ　~  ξ
+                        <br />      ξ　   ξ
+                        <br />              ξ　   “~~~~~~〇
+                        <br />             ξ　          ξ
+                        <br />              ξ ξ ξ~~~~~ξξ ξ
+                        <br />              ξ_ξ ξ_ξ ξ_ξξ_ξ
+                        <br />             404 Page Not Found
+                    </code>
+                </chakra.pre>
+            </Box>
+        </PageAnimation>
     </>
 )
 

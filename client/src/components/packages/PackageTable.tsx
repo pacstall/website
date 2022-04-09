@@ -5,7 +5,7 @@ import PackageTableRow from "./PackageTableRow"
 
 const PackageTable: FC<{ packages: PackageInfo[], linksDisabled?: boolean }> = ({ packages, linksDisabled }) => {
     return (
-        <Table>
+        <Table animation='ease-in 100ms'>
             <Thead>
                 <Tr>
                     <Th>

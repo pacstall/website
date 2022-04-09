@@ -2,7 +2,6 @@ import { Container, UseDisclosureProps } from "@chakra-ui/react"
 import { FC } from "react"
 import { Helmet } from "react-helmet"
 import PackageInfo from "../../types/package-info"
-import Navigation from "../Navigation"
 import HowToInstall from "./HowToInstall"
 import PackageDependenciesModal from "./PackageDependenciesModal"
 import PackageDetailsComments from "./PackageDetailsComments"
@@ -36,7 +35,6 @@ const PackageDetailsPage: FC<PackageDetailsPageProps> = ({ allDependencies, data
             <meta property="og:image" content={DefaultAppImg} />
             <meta property="og:description" content={data.description} />
         </Helmet>
-        <Navigation />
         <Container maxW='60em' mt='10'>
             <PackageDetailsHeader data={data} isMobile={isMobile} />
             <PackageDetailsTable data={data} dependencyCount={allDependencies.length} dependenciesModal={dependenciesModal} requiredByModal={requiredByModal} />
