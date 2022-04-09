@@ -32,3 +32,8 @@ jobs:
       run: |
         docker push "ghcr.io/pacstall/webserver:${{ github.event.inputs.version }}"
         docker push ghcr.io/pacstall/webserver:latest
+    
+    - uses: rickstaa/action-create-tag@v1
+      with:
+        tag: ${{ github.event.inputs.version }}
+        github_token: ${{ secrets.REPO_PAT }}
