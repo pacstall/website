@@ -59,8 +59,8 @@ const Search: FC<{
                 onClick={() =>
                     onSearch(inputRef.current.value, selectRef.current.value)
                 }
-                bgColor={useColorModeValue('brand.200', 'brand.500')}
-                _hover={{ bg: useColorModeValue('brand.300', 'brand.400') }}
+                colorScheme='brand'
+                variant='outline'
                 px='10'
             >
                 Search
