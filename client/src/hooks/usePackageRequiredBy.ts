@@ -1,7 +1,7 @@
-import axios from "axios"
-import { useEffect, useState } from "react"
-import serverConfig from "../config/server"
-import PackageRequiredBy from "../types/package-requiredby"
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import serverConfig from '../config/server'
+import PackageRequiredBy from '../types/package-requiredby'
 
 const usePackageRequiredBy = (name: string) => {
     const [data, setData] = useState<PackageRequiredBy>([])
@@ -11,11 +11,15 @@ const usePackageRequiredBy = (name: string) => {
     useEffect(() => {
         setError(false)
         setLoading(true)
-        axios.get<PackageRequiredBy>(serverConfig.host + `/api/packages/${name}/requiredBy`)
+        axios
+            .get<PackageRequiredBy>(
+                serverConfig.host + `/api/packages/${name}/requiredBy`,
+            )
             .then(result => {
                 setLoading(false)
                 setData(result.data)
-            }).catch(() => {
+            })
+            .catch(() => {
                 setError(true)
                 setLoading(false)
             })
@@ -25,7 +29,7 @@ const usePackageRequiredBy = (name: string) => {
         data,
         loading,
         error,
-        loaded: !loading && !error
+        loaded: !loading && !error,
     }
 }
 

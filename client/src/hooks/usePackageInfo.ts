@@ -1,7 +1,7 @@
-import axios from "axios"
-import { useEffect, useState } from "react"
-import serverConfig from "../config/server"
-import PackageInfo from "../types/package-info"
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import serverConfig from '../config/server'
+import PackageInfo from '../types/package-info'
 
 const usePackageInfo = (name: string) => {
     const [data, setData] = useState<PackageInfo>()
@@ -11,7 +11,8 @@ const usePackageInfo = (name: string) => {
     useEffect(() => {
         setLoading(true)
         setError(false)
-        axios.get<PackageInfo>(serverConfig.host + `/api/packages/${name}`)
+        axios
+            .get<PackageInfo>(serverConfig.host + `/api/packages/${name}`)
             .then(result => setData(result.data))
             .catch(() => setError(true))
             .then(() => setLoading(false))
@@ -20,7 +21,7 @@ const usePackageInfo = (name: string) => {
     return {
         data: data as PackageInfo,
         loading,
-        error
+        error,
     }
 }
 

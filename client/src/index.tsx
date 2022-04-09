@@ -1,23 +1,29 @@
-import ReactDOM from "react-dom";
+import ReactDOM from 'react-dom'
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { FC, lazy, Suspense } from "react";
-import Home from "./pages/Home";
-import NotFound from "./pages/NotFound";
-import { QueryParamProvider } from "use-query-params";
-import axios from "axios";
-import { setupCache } from "axios-cache-adapter";
-import { RecoilRoot } from "recoil";
-import { ChakraProvider, extendTheme, localStorageManager, StylesProvider, Text } from '@chakra-ui/react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { FC, lazy, Suspense } from 'react'
+import Home from './pages/Home'
+import NotFound from './pages/NotFound'
+import { QueryParamProvider } from 'use-query-params'
+import axios from 'axios'
+import { setupCache } from 'axios-cache-adapter'
+import { RecoilRoot } from 'recoil'
+import {
+    ChakraProvider,
+    extendTheme,
+    localStorageManager,
+    StylesProvider,
+    Text,
+} from '@chakra-ui/react'
 
-import serverConfig from "./config/server";
-import CookieBanner from "./components/CookieBanner";
-import Navigation from "./components/Navigation";
+import serverConfig from './config/server'
+import CookieBanner from './components/CookieBanner'
+import Navigation from './components/Navigation'
 
 axios.defaults.adapter = setupCache({
     clearOnError: true,
     clearOnStale: true,
-    maxAge: 1000 * 5 * 60
+    maxAge: 1000 * 5 * 60,
 }).adapter
 
 const Packages = lazy(() => import('./pages/Packages'))
@@ -27,7 +33,7 @@ const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'))
 const theme = extendTheme({
     config: {
         initialColorMode: 'system',
-        useSystemColorMode: false
+        useSystemColorMode: false,
     },
     fonts: {
         heading: 'Open Sans, sans-serif',
@@ -45,41 +51,56 @@ const theme = extendTheme({
             700: '#285E61',
             800: '#234E52',
             900: '#1D4044',
-        }
-    }
+        },
+    },
 })
 
-const Footer: FC = () => <Text
-    position='fixed'
-    right='15px'
-    bottom='15px'
-    color='gray.500'
-    fontSize='md'>
-    {serverConfig.version}
-</Text>
+const Footer: FC = () => (
+    <Text
+        position='fixed'
+        right='15px'
+        bottom='15px'
+        color='gray.500'
+        fontSize='md'
+    >
+        {serverConfig.version}
+    </Text>
+)
 
-const app = document.getElementById("app");
-ReactDOM.render(<>
-    <ChakraProvider theme={theme} colorModeManager={localStorageManager}>
-        <StylesProvider value={{}}>
-            <RecoilRoot>
-                <QueryParamProvider>
-                    <BrowserRouter>
-                        <Navigation />
-                        <Suspense fallback={<></>}>
-                            <Routes>
-                                <Route index element={<Home />} />
-                                <Route path="/packages" element={<Packages />} />
-                                <Route path="/packages/:name" element={<PackageDetails />} />
-                                <Route path="/privacy" element={<PrivacyPolicy />} />
-                                <Route path="*" element={<NotFound />} />
-                            </Routes>
-                        </Suspense>
-                        <Footer />
-                        <CookieBanner />
-                    </BrowserRouter>
-                </QueryParamProvider>
-            </RecoilRoot >
-        </StylesProvider >
-    </ChakraProvider >
-</>, app);
+const app = document.getElementById('app')
+ReactDOM.render(
+    <>
+        <ChakraProvider theme={theme} colorModeManager={localStorageManager}>
+            <StylesProvider value={{}}>
+                <RecoilRoot>
+                    <QueryParamProvider>
+                        <BrowserRouter>
+                            <Navigation />
+                            <Suspense fallback={<></>}>
+                                <Routes>
+                                    <Route index element={<Home />} />
+                                    <Route
+                                        path='/packages'
+                                        element={<Packages />}
+                                    />
+                                    <Route
+                                        path='/packages/:name'
+                                        element={<PackageDetails />}
+                                    />
+                                    <Route
+                                        path='/privacy'
+                                        element={<PrivacyPolicy />}
+                                    />
+                                    <Route path='*' element={<NotFound />} />
+                                </Routes>
+                            </Suspense>
+                            <Footer />
+                            <CookieBanner />
+                        </BrowserRouter>
+                    </QueryParamProvider>
+                </RecoilRoot>
+            </StylesProvider>
+        </ChakraProvider>
+    </>,
+    app,
+)

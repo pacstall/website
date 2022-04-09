@@ -1,7 +1,7 @@
-import { Box, Center, Text } from "@chakra-ui/react";
-import { FC } from "react";
-import PackageInfo from "../../types/package-info";
-import PackageTable from "./PackageTable";
+import { Box, Center, Text } from '@chakra-ui/react'
+import { FC } from 'react'
+import PackageInfo from '../../types/package-info'
+import PackageTable from './PackageTable'
 
 const PackageList: FC<{ data: PackageInfo[] }> = ({ data }) => (
     <Box mt='10'>

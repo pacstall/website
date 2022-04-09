@@ -1,37 +1,35 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <meta charset="utf-8" />
+        <title>{{.Title}}</title>
+        <meta name="title" content="{{.Title}}" />
+        <meta name="description" content="{{.Description}}" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://pacstall.dev" />
+        <meta property="og:title" content="{{.Title}}" />
+        <meta property="og:description" content="{{.Description}}" />
+        <meta property="og:image" content="public/pacstall.svg" />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://pacstall.dev" />
+        <meta property="twitter:title" content="{{.Title}}" />
+        <meta property="twitter:description" content="{{.Description}}" />
+        <meta property="twitter:image" content="public/pacstall.svg" />
+        <meta name="apple-mobile-web-app-title" content="Pacstall" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="shortcut icon" type="image/jpg" href="public/favicon.ico" />
+        <link rel="image_src" href="public/pacstall.svg" />
+        <link rel="apple-touch-icon" href="public/apple-touch-icon.png" />
+        <meta name="next-head-count" content="20" />
+        <link rel="stylesheet" href="public/styles/global.css" />
+    </head>
 
-<head>
-    <meta charSet="utf-8" />
-    <title>{{.Title}}</title>
-    <meta name="title" content="{{.Title}}" />
-    <meta name="description" content="{{.Description}}" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://pacstall.dev" />
-    <meta property="og:title" content="{{.Title}}" />
-    <meta property="og:description" content="{{.Description}}" />
-    <meta property="og:image" content="public/pacstall.svg" />
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://pacstall.dev" />
-    <meta property="twitter:title" content="{{.Title}}" />
-    <meta property="twitter:description" content="{{.Description}}" />
-    <meta property="twitter:image" content="public/pacstall.svg" />
-    <meta name="apple-mobile-web-app-title" content="Pacstall" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" type="image/jpg" href="public/favicon.ico" />
-    <link rel="image_src" href="public/pacstall.svg" />
-    <link rel="apple-touch-icon" href="public/apple-touch-icon.png" />
-    <meta name="next-head-count" content="20" />
-    <link rel="stylesheet" href="public/styles/global.css">
-</head>
-
-<body>
-    <script type="module" src="./src/index.tsx">
-        // @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL-3.0
-        // @license-end
-    </script>
-    <div id="app"></div>
-</body>
-
+    <body>
+        <script type="module" src="./src/index.tsx">
+            // @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL-3.0
+            // @license-end
+        </script>
+        <div id="app"></div>
+    </body>
 </html>

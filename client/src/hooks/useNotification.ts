@@ -1,17 +1,19 @@
-import { ToastId, useToast } from "@chakra-ui/react"
-import Notification from "../types/notifications"
+import { ToastId, useToast } from '@chakra-ui/react'
+import Notification from '../types/notifications'
 
-const duration = 5000;
+const duration = 5000
 let toasts: ToastId[] = []
-const toastLimit = 5;
+const toastLimit = 5
 
 const useNotification = () => {
     const toast = useToast({
-        position: 'top'
+        position: 'top',
     })
     return (notification: Notification) => {
-        (async () => {
-            while (toasts.filter(id => toast.isActive(id)).length >= toastLimit) {
+        ;(async () => {
+            while (
+                toasts.filter(id => toast.isActive(id)).length >= toastLimit
+            ) {
                 await new Promise(resolve => setTimeout(resolve, 100))
             }
 
@@ -22,7 +24,7 @@ const useNotification = () => {
                 title: notification.title,
                 description: notification.text,
                 variant: 'solid',
-                duration
+                duration,
             })
 
             toasts.push(id)

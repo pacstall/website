@@ -3,10 +3,6 @@ import { FC } from "react";
 import { Helmet } from "react-helmet";
 import PageAnimation from "../components/animations/PageAnimation";
 
-
-
-
-
 const ChatBubbleOption0Desktop: FC = () => (<>
     ╭───────────────────────────────────────────────────────────╮<br />
     │ Oh, you thought it was <strong>404</strong> but it was me, Pac the alpaca! │<br />

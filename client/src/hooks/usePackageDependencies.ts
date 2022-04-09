@@ -1,7 +1,7 @@
-import axios from "axios"
-import { useEffect, useState } from "react"
-import serverConfig from "../config/server"
-import PackageDependencies from "../types/package-dependencies"
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import serverConfig from '../config/server'
+import PackageDependencies from '../types/package-dependencies'
 
 const usePackageDependencies = (name: string) => {
     const [data, setData] = useState<PackageDependencies>()
@@ -11,11 +11,15 @@ const usePackageDependencies = (name: string) => {
     useEffect(() => {
         setError(false)
         setLoading(true)
-        axios.get<PackageDependencies>(serverConfig.host + `/api/packages/${name}/dependencies`)
+        axios
+            .get<PackageDependencies>(
+                serverConfig.host + `/api/packages/${name}/dependencies`,
+            )
             .then(result => {
                 setLoading(false)
                 setData(result.data)
-            }).catch(() => {
+            })
+            .catch(() => {
                 setError(true)
                 setLoading(false)
             })
@@ -25,7 +29,7 @@ const usePackageDependencies = (name: string) => {
         data,
         loading,
         error,
-        loaded: !loading && !error && data
+        loaded: !loading && !error && data,
     }
 }
 

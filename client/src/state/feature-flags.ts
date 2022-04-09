@@ -1,36 +1,36 @@
-import axios from "axios";
-import { useEffect } from "react";
-import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
-import serverConfig from "../config/server";
-import useNotification from "../hooks/useNotification";
+import axios from 'axios'
+import { useEffect } from 'react'
+import { atom, selector, useRecoilState, useRecoilValue } from 'recoil'
+import serverConfig from '../config/server'
+import useNotification from '../hooks/useNotification'
 
 export default interface FeatureFlags {
-    oldSyntax: boolean;
+    oldSyntax: boolean
     packageDetailsPage: {
-        lastUpdated: boolean;
-        votes: boolean;
-        popularity: boolean;
-        installProtocol: boolean;
-        comments: boolean;
+        lastUpdated: boolean
+        votes: boolean
+        popularity: boolean
+        installProtocol: boolean
+        comments: boolean
     }
 }
 
 interface FeatureFlagsStateSuccess {
-    flags: FeatureFlags;
-    loading: false;
-    error: false;
+    flags: FeatureFlags
+    loading: false
+    error: false
 }
 
 interface FeatureFlagsStateLoading {
-    flags: null;
-    loading: true;
-    error: false;
+    flags: null
+    loading: true
+    error: false
 }
 
 interface FeatureFlagsStateError {
-    flags: null;
-    loading: false;
-    error: true;
+    flags: null
+    loading: false
+    error: true
 }
 
 export type FeatureFlagsState =
@@ -40,29 +40,41 @@ export type FeatureFlagsState =
 
 export const featureFlagsState = atom<FeatureFlagsState>({
     key: 'featureFlagsState',
-    default: axios.get(`${serverConfig.host}/api/feature-flags`).then(result => ({
-        loading: false,
-        error: false,
-        flags: result.data
-    })).catch(() => ({
-        loading: false,
-        error: true,
-        flags: null
-    })) as Promise<FeatureFlagsState>
-});
+    default: axios
+        .get(`${serverConfig.host}/api/feature-flags`)
+        .then(result => ({
+            loading: false,
+            error: false,
+            flags: result.data,
+        }))
+        .catch(() => ({
+            loading: false,
+            error: true,
+            flags: null,
+        })) as Promise<FeatureFlagsState>,
+})
 
 const isLoadedSelector = selector<boolean>({
     key: 'isLoadedSelector',
-    get: ({ get }) => !get(featureFlagsState).loading && !get(featureFlagsState).error,
+    get: ({ get }) =>
+        !get(featureFlagsState).loading && !get(featureFlagsState).error,
 })
 
-const isFlagEnabled = selector<(select: (flag: FeatureFlags) => boolean) => boolean>({
+const isFlagEnabled = selector<
+    (select: (flag: FeatureFlags) => boolean) => boolean
+>({
     key: 'isFlagEnabled',
-    get: ({ get }) => select => get(isLoadedSelector) ? select(get(featureFlagsState).flags!) : null!
+    get:
+        ({ get }) =>
+        select =>
+            get(isLoadedSelector)
+                ? select(get(featureFlagsState).flags!)
+                : null!,
 })
 
-export const useFeatureFlag = (select: (flag: FeatureFlags) => boolean): boolean =>
-    useRecoilValue(isFlagEnabled)(select)
+export const useFeatureFlag = (
+    select: (flag: FeatureFlags) => boolean,
+): boolean => useRecoilValue(isFlagEnabled)(select)
 
 export const useFeatureFlags = () => {
     const [flags, setFlags] = useRecoilState(featureFlagsState)
@@ -73,23 +85,25 @@ export const useFeatureFlags = () => {
         setFlags({
             loading: true,
             error: false,
-            flags: null
+            flags: null,
         })
 
-        axios.get(`${serverConfig.host}/api/feature-flags`).then(result => {
-            setFlags({
-                loading: false,
-                error: false,
-                flags: result.data
+        axios
+            .get(`${serverConfig.host}/api/feature-flags`)
+            .then(result => {
+                setFlags({
+                    loading: false,
+                    error: false,
+                    flags: result.data,
+                })
             })
-        }).catch(() => {
-            setFlags({
-                loading: false,
-                error: true,
-                flags: null
+            .catch(() => {
+                setFlags({
+                    loading: false,
+                    error: true,
+                    flags: null,
+                })
             })
-        })
-
     }, [])
 
     useEffect(() => {
@@ -97,13 +111,13 @@ export const useFeatureFlags = () => {
             notify({
                 title: 'Whoops! Something went wrong.',
                 text: 'It looks like our server did not respond successfully',
-                type: 'error'
-            });
+                type: 'error',
+            })
         }
     }, [flags.error])
 
     return {
         ...flags,
-        loaded
+        loaded,
     }
 }

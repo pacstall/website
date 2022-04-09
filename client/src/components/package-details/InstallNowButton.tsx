@@ -1,5 +1,5 @@
-import { Button, useColorModeValue } from "@chakra-ui/react"
-import { FC } from "react"
+import { Button, useColorModeValue } from '@chakra-ui/react'
+import { FC } from 'react'
 
 const InstallNowButton: FC<{ disabled?: boolean }> = ({ disabled }) => (
     <Button
@@ -8,7 +8,8 @@ const InstallNowButton: FC<{ disabled?: boolean }> = ({ disabled }) => (
         _hover={{ bg: useColorModeValue('brand.200', 'brand.300') }}
         _active={{ bg: useColorModeValue('brand.200', 'brand.300') }}
         disabled={disabled}
-        size='lg'>
+        size='lg'
+    >
         Install Now
     </Button>
 )

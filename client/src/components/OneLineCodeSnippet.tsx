@@ -1,27 +1,36 @@
-import { chakra, SkeletonText, Tooltip, useColorModeValue } from "@chakra-ui/react";
-import { CSSProperties, FC, MutableRefObject, useRef } from "react";
-import { useRecoilState } from "recoil";
-import useNotification from "../hooks/useNotification";
-import { featureFlagsState } from "../state/feature-flags";
-import Notification from "../types/notifications";
+import {
+    chakra,
+    SkeletonText,
+    Tooltip,
+    useColorModeValue,
+} from '@chakra-ui/react'
+import { CSSProperties, FC, MutableRefObject, useRef } from 'react'
+import { useRecoilState } from 'recoil'
+import useNotification from '../hooks/useNotification'
+import { featureFlagsState } from '../state/feature-flags'
+import Notification from '../types/notifications'
 
-
-const onCommandCopy = async (ref: MutableRefObject<HTMLInputElement | undefined>, notify: (notification: Notification) => any) => {
+const onCommandCopy = async (
+    ref: MutableRefObject<HTMLInputElement | undefined>,
+    notify: (notification: Notification) => any,
+) => {
     if (!ref.current) {
         return
     }
 
-    const notifyCopied = () => notify({
-        title: 'Copied to Clipboard!',
-        text: 'You can now paste this command in the terminal.',
-        type: 'info'
-    })
+    const notifyCopied = () =>
+        notify({
+            title: 'Copied to Clipboard!',
+            text: 'You can now paste this command in the terminal.',
+            type: 'info',
+        })
 
-    const notifyError = () => notify({
-        title: 'Failed to copy to Clipboard',
-        text: 'Make sure you are running an up-to-date browser.',
-        type: 'warning'
-    })
+    const notifyError = () =>
+        notify({
+            title: 'Failed to copy to Clipboard',
+            text: 'Make sure you are running an up-to-date browser.',
+            type: 'warning',
+        })
 
     ref.current.focus()
     ref.current.select()
@@ -30,7 +39,7 @@ const onCommandCopy = async (ref: MutableRefObject<HTMLInputElement | undefined>
         notifyCopied()
     } else if ('clipboard' in navigator) {
         try {
-            await navigator.clipboard.writeText(ref.current.value);
+            await navigator.clipboard.writeText(ref.current.value)
             notifyCopied()
         } catch {
             notifyError()
@@ -46,16 +55,19 @@ const nonSelectableStyle: CSSProperties = {
     WebkitUserSelect: 'none',
     MozUserSelect: 'none',
     msUserSelect: 'none',
-    userSelect: 'none'
+    userSelect: 'none',
 }
 
-const OneLineCodeSnippet: FC<{ size?: 'xs' | 'sm' | 'md' | 'lg' }> = ({ children, size }) => {
+const OneLineCodeSnippet: FC<{ size?: 'xs' | 'sm' | 'md' | 'lg' }> = ({
+    children,
+    size,
+}) => {
     const notify = useNotification()
     const ref = useRef<HTMLInputElement>()
     const text = children!.toString() as string
     return (
         <>
-            <Tooltip openDelay={500} label="Click to Copy">
+            <Tooltip openDelay={500} label='Click to Copy'>
                 <chakra.span
                     p='1'
                     px='2'
@@ -67,19 +79,36 @@ const OneLineCodeSnippet: FC<{ size?: 'xs' | 'sm' | 'md' | 'lg' }> = ({ children
                     cursor='pointer'
                     wordBreak='break-all'
                     fontSize={size}
-                    borderRadius='md'>
-                    <chakra.span color='pink.400' fontWeight='800' style={nonSelectableStyle}>$ </chakra.span>{text}
+                    borderRadius='md'
+                >
+                    <chakra.span
+                        color='pink.400'
+                        fontWeight='800'
+                        style={nonSelectableStyle}
+                    >
+                        ${' '}
+                    </chakra.span>
+                    {text}
                 </chakra.span>
             </Tooltip>
 
-            <input ref={ref as any} type="text" style={{ display: "none", maxWidth: "1px" }} readOnly defaultValue={text} />
+            <input
+                ref={ref as any}
+                type='text'
+                style={{ display: 'none', maxWidth: '1px' }}
+                readOnly
+                defaultValue={text}
+            />
         </>
     )
 }
 
 export default OneLineCodeSnippet
 
-export const SmartCodeSnippetInstall: FC<{ size?: 'xs' | 'sm' | 'md' | 'lg', name: string }> = ({ size, name }) => {
+export const SmartCodeSnippetInstall: FC<{
+    size?: 'xs' | 'sm' | 'md' | 'lg'
+    name: string
+}> = ({ size, name }) => {
     const [featureFlags] = useRecoilState(featureFlagsState)
     if (featureFlags.loading) {
         return <SkeletonText noOfLines={1} />
