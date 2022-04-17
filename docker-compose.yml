@@ -1,0 +1,38 @@
+version: '3.2'
+
+services:
+
+  mariadb:
+    image: mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: changeme
+    entrypoint:
+      sh -c "echo 'CREATE DATABASE IF NOT EXISTS pacstall; CREATE DATABASE IF NOT EXISTS matomo;' > /docker-entrypoint-initdb.d/init.sql; /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+    volumes:
+     - db:/var/lib/mysql
+    
+  webserver:
+    image: ghcr.io/pacstall/webserver:latest
+    depends_on:
+      - mariadb
+    ports:
+      - target: 3300
+        published: 3300
+        mode: host
+        
+  matomo:
+    image: matomo
+    environment:
+      MATOMO_DATABASE_HOST: mariadb
+      MATOMO_DATABASE_USERNAME: root
+      MATOMO_DATABASE_PASSWORD: changeme
+      MATOMO_DATABASE_DBNAME: matomo
+    ports:
+      - target: 80
+        published: 8080
+        mode: host
+    depends_on:
+      - mariadb
+      
+volumes:
+  db:

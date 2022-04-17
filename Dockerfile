@@ -42,5 +42,5 @@ WORKDIR /root/dist/
 
 RUN ls -al /root/dist
 
-CMD [ "sh", "-c", "git clone https://github.com/pacstall/pacstall-programs && ./webserver" ]
+CMD [ "./webserver" ]
 EXPOSE 3300

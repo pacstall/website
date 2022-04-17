@@ -32,7 +32,7 @@ type tomlTCPServerConfig struct {
 }
 
 type tomlPacstallProgramsConfig struct {
-	Path           string `toml:"path"`
+	URL            string `toml:"url"`
 	TempDir        string `toml:"tmp_dir"`
 	UpdateInterval int    `toml:"update_interval"`
 	MaxOpenFiles   uint8  `toml:"max_open_files"`

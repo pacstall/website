@@ -16,8 +16,8 @@
 # --- Pacstall Programs ( Repository ) --- #
 #                                          #
 
-# Path to the `pacstall-programs` local repository
-# `pacstall_programs.path`             = `string`
+# Repository URL for the pacstall repository.
+# `pacstall_programs.url`              = `string`
 
 # Temporary dir path to store scripts. If the dir doesn't exist, it gets created
 # `pacstall_programs.tmp_dir`          = `string`
@@ -65,7 +65,7 @@
 production = false
 
 [pacstall_programs]
-path            = "../../pacstall-programs"
+url             = "https://github.com/pacstall/pacstall-programs"
 tmp_dir         = "./tmp"
 update_interval = 900
 max_open_files  = 100
