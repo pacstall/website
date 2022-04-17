@@ -20,7 +20,7 @@ import (
 )
 
 func ParseAll() {
-	if err := git.HardResetAndPull(config.PacstallPrograms.Path); err != nil {
+	if err := git.RefreshPrograms(config.PacstallPrograms.Path, config.PacstallPrograms.URL); err != nil {
 		log.Error.Panicln("Could not update repository 'pacstall-programs'", err)
 	}
 

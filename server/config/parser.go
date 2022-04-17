@@ -71,7 +71,7 @@ func validate(data tomlConfiguration) {
 		}
 	}()
 
-	if data.PacstallPrograms.Path == "" {
+	if data.PacstallPrograms.URL == "" {
 		log.Error.Printf("Configuration file '%s' is missing required attribute `pacstall_programs.path\n`", *configPath)
 		config_error = true
 
