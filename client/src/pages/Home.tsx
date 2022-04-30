@@ -43,6 +43,8 @@ const Home: FC = () => {
                         </div>
                         <Image
                             src={PacstallLogo}
+                            width='200px'
+                            height='200px'
                             minW='10em'
                             alt='Pacstall logo'
                             mx='auto'
