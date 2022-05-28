@@ -303,20 +303,6 @@ const PrivacyPolicy: FC = () => (
                         Our business to another company.
                     </ListItem>
                     <ListItem>
-                        <strong>With Affiliates:</strong> We may share Your
-                        information with Our affiliates, in which case we will
-                        require those affiliates to honor this Privacy Policy.
-                        Affiliates include Our parent company and any other
-                        subsidiaries, joint venture partners or other companies
-                        that We control or that are under common control with
-                        Us.
-                    </ListItem>
-                    <ListItem>
-                        <strong>With business partners:</strong> We may share
-                        Your information with Our business partners to offer You
-                        certain products, services or promotions.
-                    </ListItem>
-                    <ListItem>
                         <strong>With other users:</strong> when You share
                         personal information or otherwise interact in the public
                         areas with other users, such information may be viewed
