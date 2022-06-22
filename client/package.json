@@ -37,7 +37,7 @@
         "react-helmet": "^6.1.0",
         "react-router-dom": "^6.3.0",
         "react-use-cookie": "^1.4.0",
-        "recoil": "^0.7.0",
+        "recoil": "^0.7.4",
         "use-query-params": "^1.2.3"
     },
     "staticFiles": {
