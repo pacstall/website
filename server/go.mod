@@ -9,7 +9,7 @@ require (
 	github.com/hashicorp/go-version v1.4.0 // for version parsing
 )
 
-require github.com/schollz/progressbar/v3 v3.8.6
+require github.com/schollz/progressbar/v3 v3.8.7
 
 require (
 	golang.org/x/crypto v0.0.0-20220331220935-ae2d96664a29 // indirect
