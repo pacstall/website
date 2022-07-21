@@ -3,7 +3,7 @@ module pacstall.dev/webserver
 go 1.18
 
 require (
-	github.com/BurntSushi/toml v1.0.0 // for parsing toml config files
+	github.com/BurntSushi/toml v1.2.0 // for parsing toml config files
 	github.com/fatih/color v1.13.0 // for colorizing output
 	github.com/gorilla/mux v1.8.0 // for http request routing
 	github.com/hashicorp/go-version v1.4.0 // for version parsing
