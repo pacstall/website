@@ -19,6 +19,11 @@ services:
       - target: 3300
         published: 3300
         mode: host
+    logging:
+      driver: "json-file"
+      options:
+        max-file: 5
+        max-size: 10m
         
   matomo:
     image: matomo
