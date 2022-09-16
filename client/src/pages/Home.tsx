@@ -10,6 +10,9 @@ import {
 } from '@chakra-ui/react'
 import { FC } from 'react'
 import Card from '../components/Card'
+import OneLineCodeSnippet, {
+    SmartCodeSnippetInstall,
+} from '../components/OneLineCodeSnippet'
 
 // @ts-ignore:next-line
 import PacstallLogo from '../../public/pacstall.svg'
@@ -95,17 +98,12 @@ const Home: FC = () => {
                         </Stack>
                     </Stack>
 
-                    <Flex justify='center' mt='10'>
-                        <Link
-                            href='https://github.com/pacstall/pacstall#installing'
-                            target='_blank'
-                        >
-                            <PrimaryButton fontSize='xl' px='7em'>
-                                Install
-                            </PrimaryButton>
-                        </Link>
-                    </Flex>
-
+                    <Heading size={'lg'} mb='3' mt='10'>
+                        Installation Instructions
+                    </Heading>
+                    <OneLineCodeSnippet>
+                    sudo bash -c "$(curl -fsSL https://git.io/JsADh || wget -q https://git.io/JsADh -O -)"
+                    </OneLineCodeSnippet>
                     <Heading size={'lg'} mb='3' mt='10'>
                         Showcase
                     </Heading>
