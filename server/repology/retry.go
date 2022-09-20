@@ -43,6 +43,6 @@ func NewSyncer(maxRetries int) func(*pac.Script) error {
 			return nil
 		}
 
-		return fmt.Errorf("Failed to fetch repology information after %v retries", maxRetries)
+		return fmt.Errorf("failed to fetch repology information after %v retries", maxRetries)
 	}
 }

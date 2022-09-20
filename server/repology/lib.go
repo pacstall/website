@@ -8,6 +8,7 @@ func Sync(script *pac.Script) error {
 	if len(script.Repology) == 0 {
 		return nil
 	}
+	
 
 	project, err := fetchRepologyProject(script.Repology)
 	if err != nil {

@@ -19,6 +19,8 @@ export default interface PackageInfo {
     latestVersion?: string
     prettyName: string
     updateStatus: UpdateStatus
+    installed: boolean
+    installedVersion: string
 }
 
 export enum UpdateStatus {

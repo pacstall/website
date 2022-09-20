@@ -25,7 +25,7 @@ const Search: FC<{
 
     return (
         <HStack justify='space-between'>
-            <HStack>
+            <HStack minW='max(60%, 200px)'>
                 <Select
                     maxW='150px'
                     defaultValue='name'

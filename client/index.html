@@ -38,7 +38,12 @@
     </head>
 
     <body>
-        <script type="module" src="./src/index.tsx"></script>
+        <script>
+            window.$__PACSTALL = {
+                isElectron: false
+            };
+        </script>
+        <script type="module" src="./src/index.web.tsx"></script>
         <div id="app"></div>
     </body>
 </html>

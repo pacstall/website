@@ -62,7 +62,7 @@ const Pagination: FC<{ last: number; current: number }> = ({
     current,
 }) => {
     return (
-        <HStack>
+        <HStack my='5'>
             <PageSequentialLink
                 text='previous'
                 nextPage={current - 1}

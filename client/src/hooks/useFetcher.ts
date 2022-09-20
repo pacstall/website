@@ -3,11 +3,13 @@ import { useEffect, useState } from 'react'
 import serverConfig from '../config/server'
 import { Cache } from './useCache'
 
-export type UseFetcherResult<T> = {
+
+export type UseFetcherState<T> = {
     data?: T
     loading: boolean
     error: boolean
 }
+export type UseFetcherResult<T> = [UseFetcherState<T>, (state: UseFetcherState<T>) => any]
 
 type UseFetcherOptions<T> = { cache?: Cache<any, T> } & AxiosRequestConfig
 
@@ -15,7 +17,7 @@ export function useFetcher<T>(
     url: string,
     options: UseFetcherOptions<T> = {},
 ): UseFetcherResult<T> {
-    const [state, setState] = useState<UseFetcherResult<T>>({
+    const [state, setState] = useState<UseFetcherState<T>>({
         data: null,
         loading: true,
         error: false,
@@ -46,5 +48,5 @@ export function useFetcher<T>(
         })()
     }, [url, options.params])
 
-    return state
+    return [state, setState]
 }

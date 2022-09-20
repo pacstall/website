@@ -11,6 +11,7 @@ import PackageRequiredByModal from './PackageRequiredByModal'
 // @ts-ignore:next-line
 import DefaultAppImg from '../../../public/app.png'
 import toTitleCase from '../../util/title-case'
+import serverConfig from '../../config/server'
 
 type PackageDetailsPageProps = {
     data: PackageInfo
@@ -29,7 +30,7 @@ const PackageDetailsPage: FC<PackageDetailsPageProps> = ({
 }) => (
     <>
         <Helmet>
-            <title>{data.name} - Pacstall</title>
+            <title>{data.name} - {serverConfig.isWeb ? 'Pacstall' : 'Pacstore'}</title>
             <meta
                 name='keywords'
                 content={data.name + ',' + data.name.split('-').join(',')}
@@ -51,11 +52,13 @@ const PackageDetailsPage: FC<PackageDetailsPageProps> = ({
                 dependenciesModal={dependenciesModal}
                 requiredByModal={requiredByModal}
             />
-            <HowToInstall
-                name={data.name}
-                prettyName={toTitleCase(data)}
-                isMobile={isMobile}
-            />
+            {serverConfig.isWeb && (
+                <HowToInstall
+                    name={data.name}
+                    prettyName={toTitleCase(data)}
+                    isMobile={isMobile}
+                />
+            )}
             <PackageDetailsComments />
         </Container>
         <PackageRequiredByModal name={data.name} {...requiredByModal} />

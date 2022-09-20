@@ -71,9 +71,12 @@ func parsePacscriptFiles(names []string) []*pac.Script {
 	results := channels.ToSlice(outChan)
 
 	repologySync := repology.NewSyncer(15)
-	progressSync := log.NewProgress(len(names), "Syncing with repology", "Syncing with repology")
+	progressSync := log.NewProgress(len(results), "Syncing with repology", "Syncing with repology")
 	for _, result := range results {
 		progressSync.Describe(fmt.Sprintf("fetching '%v'", result.Name))
+		if strings.Contains(result.Name, "nerd") {
+			println("asd")
+		}
 		if err := repologySync(result); err != nil {
 			log.Error.Println(err)
 		}

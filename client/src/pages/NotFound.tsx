@@ -2,6 +2,7 @@ import { Box, chakra, useBreakpointValue } from "@chakra-ui/react";
 import { FC } from "react";
 import { Helmet } from "react-helmet";
 import PageAnimation from "../components/animations/PageAnimation";
+import { PrimaryButton } from "../components/Button";
 
 const ChatBubbleOption0Desktop: FC = () => (<>
     ╭───────────────────────────────────────────────────────────╮<br />
@@ -100,6 +101,7 @@ const NotFound: FC = () => (
                         <br />             404 Page Not Found
                     </code>
                 </chakra.pre>
+                <br />
             </Box>
         </PageAnimation>
     </>

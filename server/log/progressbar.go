@@ -66,18 +66,18 @@ func (p *progressLog) start() {
 				break
 			}
 
-			if time.Now().Sub(lastCheck) > time.Second*2 {
+			if time.Since(lastCheck) > time.Second*10 {
 				Info.Printf("[%s] (%v) %s\n", p.title, types.Percent(float64(p.current)/float64(p.total)), p.desc)
 				lastCheck = time.Now()
 			}
 
-			time.Sleep(time.Millisecond)
+			time.Sleep(time.Millisecond * 50)
 			if p.current >= p.total {
 				break
 			}
 		}
 
-		if time.Now().Sub(lastCheck) > time.Second*2 {
+		if time.Since(lastCheck) > time.Second*3 {
 			Info.Printf("[%s] %s\n", p.title, p.desc)
 		}
 
@@ -97,7 +97,8 @@ func (p *progressLog) Add(n int) {
 
 func (p *progressLog) Describe(msg string) {
 	p.mutex.Lock()
-
+	p.desc = msg
+	Info.Printf("[%s] (%v) %s\n", p.title, types.Percent(float64(p.current)/float64(p.total)), p.desc)
 	p.mutex.Unlock()
 }
 
