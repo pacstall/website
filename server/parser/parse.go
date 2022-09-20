@@ -19,6 +19,8 @@ import (
 	"pacstall.dev/webserver/types/pac"
 )
 
+const PACKAGE_LIST_FILE_NAME = "./packagelist"
+
 func ParseAll() {
 	if err := git.RefreshPrograms(config.PacstallPrograms.Path, config.PacstallPrograms.URL); err != nil {
 		log.Error.Panicln("Could not update repository 'pacstall-programs'", err)
@@ -40,7 +42,7 @@ func ParseAll() {
 }
 
 func readKnownPacscriptNames() (list.List[string], error) {
-	pkglistPath := path.Join(config.PacstallPrograms.Path, "./packagelist")
+	pkglistPath := path.Join(config.PacstallPrograms.Path, PACKAGE_LIST_FILE_NAME)
 	bytes, err := os.ReadFile(pkglistPath)
 	if err != nil {
 		return nil, err

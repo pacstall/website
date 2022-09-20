@@ -4,7 +4,7 @@ import {
     Tooltip,
     useColorModeValue,
 } from '@chakra-ui/react'
-import { CSSProperties, FC, MutableRefObject, useRef } from 'react'
+import { CSSProperties, FC, MutableRefObject, ReactNode, useRef } from 'react'
 import { useRecoilState } from 'recoil'
 import useNotification from '../hooks/useNotification'
 import { featureFlagsState } from '../state/feature-flags'
@@ -58,7 +58,7 @@ const nonSelectableStyle: CSSProperties = {
     userSelect: 'none',
 }
 
-const OneLineCodeSnippet: FC<{ size?: 'xs' | 'sm' | 'md' | 'lg' }> = ({
+const OneLineCodeSnippet: FC<{ size?: 'xs' | 'sm' | 'md' | 'lg'; children: ReactNode }> = ({
     children,
     size,
 }) => {

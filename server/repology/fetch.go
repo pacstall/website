@@ -64,17 +64,21 @@ func getSliceProperty(project repologyRawProject, property string) []string {
 	})
 }
 
+func parseRepologyFilter(filter string) (string, string) {
+	idx := strings.Index(filter, ":")
+	return strings.TrimSpace(filter[:idx]), strings.TrimSpace(filter[idx + 1:])
+}
+
 func fetchRepologyProject(search []string) (rpProj repologyProject, err error) {
-	project := strings.TrimSpace(strings.Split(search[0], ":")[1])
+	_, project := parseRepologyFilter(search[0])
 	result, err := fetchRaw(project)
 	if err != nil {
 		return
 	}
 
 	propertyPairs := list.Map(list.From(search[1:]), func(_ int, t string) []string {
-		return list.From(strings.Split(t, ":")).Map(func(s string) string {
-			return strings.TrimSpace(s)
-		})
+		filterName, filterValue := parseRepologyFilter(t);
+		return []string{ filterName, filterValue }
 	})
 
 	foundPackagesRaw := list.Map(list.From(result).Filter(func(pkg repologyRawProject) bool {
@@ -127,7 +131,7 @@ func fetchRepologyProject(search []string) (rpProj repologyProject, err error) {
 	})
 
 	if foundPackagesRaw.Len() == 0 {
-		return rpProj, fmt.Errorf("No results for '%v' after applying search constraints", project)
+		return rpProj, fmt.Errorf("no results for '%v' after applying search constraints", project)
 	}
 
 	rpProj.Version = foundPackagesRaw[0].Version

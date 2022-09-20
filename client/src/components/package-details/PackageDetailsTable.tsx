@@ -10,14 +10,14 @@ import {
     Icon,
     UseDisclosureProps,
 } from '@chakra-ui/react'
-import { FC } from 'react'
+import { FC, ReactNode } from 'react'
 import { Link as Rlink } from 'react-router-dom'
 import { useFeatureFlag } from '../../state/feature-flags'
 import PackageInfo from '../../types/package-info'
 import SemanticVersionColor from '../SemanticVersionColor'
 import PackageDetailsMaintainer from './PackageDetailsMaintainer'
 
-const Entry: FC<{ header: string; disabled?: boolean }> = ({
+const Entry: FC<{ header: string; disabled?: boolean; children: ReactNode }> = ({
     header,
     children,
     disabled,
