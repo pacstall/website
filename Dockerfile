@@ -1,4 +1,4 @@
-FROM node:lts-alpine AS client
+FROM node:18-alpine AS client
 
 ARG version='development'
 

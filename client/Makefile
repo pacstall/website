@@ -7,4 +7,4 @@ dist: $(shell find . -not \( -path dist -prune \) -not \( -path .parcel-cache -p
 	npm run build
 
 dist/swagger: dist
-	mv dist/public/swagger dist/swagger
+	mv dist/public/public/swagger dist/swagger

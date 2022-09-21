@@ -21,7 +21,7 @@ const AsciinemaFrame: FC<{
             width: '100%',
             float: 'none',
             visibility: 'visible',
-            height: 'min(75vw, 650px)',
+            aspectRatio: '16 / 9',
         }}
     ></iframe>
 )

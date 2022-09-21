@@ -102,7 +102,8 @@ const Home: FC = () => {
                         Installation Instructions
                     </Heading>
                     <OneLineCodeSnippet>
-                    sudo bash -c "$(curl -fsSL https://git.io/JsADh || wget -q https://git.io/JsADh -O -)"
+                        sudo bash -c "$(curl -fsSL https://git.io/JsADh || wget
+                        -q https://git.io/JsADh -O -)"
                     </OneLineCodeSnippet>
                     <Heading size={'lg'} mb='3' mt='10'>
                         Showcase
