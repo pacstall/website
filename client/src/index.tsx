@@ -49,15 +49,18 @@ const theme = extendTheme({
 })
 
 const Footer: FC = () => (
-    <Text
-        position='fixed'
-        right='15px'
-        bottom='15px'
-        color='gray.500'
-        fontSize='md'
-    >
-        {serverConfig.version}
-    </Text>
+    <>
+        <div style={{ marginTop: '50px' }}></div>
+        <Text
+            position='fixed'
+            right='15px'
+            bottom='15px'
+            color='gray.500'
+            fontSize='md'
+        >
+            {serverConfig.version}
+        </Text>
+    </>
 )
 
 const app = document.getElementById('app')
