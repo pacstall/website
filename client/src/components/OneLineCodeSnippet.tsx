@@ -58,10 +58,10 @@ const nonSelectableStyle: CSSProperties = {
     userSelect: 'none',
 }
 
-const OneLineCodeSnippet: FC<{ size?: 'xs' | 'sm' | 'md' | 'lg'; children: ReactNode }> = ({
-    children,
-    size,
-}) => {
+const OneLineCodeSnippet: FC<{
+    size?: 'xs' | 'sm' | 'md' | 'lg'
+    children: ReactNode
+}> = ({ children, size }) => {
     const notify = useNotification()
     const ref = useRef<HTMLInputElement>()
     const text = children!.toString() as string

@@ -17,11 +17,11 @@ import PackageInfo from '../../types/package-info'
 import SemanticVersionColor from '../SemanticVersionColor'
 import PackageDetailsMaintainer from './PackageDetailsMaintainer'
 
-const Entry: FC<{ header: string; disabled?: boolean; children: ReactNode }> = ({
-    header,
-    children,
-    disabled,
-}) => (
+const Entry: FC<{
+    header: string
+    disabled?: boolean
+    children: ReactNode
+}> = ({ header, children, disabled }) => (
     <>
         {!disabled && (
             <Tr>
