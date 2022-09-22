@@ -37,13 +37,14 @@ func registerPacscriptSSRData() {
 						<h3>Description: %s</h3>
 						<h3>Maintainer: %s</h3>
 						<h3>Version: %s</h3>
-						<h3>URL: %s</h3>
+						<h3><a href="%s">URL</a></h3>
+						<h3><a href="https://github.com/pacstall/pacstall-programs/blob/master/packages/%s/%s.pacscript">Source</a></h3>
 					</article>
 
 					<button>Install now!</button>
 					<p>Find similar packages <a href="/packages?page=0&size=25&sortBy=default&sort=asc&filter=%s&filterBy=name">here</a>.</p>
 				</main>
-			`, pkg.Name, pkg.Name, pkg.Description, pkg.Maintainer, pkg.Version, pkg.URL, pkg.PackageName),
+			`, pkg.Name, pkg.Name, pkg.Description, pkg.Maintainer, pkg.Version, pkg.URL, pkg.Name, pkg.Name, pkg.PackageName),
 			}
 		},
 	)

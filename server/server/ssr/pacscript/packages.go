@@ -8,12 +8,12 @@ import (
 
 func registerPacscriptListSSRData() {
 	r.AddTemplate(
-		regexp.MustCompile(`^/api/packages[/#]?(\?[a-zA-Z0-9-=&]*)?$`),
+		regexp.MustCompile(`^/packages[/#]?(\?[a-zA-Z0-9-=&]*)?$`),
 		func(path string, groups []string) r.IndexTemplateData {
 			return r.IndexTemplateData{
 				Title:       "Packages | Pacstall",
 				Description: r.GenerateDefaultIndexTemplateData().Description,
-				Html: r.GenerateDefaultIndexTemplateData().Html,
+				Html:        r.GenerateDefaultIndexTemplateData().Html,
 			}
 		},
 	)

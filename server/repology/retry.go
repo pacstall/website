@@ -30,11 +30,11 @@ func NewSyncer(maxRetries int) func(*pac.Script) error {
 			time.Sleep(computedDelay)
 
 			if retries < maxRetries-1 {
-				log.Debug("Trying to sync with repology", computedDelay, multiplier)
+				log.Debug("Trying to sync with repology. Delay %v, Delay Multiplier %.2f", computedDelay, multiplier)
 			}
 
 			if err := Sync(script); err != nil {
-				log.Warn("Failed to fetch repology information", err)
+				log.Debug("Failed to fetch repology information. Increasing delay. %v", err)
 				multiplier *= 1.5
 				continue
 			}

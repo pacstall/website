@@ -49,6 +49,10 @@ func setupRequests() {
 }
 
 func main() {
+	if config.Production {
+		log.SetLogLevel(log.Level.Info)
+	}
+
 	shutdown.Add(func() {
 		server.Shutdown()
 		syscall.Exit(0)

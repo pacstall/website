@@ -1,14 +1,14 @@
-package listener
+package server
 
 import (
 	"fmt"
 	"net/http"
 
-	"pacstall.dev/webserver/store/pacstore"
+	"pacstall.dev/webserver/types/pac/pacstore"
 )
 
 type SitemapEntry struct {
-	Location string
+	Location        string
 	ChangeFrequency string
 }
 
@@ -21,17 +21,17 @@ func registerSiteMap() {
 }
 
 func generateStaticSiteMap() []SitemapEntry {
-	return []SitemapEntry {
+	return []SitemapEntry{
 		{
-			Location: "https://pacstall.dev/",
+			Location:        "https://pacstall.dev/",
 			ChangeFrequency: "monthly",
 		},
 		{
-			Location: "https://pacstall.dev/privacy/",
+			Location:        "https://pacstall.dev/privacy/",
 			ChangeFrequency: "yearly",
 		},
 		{
-			Location: "https://pacstall.dev/packages/",
+			Location:        "https://pacstall.dev/packages/",
 			ChangeFrequency: "daily",
 		},
 	}
@@ -43,7 +43,7 @@ func generateDynamicSiteMap() []SitemapEntry {
 
 	for idx, pkg := range packages {
 		entries[idx] = SitemapEntry{
-			Location: fmt.Sprintf("https://pacstall.dev/packages/%s/", pkg.Name),
+			Location:        fmt.Sprintf("https://pacstall.dev/packages/%s/", pkg.Name),
 			ChangeFrequency: "monthly",
 		}
 	}

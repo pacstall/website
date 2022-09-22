@@ -1,11 +1,13 @@
 package ssr
 
-import "regexp"
+import (
+	"regexp"
+)
 
 type IndexTemplateData struct {
 	Title       string
 	Description string
-	Html		string
+	Html        string
 }
 
 type IndexTemplateMaker func(path string, groups []string) IndexTemplateData
