@@ -5,6 +5,7 @@ import "regexp"
 type IndexTemplateData struct {
 	Title       string
 	Description string
+	Html		string
 }
 
 type IndexTemplateMaker func(path string, groups []string) IndexTemplateData
@@ -38,5 +39,25 @@ func GenerateDefaultIndexTemplateData() IndexTemplateData {
 	return IndexTemplateData{
 		Title:       "Pacstall - The AUR for Ubuntu",
 		Description: "Pacstall automates downloading source packages, installing dependencies, and installing, in Ubuntu",
+		Html: `
+			<h1>Pacstall - The AUR for Ubuntu<h1>
+			<h2>Homepage<h2>
+			<nav>
+				<ul>
+					<li><a href="/packages">Browse Packages</a></li>
+					<li><a href="/privacy">Privacy Policy</a></li>
+				</ul>
+			</nav>
+			<main>
+				<h3>Pacstall automates downloading source packages, installing dependencies, and installing, in Ubuntu</h3>
+
+				<article>
+					<a href="https://github.com/pacstall/pacstall/wiki/How-to-contribute">Contribute</a>
+				</article>
+				<article>
+					<a href="https://github.com/pacstall/pacstall/wiki/Pacscript-101">Become a Package Maintainer</a>
+				</article>
+			</main>
+		`,
 	}
 }

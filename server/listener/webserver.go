@@ -19,6 +19,7 @@ func Router() *mux.Router {
 
 func Listen(port uint16) {
 	registerHealthCheck()
+	registerSiteMap()
 
 	Router().Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

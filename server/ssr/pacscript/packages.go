@@ -13,6 +13,7 @@ func registerPacscriptListSSRData() {
 			return r.IndexTemplateData{
 				Title:       "Packages | Pacstall",
 				Description: r.GenerateDefaultIndexTemplateData().Description,
+				Html: r.GenerateDefaultIndexTemplateData().Html,
 			}
 		},
 	)
