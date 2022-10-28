@@ -14,7 +14,7 @@
         "@types/react-dom": "^18.0.6",
         "@types/react-helmet": "^6.1.5",
         "@types/react-router-dom": "^5.3.3",
-        "autoprefixer": "^10.4.11",
+        "autoprefixer": "^10.4.13",
         "buffer": "^6.0.3",
         "parcel": "^2.7.0",
         "parcel-plugin-static-files-copy": "^2.6.0",
