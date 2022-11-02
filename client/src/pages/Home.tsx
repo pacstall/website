@@ -90,7 +90,7 @@ const Home: FC = () => {
                                     >
                                         pacscripts
                                     </Link>{' '}
-                                    (similar to PKGBUILD's) that contain the
+                                    (similar to PKGBUILDs) that contain the
                                     necessary contents to build packages, and
                                     builds them into executables on your system.
                                 </Text>
