@@ -108,12 +108,12 @@ const Home: FC = () => {
                     <Heading size={'lg'} mb='3' mt='10'>
                         Showcase
                     </Heading>
-                    <AsciinemaFrame autoplay loop id='459473' />
+                    <AsciinemaFrame autoplay loop id='538264' />
 
                     <Heading size={'lg'} mb='3'>
                         Package search
                     </Heading>
-                    <AsciinemaFrame id='459474' />
+                    <AsciinemaFrame id='538265' />
 
                     <Stack justify='center'>
                         <Image
