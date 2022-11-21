@@ -145,15 +145,15 @@ const NotFound: FC = () => (
                 >
                     <code>
                         <ChatBubble />
-                        <br />\ ∩~-~∩
-                        <br /> \ ξ •×• ξ
-                        <br /> ξ　~ ξ
-                        <br /> ξ　 ξ
-                        <br /> ξ　 “~~~~~~〇
-                        <br /> ξ　 ξ
-                        <br /> ξ ξ ξ~~~~~ξξ ξ
-                        <br /> ξ_ξ ξ_ξ ξ_ξξ_ξ
-                        <br /> 404 Page Not Found
+                        <br />\     ∩~-~∩
+                        <br />  \   ξ •×• ξ
+                        <br />      ξ　~  ξ
+                        <br />      ξ　   ξ
+                        <br />              ξ　   “~~~~~~〇
+                        <br />             ξ　          ξ
+                        <br />              ξ ξ ξ~~~~~ξξ ξ
+                        <br />              ξ_ξ ξ_ξ ξ_ξξ_ξ
+                        <br />             404 Page Not Found
                     </code>
                 </chakra.pre>
             </Box>
