@@ -38,19 +38,6 @@
 # Directory containing all public html files
 # `tcp_server.public_dir`  = `string` 
 
-#                       #
-# --- Feature Flags --- #
-#                       #
-
-# Syntax for the pacstall cli
-# `feature_flags.old_syntax` = `bool`
-
-# `feature_flags.package_details_page.last_updated`     = `bool`
-# `feature_flags.package_details_page.votes`            = `bool`
-# `feature_flags.package_details_page.popularity`       = `bool`
-# `feature_flags.package_details_page.install_protocol` = `bool`
-# `feature_flags.package_details_page.comments`         = `bool`
-
 #                 #
 # --- Logging --- #
 #                 #
@@ -73,16 +60,6 @@ max_open_files  = 100
 [tcp_server]
 port        = 3300
 public_dir  = "../client/dist"
-
-[feature_flags]
-old_syntax = true
-
-[feature_flags.package_details_page]
-last_updated     = false
-votes            = false
-popularity       = false
-install_protocol = false
-comments         = false
 
 [logging]
 log_level = "debug"

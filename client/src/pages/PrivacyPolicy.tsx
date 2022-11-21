@@ -15,7 +15,7 @@ import { Helmet } from 'react-helmet'
 import PageAnimation from '../components/animations/PageAnimation'
 
 const ResponsiveStack: FC<StackProps> = props => {
-    const UsedStack = useBreakpointValue({ base: Stack, md: HStack })
+    const UsedStack = useBreakpointValue({ base: Stack, md: HStack }) as any;
     return <UsedStack {...props} />
 }
 

@@ -19,7 +19,6 @@ var IsProduction = false
 func Load() {
 	flag.Parse()
 	cfg := loadConfig()
-	setFeatureFlags(cfg.FeatureFlags)
 	setLogging(cfg.Logging)
 	setTCPServer(cfg.TCPServer)
 	setPacstallPrograms(cfg.PacstallPrograms)
@@ -33,7 +32,6 @@ func Load() {
 		}
 		return mode
 	}())
-	log.Debug.Printf("Feature flags configuration: %#v", FeatureFlags)
 	log.Debug.Printf("Logging configuration: %#v", Logging)
 	log.Debug.Printf("Server configuration: %#v", TCPServer)
 	log.Debug.Printf("Pacstall Programs configuration: %#v", PacstallPrograms)

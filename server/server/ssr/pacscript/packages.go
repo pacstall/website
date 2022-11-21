@@ -3,7 +3,7 @@ package ssr
 import (
 	"regexp"
 
-	r "pacstall.dev/webserver/ssr"
+	r "pacstall.dev/webserver/server/ssr"
 )
 
 func registerPacscriptListSSRData() {

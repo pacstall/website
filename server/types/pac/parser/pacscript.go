@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"pacstall.dev/webserver/parser/pacsh"
+	"pacstall.dev/webserver/types/pac/parser/pacsh"
 	"pacstall.dev/webserver/types/list"
 	"pacstall.dev/webserver/types/pac"
 )

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"regexp"
 
-	r "pacstall.dev/webserver/ssr"
-	"pacstall.dev/webserver/store/pacstore"
+	r "pacstall.dev/webserver/server/ssr"
+	"pacstall.dev/webserver/types/pac/pacstore"
 )
 
 func registerPacscriptSSRData() {

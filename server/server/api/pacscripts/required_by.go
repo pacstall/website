@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"pacstall.dev/webserver/listener"
-	"pacstall.dev/webserver/store/pacstore"
+	"pacstall.dev/webserver/server"
+	"pacstall.dev/webserver/types/pac/pacstore"
 	"pacstall.dev/webserver/types/list"
 	"pacstall.dev/webserver/types/pac"
 )
@@ -16,7 +16,7 @@ func GetPacscriptRequiredByHandle(w http.ResponseWriter, req *http.Request) {
 	name, ok := params["name"]
 
 	etag := fmt.Sprintf("%v-%v", pacstore.LastModified().UTC().String(), name)
-	if listener.ApplyHeaders(etag, w, req) {
+	if server.ApplyHeaders(etag, w, req) {
 		// Response was cached and already sent
 		return
 	}
@@ -38,5 +38,5 @@ func GetPacscriptRequiredByHandle(w http.ResponseWriter, req *http.Request) {
 		return list.List[string](found.RequiredBy).Contains(list.Is(p.Name))
 	})
 
-	listener.Json(w, requiredBy)
+	server.Json(w, requiredBy)
 }

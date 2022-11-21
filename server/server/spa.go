@@ -1,4 +1,4 @@
-package listener
+package server
 
 import (
 	"net/http"
@@ -8,7 +8,7 @@ import (
 
 	html "html/template"
 
-	"pacstall.dev/webserver/ssr"
+	"pacstall.dev/webserver/server/ssr"
 )
 
 type spaHandler struct {

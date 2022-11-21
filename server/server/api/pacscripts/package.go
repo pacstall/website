@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"pacstall.dev/webserver/listener"
-	"pacstall.dev/webserver/store/pacstore"
+	"pacstall.dev/webserver/server"
+	"pacstall.dev/webserver/types/pac/pacstore"
 )
 
 func GetPacscriptHandle(w http.ResponseWriter, req *http.Request) {
@@ -17,7 +17,7 @@ func GetPacscriptHandle(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	if listener.ApplyHeaders(fmt.Sprintf("%v-%v", pacstore.LastModified().UTC().String(), name), w, req) {
+	if server.ApplyHeaders(fmt.Sprintf("%v-%v", pacstore.LastModified().UTC().String(), name), w, req) {
 		return // req is cached
 	}
 
@@ -27,5 +27,5 @@ func GetPacscriptHandle(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	listener.Json(w, pkg)
+	server.Json(w, pkg)
 }

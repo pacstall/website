@@ -6,8 +6,8 @@ import {
 } from '@chakra-ui/react'
 import { CSSProperties, FC, MutableRefObject, ReactNode, useRef } from 'react'
 import { useRecoilState } from 'recoil'
+import serverConfig from '../config/server'
 import useNotification from '../hooks/useNotification'
-import { featureFlagsState } from '../state/feature-flags'
 import Notification from '../types/notifications'
 
 const onCommandCopy = async (
@@ -109,18 +109,11 @@ export const SmartCodeSnippetInstall: FC<{
     size?: 'xs' | 'sm' | 'md' | 'lg'
     name: string
 }> = ({ size, name }) => {
-    const [featureFlags] = useRecoilState(featureFlagsState)
-    if (featureFlags.loading) {
-        return <SkeletonText noOfLines={1} />
+    let code = `sudo pacstall install ${name}`
+    if (!serverConfig.newPacstallSyntax) {
+        code = `pacstall -I ${name}`
     }
 
-    const code = () => {
-        if (featureFlags.flags?.oldSyntax) {
-            return `pacstall -I ${name}`
-        }
 
-        return `sudo pacstall install ${name}`
-    }
-
-    return <OneLineCodeSnippet size={size}>{code()}</OneLineCodeSnippet>
+    return <OneLineCodeSnippet size={size}>{code}</OneLineCodeSnippet>
 }

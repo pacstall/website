@@ -5,14 +5,13 @@ import (
 	"time"
 
 	"github.com/fatih/color"
-	psapi "pacstall.dev/webserver/api/pacscripts"
-	repology_api "pacstall.dev/webserver/api/repology"
+	psapi "pacstall.dev/webserver/server/api/pacscripts"
+	repology_api "pacstall.dev/webserver/server/api/repology"
 	"pacstall.dev/webserver/config"
-	"pacstall.dev/webserver/featureflag"
-	"pacstall.dev/webserver/listener"
 	"pacstall.dev/webserver/log"
-	"pacstall.dev/webserver/parser"
-	pacssr "pacstall.dev/webserver/ssr/pacscript"
+	"pacstall.dev/webserver/types/pac/parser"
+	"pacstall.dev/webserver/server"
+	pacssr "pacstall.dev/webserver/server/ssr/pacscript"
 )
 
 func printLogo() {
@@ -32,7 +31,7 @@ func printLogo() {
 }
 
 func setupRequests() {
-	router := listener.Router()
+	router := server.Router()
 
 	/* Packages */
 	pacssr.EnableSSR()
@@ -42,9 +41,6 @@ func setupRequests() {
 	router.HandleFunc("/api/packages/{name}", psapi.GetPacscriptHandle).Methods("GET")
 	router.HandleFunc("/api/packages/{name}/requiredBy", psapi.GetPacscriptRequiredByHandle).Methods("GET")
 	router.HandleFunc("/api/packages/{name}/dependencies", psapi.GetPacscriptDependenciesHandle).Methods("GET")
-
-	/* Feature Flags */
-	router.HandleFunc("/api/feature-flags", featureflag.GetFeatureFlags).Methods("GET")
 }
 
 func main() {
@@ -60,7 +56,7 @@ func main() {
 
 	log.Info.Println("Attempting to start TCP listener")
 
-	listener.OnServerOnline(func() {
+	server.OnServerOnline(func() {
 		log.Info.Printf("Server is now online on port %v.\n", port)
 
 		printLogo()
@@ -72,5 +68,5 @@ func main() {
 		log.Info.Println("Scheduled pacscripts to auto-refresh every", refreshTimer)
 	})
 
-	listener.Listen(port)
+	server.Listen(port)
 }

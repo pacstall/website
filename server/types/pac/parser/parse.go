@@ -7,13 +7,13 @@ import (
 	"strings"
 
 	"pacstall.dev/webserver/config"
-	"pacstall.dev/webserver/git"
+	"pacstall.dev/webserver/types/pac/parser/git"
 	"pacstall.dev/webserver/log"
-	"pacstall.dev/webserver/parallelism/batch"
-	"pacstall.dev/webserver/parallelism/channels"
-	"pacstall.dev/webserver/parser/pacsh"
+	"pacstall.dev/webserver/types/pac/parser/parallelism/batch"
+	"pacstall.dev/webserver/types/pac/parser/parallelism/channels"
+	"pacstall.dev/webserver/types/pac/parser/pacsh"
 	"pacstall.dev/webserver/repology"
-	"pacstall.dev/webserver/store/pacstore"
+	"pacstall.dev/webserver/types/pac/pacstore"
 	"pacstall.dev/webserver/types"
 	"pacstall.dev/webserver/types/list"
 	"pacstall.dev/webserver/types/pac"
@@ -62,24 +62,24 @@ func parsePacscriptFiles(names []string) []*pac.Script {
 		return nil
 	}
 
-	progress := log.NewProgress(len(names), "Parsing pacscripts", "Parsing pacscripts")
-	outChan := batch.Run(int(config.PacstallPrograms.MaxOpenFiles), names, func(t string) (*pac.Script, error) {
-		out, err := parsePacscriptFile(config.PacstallPrograms.Path, t)
-		progress.Describe(fmt.Sprintf("'%v' ok", t))
-		progress.Add(1)
+	log.Info.Println("Parsing pacscripts...")
+	outChan := batch.Run(int(config.PacstallPrograms.MaxOpenFiles), names, func(pacName string) (*pac.Script, error) {
+		out, err := parsePacscriptFile(config.PacstallPrograms.Path, pacName)
+		if err != nil {
+			log.Warn.Printf("Failed to parse %v. err: %v\n", pacName, err)
+		}
 		return &out, err
 	})
 
 	results := channels.ToSlice(outChan)
 
 	repologySync := repology.NewSyncer(15)
-	progressSync := log.NewProgress(len(names), "Syncing with repology", "Syncing with repology")
+	log.Info.Println("Syncing pacscripts with repology...")
+
 	for _, result := range results {
-		progressSync.Describe(fmt.Sprintf("fetching '%v'", result.Name))
 		if err := repologySync(result); err != nil {
-			log.Error.Println(err)
+			log.Warn.Printf("Failed to sync %v. err: %v\n", result.Name, err)
 		}
-		progressSync.Add(1)
 	}
 
 	return results

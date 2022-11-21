@@ -5,10 +5,10 @@ import (
 	"math"
 	"net/http"
 
-	"pacstall.dev/webserver/listener"
-	"pacstall.dev/webserver/listener/query"
-	"pacstall.dev/webserver/parser"
-	"pacstall.dev/webserver/store/pacstore"
+	"pacstall.dev/webserver/server"
+	"pacstall.dev/webserver/types/pac/parser"
+	"pacstall.dev/webserver/server/query"
+	"pacstall.dev/webserver/types/pac/pacstore"
 	"pacstall.dev/webserver/types/pac"
 )
 
@@ -54,7 +54,7 @@ func GetPacscriptListHandle(w http.ResponseWriter, req *http.Request) {
 	filterBy := params.Strings[parser.FilterByKey]
 
 	etag := fmt.Sprintf("%v-%v-%v-%v-%v-%v-%v", pacstore.LastModified().UTC().String(), page, pageSize, sort, sortBy, filter, filterBy)
-	if listener.ApplyHeaders(etag, w, req) {
+	if server.ApplyHeaders(etag, w, req) {
 		// Response was cached and already sent
 		return
 	}
@@ -76,7 +76,7 @@ func GetPacscriptListHandle(w http.ResponseWriter, req *http.Request) {
 		Data:     packages,
 	}
 
-	listener.Json(w, result)
+	server.Json(w, result)
 }
 
 func computePage(packages []*pac.Script, page, pageSize int) []*pac.Script {

@@ -4,7 +4,6 @@ import { Helmet } from 'react-helmet'
 import PackageInfo from '../../types/package-info'
 import HowToInstall from './HowToInstall'
 import PackageDependenciesModal from './PackageDependenciesModal'
-import PackageDetailsComments from './PackageDetailsComments'
 import PackageDetailsHeader from './PackageDetailsHeader'
 import PackageDetailsTable from './PackageDetailsTable'
 import PackageRequiredByModal from './PackageRequiredByModal'
@@ -56,7 +55,6 @@ const PackageDetailsPage: FC<PackageDetailsPageProps> = ({
                 prettyName={toTitleCase(data)}
                 isMobile={isMobile}
             />
-            <PackageDetailsComments />
         </Container>
         <PackageRequiredByModal name={data.name} {...requiredByModal} />
         <PackageDependenciesModal name={data.name} {...dependenciesModal} />
