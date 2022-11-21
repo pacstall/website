@@ -7,7 +7,6 @@ const PackageDetailsHeader: FC<{ data: PackageInfo; isMobile: boolean }> = (
     { data },
     isMobile,
 ) => {
-
     return (
         <>
             <HStack justify='space-between'>

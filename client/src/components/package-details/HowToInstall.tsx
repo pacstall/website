@@ -95,9 +95,7 @@ const HowToInstall: FC<{
     prettyName: string
     isMobile: boolean
 }> = props => {
-    return (
-        <HowToInstallViaTerminal {...props} />
-    )
+    return <HowToInstallViaTerminal {...props} />
 }
 
 export default HowToInstall
