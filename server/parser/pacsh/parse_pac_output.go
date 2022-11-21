@@ -67,7 +67,11 @@ func parseOutput(data []byte) (out pac.Script, err error) {
 	}
 
 	if len(strings.TrimSpace(version)) == 0 {
-		return out, fmt.Errorf("version is empty")
+		if strings.HasSuffix(name, "-git") {
+			version = "git"
+		} else {
+			return out, fmt.Errorf("version is empty")
+		}
 	}
 
 	out = pac.Script{
