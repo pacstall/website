@@ -11,7 +11,9 @@ import (
 )
 
 func GetRepologyPackageListHandle(w http.ResponseWriter, req *http.Request) {
-	packages := pacstore.GetAll().ToSlice()
+	packages := pacstore.GetAll().Filter(func(s *pac.Script) bool {
+		return len(s.Version) > 0
+	}).ToSlice()
 
 	etag := fmt.Sprintf("%v", pacstore.LastModified().UTC().String())
 	if listener.ApplyHeaders(etag, w, req) {

@@ -111,5 +111,10 @@ func parsePacscriptFile(programsDirPath, name string) (pac.Script, error) {
 		return pac.Script{}, err
 	}
 
-	return pacsh.ParsePacOutput(stdout), nil
+	pacscript, err := pacsh.ParsePacOutput(stdout)
+	if err != nil {
+		return pac.Script{}, fmt.Errorf("failed to parse pacscript %v. err: %v", name, err)
+	}
+
+	return pacscript, nil
 }
