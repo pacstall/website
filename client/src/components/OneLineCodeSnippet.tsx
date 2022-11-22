@@ -114,6 +114,5 @@ export const SmartCodeSnippetInstall: FC<{
         code = `pacstall -I ${name}`
     }
 
-
     return <OneLineCodeSnippet size={size}>{code}</OneLineCodeSnippet>
 }
