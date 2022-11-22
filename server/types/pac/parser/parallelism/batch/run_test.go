@@ -4,9 +4,9 @@ import (
 	"testing"
 	"time"
 
-	"pacstall.dev/webserver/parallelism/batch"
-	"pacstall.dev/webserver/parallelism/channels"
 	"pacstall.dev/webserver/types/list"
+	"pacstall.dev/webserver/types/pac/parser/parallelism/batch"
+	"pacstall.dev/webserver/types/pac/parser/parallelism/channels"
 )
 
 func Test_Batch_Run(t *testing.T) {

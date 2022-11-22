@@ -7,28 +7,28 @@ import (
 	"strings"
 
 	"pacstall.dev/webserver/config"
-	"pacstall.dev/webserver/types/pac/parser/git"
 	"pacstall.dev/webserver/log"
-	"pacstall.dev/webserver/types/pac/parser/parallelism/batch"
-	"pacstall.dev/webserver/types/pac/parser/parallelism/channels"
-	"pacstall.dev/webserver/types/pac/parser/pacsh"
 	"pacstall.dev/webserver/repology"
-	"pacstall.dev/webserver/types/pac/pacstore"
 	"pacstall.dev/webserver/types"
 	"pacstall.dev/webserver/types/list"
 	"pacstall.dev/webserver/types/pac"
+	"pacstall.dev/webserver/types/pac/pacstore"
+	"pacstall.dev/webserver/types/pac/parser/git"
+	"pacstall.dev/webserver/types/pac/parser/pacsh"
+	"pacstall.dev/webserver/types/pac/parser/parallelism/batch"
+	"pacstall.dev/webserver/types/pac/parser/parallelism/channels"
 )
 
 const PACKAGE_LIST_FILE_NAME = "./packagelist"
 
 func ParseAll() {
 	if err := git.RefreshPrograms(config.PacstallPrograms.Path, config.PacstallPrograms.URL); err != nil {
-		log.Error.Panicln("Could not update repository 'pacstall-programs'", err)
+		log.Fatal("Could not update repository 'pacstall-programs'. %v", err)
 	}
 
 	pkgList, err := readKnownPacscriptNames()
 	if err != nil {
-		log.Error.Panicln("Failed to parse packagelist", err)
+		log.Fatal("Failed to parse packagelist. %v", err)
 	}
 
 	loadedPacscripts := list.From(parsePacscriptFiles(pkgList)).MapExt(func(p *pac.Script, scripts list.List[*pac.Script]) *pac.Script {
@@ -38,7 +38,8 @@ func ParseAll() {
 	})
 
 	pacstore.Update(loadedPacscripts)
-	log.Info.Printf("Successfully parsed %v (%v / %v) packages", types.Percent(float64(len(loadedPacscripts))/float64(pkgList.Len())), loadedPacscripts.Len(), pkgList.Len())
+	log.Info("Successfully parsed %v (%v / %v) packages", types.Percent(float64(len(loadedPacscripts))/float64(pkgList.Len())), loadedPacscripts.Len(), pkgList.Len())
+	log.Notify("Successfully parsed %v (%v / %v) packages", types.Percent(float64(len(loadedPacscripts))/float64(pkgList.Len())), loadedPacscripts.Len(), pkgList.Len())
 }
 
 func readKnownPacscriptNames() (list.List[string], error) {
@@ -58,15 +59,15 @@ func readKnownPacscriptNames() (list.List[string], error) {
 
 func parsePacscriptFiles(names []string) []*pac.Script {
 	if err := pacsh.CreateTempDirectory(config.PacstallPrograms.TempDir); err != nil {
-		log.Error.Println(err)
+		log.Error("Failed to create temporary directory. %v", err)
 		return nil
 	}
 
-	log.Info.Println("Parsing pacscripts...")
+	log.Info("Parsing pacscripts...")
 	outChan := batch.Run(int(config.PacstallPrograms.MaxOpenFiles), names, func(pacName string) (*pac.Script, error) {
 		out, err := parsePacscriptFile(config.PacstallPrograms.Path, pacName)
 		if err != nil {
-			log.Warn.Printf("Failed to parse %v. err: %v\n", pacName, err)
+			log.Warn("Failed to parse %v. err: %v", pacName, err)
 		}
 		return &out, err
 	})
@@ -74,11 +75,11 @@ func parsePacscriptFiles(names []string) []*pac.Script {
 	results := channels.ToSlice(outChan)
 
 	repologySync := repology.NewSyncer(15)
-	log.Info.Println("Syncing pacscripts with repology...")
+	log.Info("Syncing pacscripts with repology...")
 
 	for _, result := range results {
 		if err := repologySync(result); err != nil {
-			log.Warn.Printf("Failed to sync %v. err: %v\n", result.Name, err)
+			log.Warn("Failed to sync %v. err: %v", result.Name, err)
 		}
 	}
 
@@ -91,7 +92,7 @@ func readPacscriptFile(rootDir, name string) (scriptBytes []byte, fileName strin
 	scriptBytes, err = os.ReadFile(scriptPath)
 
 	if err != nil {
-		log.Error.Printf("Failed to read package pacsh '%v'\n%v", scriptPath, err)
+		log.Error("Failed to read package pacsh '%v'\n%v", scriptPath, err)
 		return
 	}
 

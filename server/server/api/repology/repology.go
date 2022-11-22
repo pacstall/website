@@ -5,9 +5,9 @@ import (
 	"net/http"
 
 	"pacstall.dev/webserver/server"
-	"pacstall.dev/webserver/types/pac/pacstore"
 	"pacstall.dev/webserver/types/list"
 	"pacstall.dev/webserver/types/pac"
+	"pacstall.dev/webserver/types/pac/pacstore"
 )
 
 func GetRepologyPackageListHandle(w http.ResponseWriter, req *http.Request) {

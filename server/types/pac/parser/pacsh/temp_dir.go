@@ -16,13 +16,13 @@ var makeDir = os.Mkdir
 func createTempDirectory(path string) error {
 	if _, err := statFile(path); os.IsNotExist(err) {
 		if err = makeDir(path, fs.FileMode(int(0777))); err != nil {
-			log.Error.Printf("Failed to create temp dir '%v'\n%v", path, err)
+			log.Error("Failed to create temp dir '%v'\n%v", path, err)
 			return err
 		}
 
 	} else {
 		if err := removeAll(path); err != nil {
-			log.Error.Printf("Failed to remove existing temp dir '%v'\n", path)
+			log.Error("Failed to remove existing temp dir '%v'", path)
 			return err
 		}
 

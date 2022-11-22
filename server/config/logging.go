@@ -1,15 +1,14 @@
 package config
 
-import "pacstall.dev/webserver/log"
+import (
+	"pacstall.dev/webserver/types/config"
+)
 
-type LoggingConfig struct {
-	FancyLogs bool
-	Level     log.Level
-}
-
-var Logging = LoggingConfig{}
+var Logging = config.LoggingConfig{}
 
 func setLogging(conf tomlLoggingConfig) {
-	Logging.FancyLogs = conf.FancyLogs
-	Logging.Level = log.NewLogLevel(conf.LogLevel)
+	Logging.DiscordToken = conf.DiscordToken
+	Logging.DiscordChannelID = conf.DiscordChannelID
+	Logging.DiscordEnabled = conf.DiscordEnabled
+	Logging.DiscordTags = conf.DiscordTags
 }

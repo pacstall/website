@@ -7,6 +7,7 @@ dist/webserver: $(shell find . -not \( -path ./tmp -prune \) -not \( -path ./dis
 	cp ./webserver.toml.dist ./dist/webserver.toml
 clean:
 	[ -d ./dist ] && rm -r dist || :
-
 test:
 	go test -v ./...
+fmt:
+	go fmt ./...

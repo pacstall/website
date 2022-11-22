@@ -5,25 +5,18 @@ import (
 	"time"
 
 	"pacstall.dev/webserver/log"
+	"pacstall.dev/webserver/types/config"
 )
 
-type PacstallProgramsConfig struct {
-	Path           string
-	URL            string
-	TempDir        string
-	UpdateInterval time.Duration
-	MaxOpenFiles   uint8
-}
-
-var PacstallPrograms = PacstallProgramsConfig{}
+var PacstallPrograms = config.PacstallProgramsConfig{}
 
 func setPacstallPrograms(conf tomlPacstallProgramsConfig) {
 	tempDir, err := filepath.Abs(conf.TempDir)
 	if err != nil {
-		log.Error.Fatalf("Could not parse file '%s'\n%v", *configPath, err)
+		log.Fatal("Could not parse file '%s'\n%v", *configPath, err)
 	}
 
-	PacstallPrograms = PacstallProgramsConfig{
+	PacstallPrograms = config.PacstallProgramsConfig{
 		Path:           "programs",
 		URL:            conf.URL,
 		TempDir:        tempDir,

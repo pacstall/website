@@ -6,10 +6,10 @@ import (
 	"net/http"
 
 	"pacstall.dev/webserver/server"
-	"pacstall.dev/webserver/types/pac/parser"
 	"pacstall.dev/webserver/server/query"
-	"pacstall.dev/webserver/types/pac/pacstore"
 	"pacstall.dev/webserver/types/pac"
+	"pacstall.dev/webserver/types/pac/pacstore"
+	"pacstall.dev/webserver/types/pac/parser"
 )
 
 type packageListPage struct {

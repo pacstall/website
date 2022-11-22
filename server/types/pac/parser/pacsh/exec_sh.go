@@ -19,7 +19,7 @@ func execBash(cwd, filename string, pacscript []byte) (stdout []byte, err error)
 	stdout, err = execCommand("bash", tmpPath).Output()
 	if err != nil {
 		bytes, _ := os.ReadFile(tmpPath)
-		log.Debug.Printf("Failed to execute '%v'. %v\n%v\n", tmpPath, err, string(bytes))
+		log.Debug("Failed to execute '%v'. %v\n%v", tmpPath, err, string(bytes))
 		return
 	}
 

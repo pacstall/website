@@ -5,10 +5,10 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"pacstall.dev/webserver/server"
 	"pacstall.dev/webserver/log"
-	"pacstall.dev/webserver/types/pac/pacstore"
+	"pacstall.dev/webserver/server"
 	"pacstall.dev/webserver/types/pac"
+	"pacstall.dev/webserver/types/pac/pacstore"
 )
 
 type pacscriptDependencies struct {
@@ -46,7 +46,7 @@ func GetPacscriptDependenciesHandle(w http.ResponseWriter, req *http.Request) {
 		if found, err := pacstore.GetAll().FindBy(func(pi *pac.Script) bool { return pkg == pi.Name }); err == nil {
 			pacstallDependencies = append(pacstallDependencies, found)
 		} else {
-			log.Error.Printf("Could not find pacstall dependency %s of package %s.\n", pkg, pacpkg.Name)
+			log.Error("Could not find pacstall dependency %s of package %s.\n", pkg, pacpkg.Name)
 		}
 	}
 

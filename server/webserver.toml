@@ -42,9 +42,17 @@
 # --- Logging --- #
 #                 #
 
-# Uses dynamic progress bars and colors if enabled
-# `logging.fancy_logs` = `bool`
-# `logging.log_level`  = `debug` | `info` | `warn` | `error`
+# Discord Bot enabled
+# `logging.discord_enabled` = `bool`
+
+# Discord Bot token
+# `logging.discord_token` = `string`
+
+# Discord Channel ID to write to
+# `logging.discord_channel_id` = `string`
+
+# Tags attached to `warn` and above messages (https://discord.com/developers/docs/reference#message-formatting)
+# `logging.discord_tags` = `string`
 
 #------------------------------------------------------------------------------#
 
@@ -62,7 +70,9 @@ port        = 3300
 public_dir  = "../client/dist"
 
 [logging]
-log_level = "debug"
-fancy_logs = false
+discord_enabled    = false
+discord_token      = "xxxxx"
+discord_channel_id = "933045985884651551"
+discord_tags       = "<@&983060110928654450>"
 
 #------------------------------------------------------------------------------#

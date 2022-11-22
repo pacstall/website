@@ -66,7 +66,7 @@ func getSliceProperty(project repologyRawProject, property string) []string {
 
 func parseRepologyFilter(filter string) (string, string) {
 	idx := strings.Index(filter, ":")
-	return strings.TrimSpace(filter[:idx]), strings.TrimSpace(filter[idx + 1:])
+	return strings.TrimSpace(filter[:idx]), strings.TrimSpace(filter[idx+1:])
 }
 
 func fetchRepologyProject(search []string) (rpProj repologyProject, err error) {
@@ -77,8 +77,8 @@ func fetchRepologyProject(search []string) (rpProj repologyProject, err error) {
 	}
 
 	propertyPairs := list.Map(list.From(search[1:]), func(_ int, t string) []string {
-		filterName, filterValue := parseRepologyFilter(t);
-		return []string{ filterName, filterValue }
+		filterName, filterValue := parseRepologyFilter(t)
+		return []string{filterName, filterValue}
 	})
 
 	foundPackagesRaw := list.Map(list.From(result).Filter(func(pkg repologyRawProject) bool {

@@ -24,28 +24,28 @@ func Load() {
 	setPacstallPrograms(cfg.PacstallPrograms)
 	IsProduction = cfg.Production
 
-	log.Info.Printf("Loaded configuration from %v", *configPath)
-	log.Info.Printf("Running in %v mode", func() string {
+	log.Info("Loaded configuration from %v", *configPath)
+	log.Info("Running in %v mode", func() string {
 		mode := "development"
 		if IsProduction {
 			mode = "production"
 		}
 		return mode
 	}())
-	log.Debug.Printf("Logging configuration: %#v", Logging)
-	log.Debug.Printf("Server configuration: %#v", TCPServer)
-	log.Debug.Printf("Pacstall Programs configuration: %#v", PacstallPrograms)
+	log.Debug("Logging configuration: %#v", Logging)
+	log.Debug("Server configuration: %#v", TCPServer)
+	log.Debug("Pacstall Programs configuration: %#v", PacstallPrograms)
 }
 
 func loadConfig() tomlConfiguration {
 	data := tomlConfiguration{}
 	bytes, err := os.ReadFile(*configPath)
 	if err != nil {
-		log.Error.Fatalf("Could not read file '%s'\n%v", *configPath, err)
+		log.Error("Could not read file '%s'\n%v", *configPath, err)
 	}
 
 	if err = toml.Unmarshal(bytes, &data); err != nil {
-		log.Error.Fatalf("Could not parse file '%s'\n%v", *configPath, err)
+		log.Error("Could not parse file '%s'\n%v", *configPath, err)
 	}
 
 	validate(data)
@@ -55,7 +55,7 @@ func loadConfig() tomlConfiguration {
 func prettify(data tomlConfiguration) string {
 	out, err := json.MarshalIndent(data, "", "  ")
 	if err != nil {
-		log.Warn.Fatalf(err.Error())
+		log.Warn(err.Error())
 	}
 	return string(out)
 }
@@ -70,37 +70,37 @@ func validate(data tomlConfiguration) {
 	}()
 
 	if data.PacstallPrograms.URL == "" {
-		log.Error.Printf("Configuration file '%s' is missing required attribute `pacstall_programs.path\n`", *configPath)
+		log.Error("Configuration file '%s' is missing required attribute `pacstall_programs.path\n`", *configPath)
 		config_error = true
 
 	}
 
 	if data.PacstallPrograms.TempDir == "" {
-		log.Error.Printf("Configuration file '%s' is missing required attribute `pacstall_programs.tmp_dir\n`", *configPath)
+		log.Error("Configuration file '%s' is missing required attribute `pacstall_programs.tmp_dir\n`", *configPath)
 		config_error = true
 
 	}
 
 	if data.PacstallPrograms.UpdateInterval == 0 {
-		log.Error.Printf("Configuration file '%s' is missing required attribute `pacstall_programs.update_interval\n`", *configPath)
+		log.Error("Configuration file '%s' is missing required attribute `pacstall_programs.update_interval\n`", *configPath)
 		config_error = true
 
 	}
 
 	if data.PacstallPrograms.MaxOpenFiles == 0 {
-		log.Error.Printf("Configuration file '%s' is missing required attribute `pacstall_programs.max_open_files\n`", *configPath)
+		log.Error("Configuration file '%s' is missing required attribute `pacstall_programs.max_open_files\n`", *configPath)
 		config_error = true
 
 	}
 
 	if data.TCPServer.Port == 0 {
-		log.Error.Printf("Configuration file '%s' is missing required attribute `tcp_server.port\n`", *configPath)
+		log.Error("Configuration file '%s' is missing required attribute `tcp_server.port\n`", *configPath)
 		config_error = true
 
 	}
 
 	if data.TCPServer.PublicDir == "" {
-		log.Error.Printf("Configuration file '%s' is missing required attribute `tcp_server.public_dir\n`", *configPath)
+		log.Error("Configuration file '%s' is missing required attribute `tcp_server.public_dir\n`", *configPath)
 		config_error = true
 
 	}

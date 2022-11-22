@@ -43,5 +43,5 @@ func Listen(port uint16) {
 	}
 
 	err := server.ListenAndServe()
-	log.Error.Fatalf("Could not start TCP listener on port %v. Got error: %v\n", port, err)
+	log.Fatal("Could not start TCP listener on port %v. Got error: %v\n", port, err)
 }

@@ -4,26 +4,14 @@ type tomlConfiguration struct {
 	TCPServer        tomlTCPServerConfig        `toml:"tcp_server"`
 	PacstallPrograms tomlPacstallProgramsConfig `toml:"pacstall_programs"`
 	Production       bool                       `toml:"production"`
-	FeatureFlags     tomlFeatureFlagsConfig     `toml:"feature_flags"`
 	Logging          tomlLoggingConfig          `toml:"logging"`
 }
 
-type tomlFeatureFlagsConfig struct {
-	OldSyntax          bool                               `toml:"old_syntax"`
-	PackageDetailsPage tomlPackageDetailsPageFeatureFlags `toml:"package_details_page"`
-}
-
 type tomlLoggingConfig struct {
-	FancyLogs bool   `toml:"fancy_logs"`
-	LogLevel  string `toml:"log_level"`
-}
-
-type tomlPackageDetailsPageFeatureFlags struct {
-	LastUpdated     bool `toml:"last_updated"`
-	Votes           bool `toml:"votes"`
-	Popularity      bool `toml:"popularity"`
-	InstallProtocol bool `toml:"install_protocol"`
-	Comments        bool `toml:"comments"`
+	DiscordToken     string `toml:"discord_token"`
+	DiscordChannelID string `toml:"discord_channel_id"`
+	DiscordEnabled   bool   `toml:"discord_enabled"`
+	DiscordTags      string `toml:"discord_tags"`
 }
 
 type tomlTCPServerConfig struct {

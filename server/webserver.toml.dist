@@ -38,26 +38,18 @@
 # Directory containing all public html files
 # `tcp_server.public_dir`  = `string` 
 
-#                       #
-# --- Feature Flags --- #
-#                       #
-
-# Syntax for the pacstall cli
-# `feature_flags.old_syntax` = `bool`
-
-# `feature_flags.package_details_page.last_updated`     = `bool`
-# `feature_flags.package_details_page.votes`            = `bool`
-# `feature_flags.package_details_page.popularity`       = `bool`
-# `feature_flags.package_details_page.install_protocol` = `bool`
-# `feature_flags.package_details_page.comments`         = `bool`
-
 #                 #
 # --- Logging --- #
 #                 #
 
-# Uses dynamic progress bars and colors if enabled
-# `logging.fancy_logs` = `bool`
-# `logging.log_level`  = `debug` | `info` | `warn` | `error`
+# Discord Bot token
+# `logging.discord_token` = `string`
+
+# Discord Channel ID to write to
+# `logging.discord_channel_id` = `string`
+
+# Tags attached to `warn` and above messages (https://discord.com/developers/docs/reference#message-formatting)
+# `logging.discord_tags` = `string`
 
 #------------------------------------------------------------------------------#
 
@@ -85,7 +77,9 @@ install_protocol = false
 comments         = false
 
 [logging]
-log_level = "debug"
-fancy_logs = false
+discord_enabled    = true
+discord_token      = "xxxxx"
+discord_channel_id = "933045985884651551"
+discord_tags       = "<@&983060110928654450>"
 
 #------------------------------------------------------------------------------#

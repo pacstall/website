@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"pacstall.dev/webserver/parallelism/channels"
+	"pacstall.dev/webserver/types/pac/parser/parallelism/channels"
 )
 
 func registerTimeout() {

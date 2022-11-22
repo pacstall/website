@@ -33,8 +33,7 @@ func triggerServerOnline(port uint16) {
 	}
 
 	if timeout <= 0 {
-		log.Error.Fatalln("TCP server bootstrapping timed out.")
-		return
+		log.Fatal("TCP server bootstrapping timed out.")
 	}
 
 	for _, handler := range onServerOnlineHandlers {

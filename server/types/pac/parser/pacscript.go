@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"pacstall.dev/webserver/types/pac/parser/pacsh"
 	"pacstall.dev/webserver/types/list"
 	"pacstall.dev/webserver/types/pac"
+	"pacstall.dev/webserver/types/pac/parser/pacsh"
 )
 
 func removeDebianCheck(script string) string {

@@ -6,9 +6,9 @@ import (
 
 	"github.com/gorilla/mux"
 	"pacstall.dev/webserver/server"
-	"pacstall.dev/webserver/types/pac/pacstore"
 	"pacstall.dev/webserver/types/list"
 	"pacstall.dev/webserver/types/pac"
+	"pacstall.dev/webserver/types/pac/pacstore"
 )
 
 func GetPacscriptRequiredByHandle(w http.ResponseWriter, req *http.Request) {

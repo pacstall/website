@@ -2,16 +2,19 @@ package main
 
 import (
 	"fmt"
+	"syscall"
 	"time"
 
 	"github.com/fatih/color"
-	psapi "pacstall.dev/webserver/server/api/pacscripts"
-	repology_api "pacstall.dev/webserver/server/api/repology"
+	"github.com/ztrue/shutdown"
 	"pacstall.dev/webserver/config"
 	"pacstall.dev/webserver/log"
-	"pacstall.dev/webserver/types/pac/parser"
 	"pacstall.dev/webserver/server"
-	pacssr "pacstall.dev/webserver/server/ssr/pacscript"
+	ps_api "pacstall.dev/webserver/server/api/pacscripts"
+	repology_api "pacstall.dev/webserver/server/api/repology"
+	pac_ssr "pacstall.dev/webserver/server/ssr/pacscript"
+	conf_type "pacstall.dev/webserver/types/config"
+	"pacstall.dev/webserver/types/pac/parser"
 )
 
 func printLogo() {
@@ -34,38 +37,53 @@ func setupRequests() {
 	router := server.Router()
 
 	/* Packages */
-	pacssr.EnableSSR()
+	pac_ssr.EnableSSR()
 
 	router.HandleFunc("/api/repology", repology_api.GetRepologyPackageListHandle).Methods("GET")
-	router.HandleFunc("/api/packages", psapi.GetPacscriptListHandle).Methods("GET")
-	router.HandleFunc("/api/packages/{name}", psapi.GetPacscriptHandle).Methods("GET")
-	router.HandleFunc("/api/packages/{name}/requiredBy", psapi.GetPacscriptRequiredByHandle).Methods("GET")
-	router.HandleFunc("/api/packages/{name}/dependencies", psapi.GetPacscriptDependenciesHandle).Methods("GET")
+	router.HandleFunc("/api/packages", ps_api.GetPacscriptListHandle).Methods("GET")
+	router.HandleFunc("/api/packages/{name}", ps_api.GetPacscriptHandle).Methods("GET")
+	router.HandleFunc("/api/packages/{name}/requiredBy", ps_api.GetPacscriptRequiredByHandle).Methods("GET")
+	router.HandleFunc("/api/packages/{name}/dependencies", ps_api.GetPacscriptDependenciesHandle).Methods("GET")
 }
 
 func main() {
+	// Use dummy log config until the real one is parsed
+	log.Init(conf_type.LoggingConfig{
+		DiscordToken:     "",
+		DiscordChannelID: "",
+		DiscordTags:      "",
+		DiscordEnabled:   false,
+	})
+
 	config.Load()
-	log.Init(config.Logging.FancyLogs, config.Logging.Level)
+	log.Init(config.Logging)
+
+	shutdown.Add(func() {
+		log.Notify("Shutting down...")
+	})
+
+	go shutdown.Listen(syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
 
 	startedAt := time.Now()
 	port := config.TCPServer.Port
 	refreshTimer := config.PacstallPrograms.UpdateInterval
 
 	setupRequests()
-	log.Info.Println("Registered http requests")
+	log.Info("Registered http requests")
 
-	log.Info.Println("Attempting to start TCP listener")
+	log.Info("Attempting to start TCP listener")
 
 	server.OnServerOnline(func() {
-		log.Info.Printf("Server is now online on port %v.\n", port)
+		log.NotifyCustom("🚀 Startup 🧑‍🚀", "Successfully started up.")
+		log.Info("Server is now online on port %v.\n", port)
 
 		printLogo()
-		log.Info.Printf("Booted in %v\n", color.GreenString("%v", time.Since(startedAt)))
+		log.Info("Booted in %v\n", color.GreenString("%v", time.Since(startedAt)))
 
-		log.Info.Println("Attempting to parse existing pacscripts")
+		log.Info("Attempting to parse existing pacscripts")
 		parser.ParseAll()
 		parser.ScheduleRefresh(refreshTimer)
-		log.Info.Println("Scheduled pacscripts to auto-refresh every", refreshTimer)
+		log.Info("Scheduled pacscripts to auto-refresh every", refreshTimer)
 	})
 
 	server.Listen(port)
