@@ -66,16 +66,6 @@ max_open_files  = 10
 port        = 3300
 public_dir  = "./public"
 
-[feature_flags]
-old_syntax = true
-
-[feature_flags.package_details_page]
-last_updated     = false
-votes            = false
-popularity       = false
-install_protocol = false
-comments         = false
-
 [logging]
 discord_enabled    = true
 discord_token      = "xxxxx"
