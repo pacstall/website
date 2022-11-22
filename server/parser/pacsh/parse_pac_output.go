@@ -1,6 +1,7 @@
 package pacsh
 
 import (
+	"fmt"
 	"strings"
 
 	"pacstall.dev/webserver/types/list"
@@ -38,7 +39,7 @@ func parseSubcategory(category string) []string {
 	}).Filter(list.Not(""))
 }
 
-func parseOutput(data []byte) (out pac.Script) {
+func parseOutput(data []byte) (out pac.Script, err error) {
 	content := string(data)
 
 	categories := list.From(strings.Split(content, "++++")).Map(func(s string) string { return strings.TrimSpace(s) }).ToSlice()[1:]
@@ -63,6 +64,14 @@ func parseOutput(data []byte) (out pac.Script) {
 	hashPtr := &hash
 	if hash == "" {
 		hashPtr = nil
+	}
+
+	if len(strings.TrimSpace(version)) == 0 {
+		if strings.HasSuffix(name, "-git") {
+			version = "git"
+		} else {
+			return out, fmt.Errorf("version is empty")
+		}
 	}
 
 	out = pac.Script{
@@ -94,5 +103,5 @@ func parseOutput(data []byte) (out pac.Script) {
 
 	out.PrettyName = getPrettyName(out)
 
-	return out
+	return
 }
