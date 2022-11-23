@@ -1,3 +1,5 @@
+VERSION="development"
+
 server/dist: $(shell find server -not \( -path server/tmp -prune \) -not \( -path server/dist -prune \) -type f)
 	which go
 	+$(MAKE) -s -C server
@@ -13,6 +15,11 @@ dist:
 	cp -r client/dist/* dist/public
 	cp -r server/dist/* dist
 
+docker:
+	docker build --rm --build-arg VERSION="${VERSION}" --no-cache -t webserver .
+	docker tag webserver "ghcr.io/pacstall/webserver:${VERSION}"
+	docker tag webserver ghcr.io/pacstall/webserver:latest
+
 
 #### Commands
 .PHONY: run clean version
@@ -25,9 +32,6 @@ clean:
 	if [ -d dist ]; then rm -rf dist; fi
 	if [ -d client/dist ]; then rm -rf client/dist; fi
 	if [ -d client/.parcel-cache ]; then rm -rf client/.parcel-cache; fi
-
-version:
-	@cat ./VERSION
 
 prepare: .git/hooks/pre-commit
 

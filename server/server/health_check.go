@@ -20,7 +20,7 @@ func OnServerOnline(handle func()) {
 	onServerOnlineHandlers = append(onServerOnlineHandlers, handle)
 }
 
-func triggerServerOnline(port uint16) {
+func triggerServerOnline(port int) {
 	retryDelay := 100
 	timeout := 5000
 	for ; timeout > 0; timeout -= retryDelay {

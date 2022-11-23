@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"net/http"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -17,11 +18,13 @@ func Router() *mux.Router {
 	return &router
 }
 
-func Listen(port uint16) {
+func Listen(port int) {
 	registerHealthCheck()
 
 	Router().Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Add("X-Pacstall-Version", config.Version)
+
 			if strings.Contains(r.URL.Path, "/api") {
 				w.Header().Add("Content-Type", "application/json")
 			}
@@ -31,8 +34,13 @@ func Listen(port uint16) {
 
 	go triggerServerOnline(port)
 
-	if config.IsProduction {
-		Router().PathPrefix("/").Handler(spaHandler{staticPath: config.TCPServer.PublicDir})
+	if config.Production {
+		path, err := filepath.Abs(config.PublicDir)
+		if err != nil {
+			log.Fatal("failed to find client public dir at path '%s'. err: %v", config.PublicDir, err)
+		}
+
+		Router().PathPrefix("/").Handler(spaHandler{ path })
 	}
 
 	server := &http.Server{

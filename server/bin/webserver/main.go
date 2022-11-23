@@ -13,7 +13,6 @@ import (
 	ps_api "pacstall.dev/webserver/server/api/pacscripts"
 	repology_api "pacstall.dev/webserver/server/api/repology"
 	pac_ssr "pacstall.dev/webserver/server/ssr/pacscript"
-	conf_type "pacstall.dev/webserver/types/config"
 	"pacstall.dev/webserver/types/pac/parser"
 )
 
@@ -47,17 +46,6 @@ func setupRequests() {
 }
 
 func main() {
-	// Use dummy log config until the real one is parsed
-	log.Init(conf_type.LoggingConfig{
-		DiscordToken:     "",
-		DiscordChannelID: "",
-		DiscordTags:      "",
-		DiscordEnabled:   false,
-	})
-
-	config.Load()
-	log.Init(config.Logging)
-
 	shutdown.Add(func() {
 		log.Notify("Shutting down...")
 	})
@@ -65,8 +53,8 @@ func main() {
 	go shutdown.Listen(syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
 
 	startedAt := time.Now()
-	port := config.TCPServer.Port
-	refreshTimer := config.PacstallPrograms.UpdateInterval
+	port := config.Port
+	refreshTimer := config.UpdateInterval
 
 	setupRequests()
 	log.Info("Registered http requests")

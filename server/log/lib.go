@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/bwmarrin/discordgo"
-	"pacstall.dev/webserver/types/config"
+	"pacstall.dev/webserver/config"
 )
 
 const (
@@ -68,17 +68,17 @@ func NotifyCustom(level, message string, args ...any) {
 }
 
 func sendDiscordMessage(tag bool, level, message string, args ...any) {
-	if !logConfig.DiscordEnabled {
+	if !config.Discord.Enabled {
 		return
 	}
 
 	msg := fmt.Sprintf("Webserver - %s: %s\n", level, fmt.Sprintf(message, args...))
 	if tag {
-		msg = fmt.Sprintf("<%s> %s", logConfig.DiscordTags, msg)
+		msg = fmt.Sprintf("<%s> %s", config.Discord.Tags, msg)
 	}
 
 	_, err := discordClient.ChannelMessageSend(
-		logConfig.DiscordChannelID,
+		config.Discord.ChannelID,
 		msg,
 	)
 
@@ -87,14 +87,10 @@ func sendDiscordMessage(tag bool, level, message string, args ...any) {
 	}
 }
 
-var discordClient *discordgo.Session
-var logConfig config.LoggingConfig
-
-func Init(conf config.LoggingConfig) {
-	logConfig = conf
-	fmt.Printf("log: %+v\n", logConfig)
-	if conf.DiscordEnabled {
-		discordClient = connect(conf.DiscordToken)
+var discordClient = func () *discordgo.Session {
+	if config.Discord.Enabled {
+		return connect(config.Discord.Token)
 	}
 
-}
+	return nil
+}()

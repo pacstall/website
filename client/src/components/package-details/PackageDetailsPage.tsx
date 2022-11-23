@@ -7,8 +7,6 @@ import PackageDependenciesModal from './PackageDependenciesModal'
 import PackageDetailsHeader from './PackageDetailsHeader'
 import PackageDetailsTable from './PackageDetailsTable'
 import PackageRequiredByModal from './PackageRequiredByModal'
-// @ts-ignore:next-line
-import DefaultAppImg from '../../../public/app.png'
 import toTitleCase from '../../util/title-case'
 
 type PackageDetailsPageProps = {
@@ -39,7 +37,7 @@ const PackageDetailsPage: FC<PackageDetailsPageProps> = ({
             <meta property='og:title' content={data.name} />
             <meta property='og:type' content='article' />
             <meta property='og:url' content={location.href} />
-            <meta property='og:image' content={DefaultAppImg} />
+            <meta property='og:image' content='/public/app.png' />
             <meta property='og:description' content={data.description} />
         </Helmet>
         <Container maxW='60em' mt='10'>
