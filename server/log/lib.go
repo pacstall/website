@@ -6,17 +6,17 @@ import (
 	"os"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/fatih/color"
 	"pacstall.dev/webserver/config"
 )
 
-const (
-	logInfo  = "info"
-	logError = "error"
-	logDebug = "debug"
-	logFatal = "fatal"
-	logWarn  = "warn"
+var (
+	logInfo  = color.CyanString("INFO")
+	logError = color.RedString("ERROR")
+	logDebug = color.GreenString("DEBUG")
+	logFatal = color.New(color.BgHiRed, color.FgBlack).Sprintf("FATAL")
+	logWarn  = color.YellowString("WARN")
 )
-
 const (
 	logDiscordError  = "❌ Error ❌"
 	logDiscordWarn   = "⚠️ Warning"
@@ -27,7 +27,7 @@ const (
 var logger = glog.New(os.Stdout, "", glog.Ldate|glog.Ltime)
 
 func doLog(level, message string, args ...any) {
-	msg := fmt.Sprintf("[%s]: %s\n", level, fmt.Sprintf(message, args...))
+	msg := fmt.Sprintf("%s: %s\n", level, fmt.Sprintf(message, args...))
 
 	if level == logFatal {
 		logger.Fatal(msg)
@@ -74,7 +74,7 @@ func sendDiscordMessage(tag bool, level, message string, args ...any) {
 
 	msg := fmt.Sprintf("Webserver - %s: %s\n", level, fmt.Sprintf(message, args...))
 	if tag {
-		msg = fmt.Sprintf("<%s> %s", config.Discord.Tags, msg)
+		msg = fmt.Sprintf("%s %s", config.Discord.Tags, msg)
 	}
 
 	_, err := discordClient.ChannelMessageSend(

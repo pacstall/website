@@ -1,6 +1,7 @@
 package server
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"path/filepath"
@@ -13,6 +14,7 @@ import (
 )
 
 var router mux.Router = *mux.NewRouter()
+var serverInstance *http.Server
 
 func Router() *mux.Router {
 	return &router
@@ -40,16 +42,31 @@ func Listen(port int) {
 			log.Fatal("failed to find client public dir at path '%s'. err: %v", config.PublicDir, err)
 		}
 
-		Router().PathPrefix("/").Handler(spaHandler{ path })
+		Router().PathPrefix("/").Handler(spaHandler{ staticPath: path })
 	}
 
-	server := &http.Server{
+	serverInstance = &http.Server{
 		Handler:      Router(),
 		Addr:         fmt.Sprintf("0.0.0.0:%v", port),
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
 
-	err := server.ListenAndServe()
-	log.Fatal("Could not start TCP listener on port %v. Got error: %v\n", port, err)
+	err := serverInstance.ListenAndServe()
+
+	if strings.Contains(err.Error(), "Server closed") {
+		log.Info("Http server stopped")
+	} else {
+		log.Fatal("Could not start TCP listener on port %v. Got error: %v\n", port, err)
+	}
+}
+
+func Shutdown() {
+	if serverInstance == nil {
+		log.Info("Server instance is already down")
+	}
+
+	ctx := context.Background()
+	serverInstance.Shutdown(ctx)
+	log.Info("Gracefully shutting down the http server")
 }

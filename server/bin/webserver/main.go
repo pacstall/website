@@ -47,7 +47,8 @@ func setupRequests() {
 
 func main() {
 	shutdown.Add(func() {
-		log.Notify("Shutting down...")
+		server.Shutdown()
+		syscall.Exit(0)
 	})
 
 	go shutdown.Listen(syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
@@ -55,6 +56,8 @@ func main() {
 	startedAt := time.Now()
 	port := config.Port
 	refreshTimer := config.UpdateInterval
+
+	printLogo()
 
 	setupRequests()
 	log.Info("Registered http requests")
@@ -65,13 +68,12 @@ func main() {
 		log.NotifyCustom("🚀 Startup 🧑‍🚀", "Successfully started up.")
 		log.Info("Server is now online on port %v.\n", port)
 
-		printLogo()
 		log.Info("Booted in %v\n", color.GreenString("%v", time.Since(startedAt)))
 
 		log.Info("Attempting to parse existing pacscripts")
 		parser.ParseAll()
 		parser.ScheduleRefresh(refreshTimer)
-		log.Info("Scheduled pacscripts to auto-refresh every", refreshTimer)
+		log.Info("Scheduled pacscripts to auto-refresh every %v", refreshTimer)
 	})
 
 	server.Listen(port)

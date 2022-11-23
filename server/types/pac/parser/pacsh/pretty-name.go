@@ -15,7 +15,7 @@ var pacTypes = map[string]string{
 }
 
 func getPrettyName(p pac.Script) string {
-	name := p.PrettyName
+	name := ""
 
 	if name == "" {
 		name = p.Name

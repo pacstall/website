@@ -8,7 +8,7 @@ import (
 	"pacstall.dev/webserver/config/build"
 )
 
-var Production = false
+var Production = toBool(build.Production)
 
 var UpdateInterval = time.Duration(toInt(build.UpdateInterval)) * time.Second
 var TempDir = build.TempDir
@@ -35,4 +35,8 @@ func toInt(str string) int {
 	}
 
 	return num
+}
+
+func toBool(str string) bool {
+	return str == "true" || str == "1"
 }

@@ -23,6 +23,7 @@ func (h spaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	filePath := filepath.Join(h.staticPath, path)
+
 	if strings.Contains(filePath, "..") {
 		http.Error(w, "Forbidden", http.StatusForbidden)
 		return

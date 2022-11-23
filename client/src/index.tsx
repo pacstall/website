@@ -14,8 +14,8 @@ import {
 } from '@chakra-ui/react'
 
 import serverConfig from './config/server'
-const Navigation = lazy(() => import('./components/Navigation'))
-const CookieBanner = lazy(() => import('./components/CookieBanner'))
+import Navigation from './components/Navigation'
+import CookieBanner from './components/CookieBanner'
 
 const Home = lazy(() => import('./pages/Home'))
 const NotFound = lazy(() => import('./pages/NotFound'))

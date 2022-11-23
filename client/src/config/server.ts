@@ -1,8 +1,8 @@
-const isProd = process.env.NODE_ENV === 'production'
+const isProd = import.meta.env.PROD
 const serverConfig = {
     isProduction: isProd,
     host: isProd ? '' : 'http://localhost:3300',
-    version: isProd ? process.env.VERSION || 'unversioned' : 'development',
+    version: isProd ? import.meta.env.VERSION || 'unversioned' : 'development',
     newPacstallSyntax: false,
 }
 
