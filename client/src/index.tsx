@@ -55,8 +55,15 @@ const Footer: FC = () => (
             position='fixed'
             right='15px'
             bottom='15px'
-            color='gray.500'
+            padding='25px'
+            color='gray.300'
+            fontWeight='600'
             fontSize='md'
+            opacity='0%'
+            transition='all 0.3s ease-in-out'
+            _hover={{
+                opacity: '100%',
+            }}
         >
             {serverConfig.version}
         </Text>
