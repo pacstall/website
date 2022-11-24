@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"path/filepath"
@@ -54,7 +55,7 @@ func Listen(port int) {
 
 	err := serverInstance.ListenAndServe()
 
-	if strings.Contains(err.Error(), "Server closed") {
+	if errors.Is(err, http.ErrServerClosed) {
 		log.Info("Http server stopped")
 	} else {
 		log.Fatal("Could not start TCP listener on port %v. Got error: %v\n", port, err)
