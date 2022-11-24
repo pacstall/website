@@ -19,7 +19,7 @@ var GitClonePath = build.GitClonePath
 var Port = toInt(build.Port)
 var PublicDir = build.PublicDir
 
-var Version = build.PublicDir
+var Version = build.Version
 
 func toInt(str string) int {
 	die := func (err error, message string, args ...any) {
