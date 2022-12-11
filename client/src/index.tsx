@@ -14,8 +14,8 @@ import {
 } from '@chakra-ui/react'
 
 import serverConfig from './config/server'
-import CookieBanner from './components/CookieBanner'
 import Navigation from './components/Navigation'
+import CookieBanner from './components/CookieBanner'
 
 const Home = lazy(() => import('./pages/Home'))
 const NotFound = lazy(() => import('./pages/NotFound'))
@@ -55,8 +55,15 @@ const Footer: FC = () => (
             position='fixed'
             right='15px'
             bottom='15px'
-            color='gray.500'
+            padding='25px'
+            color='gray.300'
+            fontWeight='600'
             fontSize='md'
+            opacity='0%'
+            transition='all 0.3s ease-in-out'
+            _hover={{
+                opacity: '100%',
+            }}
         >
             {serverConfig.version}
         </Text>
