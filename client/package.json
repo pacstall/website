@@ -1,23 +1,20 @@
 {
     "license": "AGPL-3.0-or-later",
     "scripts": {
-        "start": "npm run clean && mkdir -p dist/public && cp -r public/ dist/public && npx parcel index.html",
-        "build": "rm -rf dist && NODE_ENV=production VERSION=\"$(npm run version)\" npx parcel build index.production.html && cp -r public/ dist/public && mv dist/index.production.html dist/index.html",
-        "version": "(cd ../; make version)",
-        "lint": "prettier --check .",
-        "lint:fix": "prettier --write .",
-        "clean": "rm -rf .parcel-cache && rm -rf dist"
+        "start": "npm run clean && npx vite",
+        "build": "npm run clean && npx vite build && mv dist/index.production.html dist/index.html",
+        "lint": "npx prettier --check .",
+        "lint:fix": "npx prettier --write .",
+        "clean": "rm -rf dist"
     },
     "devDependencies": {
-        "@types/node": "^18.7.18",
+        "@types/node": "^18.11.9",
         "@types/react": "^18.0.25",
         "@types/react-dom": "^18.0.9",
         "@types/react-helmet": "^6.1.5",
         "@types/react-router-dom": "^5.3.3",
         "autoprefixer": "^10.4.13",
         "buffer": "^6.0.3",
-        "parcel": "^2.7.0",
-        "parcel-plugin-static-files-copy": "^2.6.0",
         "postcss": "^8.4.19",
         "postcss-modules": "^6.0.0",
         "prettier": "^2.7.1",
@@ -39,11 +36,8 @@
         "react-router-dom": "^6.4.3",
         "react-use-cookie": "^1.4.0",
         "recoil": "^0.7.6",
-        "use-query-params": "^2.1.2"
-    },
-    "staticFiles": {
-        "staticPath": [
-            "public"
-        ]
+        "use-query-params": "^2.1.2",
+        "vite": "^3.2.4",
+        "@vitejs/plugin-react": "^2.2.0"
     }
 }

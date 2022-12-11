@@ -12,7 +12,6 @@ import {
 } from '@chakra-ui/react'
 import { FC, ReactNode } from 'react'
 import { Link as Rlink } from 'react-router-dom'
-import { useFeatureFlag } from '../../state/feature-flags'
 import PackageInfo from '../../types/package-info'
 import SemanticVersionColor from '../SemanticVersionColor'
 import PackageDetailsMaintainer from './PackageDetailsMaintainer'
@@ -38,14 +37,6 @@ const PackageDetailsTable: FC<{
     requiredByModal: UseDisclosureProps
     dependenciesModal: UseDisclosureProps
 }> = ({ data, dependencyCount, requiredByModal, dependenciesModal }) => {
-    const lastUpdatedDisabled = !useFeatureFlag(
-        flag => flag.packageDetailsPage.lastUpdated,
-    )
-    const popularityDisabled = !useFeatureFlag(
-        flag => flag.packageDetailsPage.popularity,
-    )
-    const votesDisabled = !useFeatureFlag(flag => flag.packageDetailsPage.votes)
-
     return (
         <Table mt='10'>
             <Tbody>
@@ -63,18 +54,6 @@ const PackageDetailsTable: FC<{
 
                 <Entry header='Maintainer'>
                     <PackageDetailsMaintainer text={data.maintainer} />
-                </Entry>
-
-                <Entry header='Last Updated' disabled={lastUpdatedDisabled}>
-                    Today
-                </Entry>
-
-                <Entry header='Votes' disabled={votesDisabled}>
-                    {Math.floor(Math.random() * 1200) + 30}
-                </Entry>
-
-                <Entry header='Popularity' disabled={popularityDisabled}>
-                    {Math.floor(Math.random() * 1000) / 10}%
                 </Entry>
 
                 <Entry header='Dependencies'>

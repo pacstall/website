@@ -1,6 +1,5 @@
 import {
     Container,
-    Flex,
     Heading,
     Image,
     Link,
@@ -10,15 +9,10 @@ import {
 } from '@chakra-ui/react'
 import { FC } from 'react'
 import Card from '../components/Card'
-import OneLineCodeSnippet, {
-    SmartCodeSnippetInstall,
-} from '../components/OneLineCodeSnippet'
+import OneLineCodeSnippet from '../components/OneLineCodeSnippet'
 
-// @ts-ignore:next-line
-import PacstallLogo from '../../public/pacstall.svg'
 import { Helmet } from 'react-helmet'
 import AsciinemaFrame from '../components/AsciinemaFrame'
-import { PrimaryButton } from '../components/Button'
 import PageAnimation from '../components/animations/PageAnimation'
 
 const Home: FC = () => {
@@ -45,7 +39,7 @@ const Home: FC = () => {
                             <Heading size='lg'>The AUR for Ubuntu</Heading>
                         </div>
                         <Image
-                            src={PacstallLogo}
+                            src='/pacstall.svg'
                             width='200px'
                             height='200px'
                             minW='10em'
@@ -117,7 +111,7 @@ const Home: FC = () => {
 
                     <Stack justify='center'>
                         <Image
-                            src={PacstallLogo}
+                            src='/pacstall.svg'
                             width='200px'
                             height='200px'
                             alt='Pacstall logo'

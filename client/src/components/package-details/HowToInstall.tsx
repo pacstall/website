@@ -1,6 +1,5 @@
 import { Box, Heading, HStack, Stack, Text } from '@chakra-ui/react'
 import { FC } from 'react'
-import { useFeatureFlag } from '../../state/feature-flags'
 import OneLineCodeSnippet, {
     SmartCodeSnippetInstall,
 } from '../OneLineCodeSnippet'
@@ -96,14 +95,7 @@ const HowToInstall: FC<{
     prettyName: string
     isMobile: boolean
 }> = props => {
-    const installProtocolEnabled = useFeatureFlag(
-        flags => flags.packageDetailsPage.installProtocol,
-    )
-    return installProtocolEnabled ? (
-        <HowToInstallFull {...props} />
-    ) : (
-        <HowToInstallViaTerminal {...props} />
-    )
+    return <HowToInstallViaTerminal {...props} />
 }
 
 export default HowToInstall
