@@ -25,6 +25,9 @@ RUN make server/dist
 FROM ubuntu:22.04
 WORKDIR /root/
 
+RUN apt update
+RUN apt install wget curl -y
+
 COPY --from=client /root/client/dist/ /root/client/dist/
 COPY --from=server /root/server/dist/ /root/server/dist/
 COPY ./Makefile ./Makefile
