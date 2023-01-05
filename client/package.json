@@ -33,7 +33,7 @@
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-helmet": "^6.1.0",
-        "react-router-dom": "^6.4.3",
+        "react-router-dom": "^6.6.1",
         "react-use-cookie": "^1.4.0",
         "recoil": "^0.7.6",
         "use-query-params": "^2.1.2",
