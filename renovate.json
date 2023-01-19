@@ -1,0 +1,22 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base"
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchCurrentVersion": "!/^0/"
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "matchPackagePatterns": ["lint", "prettier"]
+    }
+  ],
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "automerge": true,
+  "automergeType": "pr",
+  "platformAutomerge": true
+}
