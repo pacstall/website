@@ -3,7 +3,7 @@ module pacstall.dev/webserver
 go 1.18
 
 require (
-	github.com/fatih/color v1.14.0 // for colorizing output
+	github.com/fatih/color v1.14.1 // for colorizing output
 	github.com/gorilla/mux v1.8.0 // for http request routing
 	github.com/hashicorp/go-version v1.6.0 // for version parsing
 )
