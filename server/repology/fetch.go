@@ -21,8 +21,12 @@ func fetchRaw(project string) ([]repologyRawProject, error) {
 	}
 
 	resp, err := http.Get(fmt.Sprintf(repologProjectUrl, project))
-	if err != nil || resp.StatusCode != 200 {
-		return nil, fmt.Errorf("(%v) Failed with status %v to fetch repology project via link (%v): %v", project, resp.StatusCode, fmt.Sprintf(repologProjectUrl, project), err)
+	if err != nil {
+		return nil, fmt.Errorf("(%v) Failed to fetch repology project: %v", project, err)
+	}
+	
+	if resp.StatusCode != 200 {
+		return nil, fmt.Errorf("(%v) Failed with status %v to fetch repology project: %v", project, resp.StatusCode, err)
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
