@@ -24,6 +24,7 @@ services:
       options:
         max-file: "5"
         max-size: "10m"
+    network_mode: "host"
     environment:
       PACSTALL_DISCORD_TOKEN: ""
       PACSTALL_DISCORD_CHANNEL_ID: ""
