@@ -9,7 +9,7 @@ require (
 )
 
 require (
-	github.com/bwmarrin/discordgo v0.26.1
+	github.com/bwmarrin/discordgo v0.27.0
 	github.com/ztrue/shutdown v0.1.1
 )
 
