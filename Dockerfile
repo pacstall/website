@@ -1,4 +1,4 @@
-FROM node:18-alpine AS client
+FROM node:19-alpine AS client
 
 ARG VERSION
 ENV VERSION="${VERSION}"
