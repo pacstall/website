@@ -1,6 +1,8 @@
-FROM node:18-alpine AS client
+FROM node:19-alpine AS client
 
-ARG version='development'
+ARG VERSION
+ENV VERSION="${VERSION}"
+ENV NODE_ENV="production"
 
 WORKDIR /root/
 
@@ -8,23 +10,23 @@ COPY ./client ./client
 COPY ./Makefile ./Makefile
 
 RUN apk add --no-cache make
-RUN echo -n "${version}" > VERSION
-RUN cat VERSION
-RUN make client/dist
+RUN make VERSION=${VERSION} client/dist
 
 
-FROM golang:1.18-alpine AS server
+FROM golang:1.19-alpine AS server
 WORKDIR /root/
 
 COPY ./server ./server
 COPY ./Makefile ./Makefile
 
 RUN apk add --no-cache make gcc musl-dev
-RUN echo -n "${version}" > VERSION
 RUN make server/dist
 
-FROM debian:buster-slim
+FROM ubuntu:22.04
 WORKDIR /root/
+
+RUN apt update
+RUN apt install wget curl -y
 
 COPY --from=client /root/client/dist/ /root/client/dist/
 COPY --from=server /root/server/dist/ /root/server/dist/
@@ -32,11 +34,8 @@ COPY ./Makefile ./Makefile
 
 RUN apt update && apt install make git -y
 
-RUN echo -n "${version}" > VERSION
-
 RUN make dist \
-    && rm -rf server \
-    && rm -rf client
+    && rm -rf server client
 
 WORKDIR /root/dist/
 

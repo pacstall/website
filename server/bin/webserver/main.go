@@ -2,17 +2,18 @@ package main
 
 import (
 	"fmt"
+	"syscall"
 	"time"
 
 	"github.com/fatih/color"
-	psapi "pacstall.dev/webserver/api/pacscripts"
-	repology_api "pacstall.dev/webserver/api/repology"
+	"github.com/ztrue/shutdown"
 	"pacstall.dev/webserver/config"
-	"pacstall.dev/webserver/featureflag"
-	"pacstall.dev/webserver/listener"
 	"pacstall.dev/webserver/log"
-	"pacstall.dev/webserver/parser"
-	pacssr "pacstall.dev/webserver/ssr/pacscript"
+	"pacstall.dev/webserver/server"
+	ps_api "pacstall.dev/webserver/server/api/pacscripts"
+	repology_api "pacstall.dev/webserver/server/api/repology"
+	pac_ssr "pacstall.dev/webserver/server/ssr/pacscript"
+	"pacstall.dev/webserver/types/pac/parser"
 )
 
 func printLogo() {
@@ -32,45 +33,48 @@ func printLogo() {
 }
 
 func setupRequests() {
-	router := listener.Router()
+	router := server.Router()
 
 	/* Packages */
-	pacssr.EnableSSR()
+	pac_ssr.EnableSSR()
 
 	router.HandleFunc("/api/repology", repology_api.GetRepologyPackageListHandle).Methods("GET")
-	router.HandleFunc("/api/packages", psapi.GetPacscriptListHandle).Methods("GET")
-	router.HandleFunc("/api/packages/{name}", psapi.GetPacscriptHandle).Methods("GET")
-	router.HandleFunc("/api/packages/{name}/requiredBy", psapi.GetPacscriptRequiredByHandle).Methods("GET")
-	router.HandleFunc("/api/packages/{name}/dependencies", psapi.GetPacscriptDependenciesHandle).Methods("GET")
-
-	/* Feature Flags */
-	router.HandleFunc("/api/feature-flags", featureflag.GetFeatureFlags).Methods("GET")
+	router.HandleFunc("/api/packages", ps_api.GetPacscriptListHandle).Methods("GET")
+	router.HandleFunc("/api/packages/{name}", ps_api.GetPacscriptHandle).Methods("GET")
+	router.HandleFunc("/api/packages/{name}/requiredBy", ps_api.GetPacscriptRequiredByHandle).Methods("GET")
+	router.HandleFunc("/api/packages/{name}/dependencies", ps_api.GetPacscriptDependenciesHandle).Methods("GET")
 }
 
 func main() {
-	config.Load()
-	log.Init(config.Logging.FancyLogs, config.Logging.Level)
-
-	startedAt := time.Now()
-	port := config.TCPServer.Port
-	refreshTimer := config.PacstallPrograms.UpdateInterval
-
-	setupRequests()
-	log.Info.Println("Registered http requests")
-
-	log.Info.Println("Attempting to start TCP listener")
-
-	listener.OnServerOnline(func() {
-		log.Info.Printf("Server is now online on port %v.\n", port)
-
-		printLogo()
-		log.Info.Printf("Booted in %v\n", color.GreenString("%v", time.Since(startedAt)))
-
-		log.Info.Println("Attempting to parse existing pacscripts")
-		parser.ParseAll()
-		parser.ScheduleRefresh(refreshTimer)
-		log.Info.Println("Scheduled pacscripts to auto-refresh every", refreshTimer)
+	shutdown.Add(func() {
+		server.Shutdown()
+		syscall.Exit(0)
 	})
 
-	listener.Listen(port)
+	go shutdown.Listen(syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
+
+	startedAt := time.Now()
+	port := config.Port
+	refreshTimer := config.UpdateInterval
+
+	printLogo()
+
+	setupRequests()
+	log.Info("Registered http requests")
+
+	log.Info("Attempting to start TCP listener")
+
+	server.OnServerOnline(func() {
+		log.NotifyCustom("🚀 Startup 🧑‍🚀", "Successfully started up.")
+		log.Info("Server is now online on port %v.\n", port)
+
+		log.Info("Booted in %v\n", color.GreenString("%v", time.Since(startedAt)))
+
+		log.Info("Attempting to parse existing pacscripts")
+		parser.ParseAll()
+		parser.ScheduleRefresh(refreshTimer)
+		log.Info("Scheduled pacscripts to auto-refresh every %v", refreshTimer)
+	})
+
+	server.Listen(port)
 }

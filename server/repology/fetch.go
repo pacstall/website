@@ -21,8 +21,12 @@ func fetchRaw(project string) ([]repologyRawProject, error) {
 	}
 
 	resp, err := http.Get(fmt.Sprintf(repologProjectUrl, project))
-	if err != nil || resp.StatusCode != 200 {
-		return nil, fmt.Errorf("(%v) Failed with status %v to fetch repology project via link (%v): %v", project, resp.StatusCode, fmt.Sprintf(repologProjectUrl, project), err)
+	if err != nil {
+		return nil, fmt.Errorf("(%v) Failed to fetch repology project: %v", project, err)
+	}
+	
+	if resp.StatusCode != 200 {
+		return nil, fmt.Errorf("(%v) Failed with status %v to fetch repology project: %v", project, resp.StatusCode, err)
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
@@ -66,7 +70,7 @@ func getSliceProperty(project repologyRawProject, property string) []string {
 
 func parseRepologyFilter(filter string) (string, string) {
 	idx := strings.Index(filter, ":")
-	return strings.TrimSpace(filter[:idx]), strings.TrimSpace(filter[idx + 1:])
+	return strings.TrimSpace(filter[:idx]), strings.TrimSpace(filter[idx+1:])
 }
 
 func fetchRepologyProject(search []string) (rpProj repologyProject, err error) {
@@ -77,8 +81,8 @@ func fetchRepologyProject(search []string) (rpProj repologyProject, err error) {
 	}
 
 	propertyPairs := list.Map(list.From(search[1:]), func(_ int, t string) []string {
-		filterName, filterValue := parseRepologyFilter(t);
-		return []string{ filterName, filterValue }
+		filterName, filterValue := parseRepologyFilter(t)
+		return []string{filterName, filterValue}
 	})
 
 	foundPackagesRaw := list.Map(list.From(result).Filter(func(pkg repologyRawProject) bool {
