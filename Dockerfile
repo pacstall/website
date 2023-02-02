@@ -13,7 +13,7 @@ RUN apk add --no-cache make
 RUN make VERSION=${VERSION} client/dist
 
 
-FROM golang:1.19-alpine AS server
+FROM golang:1.20-alpine AS server
 WORKDIR /root/
 
 COPY ./server ./server
