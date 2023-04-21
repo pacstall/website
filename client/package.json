@@ -38,6 +38,6 @@
         "recoil": "^0.7.6",
         "use-query-params": "^2.1.2",
         "vite": "^4.0.4",
-        "@vitejs/plugin-react": "^3.0.1"
+        "@vitejs/plugin-react": "^4.0.0"
     }
 }
