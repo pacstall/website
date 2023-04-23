@@ -11,7 +11,7 @@ import (
 var ParsePacOutput = parseOutput
 var PacstallCVars []string = []string{"name", "pkgname", "maintainer", "description", "url", "gives", "hash", "version"}
 var PacstallCArrays []string = []string{}
-var PacstallCMaps []string = []string{"depends", "replace", "breaks", "build_depends", "optdepends", "pacdeps", "patch", "ppa", "repology"}
+var PacstallCMaps []string = []string{"depends", "breaks", "replace", "build_depends", "optdepends", "pacdeps", "patch", "ppa", "repology"}
 
 const (
 	nameIdx = iota
@@ -83,10 +83,10 @@ func parseOutput(data []byte) (out pac.Script, err error) {
 		Gives:                gives,
 		Hash:                 hashPtr,
 		Version:              version,
-		RuntimeDependencies:  strings.Fields(runtimeDependencies),
-		Breaks:               strings.Fields(breaks),
-		Replace:              strings.Fields(replace),
-		BuildDependencies:    strings.Fields(buildDependencies),
+		RuntimeDependencies:  parseSubcategory(runtimeDependencies),
+		Breaks:               parseSubcategory(breaks),
+		Replace:              parseSubcategory(replace),
+		BuildDependencies:    parseSubcategory(buildDependencies),
 		OptionalDependencies: parseSubcategory(optionalDependencies),
 		PacstallDependencies: parseSubcategory(pacstallDependencies),
 		PPA:                  parseSubcategory(ppa),
