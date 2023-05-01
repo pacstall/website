@@ -10,9 +10,16 @@ services:
       sh -c "echo 'CREATE DATABASE IF NOT EXISTS pacstall; CREATE DATABASE IF NOT EXISTS matomo;' > /docker-entrypoint-initdb.d/init.sql; /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
     volumes:
      - db:/var/lib/mysql
+    ports:
+      - target: 3306
+        published: 3306
+        mode: host
     
   webserver:
-    image: ghcr.io/pacstall/webserver:latest
+    #image: ghcr.io/pacstall/webserver:latest
+    build: 
+      context: .
+      dockerfile: Dockerfile
     depends_on:
       - mariadb
     ports:
@@ -30,6 +37,11 @@ services:
       PACSTALL_DISCORD_CHANNEL_ID: ""
       PACSTALL_DISCORD_ENABLED: "false"
       PACSTALL_DISCORD_TAGS: "" # See https://discord.com/developers/docs/reference#message-formatting
+      PACSTALL_DATABASE_HOST: "127.0.0.1"
+      PACSTALL_DATABASE_USER: root
+      PACSTALL_DATABASE_PASSWORD: changeme
+      PACSTALL_DATABASE_NAME: pacstall
+      PACSTALL_DATABASE_PORT: 3306
         
   matomo:
     image: matomo
