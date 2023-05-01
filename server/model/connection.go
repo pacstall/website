@@ -18,8 +18,6 @@ var connectionString = fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTim
 )
 
 func Instance() *gorm.DB {
-	defer postConnect()
-
 	if database != nil {
 		return database
 	}
@@ -28,6 +26,8 @@ func Instance() *gorm.DB {
 	if err != nil {
 		panic(fmt.Sprintf("failed to connect database: %v", err))
 	}
+
+	defer postConnect()
 
 	database = db
 	return database
