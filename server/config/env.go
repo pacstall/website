@@ -1,22 +1,15 @@
 package config
 
-import (
-	"os"
-	"strings"
-)
-
 var Discord = struct {
 	Token     string
 	ChannelID string
 	Enabled   bool
 	Tags      string
 }{
-	Token:     os.Getenv("PACSTALL_DISCORD_TOKEN"),
-	ChannelID: os.Getenv("PACSTALL_DISCORD_CHANNEL_ID"),
-	Enabled: func(isEnabled string) bool {
-		return isEnabled == "1" || isEnabled == "true"
-	}(strings.TrimSpace(os.Getenv("PACSTALL_DISCORD_ENABLED"))),
-	Tags: os.Getenv("PACSTALL_DISCORD_TAGS"),
+	Token:     getEnvString("PACSTALL_DISCORD_TOKEN"),
+	ChannelID: getEnvString("PACSTALL_DISCORD_CHANNEL_ID"),
+	Enabled:   getEnvBool("PACSTALL_DISCORD_ENABLED"),
+	Tags:      getEnvString("PACSTALL_DISCORD_TAGS"),
 }
 
 var Database = struct {
@@ -26,15 +19,15 @@ var Database = struct {
 	Password string
 	Name     string
 }{
-	Host: os.Getenv("PACSTALL_DATABASE_HOST"),
-	Port: func(port string) int {
-		if port == "" {
-			return 3306
-		}
+	Host:     getEnvString("PACSTALL_DATABASE_HOST"),
+	Port:     getEnvInt("PACSTALL_DATABASE_PORT"),
+	User:     getEnvString("PACSTALL_DATABASE_USER"),
+	Password: getEnvString("PACSTALL_DATABASE_PASSWORD"),
+	Name:     getEnvString("PACSTALL_DATABASE_NAME"),
+}
 
-		return toInt(port)
-	}(os.Getenv("PACSTALL_DATABASE_PORT")),
-	User:     os.Getenv("PACSTALL_DATABASE_USER"),
-	Password: os.Getenv("PACSTALL_DATABASE_PASSWORD"),
-	Name:     os.Getenv("PACSTALL_DATABASE_NAME"),
+var Matomo = struct {
+	Enabled bool
+}{
+	Enabled: getEnvBool("PACSTALL_MATOMO_ENABLED"),
 }

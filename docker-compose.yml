@@ -42,6 +42,9 @@ services:
       PACSTALL_DATABASE_PASSWORD: changeme
       PACSTALL_DATABASE_NAME: pacstall
       PACSTALL_DATABASE_PORT: 3306
+      PACSTALL_MATOMO_ENABLED: "true"
+      MATOMO_DOMAIN: "http://localhost:8080"
+      MATOMO_SITE_ID: "1"
         
   matomo:
     image: matomo

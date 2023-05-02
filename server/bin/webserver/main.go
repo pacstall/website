@@ -45,7 +45,7 @@ func setupRequests() {
 	router.HandleFunc("/api/packages/{name}/dependencies", ps_api.GetPacscriptDependenciesHandle).Methods("GET")
 
 	/* Shortened Links - Must be last as it functions as a catch-all trap */
-	router.HandleFunc("/{linkId}", urlshortener.GetShortenedLinkRedirectHandle).Methods("GET")
+	router.HandleFunc("/q/{linkId}", urlshortener.GetShortenedLinkRedirectHandle).Methods("GET")
 }
 
 func main() {

@@ -125,7 +125,11 @@ export function Navigation() {
                     Privacy Policy
                 </Link>
 
-                <Link href='/install' target='_blank' mr='7'>
+                <Link
+                    href='https://github.com/pacstall/pacstall#installing'
+                    target='_blank'
+                    mr='7'
+                >
                     <PrimaryButton px='10'>Install</PrimaryButton>
                 </Link>
 

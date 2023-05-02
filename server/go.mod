@@ -21,10 +21,13 @@ require (
 )
 
 require (
+	github.com/go-resty/resty/v2 v2.4.0 // indirect
 	github.com/go-sql-driver/mysql v1.7.1 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.17 // indirect
+	github.com/treelightsoftware/go-matomo v0.1.0-beta // indirect
+	golang.org/x/net v0.0.0-20211112202133-69e39bad7dc2 // indirect
 	golang.org/x/sys v0.6.0 // indirect
 )
