@@ -15,9 +15,24 @@ import (
 var db = model.Instance()
 var incrementVisitsExpression = gorm.Expr(model.ShortenedLinkColumns.Visits+" + ?", 1)
 
+var pathParams = struct {
+	LinkId string
+}{
+	LinkId: "linkId",
+}
+
+var queryParams = struct {
+	DoNotTrack string
+}{
+	DoNotTrack: "dnt",
+}
+
 func GetShortenedLinkRedirectHandle(w http.ResponseWriter, req *http.Request) {
 	params := mux.Vars(req)
-	linkId := params["linkId"]
+	query := req.URL.Query()
+
+	linkId := params[pathParams.LinkId]
+	_, doNotTrack := query[queryParams.DoNotTrack]
 
 	if linkId == "" {
 		w.WriteHeader(404)
@@ -25,13 +40,18 @@ func GetShortenedLinkRedirectHandle(w http.ResponseWriter, req *http.Request) {
 	}
 
 	var shortenedLink model.ShortenedLink
-	if result := db.Where(model.ShortenedLink{LinkId: params["linkId"]}).First(&shortenedLink); result.Error != nil {
+	if result := db.Where(model.ShortenedLink{LinkId: linkId}).First(&shortenedLink); result.Error != nil {
 		w.WriteHeader(404)
 		return
 	}
 
 	// Increment visits in the background and ping matomo
 	go func() {
+		if doNotTrack {
+			log.Debug("Not tracking visit to [ShortenedLink (%s)] because of DoNotTrack flag", shortenedLink.LinkId)
+			return
+		}
+
 		db.Model(&shortenedLink).Update(model.ShortenedLinkColumns.Visits, incrementVisitsExpression)
 		if config.Matomo.Enabled {
 			pingMatomoTracker(req.RemoteAddr, req.UserAgent(), req.Referer(), linkId)

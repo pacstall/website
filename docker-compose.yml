@@ -13,19 +13,14 @@ services:
     ports:
       - target: 3306
         published: 3306
-        mode: host
     
   webserver:
-    #image: ghcr.io/pacstall/webserver:latest
-    build: 
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/pacstall/webserver:latest
     depends_on:
       - mariadb
     ports:
       - target: 3300
         published: 3300
-        mode: host
     logging:
       driver: "json-file"
       options:
@@ -56,7 +51,6 @@ services:
     ports:
       - target: 80
         published: 8080
-        mode: host
     depends_on:
       - mariadb
       
