@@ -10,6 +10,7 @@ require (
 
 require (
 	github.com/bwmarrin/discordgo v0.27.1
+	github.com/treelightsoftware/go-matomo v0.1.0-beta
 	github.com/ztrue/shutdown v0.1.1
 	gorm.io/driver/mysql v1.5.0
 	gorm.io/gorm v1.25.0
@@ -27,7 +28,6 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.17 // indirect
-	github.com/treelightsoftware/go-matomo v0.1.0-beta // indirect
-	golang.org/x/net v0.0.0-20211112202133-69e39bad7dc2 // indirect
+	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/sys v0.6.0 // indirect
 )
