@@ -21,7 +21,7 @@ const HowToInstallFull: FC<{ name: string; isMobile: boolean }> = ({
                 </Text>
                 <Box>
                     <OneLineCodeSnippet size='sm'>
-                        sudo bash -c "$(wget -q https://git.io/JsADh -O -)"
+                        sudo bash -c "$(wget -q https://pacstall.dev/q/install -O -)"
                     </OneLineCodeSnippet>
                 </Box>
             </ResponsiveStack>
@@ -73,7 +73,7 @@ const HowToInstallViaTerminal: FC<{
                 </Text>
                 <Box>
                     <OneLineCodeSnippet size='sm'>
-                        sudo bash -c "$(wget -q https://git.io/JsADh -O -)"
+                        sudo bash -c "$(wget -q https://pacstall.dev/q/install -O -)"
                     </OneLineCodeSnippet>
                 </Box>
             </ResponsiveStack>
