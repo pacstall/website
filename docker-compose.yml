@@ -18,6 +18,7 @@ services:
     image: ghcr.io/pacstall/webserver:latest
     depends_on:
       - mariadb
+      - matomo
     ports:
       - target: 3300
         published: 3300
@@ -37,11 +38,13 @@ services:
       PACSTALL_DATABASE_NAME: pacstall
       PACSTALL_DATABASE_PORT: 3306
       PACSTALL_MATOMO_ENABLED: "true"
-      MATOMO_DOMAIN: "http://localhost:8080"
+      MATOMO_DOMAIN: "http://matomo"
       MATOMO_SITE_ID: "1"
         
   matomo:
     image: matomo
+    volumes:
+      - matomo:/var/www/html
     environment:
       MATOMO_DATABASE_HOST: mariadb
       MATOMO_DATABASE_USERNAME: root
@@ -55,3 +58,4 @@ services:
       
 volumes:
   db:
+  matomo:

@@ -48,7 +48,6 @@ func GetShortenedLinkRedirectHandle(w http.ResponseWriter, req *http.Request) {
 	// Increment visits in the background and ping matomo
 	go func() {
 		if doNotTrack {
-			log.Debug("Not tracking visit to [ShortenedLink (%s)] because of DoNotTrack flag", shortenedLink.LinkId)
 			return
 		}
 
