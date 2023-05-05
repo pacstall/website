@@ -26,13 +26,12 @@ services:
       options:
         max-file: "5"
         max-size: "10m"
-    network_mode: "host"
     environment:
       PACSTALL_DISCORD_TOKEN: ""
       PACSTALL_DISCORD_CHANNEL_ID: ""
       PACSTALL_DISCORD_ENABLED: "false"
       PACSTALL_DISCORD_TAGS: "" # See https://discord.com/developers/docs/reference#message-formatting
-      PACSTALL_DATABASE_HOST: "127.0.0.1"
+      PACSTALL_DATABASE_HOST: mariadb
       PACSTALL_DATABASE_USER: root
       PACSTALL_DATABASE_PASSWORD: changeme
       PACSTALL_DATABASE_NAME: pacstall
