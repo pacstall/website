@@ -12,6 +12,7 @@ import (
 	"pacstall.dev/webserver/server"
 	ps_api "pacstall.dev/webserver/server/api/pacscripts"
 	repology_api "pacstall.dev/webserver/server/api/repology"
+	urlshortener "pacstall.dev/webserver/server/api/url_shortener"
 	pac_ssr "pacstall.dev/webserver/server/ssr/pacscript"
 	"pacstall.dev/webserver/types/pac/parser"
 )
@@ -37,12 +38,14 @@ func setupRequests() {
 
 	/* Packages */
 	pac_ssr.EnableSSR()
-
 	router.HandleFunc("/api/repology", repology_api.GetRepologyPackageListHandle).Methods("GET")
 	router.HandleFunc("/api/packages", ps_api.GetPacscriptListHandle).Methods("GET")
 	router.HandleFunc("/api/packages/{name}", ps_api.GetPacscriptHandle).Methods("GET")
 	router.HandleFunc("/api/packages/{name}/requiredBy", ps_api.GetPacscriptRequiredByHandle).Methods("GET")
 	router.HandleFunc("/api/packages/{name}/dependencies", ps_api.GetPacscriptDependenciesHandle).Methods("GET")
+
+	/* Shortened Links - Must be last as it functions as a catch-all trap */
+	router.HandleFunc("/q/{linkId}", urlshortener.GetShortenedLinkRedirectHandle).Methods("GET")
 }
 
 func main() {

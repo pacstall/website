@@ -10,29 +10,41 @@ services:
       sh -c "echo 'CREATE DATABASE IF NOT EXISTS pacstall; CREATE DATABASE IF NOT EXISTS matomo;' > /docker-entrypoint-initdb.d/init.sql; /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
     volumes:
      - db:/var/lib/mysql
+    ports:
+      - target: 3306
+        published: 3306
     
   webserver:
     image: ghcr.io/pacstall/webserver:latest
     depends_on:
       - mariadb
+      - matomo
     ports:
       - target: 3300
         published: 3300
-        mode: host
     logging:
       driver: "json-file"
       options:
         max-file: "5"
         max-size: "10m"
-    network_mode: "host"
     environment:
       PACSTALL_DISCORD_TOKEN: ""
       PACSTALL_DISCORD_CHANNEL_ID: ""
       PACSTALL_DISCORD_ENABLED: "false"
       PACSTALL_DISCORD_TAGS: "" # See https://discord.com/developers/docs/reference#message-formatting
+      PACSTALL_DATABASE_HOST: mariadb
+      PACSTALL_DATABASE_USER: root
+      PACSTALL_DATABASE_PASSWORD: changeme
+      PACSTALL_DATABASE_NAME: pacstall
+      PACSTALL_DATABASE_PORT: 3306
+      PACSTALL_MATOMO_ENABLED: "true"
+      MATOMO_DOMAIN: "http://matomo"
+      MATOMO_SITE_ID: "1"
         
   matomo:
     image: matomo
+    volumes:
+      - matomo:/var/www/html
     environment:
       MATOMO_DATABASE_HOST: mariadb
       MATOMO_DATABASE_USERNAME: root
@@ -41,9 +53,9 @@ services:
     ports:
       - target: 80
         published: 8080
-        mode: host
     depends_on:
       - mariadb
       
 volumes:
   db:
+  matomo:

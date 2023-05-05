@@ -41,5 +41,6 @@ WORKDIR /root/dist/
 
 RUN ls -al /root/dist
 
-CMD [ "./webserver" ]
+
+CMD echo "Starting webserver in a few seconds..." && sleep 3 && "./webserver"
 EXPOSE 3300
