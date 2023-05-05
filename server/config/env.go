@@ -1,20 +1,33 @@
 package config
 
-import (
-	"os"
-	"strings"
-)
-
 var Discord = struct {
-	Token string
+	Token     string
 	ChannelID string
+	Enabled   bool
+	Tags      string
+}{
+	Token:     getEnvString("PACSTALL_DISCORD_TOKEN"),
+	ChannelID: getEnvString("PACSTALL_DISCORD_CHANNEL_ID"),
+	Enabled:   getEnvBool("PACSTALL_DISCORD_ENABLED"),
+	Tags:      getEnvString("PACSTALL_DISCORD_TAGS"),
+}
+
+var Database = struct {
+	Host     string
+	Port     int
+	User     string
+	Password string
+	Name     string
+}{
+	Host:     getEnvString("PACSTALL_DATABASE_HOST"),
+	Port:     getEnvInt("PACSTALL_DATABASE_PORT"),
+	User:     getEnvString("PACSTALL_DATABASE_USER"),
+	Password: getEnvString("PACSTALL_DATABASE_PASSWORD"),
+	Name:     getEnvString("PACSTALL_DATABASE_NAME"),
+}
+
+var Matomo = struct {
 	Enabled bool
-	Tags string
-} {
-	Token: os.Getenv("PACSTALL_DISCORD_TOKEN"),
-	ChannelID: os.Getenv("PACSTALL_DISCORD_CHANNEL_ID"),
-	Enabled: func (isEnabled string) bool {
-		return isEnabled == "1" || isEnabled == "true"
-	}(strings.TrimSpace(os.Getenv("PACSTALL_DISCORD_ENABLED"))),
-	Tags: os.Getenv("PACSTALL_DISCORD_TAGS"),
+}{
+	Enabled: getEnvBool("PACSTALL_MATOMO_ENABLED"),
 }
