@@ -96,8 +96,9 @@ const Home: FC = () => {
                         Installation Instructions
                     </Heading>
                     <OneLineCodeSnippet>
-                        sudo bash -c "$(curl -fsSL https://pacstall.dev/q/install || wget
-                        -q https://pacstall.dev/q/install -O -)"
+                        sudo bash -c "$(curl -fsSL
+                        https://pacstall.dev/q/install || wget -q
+                        https://pacstall.dev/q/install -O -)"
                     </OneLineCodeSnippet>
                     <Heading size={'lg'} mb='3' mt='10'>
                         Showcase
