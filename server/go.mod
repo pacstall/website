@@ -13,7 +13,7 @@ require (
 	github.com/treelightsoftware/go-matomo v0.1.0-beta
 	github.com/ztrue/shutdown v0.1.1
 	gorm.io/driver/mysql v1.5.0
-	gorm.io/gorm v1.25.0
+	gorm.io/gorm v1.25.1
 )
 
 require (
