@@ -6,7 +6,7 @@ export default <Locale>{
         subtitle: 'El AUR para Ubuntu',
         cards: {
             whyDifferent: {
-                title: 'Why is this any different than any other package manager?',
+                title: '¿Por qué es diferente a cualquier otro administrador de paquetes?',
                 description:
                     'Pacstall uses the stable base of Ubuntu but allows you to use ' +
                     "bleeding edge software with little to no compromises, so you don't " +
