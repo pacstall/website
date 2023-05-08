@@ -15,6 +15,7 @@ import {
     useBreakpointValue,
     useDisclosure,
     useColorMode,
+    Select,
 } from '@chakra-ui/react'
 import {
     HamburgerIcon,
@@ -27,11 +28,22 @@ import {
 } from '@chakra-ui/icons'
 import { Link as RLink, useNavigate } from 'react-router-dom'
 import { PrimaryButton } from './Button'
+import { useTranslation } from 'react-i18next'
+import { useState } from 'react'
+import { localeEntries } from '../locale/locale'
 
 export function Navigation() {
     const { isOpen, onToggle } = useDisclosure()
     const { colorMode, toggleColorMode } = useColorMode()
     const navigate = useNavigate()
+    const { t, i18n } = useTranslation()
+    const [language, setLanguage] = useState(i18n.language)
+
+    const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const newLang = e.target.value
+        i18n.changeLanguage(newLang)
+        setLanguage(newLang)
+    }
 
     return (
         <Box>
@@ -81,7 +93,7 @@ export function Navigation() {
                         onClick={() => navigate('/')}
                         color={useColorModeValue('brand.800', 'white')}
                     >
-                        Pacstall
+                        {t('navbar.title')}
                     </Text>
                     <Text
                         textAlign='left'
@@ -97,7 +109,7 @@ export function Navigation() {
                         onClick={() => navigate('/')}
                         color={useColorModeValue('brand.800', 'white')}
                     >
-                        Pacstall
+                        {t('navbar.title')}
                     </Text>
 
                     <Flex display={{ base: 'none', lg: 'flex' }} ml={10}>
@@ -122,7 +134,7 @@ export function Navigation() {
                         color: 'brand.400',
                     }}
                 >
-                    Privacy Policy
+                    {t('navbar.privacy.title')}
                 </Link>
 
                 <Link
@@ -130,8 +142,18 @@ export function Navigation() {
                     target='_blank'
                     mr='7'
                 >
-                    <PrimaryButton px='10'>Install</PrimaryButton>
+                    <PrimaryButton px='10'>{t('navbar.install')}</PrimaryButton>
                 </Link>
+
+                <Box mr='5' textAlign='center'>
+                    <Select
+                        variant='filled'
+                        value={language}
+                        onChange={handleLanguageChange}
+                    >
+                        {localeEntries.map(([key, value]) => <option key={key} value={key}>{value}</option>)}
+                    </Select>
+                </Box>
 
                 <Button onClick={toggleColorMode}>
                     {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
@@ -149,6 +171,7 @@ const DesktopNav = () => {
     const linkColor = useColorModeValue('gray.600', 'gray.200')
     const linkHoverColor = useColorModeValue('teal.400', 'teal.400')
     const popoverContentBgColor = useColorModeValue('white', 'gray.800')
+    const { t } = useTranslation()
 
     return (
         <Stack direction={'row'} spacing={4}>
@@ -174,7 +197,7 @@ const DesktopNav = () => {
                                     color: linkHoverColor,
                                 }}
                             >
-                                {navItem.label}{' '}
+                                {t(navItem.label)}{' '}
                                 {navItem.children && (
                                     <Icon
                                         position='relative'
@@ -215,6 +238,7 @@ const DesktopNav = () => {
 }
 
 const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
+    const { t } = useTranslation()
     return (
         <Link
             href={href}
@@ -231,9 +255,9 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
                         _groupHover={{ color: 'brand.400' }}
                         fontWeight={500}
                     >
-                        {label}
+                        {t(label)}
                     </Text>
-                    <Text fontSize={'sm'}>{subLabel}</Text>
+                    <Text fontSize={'sm'}>{t(subLabel)}</Text>
                 </Box>
                 <Flex
                     transition={'all .3s ease'}
@@ -349,45 +373,49 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
     {
-        label: 'Contribute',
+        label: 'navbar.contribute.title',
         children: [
             {
-                label: 'Work on new Features',
+                label: 'navbar.contribute.workOnFeatures',
                 href: 'https://github.com/pacstall/pacstall/wiki/How-to-contribute',
             },
             {
-                label: 'Become a Package Maintainer',
+                label: 'navbar.contribute.becomeAMaintainer',
                 href: 'https://github.com/pacstall/pacstall/wiki/Pacscript-101',
+            },
+            {
+                label: 'navbar.contribute.helpTranslate',
+                href: '#',
             },
         ],
     },
     {
-        label: 'Social Networks',
+        label: 'navbar.social.title',
         children: [
             {
-                label: 'Discord',
+                label: 'navbar.social.discord',
                 href: 'https://discord.com/invite/sWB6YtKyvW',
             },
             {
-                label: 'Matrix',
+                label: 'navbar.social.matrix',
                 href: 'https://matrix.to/#/#pacstall:matrix.org',
             },
             {
-                label: 'Reddit',
+                label: 'navbar.social.reddit',
                 href: 'https://www.reddit.com/r/pacstall',
             },
             {
-                label: 'Mastodon',
+                label: 'navbar.social.mastodon',
                 href: 'https://social.linux.pizza/@pacstall',
             },
         ],
     },
     {
-        label: 'Browse Packages',
+        label: 'navbar.browse.title',
         href: '/packages',
     },
     {
-        label: 'Privacy Policy',
+        label: 'navbar.privacy.title',
         href: '/privacy',
         smOnly: true,
     },

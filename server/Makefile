@@ -14,6 +14,19 @@ LDFLAGS= \
 all: dist/webserver
 
 run: 
+	(cd .. && docker-compose up -d mariadb)
+
+	PACSTALL_DATABASE_HOST=localhost \
+	PACSTALL_DATABASE_PORT=3306 \
+	PACSTALL_DATABASE_USER=root \
+	PACSTALL_DATABASE_PASSWORD=changeme \
+	PACSTALL_DATABASE_NAME=pacstall \
+	PACSTALL_DISCORD_ENABLED=false \
+	PACSTALL_DISCORD_TOKEN="" \
+	PACSTALL_DISCORD_CHANNEL_ID="" \
+	PACSTALL_DISCORD_TAGS="" \
+	PACSTALL_MATOMO_ENABLED="false" \
+	PACSTALL_REPOLOGY_ENABLED="false" \
 	go run bin/webserver/main.go
 dist/webserver: $(shell find . -not \( -path ./tmp -prune \) -not \( -path ./dist -prune \) -type f)
 	CGO_ENABLED=0 go build -o dist/webserver -ldflags "${LDFLAGS}" bin/webserver/main.go

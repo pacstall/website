@@ -31,3 +31,9 @@ var Matomo = struct {
 }{
 	Enabled: getEnvBool("PACSTALL_MATOMO_ENABLED"),
 }
+
+var Repology = struct {
+	Enabled bool
+}{
+	Enabled: getEnvBoolOrDefault("PACSTALL_REPOLOGY_ENABLED", true),
+}

@@ -57,6 +57,15 @@ func getEnvVar[T any](key string, format formatter[T]) T {
 	return format.Format(val)
 }
 
+func getEnvOrDefault[T any](key string, defaultValue T, format formatter[T]) T {
+	val, ok := os.LookupEnv(key)
+	if !ok {
+		return defaultValue
+	}
+
+	return format.Format(val)
+}
+
 var _stringFormatter formatter[string] = stringFormatter{}
 var _intFormatter formatter[int] = intFormatter{}
 var _boolFormatter formatter[bool] = boolFormatter{}
@@ -71,4 +80,8 @@ func getEnvInt(key string) int {
 
 func getEnvBool(key string) bool {
 	return getEnvVar(key, _boolFormatter)
+}
+
+func getEnvBoolOrDefault(key string, defaultValue bool) bool {
+	return getEnvOrDefault(key, defaultValue, _boolFormatter)
 }
