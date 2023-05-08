@@ -1,6 +1,7 @@
 import { Resource } from 'i18next'
 import enLocale from './en.locale'
 import roLocale from './ro.locale'
+import esLocale from './es.locale'
 
 export default interface Locale {
     home: {
@@ -54,11 +55,15 @@ export const translations = {
     'ro-RO': {
         translation: roLocale,
     },
+    'es-ES': {
+        translation: esLocale,
+    },
 } as const satisfies Resource
 
 export const localeFlags: Record<keyof typeof translations, string> = {
     'en-US': 'US 🇺🇸',
     'ro-RO': 'RO 🇷🇴',
+    'es-ES': 'ES 🇪🇸',
 }
 
 export const locales = Object.keys(
