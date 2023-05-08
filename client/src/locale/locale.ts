@@ -57,10 +57,15 @@ export const translations = {
 } as const satisfies Resource
 
 export const localeFlags: Record<keyof typeof translations, string> = {
-    "en-US": "US 🇺🇸",
-    "ro-RO": "RO 🇷🇴",
-};
+    'en-US': 'US 🇺🇸',
+    'ro-RO': 'RO 🇷🇴',
+}
 
-export const locales = Object.keys(translations) as (keyof typeof translations)[]
+export const locales = Object.keys(
+    translations,
+) as (keyof typeof translations)[]
 export const flags = Object.values(localeFlags)
-export const localeEntries = Object.entries(localeFlags) as unknown as [keyof typeof translations, string][]
+export const localeEntries = Object.entries(localeFlags) as unknown as [
+    keyof typeof translations,
+    string,
+][]

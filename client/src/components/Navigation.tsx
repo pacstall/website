@@ -151,7 +151,11 @@ export function Navigation() {
                         value={language}
                         onChange={handleLanguageChange}
                     >
-                        {localeEntries.map(([key, value]) => <option key={key} value={key}>{value}</option>)}
+                        {localeEntries.map(([key, value]) => (
+                            <option key={key} value={key}>
+                                {value}
+                            </option>
+                        ))}
                     </Select>
                 </Box>
 
