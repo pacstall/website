@@ -2,11 +2,9 @@ package main
 
 import (
 	"fmt"
-	"syscall"
 	"time"
 
 	"github.com/fatih/color"
-	"github.com/ztrue/shutdown"
 	"pacstall.dev/webserver/config"
 	"pacstall.dev/webserver/log"
 	"pacstall.dev/webserver/server"
@@ -51,14 +49,9 @@ func setupRequests() {
 func main() {
 	if config.Production {
 		log.SetLogLevel(log.Level.Info)
+	} else {
+		log.SetLogLevel(log.Level.Debug)
 	}
-
-	shutdown.Add(func() {
-		server.Shutdown()
-		syscall.Exit(0)
-	})
-
-	go shutdown.Listen(syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
 
 	startedAt := time.Now()
 	port := config.Port
