@@ -23,6 +23,7 @@ func Router() *mux.Router {
 
 func Listen(port int) {
 	registerHealthCheck()
+	registerSiteMap()
 
 	Router().Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -43,7 +44,7 @@ func Listen(port int) {
 			log.Fatal("failed to find client public dir at path '%s'. err: %v", config.PublicDir, err)
 		}
 
-		Router().PathPrefix("/").Handler(spaHandler{ staticPath: path })
+		Router().PathPrefix("/").Handler(spaHandler{staticPath: path})
 	}
 
 	serverInstance = &http.Server{

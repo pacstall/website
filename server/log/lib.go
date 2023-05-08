@@ -17,12 +17,35 @@ var (
 	logFatal = color.New(color.BgHiRed, color.FgBlack).Sprintf("FATAL")
 	logWarn  = color.YellowString("WARN")
 )
+
 const (
 	logDiscordError  = "❌ Error ❌"
 	logDiscordWarn   = "⚠️ Warning"
 	logDiscordFatal  = "💀☢️💥 Fatal 🪦⚰️🧟‍♂️"
 	logDiscordNotify = "📢 Notification"
 )
+
+type tLogLevel uint8
+
+var Level = struct {
+	Info  tLogLevel
+	Error tLogLevel
+	Debug tLogLevel
+	Fatal tLogLevel
+	Warn  tLogLevel
+}{
+	Debug: 0,
+	Info:  1,
+	Warn:  2,
+	Error: 3,
+	Fatal: 4,
+}
+
+var logLevel = Level.Debug
+
+func SetLogLevel(level tLogLevel) {
+	logLevel = level
+}
 
 var logger = glog.New(os.Stdout, "", glog.Ldate|glog.Ltime)
 
@@ -37,25 +60,45 @@ func doLog(level, message string, args ...any) {
 }
 
 func Info(message string, args ...any) {
+	if logLevel > Level.Info {
+		return
+	}
+
 	doLog(logInfo, message, args...)
 }
 
 func Error(message string, args ...any) {
+	if logLevel > Level.Error {
+		return
+	}
+
 	doLog(logError, message, args...)
 	go sendDiscordMessage(true, logDiscordError, message, args...)
 }
 
 func Fatal(message string, args ...any) {
+	if logLevel > Level.Fatal {
+		return
+	}
+
 	sendDiscordMessage(true, logDiscordFatal, message, args...)
 	doLog(logFatal, message, args...)
 }
 
 func Warn(message string, args ...any) {
+	if logLevel > Level.Warn {
+		return
+	}
+
 	doLog(logWarn, message, args...)
 	go sendDiscordMessage(true, logDiscordWarn, message, args...)
 }
 
 func Debug(message string, args ...any) {
+	if logLevel > Level.Debug {
+		return
+	}
+
 	doLog(logDebug, message, args...)
 }
 
@@ -87,7 +130,7 @@ func sendDiscordMessage(tag bool, level, message string, args ...any) {
 	}
 }
 
-var discordClient = func () *discordgo.Session {
+var discordClient = func() *discordgo.Session {
 	if config.Discord.Enabled {
 		return connect(config.Discord.Token)
 	}

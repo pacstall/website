@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	html "html/template"
+	text "text/template"
 
 	"pacstall.dev/webserver/server/ssr"
 )
@@ -52,7 +52,7 @@ func (h spaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func serveIndexHtml(w http.ResponseWriter, r *http.Request, staticPath string) {
 	templateData := ssr.GetTemplateForPath(r.URL.Path)
-	template := html.Must(html.ParseFiles(filepath.Join(staticPath, "index.html")))
+	template := text.Must(text.ParseFiles(filepath.Join(staticPath, "index.html")))
 
 	w.Header().Add("Content-Type", "text/html")
 	if template.Execute(w, templateData) != nil {
