@@ -16,9 +16,9 @@ export default <Locale>{
             howItWorks: {
                 title: '¿Cómo funciona entonces?',
                 description:
-                    ' Pacstall takes in files known as <0>pacscripts</0> (similar' +
-                    ' to PKGBUILDs) that contain the necessary contents to build packages,' +
-                    ' and builds them into executables on your system.',
+                    ' Pacstall toma archivos conocidos como <0>pacscripts</0> (similares' +
+                    ' a PKGBUILDs) que contienen el contenido necesario para construir paquetes, ' +
+                    ' y los construye en ejecutables en su sistema.',
             },
         },
         installationInstructions: 'Instrucciones de Instalación',
@@ -51,21 +51,22 @@ export default <Locale>{
         install: 'Instalar',
     },
     cookieConsent: {
-        title: 'Cookie notice TL;DR',
+        title: 'Condiciones de las cookies TL;DR',
         paragraphs: [
             'Hola, sí, utilizamos cookies.',
-            "We don't like to give you misleading or confusing information. We only use cookies for essential features such as theme settings, localization and authentication.",
-            'You can read the full privacy policy <0>here <1/></0>',
-            'By continuing to use this site, you <0>give your agreement to the privacy policy</0>.',
+            'No nos gusta darle información engañosa o confusa. Solo utilizamos cookies para funciones esenciales como la configuración de temas, la localización y la autenticación.',
+            'Puede leer la política de privacidad completa <0>aquí <1/></0>',
+            'Al continuar utilizando este sitio, usted <0>acepta esta política de privacidad</0>.',
         ],
         accept: 'ok, bien',
     },
     packageSearch: {
         dropdown: {
             package: 'Paquete',
-            packageTooltip: 'Searches in package names and descriptions',
+            packageTooltip: 'Buscar nombres y descripciones de paquetes',
             maintainer: 'Mantenedor',
-            maintainerTooltip: 'Searches by maintainer names and emails',
+            maintainerTooltip:
+                'Búsquedas por nombres y correos electrónicos de los mantenedores',
         },
         table: {
             name: 'Nombre',
@@ -74,19 +75,21 @@ export default <Locale>{
             install: 'Instalar',
         },
         versionTooltip: {
-            notInRegistry: 'This package is not in the Repology registry',
-            latest: 'This package is the latest version',
-            hasPatchUpdate: 'This package has a patch update available',
-            hasMinorUpdate: 'This package has a minor update available',
-            hasMajorUpdate: 'This package has a major update available',
-            isGit: 'This package is a Git package',
+            notInRegistry: 'Este paquete no está en el registro de Repology',
+            latest: 'Este paquete es la última versión',
+            hasPatchUpdate:
+                'Este paquete dispone de un parche de actualización',
+            hasMinorUpdate: 'Este paquete dispone de una actualización menor',
+            hasMajorUpdate: 'Este paquete dispone de una actualización mejor',
+            isGit: 'Este paquete es un paquete Git',
         },
-        orphaned: 'Orphaned',
-        noResults: 'Not finding what you want? <0>Create a request!</0>',
+        orphaned: 'Huérfanos',
+        noResults: '¿No encuentra lo que busca? <0>¡Crear una solicitud!</0>',
         search: 'Buscar',
         maintainerTooltip: {
-            maintainedBy: 'This package is being maintained by {{ name }}',
-            noMaintainer: 'This package is not being maintained',
+            maintainedBy:
+                'El mantenimiento de este paquete corre a cargo de {{ name }}',
+            noMaintainer: 'Este paquete no se mantiene',
         },
         pagination: {
             previous: 'anterior',
@@ -98,35 +101,35 @@ export default <Locale>{
             name: 'Nombre',
             version: 'Versión',
             maintainer: 'Mantenedor',
-            dependencies: 'Dependencies',
+            dependencies: 'Dependencias',
             requiredBy: 'Requierdo por',
         },
-        orphaned: 'Orphaned',
+        orphaned: 'Huérfanos',
         noResults: 'Nada',
         openInGithub: 'Abrir en Github',
         view: 'Ver',
         howToInstall: {
-            title: 'How to Install',
-            step1: 'Step 1: Setup Pacstall',
-            step2: 'Step 2: Install {{ name }}',
+            title: 'Cómo Instalar',
+            step1: 'Paso 1: Instalar Pacstall',
+            step2: 'Paso 2: Instalar {{ name }}',
         },
         dependenciesModal: {
-            title: 'Dependencies',
-            buildDependencies: 'Build Dependencies',
-            optionalDependencies: 'Optional Dependencies',
-            runtimeDependencies: 'Runtime Dependencies',
-            pacstallDependencies: 'Pacstall Dependencies',
+            title: 'Dependencias',
+            buildDependencies: 'Dependencias de Construir',
+            optionalDependencies: 'Dependencias Opcionales',
+            runtimeDependencies: 'Dependencias del tiempo de Ejecución',
+            pacstallDependencies: 'Dependencias de Pacstall',
             name: 'Nombre',
             close: 'Cerrar',
-            provider: 'Provider',
-            noDescription: 'No description available',
+            provider: 'Proveedor',
+            noDescription: 'No hay descripción disponible',
         },
         requiredByModal: {
-            title: 'Required By',
+            title: 'Requerido por',
             name: 'Nombre',
-            provider: 'Provider',
+            provider: 'Proveedor',
             close: 'Cerrar',
-            noDescription: 'No description available',
+            noDescription: 'No hay descripción disponible',
         },
     },
 }
