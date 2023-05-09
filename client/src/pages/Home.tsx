@@ -75,19 +75,14 @@ const Home: FC = () => {
                         <Stack maxW='2xl'>
                             <Card title={t('home.cards.howItWorks.title')}>
                                 <Text maxW='65ch'>
-                                    <Trans
-                                        i18nKey='home.cards.howItWorks.description'
-                                        components={{
-                                            link: (
-                                                <Link
-                                                    color='blue.400'
-                                                    href='https://github.com/pacstall/pacstall/wiki/Pacscript-101'
-                                                >
-                                                    pacscripts
-                                                </Link>
-                                            ),
-                                        }}
-                                    />
+                                    <Trans i18nKey='home.cards.howItWorks.description'>
+                                        <Link
+                                            color='blue.400'
+                                            href='https://github.com/pacstall/pacstall/wiki/Pacscript-101'
+                                        >
+                                            pacscripts
+                                        </Link>
+                                    </Trans>
                                 </Text>
                             </Card>
                         </Stack>

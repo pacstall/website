@@ -15,7 +15,7 @@ export default <Locale>{
             howItWorks: {
                 title: 'Cum funcționează?',
                 description:
-                    'Pacstall ia fișiere cunoscute ca <link>pacscripts</link> (similar' +
+                    'Pacstall ia fișiere cunoscute ca <0>pacscripts</0> (similar' +
                     ' cu PKGBUILD) care conțin conținutul necesar pentru a crea pachete instalabile,' +
                     ' și le instalează în sistemul tău.',
             },
@@ -55,7 +55,7 @@ export default <Locale>{
             'Salut, da, folosim cookies.',
             'Nu vrem să îți oferim informații greșite sau confuze. Folosim cookies doar pentru funcționalități esențiale, cum ar fi setările de temă, localizarea și autentificarea.',
             'Poți citi politica de confidențialitate completă <0>aici <1/></0>.',
-            'Continuând să folosești acest site, <strong>îți dai acordul pentru politica de confidențialitate</strong>.',
+            'Continuând să folosești acest site, <0>îți dai acordul pentru politica de confidențialitate</0>.',
         ],
         accept: 'am înțeles',
     },

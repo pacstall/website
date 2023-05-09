@@ -16,7 +16,7 @@ export default <Locale>{
             howItWorks: {
                 title: '¿Cómo funciona entonces?',
                 description:
-                    ' Pacstall takes in files known as <link>pacscripts</link> (similar' +
+                    ' Pacstall takes in files known as <0>pacscripts</0> (similar' +
                     ' to PKGBUILDs) that contain the necessary contents to build packages,' +
                     ' and builds them into executables on your system.',
             },
@@ -56,7 +56,7 @@ export default <Locale>{
             'Hi, yes, we use cookies.',
             "We don't like to give you misleading or confusing information. We only use cookies for essential features such as theme settings, localization and authentication.",
             'You can read the full privacy policy <0>here <1/></0>',
-            'By continuing to use this site, you <strong>give your agreement to the privacy policy</strong>.',
+            'By continuing to use this site, you <0>give your agreement to the privacy policy</0>.',
         ],
         accept: 'ok, nice',
     },

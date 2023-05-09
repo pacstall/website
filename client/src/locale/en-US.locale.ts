@@ -15,7 +15,7 @@ export default <Locale>{
             howItWorks: {
                 title: 'How does it work then?',
                 description:
-                    ' Pacstall takes in files known as <link>pacscripts</link> (similar' +
+                    ' Pacstall takes in files known as <0>pacscripts</0> (similar' +
                     ' to PKGBUILDs) that contain the necessary contents to build packages,' +
                     ' and builds them into executables on your system.',
             },
