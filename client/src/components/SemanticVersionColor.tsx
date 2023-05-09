@@ -1,6 +1,7 @@
 import { chakra, Tooltip, useColorModeValue } from '@chakra-ui/react'
 import { FC } from 'react'
 import { UpdateStatus } from '../types/package-info'
+import { useTranslation } from 'react-i18next'
 
 const SemanticVersionColor: FC<{
     version: string
@@ -8,6 +9,8 @@ const SemanticVersionColor: FC<{
     fill?: boolean
     git?: boolean
 }> = ({ version, status, fill, git }) => {
+    const { t } = useTranslation()
+
     const versionColors: Record<UpdateStatus, string> = {
         [UpdateStatus.Unknown]: useColorModeValue('blue.100', 'blue.600'),
         [UpdateStatus.Latest]: useColorModeValue('green.200', 'green.500'),
@@ -17,22 +20,22 @@ const SemanticVersionColor: FC<{
     }
 
     const versionTooltip: Record<UpdateStatus, string> = {
-        [UpdateStatus.Unknown]: 'This package is not in the repology registry',
-        [UpdateStatus.Latest]: 'This package is the latest version',
-        [UpdateStatus.Patch]: 'This package has a patch update available',
-        [UpdateStatus.Minor]: 'This package has a minor update available',
-        [UpdateStatus.Major]: 'This package has a major update available',
+        [UpdateStatus.Unknown]: 'packageSearch.versionTooltip.notInRegistry',
+        [UpdateStatus.Latest]: 'packageSearch.versionTooltip.latest',
+        [UpdateStatus.Patch]: 'packageSearch.versionTooltip.patch',
+        [UpdateStatus.Minor]: 'packageSearch.versionTooltip.minor',
+        [UpdateStatus.Major]: 'packageSearch.versionTooltip.major',
     }
 
     const tooltip =
         status !== UpdateStatus.Unknown
             ? versionTooltip[status]
             : git
-            ? 'This package is built from a specific Git commit'
+            ? 'packageSearch.versionTooltip.isGit'
             : versionTooltip[UpdateStatus.Unknown]
 
     return (
-        <Tooltip openDelay={500} label={tooltip}>
+        <Tooltip openDelay={500} label={t(tooltip)}>
             <chakra.span
                 bg={versionColors[status]}
                 p='1'

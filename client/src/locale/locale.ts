@@ -1,7 +1,7 @@
 import { Resource } from 'i18next'
-import enLocale from './en.locale'
-import roLocale from './ro.locale'
-import esLocale from './es.locale'
+import enLocale from './en-US.locale'
+import roLocale from './ro-RO.locale'
+import esLocale from './es-ES.locale'
 
 export default interface Locale {
     home: {
@@ -50,6 +50,76 @@ export default interface Locale {
         title: string
         paragraphs: [string, string, string, string]
         accept: string
+    }
+    packageSearch: {
+        dropdown: {
+            package: string
+            packageTooltip: string
+            maintainer: string
+            maintainerTooltip: string
+        }
+        orphaned: string
+        table: {
+            name: string
+            maintainer: string
+            version: string
+            install: string
+        }
+        versionTooltip: {
+            notInRegistry: string
+            latest: string
+            hasPatchUpdate: string
+            hasMinorUpdate: string
+            hasMajorUpdate: string
+            isGit: string
+        }
+        noResults: string
+        search: string
+        maintainerTooltip: {
+            maintainedBy: string
+            noMaintainer: string
+        }
+        pagination: {
+            previous: string
+            next: string
+        }
+    }
+    packageDetails: {
+        table: {
+            name: string
+            version: string
+            maintainer: string
+            dependencies: string
+            requiredBy: string
+        }
+        noResults: string
+        orphaned: string
+        view: string
+        dependenciesModal: {
+            title: string
+            buildDependencies: string
+            optionalDependencies: string
+            runtimeDependencies: string
+            pacstallDependencies: string
+            name: string
+            version: string
+            close: string
+            provider: string
+            noDescription: string
+        }
+        requiredByModal: {
+            title: string
+            name: string
+            provider: string
+            close: string
+            noDescription: string
+        }
+        openInGithub: string
+        howToInstall: {
+            title: string
+            step1: string
+            step2: string
+        }
     }
 }
 

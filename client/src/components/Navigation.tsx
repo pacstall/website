@@ -142,7 +142,14 @@ export function Navigation() {
                     target='_blank'
                     mr='7'
                 >
-                    <PrimaryButton px='10'>{t('navbar.install')}</PrimaryButton>
+                    <Button
+                        color='brand.200'
+                        borderColor='brand.200'
+                        variant='outline'
+                        px='10'
+                    >
+                        {t('navbar.install')}
+                    </Button>
                 </Link>
 
                 <Box mr='5' textAlign='center'>
@@ -390,7 +397,7 @@ const NAV_ITEMS: Array<NavItem> = [
             },
             {
                 label: 'navbar.contribute.helpTranslate',
-                href: '#',
+                href: 'https://github.com/pacstall/pacstall/wiki/How-to-translate',
             },
         ],
     },

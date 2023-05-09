@@ -4,20 +4,24 @@ import OneLineCodeSnippet, {
     SmartCodeSnippetInstall,
 } from '../OneLineCodeSnippet'
 import InstallNowButton from './InstallNowButton'
+import { useTranslation } from 'react-i18next'
 
 const HowToInstallFull: FC<{ name: string; isMobile: boolean }> = ({
     name,
     isMobile,
 }) => {
     const ResponsiveStack = isMobile ? Stack : HStack
+    const { t } = useTranslation()
 
     return (
         <Box mt='10'>
-            <Heading size='lg'>How to Install</Heading>
+            <Heading size='lg'>
+                {t('packageDetails.howToInstall.title')}
+            </Heading>
 
             <ResponsiveStack justify='space-between'>
                 <Text fontWeight='semibold' m='3'>
-                    Step 1: Install Pacstall
+                    {t('packageDetails.howToInstall.step1')}
                 </Text>
                 <Box>
                     <OneLineCodeSnippet size='sm'>
@@ -63,14 +67,17 @@ const HowToInstallViaTerminal: FC<{
     isMobile: boolean
 }> = ({ name, isMobile, prettyName }) => {
     const ResponsiveStack = isMobile ? Stack : HStack
+    const { t } = useTranslation()
 
     return (
         <Box mt='10'>
-            <Heading size='lg'>How to Install</Heading>
+            <Heading size='lg'>
+                {t('packageDetails.howToInstall.title')}
+            </Heading>
 
             <ResponsiveStack justify='space-between'>
                 <Text fontWeight='semibold' m='3'>
-                    Step 1: Setup Pacstall
+                    {t('packageDetails.howToInstall.step1')}
                 </Text>
                 <Box>
                     <OneLineCodeSnippet size='sm'>
@@ -82,7 +89,9 @@ const HowToInstallViaTerminal: FC<{
 
             <ResponsiveStack justify='space-between'>
                 <Text fontWeight='semibold' m='3'>
-                    Step 2: Install {prettyName}
+                    {t('packageDetails.howToInstall.step2', {
+                        name: prettyName,
+                    })}
                 </Text>
                 <Box>
                     <SmartCodeSnippetInstall size='sm' name={name} />

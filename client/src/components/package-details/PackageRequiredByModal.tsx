@@ -13,6 +13,7 @@ import { FC } from 'react'
 import usePackageRequiredBy from '../../hooks/usePackageRequiredBy'
 import ComponentLoader from '../ComponentLoader'
 import MinimalPackageTable from './MinimalPackageTable'
+import { useTranslation } from 'react-i18next'
 
 const PackageRequiredByModal: FC<{ name: string } & UseDisclosureProps> = ({
     name,
@@ -20,6 +21,7 @@ const PackageRequiredByModal: FC<{ name: string } & UseDisclosureProps> = ({
     onClose,
 }) => {
     const { data, loading, error } = usePackageRequiredBy(name)
+    const { t } = useTranslation()
 
     const ComputedPackageList = () => <MinimalPackageTable packages={data} />
 
@@ -27,7 +29,9 @@ const PackageRequiredByModal: FC<{ name: string } & UseDisclosureProps> = ({
         <Modal scrollBehavior='inside' isOpen={isOpen!} onClose={onClose!}>
             <ModalOverlay />
             <ModalContent>
-                <ModalHeader>Required by</ModalHeader>
+                <ModalHeader>
+                    {t('packageDetails.requiredByModal.title')}
+                </ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
                     <ComponentLoader
@@ -44,7 +48,7 @@ const PackageRequiredByModal: FC<{ name: string } & UseDisclosureProps> = ({
                         mr={3}
                         onClick={onClose}
                     >
-                        Close
+                        {t('packageDetails.requiredByModal.close')}
                     </Button>
                 </ModalFooter>
             </ModalContent>

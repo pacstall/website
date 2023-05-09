@@ -9,24 +9,26 @@ import {
 import { FC } from 'react'
 import PackageInfo from '../../types/package-info'
 import PackageTableRow from './PackageTableRow'
+import { useTranslation } from 'react-i18next'
 
 const PackageTable: FC<{
     packages: PackageInfo[]
     linksDisabled?: boolean
 }> = ({ packages, linksDisabled }) => {
+    const { t } = useTranslation()
     return (
         <Table animation='ease-in 100ms'>
             <Thead>
                 <Tr>
-                    <Th>Name</Th>
-                    <Th>Maintainer</Th>
+                    <Th>{t('packageSearch.table.name')}</Th>
+                    <Th>{t('packageSearch.table.maintainer')}</Th>
                     <Th
                         display={useBreakpointValue({
                             base: 'none',
                             sm: 'table-cell',
                         })}
                     >
-                        Version
+                        {t('packageSearch.table.version')}
                     </Th>
                     <Th
                         display={useBreakpointValue({
@@ -34,7 +36,7 @@ const PackageTable: FC<{
                             md: 'table-cell',
                         })}
                     >
-                        Install
+                        {t('packageSearch.table.install')}
                     </Th>
                 </Tr>
             </Thead>

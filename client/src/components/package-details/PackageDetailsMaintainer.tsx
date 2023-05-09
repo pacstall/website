@@ -1,15 +1,18 @@
 import { EmailIcon } from '@chakra-ui/icons'
 import { Icon, Link, Tooltip } from '@chakra-ui/react'
 import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const PackageDetailsMaintainer: FC<{ text: string }> = ({ text }) => {
+    const { t } = useTranslation()
+
     if (
         !text ||
         text === '-' ||
         text.toLowerCase() === 'orphan' ||
         text.toLowerCase() === 'orphaned'
     ) {
-        return <>Orphaned</>
+        return <>{t('packageDetails.orphaned')}</>
     }
 
     if (!['<', '>', '@'].every(symbol => text.includes(symbol))) {
