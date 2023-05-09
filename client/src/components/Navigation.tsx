@@ -312,6 +312,7 @@ const MobileNav = () => {
 
 const MobileNavItem = ({ label, children, href }: NavItem) => {
     const { isOpen, onToggle } = useDisclosure()
+    const { t } = useTranslation()
 
     return (
         <Stack spacing={4} onClick={children && onToggle}>
@@ -329,7 +330,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
                     fontWeight={600}
                     color={useColorModeValue('gray.600', 'gray.200')}
                 >
-                    {label}
+                    {t(label)}
                 </Text>
                 {children && (
                     <Icon

@@ -22,7 +22,7 @@ func ApplyHeaders(etag string, w http.ResponseWriter, r *http.Request) AlreadyRe
 	}
 
 	if !config.Production {
-		w.Header().Add("Access-Control-Allow-Origin", "http://localhost:1234")
+		w.Header().Add("Access-Control-Allow-Origin", "http://127.0.0.1:5173")
 		w.Header().Add("Access-Control-Allow-Headers", "Origin, Content-Type, Accept")
 		w.Header().Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
 	}

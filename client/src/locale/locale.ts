@@ -46,6 +46,11 @@ export default interface Locale {
         }
         install: string
     }
+    cookieConsent: {
+        title: string
+        paragraphs: [string, string, string, string]
+        accept: string
+    }
 }
 
 export const translations = {

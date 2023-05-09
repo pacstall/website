@@ -49,4 +49,14 @@ export default <Locale>{
         },
         install: 'Instalează',
     },
+    cookieConsent: {
+        title: 'Politica de confidențialitate, pe scurt',
+        paragraphs: [
+            'Salut, da, folosim cookies.',
+            'Nu vrem să îți oferim informații greșite sau confuze. Folosim cookies doar pentru funcționalități esențiale, cum ar fi setările de temă, localizarea și autentificarea.',
+            'Poți citi politica de confidențialitate completă <0>aici <1/></0>.',
+            'Continuând să folosești acest site, <strong>îți dai acordul pentru politica de confidențialitate</strong>.',
+        ],
+        accept: 'am înțeles',
+    },
 }

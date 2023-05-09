@@ -5,3 +5,8 @@ dist: $(shell find . -not \( -path dist -prune \) -not \( -path .parcel-cache -p
 	npm run lint
 	npm run clean
 	npm run build
+
+run:
+	npm install
+	npm run lint:fix
+	npm start
