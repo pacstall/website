@@ -2,6 +2,7 @@ import { Resource } from 'i18next'
 import enLocale from './en-US.locale'
 import roLocale from './ro-RO.locale'
 import esLocale from './es-ES.locale'
+import ptLocale from './pt-BR.locale'
 
 export default interface Locale {
     home: {
@@ -133,12 +134,16 @@ export const translations = {
     'es-ES': {
         translation: esLocale,
     },
+    'pt-BR': {
+        translation: ptLocale,
+    },
 } as const satisfies Resource
 
 export const localeFlags: Record<keyof typeof translations, string> = {
     'en-US': 'US 🇺🇸',
     'ro-RO': 'RO 🇷🇴',
     'es-ES': 'ES 🇪🇸',
+    'pt-BR': 'PT 🇧🇷',
 }
 
 export const locales = Object.keys(
