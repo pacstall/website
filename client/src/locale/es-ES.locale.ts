@@ -10,14 +10,14 @@ export default <Locale>{
                 description:
                     'Pacstall usa la base estable de Ubuntu pero le permite ' +
                     'usar software de última generación con poco o ningún compromiso, ' +
-                    'por lo que no tiene que preocuparse por los parches de seguridad ' +
+                    'así que no tiene que preocuparse por los parches de seguridad ' +
                     'o las nuevas funciones.',
             },
             howItWorks: {
-                title: '¿Cómo funciona entonces?',
+                title: '¿Pues, cómo funciona?',
                 description:
                     ' Pacstall toma archivos conocidos como <0>pacscripts</0> (similares' +
-                    ' a PKGBUILDs) que contienen el contenido necesario para construir paquetes, ' +
+                    ' a PKGBUILDs) que contienen lo que es necesario para construir paquetes, ' +
                     ' y los construye en ejecutables en su sistema.',
             },
         },
@@ -58,7 +58,7 @@ export default <Locale>{
             'Puede leer la política de privacidad completa <0>aquí <1/></0>',
             'Al continuar utilizando este sitio, usted <0>acepta esta política de privacidad</0>.',
         ],
-        accept: 'ok, bien',
+        accept: 'ok, genial',
     },
     packageSearch: {
         dropdown: {
