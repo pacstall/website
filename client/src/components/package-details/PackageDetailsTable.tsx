@@ -15,6 +15,7 @@ import { Link as Rlink } from 'react-router-dom'
 import PackageInfo from '../../types/package-info'
 import SemanticVersionColor from '../SemanticVersionColor'
 import PackageDetailsMaintainer from './PackageDetailsMaintainer'
+import { useTranslation } from 'react-i18next'
 
 const Entry: FC<{
     header: string
@@ -37,12 +38,15 @@ const PackageDetailsTable: FC<{
     requiredByModal: UseDisclosureProps
     dependenciesModal: UseDisclosureProps
 }> = ({ data, dependencyCount, requiredByModal, dependenciesModal }) => {
+    const { t } = useTranslation()
     return (
         <Table mt='10'>
             <Tbody>
-                <Entry header='Name'>{data.name}</Entry>
+                <Entry header={t('packageDetails.table.name')}>
+                    {data.name}
+                </Entry>
 
-                <Entry header='Version'>
+                <Entry header={t('packageDetails.table.version')}>
                     <Text fontWeight='bold'>
                         <SemanticVersionColor
                             git={data.name.endsWith('-git')}
@@ -52,12 +56,12 @@ const PackageDetailsTable: FC<{
                     </Text>
                 </Entry>
 
-                <Entry header='Maintainer'>
+                <Entry header={t('packageDetails.table.maintainer')}>
                     <PackageDetailsMaintainer text={data.maintainer} />
                 </Entry>
 
-                <Entry header='Dependencies'>
-                    {dependencyCount || 'None'}{' '}
+                <Entry header={t('packageDetails.table.dependencies')}>
+                    {dependencyCount || t('packageDetails.noResults')}{' '}
                     {dependencyCount > 0 ? (
                         <Link
                             onClick={dependenciesModal.onOpen}
@@ -66,15 +70,15 @@ const PackageDetailsTable: FC<{
                             as={Rlink}
                             to={`#`}
                         >
-                            View
+                            {t('packageDetails.view')}
                         </Link>
                     ) : (
                         ''
                     )}
                 </Entry>
 
-                <Entry header='Required By'>
-                    {data.requiredBy.length || 'None'}{' '}
+                <Entry header={t('packageDetails.table.requiredBy')}>
+                    {data.requiredBy.length || t('packageDetails.noResults')}{' '}
                     {data.requiredBy?.length || 0 > 0 ? (
                         <Link
                             onClick={requiredByModal.onOpen}
@@ -83,7 +87,7 @@ const PackageDetailsTable: FC<{
                             as={Rlink}
                             to={`#`}
                         >
-                            View
+                            {t('packageDetails.view')}
                         </Link>
                     ) : (
                         ''
@@ -96,7 +100,7 @@ const PackageDetailsTable: FC<{
                         isExternal
                         href={`https://github.com/pacstall/pacstall-programs/blob/master/packages/${data.name}/${data.name}.pacscript`}
                     >
-                        Open in GitHub{' '}
+                        {t('packageDetails.openInGithub')}{' '}
                         <Icon
                             position='relative'
                             bottom='2px'

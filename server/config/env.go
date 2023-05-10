@@ -1,5 +1,6 @@
 package config
 
+// Configuration for the discord integration
 var Discord = struct {
 	Token     string
 	ChannelID string
@@ -12,6 +13,7 @@ var Discord = struct {
 	Tags:      getEnvString("PACSTALL_DISCORD_TAGS"),
 }
 
+// Configuration for the database
 var Database = struct {
 	Host     string
 	Port     int
@@ -26,8 +28,16 @@ var Database = struct {
 	Name:     getEnvString("PACSTALL_DATABASE_NAME"),
 }
 
+// Configuration for the Matomo API
 var Matomo = struct {
 	Enabled bool
 }{
 	Enabled: getEnvBool("PACSTALL_MATOMO_ENABLED"),
+}
+
+// Configuration for the Repology API
+var Repology = struct {
+	Enabled bool
+}{
+	Enabled: getEnvBoolOrDefault("PACSTALL_REPOLOGY_ENABLED", true),
 }

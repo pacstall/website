@@ -6,6 +6,7 @@ import {
     useColorModeValue,
 } from '@chakra-ui/react'
 import { FC, useRef, MutableRefObject, KeyboardEventHandler } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const Search: FC<{
     isLoading: boolean
@@ -23,6 +24,8 @@ const Search: FC<{
         }
     }
 
+    const { t } = useTranslation()
+
     return (
         <HStack justify='space-between'>
             <HStack>
@@ -34,15 +37,15 @@ const Search: FC<{
                 >
                     <option
                         value='name'
-                        title='Searches in package names and descriptions'
+                        title={t('packageSearch.dropdown.packageTooltip')}
                     >
-                        Package
+                        {t('packageSearch.dropdown.package')}
                     </option>
                     <option
                         value='maintainer'
-                        title='Searches by maintainer names and emails'
+                        title={t('packageSearch.dropdown.maintainerTooltip')}
                     >
-                        Maintainer
+                        {t('packageSearch.dropdown.maintainer')}
                     </option>
                 </Select>
 
@@ -63,7 +66,7 @@ const Search: FC<{
                 variant='outline'
                 px='10'
             >
-                Search
+                {t('packageSearch.search')}
             </Button>
         </HStack>
     )

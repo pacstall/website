@@ -14,6 +14,7 @@ import {
 import { FC } from 'react'
 import usePackageDependencies from '../../hooks/usePackageDependencies'
 import MinimalPackageTable from './MinimalPackageTable'
+import { useTranslation } from 'react-i18next'
 
 const PackageDependenciesModal: FC<{ name: string } & UseDisclosureProps> = ({
     name,
@@ -21,6 +22,7 @@ const PackageDependenciesModal: FC<{ name: string } & UseDisclosureProps> = ({
     onClose,
 }) => {
     const { data, loaded } = usePackageDependencies(name)
+    const { t } = useTranslation()
 
     return (
         <Modal
@@ -31,7 +33,9 @@ const PackageDependenciesModal: FC<{ name: string } & UseDisclosureProps> = ({
         >
             <ModalOverlay />
             <ModalContent maxH='50vh'>
-                <ModalHeader>Dependencies</ModalHeader>
+                <ModalHeader>
+                    {t('packageDetails.dependenciesModal.title')}
+                </ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
                     {loaded && data && (
@@ -39,7 +43,9 @@ const PackageDependenciesModal: FC<{ name: string } & UseDisclosureProps> = ({
                             {data!.runtimeDependencies.length > 0 && (
                                 <Box mb='5'>
                                     <Heading mb='1' size='xs'>
-                                        Runtime Dependencies
+                                        {t(
+                                            'packageDetails.dependenciesModal.runtimeDependencies',
+                                        )}
                                     </Heading>
                                     <MinimalPackageTable
                                         packages={
@@ -52,7 +58,9 @@ const PackageDependenciesModal: FC<{ name: string } & UseDisclosureProps> = ({
                             {data!.buildDependencies.length > 0 && (
                                 <Box mb='5'>
                                     <Heading mb='1' size='xs'>
-                                        Build Dependencies
+                                        {t(
+                                            'packageDetails.dependenciesModal.buildDependencies',
+                                        )}
                                     </Heading>
                                     <MinimalPackageTable
                                         packages={data!.buildDependencies || []}
@@ -63,7 +71,9 @@ const PackageDependenciesModal: FC<{ name: string } & UseDisclosureProps> = ({
                             {data!.optionalDependencies.length > 0 && (
                                 <Box mb='5'>
                                     <Heading mb='1' size='xs'>
-                                        Optional Dependencies
+                                        {t(
+                                            'packageDetails.dependenciesModal.optionalDependencies',
+                                        )}
                                     </Heading>
                                     <MinimalPackageTable
                                         packages={
@@ -76,7 +86,9 @@ const PackageDependenciesModal: FC<{ name: string } & UseDisclosureProps> = ({
                             {data!.pacstallDependencies.length > 0 && (
                                 <Box mb='5'>
                                     <Heading mb='1' size='xs'>
-                                        Pacstall Dependencies
+                                        {t(
+                                            'packageDetails.dependenciesModal.pacstallDependencies',
+                                        )}
                                     </Heading>
                                     <MinimalPackageTable
                                         packages={
@@ -96,7 +108,7 @@ const PackageDependenciesModal: FC<{ name: string } & UseDisclosureProps> = ({
                         mr={3}
                         onClick={onClose}
                     >
-                        Close
+                        {t('packageDetails.dependenciesModal.close')}
                     </Button>
                 </ModalFooter>
             </ModalContent>

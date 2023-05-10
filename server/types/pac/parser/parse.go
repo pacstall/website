@@ -74,6 +74,10 @@ func parsePacscriptFiles(names []string) []*pac.Script {
 
 	results := channels.ToSlice(outChan)
 
+	if !config.Repology.Enabled {
+		return results
+	}
+
 	repologySync := repology.NewSyncer(15)
 	log.Info("Syncing pacscripts with repology...")
 

@@ -14,8 +14,10 @@ import OneLineCodeSnippet from '../components/OneLineCodeSnippet'
 import { Helmet } from 'react-helmet'
 import AsciinemaFrame from '../components/AsciinemaFrame'
 import PageAnimation from '../components/animations/PageAnimation'
+import { Trans, useTranslation } from 'react-i18next'
 
 const Home: FC = () => {
+    const { t } = useTranslation()
     return (
         <>
             <Helmet>
@@ -34,9 +36,9 @@ const Home: FC = () => {
                     >
                         <div>
                             <Heading size='2xl' pb='3' color='brand.400'>
-                                Pacstall
+                                {t('home.title')}
                             </Heading>
-                            <Heading size='lg'>The AUR for Ubuntu</Heading>
+                            <Heading size='lg'>{t('home.subtitle')}</Heading>
                         </div>
                         <Image
                             src='/pacstall.svg'
@@ -63,49 +65,43 @@ const Home: FC = () => {
                         })}
                     >
                         <Stack maxW='2xl'>
-                            <Card title='Why is this any different than any other package manager?'>
+                            <Card title={t('home.cards.whyDifferent.title')}>
                                 <Text maxW='65ch'>
-                                    Pacstall uses the stable base of Ubuntu but
-                                    allows you to use bleeding edge software
-                                    with little to no compromises, so you don't
-                                    have to worry about security patches or new
-                                    features.
+                                    {t('home.cards.whyDifferent.description')}
                                 </Text>
                             </Card>
                         </Stack>
 
                         <Stack maxW='2xl'>
-                            <Card title='How does it work then?'>
+                            <Card title={t('home.cards.howItWorks.title')}>
                                 <Text maxW='65ch'>
-                                    Pacstall takes in files known as{' '}
-                                    <Link
-                                        color='blue.400'
-                                        href='https://github.com/pacstall/pacstall/wiki/Pacscript-101'
-                                    >
-                                        pacscripts
-                                    </Link>{' '}
-                                    (similar to PKGBUILDs) that contain the
-                                    necessary contents to build packages, and
-                                    builds them into executables on your system.
+                                    <Trans i18nKey='home.cards.howItWorks.description'>
+                                        <Link
+                                            color='blue.400'
+                                            href='https://github.com/pacstall/pacstall/wiki/Pacscript-101'
+                                        >
+                                            pacscripts
+                                        </Link>
+                                    </Trans>
                                 </Text>
                             </Card>
                         </Stack>
                     </Stack>
 
                     <Heading size={'lg'} mb='3' mt='10'>
-                        Installation Instructions
+                        {t('home.installationInstructions')}
                     </Heading>
                     <OneLineCodeSnippet>
                         sudo bash -c "$(curl -fsSL
                         https://pacstall.dev/q/install)"
                     </OneLineCodeSnippet>
                     <Heading size={'lg'} mb='3' mt='10'>
-                        Showcase
+                        {t('home.showcase.title')}
                     </Heading>
                     <AsciinemaFrame autoplay loop id='538264' />
 
                     <Heading size={'lg'} mb='3'>
-                        Package search
+                        {t('home.showcase.packageSearch')}
                     </Heading>
                     <AsciinemaFrame id='538265' />
 
