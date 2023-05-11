@@ -9,7 +9,7 @@ export default <Locale>{
                 title: 'Dlaczego różni się to od innych menedżerów pakietów',
                 description:
                     'Pacstall korzysta ze stabilnej bazy Ubuntu, ale pozwala na użycie ' +
-                    "najnowszego oprogramowania z niewielkimi lub zerowymi kompromisami, więc nie musisz " +
+                    'najnowszego oprogramowania z niewielkimi lub zerowymi kompromisami, więc nie musisz ' +
                     'się martwić o poprawki bezpieczeństwa lub nowe funkcje.',
             },
             howItWorks: {
