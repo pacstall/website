@@ -22,7 +22,7 @@ export default <Locale>{
         },
         installationInstructions: 'Jak zainstalować?',
         showcase: {
-            title: '',
+            title: 'Prezentacja Pacstall',
             packageSearch: 'Wyszukiwanie Pakietów',
         },
     },
