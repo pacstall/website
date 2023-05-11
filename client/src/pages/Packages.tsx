@@ -13,7 +13,7 @@ import PageAnimation from '../components/animations/PageAnimation'
 const ComputedPackageList: FC<{ result: PackageInfoPage }> = ({ result }) => (
     <>
         <PackageList data={result?.data || []} />
-        <Box m='10'>
+        <Box m='10px' mt='20px !important'>
             <Center>
                 <Pagination current={result.page} last={result.lastPage} />
             </Center>

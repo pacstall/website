@@ -1,5 +1,6 @@
 import { Button, HStack, LinkBox, useColorModeValue } from '@chakra-ui/react'
 import { FC } from 'react'
+import { useTranslation } from 'react-i18next';
 import { Link as Rlink } from 'react-router-dom'
 
 const PageLink: FC<{ page: number; active?: boolean; disabled?: boolean }> = ({
@@ -61,10 +62,11 @@ const Pagination: FC<{ last: number; current: number }> = ({
     last,
     current,
 }) => {
+    const { t } = useTranslation()
     return (
         <HStack>
             <PageSequentialLink
-                text='previous'
+                text={t('packageSearch.pagination.previous')}
                 nextPage={current - 1}
                 disabled={current === 0}
             />
@@ -95,7 +97,7 @@ const Pagination: FC<{ last: number; current: number }> = ({
             )}
 
             <PageSequentialLink
-                text='next'
+                text={t('packageSearch.pagination.next')}
                 nextPage={current + 1}
                 disabled={current === last}
             />

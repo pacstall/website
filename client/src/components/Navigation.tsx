@@ -126,7 +126,7 @@ export function Navigation() {
                     color={useColorModeValue('brand.800', 'white')}
                     display={useBreakpointValue({
                         base: 'none',
-                        sm: 'initial',
+                        md: 'initial',
                     })}
                     pb='1'
                     _hover={{
@@ -140,6 +140,10 @@ export function Navigation() {
                 <Link
                     href='https://github.com/pacstall/pacstall#installing'
                     target='_blank'
+                    display={useBreakpointValue({
+                        base: 'none',
+                        sm: 'initial',
+                    })}
                     mr='7'
                 >
                     <Button
@@ -366,7 +370,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
                     {children &&
                         children.map(child => (
                             <Link key={child.label} py={2} href={child.href}>
-                                {child.label}
+                                {t(child.label)}
                             </Link>
                         ))}
                 </Stack>
@@ -397,7 +401,7 @@ const NAV_ITEMS: Array<NavItem> = [
             },
             {
                 label: 'navbar.contribute.helpTranslate',
-                href: 'https://github.com/pacstall/pacstall/wiki/How-to-translate',
+                href: 'https://github.com/pacstall/website/blob/master/client/src/locale/HOWTO.md',
             },
         ],
     },
