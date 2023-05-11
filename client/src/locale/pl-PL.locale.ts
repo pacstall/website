@@ -8,9 +8,9 @@ export default <Locale>{
             whyDifferent: {
                 title: 'Dlaczego różni się to od innych menedżerów pakietów',
                 description:
-                    'Pacstall uses the stable base of Ubuntu but allows you to use ' +
-                    "bleeding edge software with little to no compromises, so you don't " +
-                    'have to worry about security patches or new features.',
+                    'Pacstall korzysta ze stabilnej bazy Ubuntu, ale pozwala na użycie ' +
+                    "najnowsze oprogramowanie z niewielkimi lub zerowymi kompromisami, więc nie musisz " +
+                    'się martwić o poprawki bezpieczeństwa lub nowe funkcje.',
             },
             howItWorks: {
                 title: 'Jak to działa?',
