@@ -8,6 +8,7 @@ import svLocale from './sv-SE.locale'
 import itLocale from './it-IT.locale'
 import frLocale from './fr-FR.locale'
 import deLocale from './de-DE.locale'
+import nlLocale from './nl-NL.locale'
 
 export default interface Locale {
     home: {
@@ -151,6 +152,9 @@ export const translations = {
     'it-IT': {
         translation: itLocale,
     },
+    'nl-NL': {
+        translation: nlLocale,
+    },
     'fr-FR': {
         translation: frLocale,
     },
@@ -167,6 +171,7 @@ export const localeFlags: Record<keyof typeof translations, string> = {
     'pl-PL': 'PL 🇵🇱',
     'sv-SE': 'SV 🇸🇪',
     'it-IT': 'IT 🇮🇹',
+    'nl-NL': 'NL 🇳🇱',
     'fr-FR': 'FR 🇫🇷',
     'de-DE': 'DE 🇩🇪',
 }
