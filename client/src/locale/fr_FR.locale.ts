@@ -75,9 +75,9 @@ export default <Locale>{
         versionTooltip: {
             notInRegistry: 'Ce paquet n\'est pas dans le registre Repology',
             latest: 'Ce paquet est la dernière version',
-            hasPatchUpdate: 'Ce paquet a une mise à jour de correctif disponible',
-            hasMinorUpdate: 'Ce paquet a une mise à jour mineure disponible',
-            hasMajorUpdate: 'Ce paquet a une mise à jour majeure disponible',
+            patch: 'Ce paquet a une mise à jour de correctif disponible',
+            minor: 'Ce paquet a une mise à jour mineure disponible',
+            major: 'Ce paquet a une mise à jour majeure disponible',
             isGit: 'Ce paquet est un package Git',
         },
         noResults: 'Vous ne trouvez pas ce que vous cherchez ? <0>Créez une demande !</0>',
