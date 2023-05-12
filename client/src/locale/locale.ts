@@ -6,6 +6,7 @@ import ptLocale from './pt-BR.locale'
 import plLocale from './pl-PL.locale'
 import svLocale from './sv-SE.locale'
 import itLocale from './it-IT.locale'
+import deLocale from './de-DE.locale'
 
 export default interface Locale {
     home: {
