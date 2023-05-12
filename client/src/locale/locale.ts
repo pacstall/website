@@ -5,6 +5,7 @@ import esLocale from './es-ES.locale'
 import ptLocale from './pt-BR.locale'
 import plLocale from './pl-PL.locale'
 import svLocale from './sv-SE.locale'
+import itLocale from './it-IT.locale'
 
 export default interface Locale {
     home: {
@@ -145,6 +146,9 @@ export const translations = {
     'sv-SE': {
         translation: svLocale,
     },
+    'it-IT': {
+        translation: itLocale,
+    },
 } as const satisfies Resource
 
 export const localeFlags: Record<keyof typeof translations, string> = {
@@ -154,6 +158,7 @@ export const localeFlags: Record<keyof typeof translations, string> = {
     'pt-BR': 'PT 🇧🇷',
     'pl-PL': 'PL 🇵🇱',
     'sv-SE': 'SV 🇸🇪',
+    'it-IT': 'IT 🇮🇹',
 }
 
 export const locales = Object.keys(
