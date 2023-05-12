@@ -16,8 +16,8 @@ export default <Locale>{
                 title: 'Comment ça fonctionne alors ?',
                 description:
                     ' Pacstall prend en charge les fichiers appelés <0>pacscripts</0> (similaires ' +
-                    'aux PKGBUILDs) qui contiennent le contenu nécessaire pour construire des paquets, ' +
-                    'et les construit en exécutables sur votre système.',
+                    ' aux PKGBUILDs) qui contiennent le contenu nécessaire pour construire des paquets, ' +
+                    ' et les construit en exécutables sur votre système.',
             },
         },
         installationInstructions: 'Instructions d\'installation',
