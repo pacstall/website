@@ -150,6 +150,9 @@ export const translations = {
     'it-IT': {
         translation: itLocale,
     },
+    'de-DE': {
+        translation: deLocale,
+    },
 } as const satisfies Resource
 
 export const localeFlags: Record<keyof typeof translations, string> = {
@@ -160,6 +163,7 @@ export const localeFlags: Record<keyof typeof translations, string> = {
     'pl-PL': 'PL 🇵🇱',
     'sv-SE': 'SV 🇸🇪',
     'it-IT': 'IT 🇮🇹',
+    'de-DE': 'DE 🇩🇪',
 }
 
 export const locales = Object.keys(
