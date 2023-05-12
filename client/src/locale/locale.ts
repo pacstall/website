@@ -7,6 +7,7 @@ import plLocale from './pl-PL.locale'
 import svLocale from './sv-SE.locale'
 import itLocale from './it-IT.locale'
 import frLocale from './fr-FR.locale'
+import deLocale from './de-DE.locale'
 
 export default interface Locale {
     home: {
@@ -73,9 +74,9 @@ export default interface Locale {
         versionTooltip: {
             notInRegistry: string
             latest: string
-            hasPatchUpdate: string
-            hasMinorUpdate: string
-            hasMajorUpdate: string
+            patch: string
+            minor: string
+            major: string
             isGit: string
         }
         noResults: string
@@ -153,6 +154,9 @@ export const translations = {
     'fr-FR': {
         translation: frLocale,
     },
+    'de-DE': {
+        translation: deLocale,
+    },
 } as const satisfies Resource
 
 export const localeFlags: Record<keyof typeof translations, string> = {
@@ -164,6 +168,7 @@ export const localeFlags: Record<keyof typeof translations, string> = {
     'sv-SE': 'SV 🇸🇪',
     'it-IT': 'IT 🇮🇹',
     'fr-FR': 'FR 🇫🇷',
+    'de-DE': 'DE 🇩🇪',
 }
 
 export const locales = Object.keys(
