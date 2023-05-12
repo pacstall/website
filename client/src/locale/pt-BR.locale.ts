@@ -75,11 +75,11 @@ export default <Locale>{
         versionTooltip: {
             notInRegistry: 'Este pacote não está registrado no Repology',
             latest: 'Esta é a versão mais recente do pacote',
-            hasPatchUpdate:
+            patch:
                 'Este pacote possui uma atualização de correção disponível',
-            hasMinorUpdate:
+            minor:
                 'Este pacote possui uma atualização menor disponível',
-            hasMajorUpdate:
+            major:
                 'Este pacote possui uma atualização maior disponível',
             isGit: 'Este pacote é um pacote Git',
         },

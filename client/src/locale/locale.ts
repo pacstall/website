@@ -72,9 +72,9 @@ export default interface Locale {
         versionTooltip: {
             notInRegistry: string
             latest: string
-            hasPatchUpdate: string
-            hasMinorUpdate: string
-            hasMajorUpdate: string
+            patch: string
+            minor: string
+            major: string
             isGit: string
         }
         noResults: string
