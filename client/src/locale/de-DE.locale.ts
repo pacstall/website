@@ -15,9 +15,9 @@ export default <Locale>{
             howItWorks: {
                 title: 'Wie funktioniert es?',
                 description:
-                    'Pacstall nimmt Dateien namens <0>Pacscripts</0> (ähnlich wie PKGBUILDs), ' +
-                    'die die notwendigen Inhalte zum Erstellen von Paketen enthalten, und erstellt ' +
-                    'daraus ausführbare Dateien auf deinem System.',
+                    ' Pacstall nimmt Dateien namens <0>pacscripts</0> (ähnlich wie PKGBUILDs),' +
+                    ' die die notwendigen Inhalte zum Erstellen von Paketen enthalten, und erstellt' +
+                    ' daraus ausführbare Dateien auf deinem System.',
             },
         },
         installationInstructions: 'Installationsanleitung',
