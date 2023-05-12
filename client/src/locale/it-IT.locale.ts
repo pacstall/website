@@ -76,10 +76,8 @@ export default <Locale>{
             notInRegistry: 'Questo pacchetto non è nel registro di Repology',
             latest: "Questo pacchetto è aggiornato all'ultima versione",
             patch: 'Questo pacchetto ha una patch disponibile',
-            minor:
-                'Questo pacchetto ha un aggiornamento minore disponibile',
-            major:
-                'Questo pacchetto ha un aggiornamento importante disponibile',
+            minor: 'Questo pacchetto ha un aggiornamento minore disponibile',
+            major: 'Questo pacchetto ha un aggiornamento importante disponibile',
             isGit: 'Questo pacchetto è un pacchetto Git',
         },
         noResults:

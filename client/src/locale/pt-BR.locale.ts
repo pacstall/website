@@ -75,12 +75,9 @@ export default <Locale>{
         versionTooltip: {
             notInRegistry: 'Este pacote não está registrado no Repology',
             latest: 'Esta é a versão mais recente do pacote',
-            patch:
-                'Este pacote possui uma atualização de correção disponível',
-            minor:
-                'Este pacote possui uma atualização menor disponível',
-            major:
-                'Este pacote possui uma atualização maior disponível',
+            patch: 'Este pacote possui uma atualização de correção disponível',
+            minor: 'Este pacote possui uma atualização menor disponível',
+            major: 'Este pacote possui uma atualização maior disponível',
             isGit: 'Este pacote é um pacote Git',
         },
         noResults: 'Não encontrou o que buscava? <0>Faça uma solicitação!</0>',

@@ -73,7 +73,8 @@ export default <Locale>{
             install: 'Installeer',
         },
         versionTooltip: {
-            notInRegistry: 'Dit pakket is niet beschikbaar in het Repology-archief',
+            notInRegistry:
+                'Dit pakket is niet beschikbaar in het Repology-archief',
             latest: 'Dit pakket heeft de laatste versie',
             patch: 'Voor dit pakket is een patch update beschikbaar',
             minor: 'Voor dit pakket is een minor update beschikbaar',

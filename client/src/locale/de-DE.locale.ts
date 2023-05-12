@@ -80,7 +80,8 @@ export default <Locale>{
             minor: 'Es gibt ein Major-Update für dieses Paket',
             isGit: 'Dieses Paket ist ein Git-Paket',
         },
-        noResults: 'Findest du nicht, wonach du suchst? <0>Erstelle eine Anfrage!</0>',
+        noResults:
+            'Findest du nicht, wonach du suchst? <0>Erstelle eine Anfrage!</0>',
         search: 'Suche',
         orphaned: 'Verwaist',
         maintainerTooltip: {

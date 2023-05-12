@@ -3,13 +3,13 @@ import Locale from './locale'
 export default <Locale>{
     home: {
         title: 'Pacstall',
-        subtitle: 'L\'AUR pour Ubuntu',
+        subtitle: "L'AUR pour Ubuntu",
         cards: {
             whyDifferent: {
                 title: 'Pourquoi est-ce différent de tout autre gestionnaire de paquets ?',
                 description:
-                    'Pacstall utilise la base stable d\'Ubuntu mais vous permet d\'utiliser ' +
-                    'des logiciels de pointe sans compromis, vous n\'aurez donc pas à ' +
+                    "Pacstall utilise la base stable d'Ubuntu mais vous permet d'utiliser " +
+                    "des logiciels de pointe sans compromis, vous n'aurez donc pas à " +
                     'vous soucier des correctifs de sécurité ou des nouvelles fonctionnalités.',
             },
             howItWorks: {
@@ -20,7 +20,7 @@ export default <Locale>{
                     ' et les construit en exécutables sur votre système.',
             },
         },
-        installationInstructions: 'Instructions d\'installation',
+        installationInstructions: "Instructions d'installation",
         showcase: {
             title: 'Vitrine',
             packageSearch: 'Recherche de paquets',
@@ -62,7 +62,8 @@ export default <Locale>{
     packageSearch: {
         dropdown: {
             package: 'Paquet',
-            packageTooltip: 'Recherche dans les noms et les descriptions des paquets',
+            packageTooltip:
+                'Recherche dans les noms et les descriptions des paquets',
             maintainer: 'Mainteneur',
             maintainerTooltip: 'Recherche par noms et e-mails de mainteneur',
         },
@@ -73,19 +74,20 @@ export default <Locale>{
             install: 'Installer',
         },
         versionTooltip: {
-            notInRegistry: 'Ce paquet n\'est pas dans le registre Repology',
+            notInRegistry: "Ce paquet n'est pas dans le registre Repology",
             latest: 'Ce paquet est la dernière version',
             patch: 'Ce paquet a une mise à jour de correctif disponible',
             minor: 'Ce paquet a une mise à jour mineure disponible',
             major: 'Ce paquet a une mise à jour majeure disponible',
             isGit: 'Ce paquet est un package Git',
         },
-        noResults: 'Vous ne trouvez pas ce que vous cherchez ? <0>Créez une demande !</0>',
+        noResults:
+            'Vous ne trouvez pas ce que vous cherchez ? <0>Créez une demande !</0>',
         search: 'Recherche',
         orphaned: 'Orphelin',
         maintainerTooltip: {
             maintainedBy: 'Ce paquet est maintenu par {{ name }}',
-            noMaintainer: 'Ce paquet n\'est pas maintenu',
+            noMaintainer: "Ce paquet n'est pas maintenu",
         },
         pagination: {
             previous: 'précédent',
@@ -113,7 +115,7 @@ export default <Locale>{
             title: 'Dépendances',
             buildDependencies: 'Dépendances de construction',
             optionalDependencies: 'Dépendances facultatives',
-            runtimeDependencies: 'Dépendances d\'exécution',
+            runtimeDependencies: "Dépendances d'exécution",
             pacstallDependencies: 'Dépendances Pacstall',
             name: 'Nom',
             close: 'Fermer',
