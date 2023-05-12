@@ -160,6 +160,7 @@ export const localeFlags: Record<keyof typeof translations, string> = {
     'pl-PL': 'PL 🇵🇱',
     'sv-SE': 'SV 🇸🇪',
     'it-IT': 'IT 🇮🇹',
+    'fr-FR': 'FR 🇫🇷',
 }
 
 export const locales = Object.keys(
