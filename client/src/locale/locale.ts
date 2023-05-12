@@ -6,6 +6,7 @@ import ptLocale from './pt-BR.locale'
 import plLocale from './pl-PL.locale'
 import svLocale from './sv-SE.locale'
 import itLocale from './it-IT.locale'
+import frLocale from './fr-FR.locale'
 import deLocale from './de-DE.locale'
 
 export default interface Locale {
@@ -150,6 +151,9 @@ export const translations = {
     'it-IT': {
         translation: itLocale,
     },
+    'fr-FR': {
+        translation: frLocale,
+    },
     'de-DE': {
         translation: deLocale,
     },
@@ -163,6 +167,7 @@ export const localeFlags: Record<keyof typeof translations, string> = {
     'pl-PL': 'PL 🇵🇱',
     'sv-SE': 'SV 🇸🇪',
     'it-IT': 'IT 🇮🇹',
+    'fr-FR': 'FR 🇫🇷',
     'de-DE': 'DE 🇩🇪',
 }
 
