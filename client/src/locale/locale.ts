@@ -150,6 +150,9 @@ export const translations = {
     'it-IT': {
         translation: itLocale,
     },
+    'fr-FR': {
+        translation: frLocale,
+    },
 } as const satisfies Resource
 
 export const localeFlags: Record<keyof typeof translations, string> = {
