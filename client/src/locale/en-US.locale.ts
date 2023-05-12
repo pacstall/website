@@ -75,9 +75,9 @@ export default <Locale>{
         versionTooltip: {
             notInRegistry: 'This package is not in the Repology registry',
             latest: 'This package is the latest version',
-            hasPatchUpdate: 'This package has a patch update available',
-            hasMinorUpdate: 'This package has a minor update available',
-            hasMajorUpdate: 'This package has a major update available',
+            patch: 'This package has a patch update available',
+            minor: 'This package has a minor update available',
+            major: 'This package has a major update available',
             isGit: 'This package is a Git package',
         },
         noResults: 'Not finding what you want? <0>Create a request!</0>',

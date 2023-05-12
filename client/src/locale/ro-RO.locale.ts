@@ -76,11 +76,11 @@ export default <Locale>{
             notInRegistry:
                 'Această aplicație nu este înregistrată în registrul Repology',
             latest: 'Această aplicație este la ultima versiune',
-            hasPatchUpdate:
+            patch:
                 'Această aplicație are o actualizare de securitate disponibilă',
-            hasMinorUpdate:
+            minor:
                 'Această aplicație are o actualizare minoră disponibilă',
-            hasMajorUpdate:
+            major:
                 'Această aplicație are o actualizare majoră disponibilă',
             isGit: 'Această aplicație este de tip Git',
         },
