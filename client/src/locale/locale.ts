@@ -3,6 +3,7 @@ import enLocale from './en-US.locale'
 import roLocale from './ro-RO.locale'
 import esLocale from './es-ES.locale'
 import ptLocale from './pt-BR.locale'
+import plLocale from './pl-PL.locale'
 import svLocale from './sv-SE.locale'
 import itLocale from './it-IT.locale'
 
@@ -139,6 +140,9 @@ export const translations = {
     'pt-BR': {
         translation: ptLocale,
     },
+    'pl-PL': {
+        translation: plLocale,
+    },
     'sv-SE': {
         translation: svLocale,
     },
@@ -152,6 +156,7 @@ export const localeFlags: Record<keyof typeof translations, string> = {
     'ro-RO': 'RO 🇷🇴',
     'es-ES': 'ES 🇪🇸',
     'pt-BR': 'PT 🇧🇷',
+    'pl-PL': 'PL 🇵🇱',
     'sv-SE': 'SV 🇸🇪',
 'it-IT': 'IT 🇮🇹',
 }
