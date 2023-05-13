@@ -165,15 +165,15 @@ export const translations = {
 
 export const localeFlags: Record<keyof typeof translations, string> = {
     'en-US': 'US 🇺🇸',
-    'ro-RO': 'RO 🇷🇴',
+    'de-DE': 'DE 🇩🇪',
     'es-ES': 'ES 🇪🇸',
-    'pt-BR': 'PT 🇧🇷',
-    'pl-PL': 'PL 🇵🇱',
-    'sv-SE': 'SV 🇸🇪',
+    'fr-FR': 'FR 🇫🇷',
     'it-IT': 'IT 🇮🇹',
     'nl-NL': 'NL 🇳🇱',
-    'fr-FR': 'FR 🇫🇷',
-    'de-DE': 'DE 🇩🇪',
+    'pl-PL': 'PL 🇵🇱',
+    'pt-BR': 'PT 🇧🇷',
+    'ro-RO': 'RO 🇷🇴',
+    'sv-SE': 'SV 🇸🇪',
 }
 
 export const locales = Object.keys(
