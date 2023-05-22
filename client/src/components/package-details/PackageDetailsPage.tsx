@@ -7,7 +7,6 @@ import PackageDependenciesModal from './PackageDependenciesModal'
 import PackageDetailsHeader from './PackageDetailsHeader'
 import PackageDetailsTable from './PackageDetailsTable'
 import PackageRequiredByModal from './PackageRequiredByModal'
-import toTitleCase from '../../util/title-case'
 
 type PackageDetailsPageProps = {
     data: PackageInfo
@@ -50,7 +49,7 @@ const PackageDetailsPage: FC<PackageDetailsPageProps> = ({
             />
             <HowToInstall
                 name={data.name}
-                prettyName={toTitleCase(data)}
+                prettyName={data.name}
                 isMobile={isMobile}
             />
         </Container>
