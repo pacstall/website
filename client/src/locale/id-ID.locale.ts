@@ -9,7 +9,7 @@ export default <Locale>{
                 title: 'Mengapa Pacstall berbeda dengan semua manajer paket lain?',
                 description:
                     'Pacstall menggunakan basis Ubuntu stabil, namun diperbolehkan untuk menggunakan ' +
-                    "perangkat lunak mutakhir dengan sedikit bahkan tanpa kompromi, jadi " +
+                    'perangkat lunak mutakhir dengan sedikit bahkan tanpa kompromi, jadi ' +
                     'tidak perlu risau tentang tambalan keamanan atau fitur-fitur baru.',
             },
             howItWorks: {
@@ -53,7 +53,7 @@ export default <Locale>{
         title: 'Catatan kuki singkatnya',
         paragraphs: [
             'Hai, iya kami menggunakan kuki',
-            "Kami tidak ingin menyebabkanmu salah paham atau informasi yang membingungkan. Kami hanya menggunakan kuki untuk fitur-fitur esensial seperti setelan tema, pelokalan, dan autentikasi.",
+            'Kami tidak ingin menyebabkanmu salah paham atau informasi yang membingungkan. Kami hanya menggunakan kuki untuk fitur-fitur esensial seperti setelan tema, pelokalan, dan autentikasi.',
             'Kebijakan privasi lengkap dapat dibaca <0>disini <1/></0>.',
             'Dengan lanjut menggunakan situs ini, <strong>persetujuan terhadap kebijakan privasi kami telah disetujui</strong>.',
         ],
@@ -80,7 +80,8 @@ export default <Locale>{
             major: 'Paket ini menyediakan pembaruan mayor',
             isGit: 'Paket ini adalah paket Git',
         },
-        noResults: 'Tidak menemukan paket yang diinginkan? <0>Buat permintaan!</0>',
+        noResults:
+            'Tidak menemukan paket yang diinginkan? <0>Buat permintaan!</0>',
         search: 'Cari',
         orphaned: 'Terlantar',
         maintainerTooltip: {

@@ -164,7 +164,7 @@ export const translations = {
     },
     'id-ID': {
         translations: idLocale,
-    }
+    },
 } as const satisfies Resource
 
 export const localeFlags: Record<keyof typeof translations, string> = {
