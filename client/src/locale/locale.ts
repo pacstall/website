@@ -163,7 +163,7 @@ export const translations = {
         translation: deLocale,
     },
     'id-ID': {
-        translations: idLocale,
+        translation: idLocale,
     },
 } as const satisfies Resource
 
