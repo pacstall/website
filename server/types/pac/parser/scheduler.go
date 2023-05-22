@@ -1,12 +1,20 @@
 package parser
 
-import "time"
+import (
+	"time"
+
+	"pacstall.dev/webserver/log"
+)
 
 func ScheduleRefresh(every time.Duration) {
 	go func() {
 		for {
 			time.Sleep(every)
-			ParseAll()
+			err := ParseAll()
+			if err != nil {
+				log.Error("Failed to parse pacscripts: %v", err)
+			}
+
 		}
 	}()
 }

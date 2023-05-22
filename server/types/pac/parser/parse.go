@@ -21,14 +21,14 @@ import (
 
 const PACKAGE_LIST_FILE_NAME = "./packagelist"
 
-func ParseAll() {
+func ParseAll() error {
 	if err := git.RefreshPrograms(config.GitClonePath, config.GitURL); err != nil {
-		log.Fatal("Could not update repository 'pacstall-programs'. %v", err)
+		return fmt.Errorf("could not update repository 'pacstall-programs'. %v", err)
 	}
 
 	pkgList, err := readKnownPacscriptNames()
 	if err != nil {
-		log.Fatal("Failed to parse packagelist. %v", err)
+		return fmt.Errorf("failed to parse packagelist. %v", err)
 	}
 
 	loadedPacscripts := list.From(parsePacscriptFiles(pkgList)).MapExt(func(p *pac.Script, scripts list.List[*pac.Script]) *pac.Script {
@@ -40,6 +40,8 @@ func ParseAll() {
 	pacstore.Update(loadedPacscripts)
 	log.Info("Successfully parsed %v (%v / %v) packages", types.Percent(float64(len(loadedPacscripts))/float64(pkgList.Len())), loadedPacscripts.Len(), pkgList.Len())
 	log.Notify("Successfully parsed %v (%v / %v) packages", types.Percent(float64(len(loadedPacscripts))/float64(pkgList.Len())), loadedPacscripts.Len(), pkgList.Len())
+
+	return nil
 }
 
 func readKnownPacscriptNames() (list.List[string], error) {

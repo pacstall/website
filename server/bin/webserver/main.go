@@ -71,7 +71,11 @@ func main() {
 		log.Info("Booted in %v\n", color.GreenString("%v", time.Since(startedAt)))
 
 		log.Info("Attempting to parse existing pacscripts")
-		parser.ParseAll()
+		err := parser.ParseAll()
+		if err != nil {
+			log.Error("Failed to parse pacscripts: %v", err)
+		}
+
 		parser.ScheduleRefresh(refreshTimer)
 		log.Info("Scheduled pacscripts to auto-refresh every %v", refreshTimer)
 	})
