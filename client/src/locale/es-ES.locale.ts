@@ -40,6 +40,7 @@ export default <Locale>{
             discord: 'Discord',
             matrix: 'Matrix',
             reddit: 'Reddit',
+            lemmy: 'Lemmy',
             mastodon: 'Mastodon',
         },
         browse: {
