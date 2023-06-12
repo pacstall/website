@@ -9,7 +9,7 @@ export default <Locale>{
                 title: 'Bu diğer paket yöneticilerinden neden farklı?',
                 description:
                     'Pacstall Ubuntu`nun stabil tabanını ve son sürüm yazılımları' +
-                    "hiçbir taviz vermeden kullanmanızı sağlar. Bu şekilde sizi " +
+                    'hiçbir taviz vermeden kullanmanızı sağlar. Bu şekilde sizi ' +
                     'güvenlik güncellemeleri yada yeni özellikler konusunda büyük' +
                     'bir endişeden kurtarır ve kolaylık sağlar.',
             },
@@ -55,7 +55,7 @@ export default <Locale>{
         title: 'Çerezler TL;DR',
         paragraphs: [
             'Evet, biz bu sitede çerezleri kullanıyorum.',
-            "Yanlış anlaşılmaya sebep olmak istemiyoruz. Çerezleri yalnızca tema ayarları, bölgesel bilgiler ve kimlik doğrulama için kullanıyoruz",
+            'Yanlış anlaşılmaya sebep olmak istemiyoruz. Çerezleri yalnızca tema ayarları, bölgesel bilgiler ve kimlik doğrulama için kullanıyoruz',
             'Gizlilik politikamızı <0>buradan <1/></0> okuyabilirsiniz.',
             'Bu siteyi kullanarak <strong>gizlilik politikamızı kabul etmiş olursunuz</strong>.',
         ],
@@ -108,7 +108,7 @@ export default <Locale>{
         view: 'İncele',
         howToInstall: {
             title: 'Nasıl kurulur',
-            step1: "Adım 1: Pacstall`ı kur",
+            step1: 'Adım 1: Pacstall`ı kur',
             step2: 'Adım 2: {{ name }} paketini kur',
         },
         dependenciesModal: {
