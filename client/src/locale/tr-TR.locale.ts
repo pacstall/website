@@ -11,7 +11,7 @@ export default <Locale>{
                     'Pacstall Ubuntu`nun stabil tabanını ve son sürüm yazılımları +
                     "hiçbir taviz vermeden kullanmanızı sağlar. Bu şekilde sizi " +
                     'güvenlik güncellemeleri yada yeni özellikler konusunda büyük' +
-                    bir endişeden kurtarır ve kolaylık sağlar.',
+                    'bir endişeden kurtarır ve kolaylık sağlar.',
             },
             howItWorks: {
                 title: 'O zaman bu şey nasıl çalışıyor?',
