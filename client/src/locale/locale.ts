@@ -10,6 +10,7 @@ import frLocale from './fr-FR.locale'
 import deLocale from './de-DE.locale'
 import nlLocale from './nl-NL.locale'
 import idLocale from './id-ID.locale'
+import trLocale from './tr-TR.locale'
 
 export default interface Locale {
     home: {
@@ -165,6 +166,9 @@ export const translations = {
     'id-ID': {
         translation: idLocale,
     },
+    'tr-TR': {
+        translation: trLocale,
+    },
 } as const satisfies Resource
 
 export const localeFlags: Record<keyof typeof translations, string> = {
@@ -179,6 +183,7 @@ export const localeFlags: Record<keyof typeof translations, string> = {
     'pt-BR': 'PT 🇧🇷',
     'ro-RO': 'RO 🇷🇴',
     'sv-SE': 'SV 🇸🇪',
+    'tr-TR': 'TR 🇹🇷',
 }
 
 export const locales = Object.keys(
