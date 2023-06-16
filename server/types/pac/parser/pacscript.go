@@ -59,8 +59,6 @@ fi
 
 	script += strings.Join(mapsPartialScript, "\n")
 
-	fmt.Println(script)
-
 	return []byte(script)
 }
 
