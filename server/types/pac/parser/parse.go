@@ -67,7 +67,7 @@ func parsePacscriptFiles(names []string) []*pac.Script {
 
 	log.Info("Parsing pacscripts...")
 	outChan := batch.Run(int(config.MaxOpenFiles), names, func(pacName string) (*pac.Script, error) {
-		out, err := parsePacscriptFile(config.GitClonePath, pacName)
+		out, err := ParsePacscriptFile(config.GitClonePath, pacName)
 		if err != nil {
 			log.Warn("Failed to parse %v. err: %v", pacName, err)
 		}
@@ -105,7 +105,7 @@ func readPacscriptFile(rootDir, name string) (scriptBytes []byte, fileName strin
 	return scriptBytes, fileName, nil
 }
 
-func parsePacscriptFile(programsDirPath, name string) (pac.Script, error) {
+func ParsePacscriptFile(programsDirPath, name string) (pac.Script, error) {
 	pacshell, filename, err := readPacscriptFile(programsDirPath, name)
 	if err != nil {
 		return pac.Script{}, err

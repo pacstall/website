@@ -36,6 +36,12 @@ func buildCustomFormatScript(header []byte) []byte {
 	script = script + "echo ''\n"
 
 	for _, bashName := range pacsh.PacstallCVars {
+		// If the variable is a function, then we replace it with the output of the function
+		script += fmt.Sprintf(`
+if [[ "$(declare -F -p %v)" ]]; then
+	%v=$(%v)
+fi
+`, bashName, bashName, bashName)
 		script += fmt.Sprintf("echo \"%s $%v\"", categoryToken, bashName) + "\n"
 	}
 
@@ -52,6 +58,8 @@ func buildCustomFormatScript(header []byte) []byte {
 	}
 
 	script += strings.Join(mapsPartialScript, "\n")
+
+	fmt.Println(script)
 
 	return []byte(script)
 }
