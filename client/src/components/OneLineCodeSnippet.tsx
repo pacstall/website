@@ -5,7 +5,6 @@ import {
     useColorModeValue,
 } from '@chakra-ui/react'
 import { CSSProperties, FC, MutableRefObject, ReactNode, useRef } from 'react'
-import { useRecoilState } from 'recoil'
 import serverConfig from '../config/server'
 import useNotification from '../hooks/useNotification'
 import Notification from '../types/notifications'
