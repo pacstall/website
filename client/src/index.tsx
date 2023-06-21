@@ -46,8 +46,8 @@ const theme = extendTheme({
         useSystemColorMode: false,
     },
     fonts: {
-        heading: 'Open Sans, sans-serif',
-        body: 'Titillium Web, sans-serif',
+        heading: 'Open Sans, Charu Chandan Unicode, sans-serif',
+        body: 'Titillium Web, Lohit Bengali, sans-serif',
     },
     colors: {
         brand: {
