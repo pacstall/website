@@ -6,17 +6,23 @@
 
 ## How to Run
 
-First, clone this repo.
+First, clone this repo and go to its directory.
 
 ```sh
 git clone https://github.com/pacstall/website
+cd website
 ```
 
-Then, go to the new `website` directory and run it with Make.
+Then, choose an option below depending on if you're planning to make changes to the website or to just run it.
+
+### Run it for Development
 
 ```sh
-cd website
-make run
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --force-recreate --build
 ```
 
-This will automatically install the prerequisite packages, build everything, and start the server.
+### Run it in Production
+
+```sh
+docker-compose pull && docker-compose down && docker-compose up -d
+```
