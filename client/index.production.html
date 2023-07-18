@@ -24,9 +24,9 @@
         <meta name="next-head-count" content="20" />
         <link rel="stylesheet" href="/styles/global.css" />
         <script>
-            const IS_TRACKING_ENABLED = navigator.doNotTrack !== '1'
+            const IS_TRACKING_ALLOWED = navigator.doNotTrack !== '1'
 
-            if (IS_TRACKING_ENABLED) {
+            if (IS_TRACKING_ALLOWED) {
                 enableMatomoTracking()
             }
 
