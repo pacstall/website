@@ -14,7 +14,7 @@ LDFLAGS= \
 all: dist/webserver
 
 run: 
-	(cd .. && docker-compose up -d mariadb)
+	(cd .. && docker compose up -d mariadb)
 
 	PACSTALL_DATABASE_HOST=localhost \
 	PACSTALL_DATABASE_PORT=3306 \

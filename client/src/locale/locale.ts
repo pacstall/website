@@ -11,6 +11,8 @@ import deLocale from './de-DE.locale'
 import nlLocale from './nl-NL.locale'
 import idLocale from './id-ID.locale'
 import trLocale from './tr-TR.locale'
+import { NumericDisplayHandler } from '../hooks/useNumericDisplay'
+import { arabic } from './numeric-systems/arabic'
 
 export default interface Locale {
     home: {
@@ -170,6 +172,22 @@ export const translations = {
         translation: trLocale,
     },
 } as const satisfies Resource
+
+export const localeNumericDisplay = {
+    'en-US': arabic,
+    'ro-RO': arabic,
+    'es-ES': arabic,
+    'pt-BR': arabic,
+    'pl-PL': arabic,
+    'sv-SE': arabic,
+    'it-IT': arabic,
+    'nl-NL': arabic,
+    'fr-FR': arabic,
+    'de-DE': arabic,
+    'id-ID': arabic,
+    'tr-TR': arabic,
+    // 'bn_IN': bengali,
+} satisfies Record<keyof typeof translations, NumericDisplayHandler>
 
 export const localeFlags: Record<keyof typeof translations, string> = {
     'en-US': 'US 🇺🇸',
