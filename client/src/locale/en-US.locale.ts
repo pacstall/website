@@ -53,12 +53,12 @@ export default <Locale>{
     cookieConsent: {
         title: 'Cookie notice TL;DR',
         paragraphs: [
-            'Hi, yes, we use cookies.',
+            "Hi, we're using cookies on our website.",
             "We don't like to give you misleading or confusing information. We only use cookies for essential features such as theme settings, localization and authentication.",
             'You can read the full privacy policy <0>here <1/></0>.',
             'By continuing to use this site, you <strong>give your agreement to the privacy policy</strong>.',
         ],
-        accept: 'ok, nice',
+        accept: 'Ok, nice',
     },
     packageSearch: {
         dropdown: {
