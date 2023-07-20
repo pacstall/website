@@ -132,7 +132,7 @@ components:
         version:
           type: string
           example: '16.0.1'
-        lastestVersion:
+        latestVersion:
           type: string
           example: '16.1.1'
           description: 'This might be "Unknown" if repology filters are not present'
