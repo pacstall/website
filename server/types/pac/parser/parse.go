@@ -84,6 +84,7 @@ func parsePacscriptFiles(names []string) []*pac.Script {
 	log.Info("Syncing pacscripts with repology...")
 
 	for _, result := range results {
+		log.Info("Checking %v", result.Name)
 		if err := repologySync(result); err != nil {
 			log.Warn("Failed to sync %v. err: %v", result.Name, err)
 		}
