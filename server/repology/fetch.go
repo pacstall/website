@@ -1,158 +1,53 @@
 package repology
 
 import (
-	"encoding/json"
+	"errors"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 	"strings"
-	"time"
 
-	"github.com/hashicorp/go-version"
-	"pacstall.dev/webserver/types/list"
+	"pacstall.dev/webserver/model"
 )
-
-var repologyCache = make(map[string][]repologyRawProject)
-var cachedUpdatedAt = time.Now()
-
-func fetchRaw(project string) ([]repologyRawProject, error) {
-	if cachedUpdatedAt.Add(3*time.Minute).After(time.Now()) && repologyCache[project] != nil {
-		return repologyCache[project], nil
-	}
-
-	resp, err := http.Get(fmt.Sprintf(repologProjectUrl, project))
-	if err != nil {
-		return nil, fmt.Errorf("(%v) Failed to fetch repology project: %v", project, err)
-	}
-	
-	if resp.StatusCode != 200 {
-		return nil, fmt.Errorf("(%v) Failed with status %v to fetch repology project: %v", project, resp.StatusCode, err)
-	}
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("Failed to read repology response: %v", err)
-	}
-
-	result := make([]repologyRawProject, 0)
-	err = json.Unmarshal(body, &result)
-	if err != nil {
-		return nil, fmt.Errorf("Failed to unmarshal repology response: %v. \n\n%v\n\n", string(body), err)
-	}
-
-	repologyCache[project] = result
-	cachedUpdatedAt = time.Now()
-
-	if len(result) == 0 {
-		return nil, fmt.Errorf("No results for '%v'", project)
-	}
-
-	return result, nil
-}
-
-func getProperty(project repologyRawProject, property string) string {
-	if project[property] == nil {
-		return ""
-	}
-
-	return project[property].(string)
-}
-
-func getSliceProperty(project repologyRawProject, property string) []string {
-	if project[property] == nil {
-		return nil
-	}
-
-	return list.Map(project[property].([]interface{}), func(i int, t interface{}) string {
-		return fmt.Sprintf("%v", t)
-	})
-}
 
 func parseRepologyFilter(filter string) (string, string) {
 	idx := strings.Index(filter, ":")
 	return strings.TrimSpace(filter[:idx]), strings.TrimSpace(filter[idx+1:])
 }
 
-func fetchRepologyProject(search []string) (rpProj repologyProject, err error) {
-	_, project := parseRepologyFilter(search[0])
-	result, err := fetchRaw(project)
-	if err != nil {
-		return
+var repologyFilterToColumn = map[string]string{
+	"repo":        model.RepologyProjectProviderColumns.Repository,
+	"subrepo":     model.RepologyProjectProviderColumns.SubRepository,
+	"status":      model.RepologyProjectProviderColumns.Status,
+	"srcname":     model.RepologyProjectProviderColumns.SourceName,
+	"binname":     model.RepologyProjectProviderColumns.BinaryName,
+	"version":     model.RepologyProjectProviderColumns.Version,
+	"origversion": model.RepologyProjectProviderColumns.OriginalVersion,
+	"visiblename": model.RepologyProjectProviderColumns.VisibleName,
+	"summary":     model.RepologyProjectProviderColumns.Summary,
+}
+
+func findRepologyProject(search []string) (model.RepologyProjectProvider, error) {
+	var result model.RepologyProjectProvider
+
+	if len(search) == 0 {
+		return result, fmt.Errorf("no search terms provided")
 	}
 
-	propertyPairs := list.Map(list.From(search[1:]), func(_ int, t string) []string {
-		filterName, filterValue := parseRepologyFilter(t)
-		return []string{filterName, filterValue}
-	})
+	db := model.Instance()
 
-	foundPackagesRaw := list.Map(list.From(result).Filter(func(pkg repologyRawProject) bool {
-		return list.From(propertyPairs).All(func(pair []string) bool {
-			return pkg[pair[0]] == pair[1] && strings.ContainsAny(pkg["version"].(string), "1234567890")
-		})
-	}), func(i int, t repologyRawProject) repologySemiRawProject {
-		return repologySemiRawProject{
-			Name:        getProperty(t, "name"),
-			Version:     getProperty(t, "version"),
-			VisibleName: getProperty(t, "visiblename"),
-			Summary:     getProperty(t, "summary"),
-			Repo:        getProperty(t, "repo"),
-			Status:      getProperty(t, "status"),
-			SrcName:     getProperty(t, "srcname"),
-			BinName:     getProperty(t, "binname"),
-			SubRepo:     getProperty(t, "subrepo"),
-			Licenses:    getSliceProperty(t, "licenses"),
-			OrigVersion: getProperty(t, "origversion"),
-			Maintainers: getSliceProperty(t, "maintainers"),
-			Categories:  getSliceProperty(t, "categories"),
-		}
-	}).Filter(func(pkg repologySemiRawProject) bool {
-		return pkg.Status != "incorrect"
-	}).SortBy(func(p1, p2 repologySemiRawProject) bool {
-		v1HasNumbers := strings.ContainsAny(p1.Version, "0123456789")
-		v2HasNumbers := strings.ContainsAny(p2.Version, "0123456789")
-
-		if v1HasNumbers && !v2HasNumbers {
-			return true
-		} else if !v1HasNumbers && v2HasNumbers {
-			return false
-		} else if !v1HasNumbers && !v2HasNumbers {
-			return true
+	query := db.Where("project_name = ?", search[0])
+	for _, filter := range search[1:] {
+		filterName, filterValue := parseRepologyFilter(filter)
+		column, ok := repologyFilterToColumn[filterName]
+		if !ok {
+			return result, fmt.Errorf("invalid filter '%v'", filterName)
 		}
 
-		v1, err := version.NewVersion(p1.Version)
-		if err != nil {
-			return false
-		}
-
-		v2, err := version.NewVersion(p2.Version)
-		if err != nil {
-			return true
-		}
-
-		return v1.GreaterThan(v2)
-	}).SortBy(func(rsrp1, rsrp2 repologySemiRawProject) bool {
-		return rsrp1.Status == "newest" && rsrp2.Status != "newest"
-	})
-
-	if foundPackagesRaw.Len() == 0 {
-		return rpProj, fmt.Errorf("no results for '%v' after applying search constraints", project)
+		query = query.Where(fmt.Sprintf("%v = ?", column), filterValue)
 	}
 
-	rpProj.Version = foundPackagesRaw[0].Version
-	rpProj.PrettyName = foundPackagesRaw[0].VisibleName
-
-	if strings.ToLower(rpProj.PrettyName) != rpProj.PrettyName {
-		return
+	if err := query.Order("version desc").First(&result).Error; err != nil {
+		return result, errors.Join(errors.New("failed to fetch repology project"), err)
 	}
 
-	kindaPrettyList := foundPackagesRaw.Filter(func(p repologySemiRawProject) bool {
-		return strings.ToLower(p.VisibleName) != p.VisibleName
-	})
-
-	if kindaPrettyList.IsEmpty() {
-		return
-	}
-
-	rpProj.PrettyName = kindaPrettyList[0].VisibleName
-	return
+	return result, nil
 }

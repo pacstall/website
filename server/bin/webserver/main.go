@@ -7,6 +7,7 @@ import (
 	"github.com/fatih/color"
 	"pacstall.dev/webserver/config"
 	"pacstall.dev/webserver/log"
+	"pacstall.dev/webserver/repology"
 	"pacstall.dev/webserver/server"
 	ps_api "pacstall.dev/webserver/server/api/pacscripts"
 	repology_api "pacstall.dev/webserver/server/api/repology"
@@ -54,8 +55,6 @@ func main() {
 	}
 
 	startedAt := time.Now()
-	port := config.Port
-	refreshTimer := config.UpdateInterval
 
 	printLogo()
 
@@ -66,19 +65,20 @@ func main() {
 
 	server.OnServerOnline(func() {
 		log.NotifyCustom("🚀 Startup 🧑‍🚀", "Successfully started up.")
-		log.Info("Server is now online on port %v.\n", port)
+		log.Info("Server is now online on port %v.\n", config.Port)
 
 		log.Info("Booted in %v\n", color.GreenString("%v", time.Since(startedAt)))
 
-		log.Info("Attempting to parse existing pacscripts")
-		err := parser.ParseAll()
-		if err != nil {
-			log.Error("Failed to parse pacscripts: %v", err)
-		}
+		parser.ScheduleRefresh(config.UpdateInterval)
+		log.Info("Scheduled pacscripts to auto-refresh every %v", config.UpdateInterval)
 
-		parser.ScheduleRefresh(refreshTimer)
-		log.Info("Scheduled pacscripts to auto-refresh every %v", refreshTimer)
+		if config.Repology.Enabled {
+			repology.ScheduleRefresh(config.RepologyUpdateInterval)
+			log.Info("Scheduled repology to auto-refresh every %v", config.RepologyUpdateInterval)
+		} else {
+			log.Warn("Repology is disabled. Pacstall will not be able to fetch package data from Repology.")
+		}
 	})
 
-	server.Listen(port)
+	server.Listen(config.Port)
 }

@@ -9,10 +9,10 @@ func Sync(script *pac.Script) error {
 		return nil
 	}
 
-	project, err := fetchRepologyProject(script.Repology)
+	project, err := findRepologyProject(script.Repology)
 	if err != nil {
 		return err
 	}
 
-	return syncToPacscript(project, script)
+	return updateScriptVersion(project, script)
 }

@@ -5,6 +5,7 @@ import (
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"pacstall.dev/webserver/config"
 )
 
@@ -22,7 +23,10 @@ func Instance() *gorm.DB {
 		return database
 	}
 
-	db, err := gorm.Open(mysql.Open(connectionString), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(connectionString), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Silent),
+	})
+
 	if err != nil {
 		panic(fmt.Sprintf("failed to connect database: %v", err))
 	}
