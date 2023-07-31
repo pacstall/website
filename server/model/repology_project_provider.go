@@ -1,18 +1,21 @@
 package model
 
+const RepologyProjectProviderTableName = "repology_project_providers"
+
 type RepologyProjectProvider struct {
-	ID              uint `gorm:"primarykey"`
-	ProjectName     string
+	ID              uint            `gorm:"primarykey"`
+	ProjectName     string          `gorm:"index:"`
 	Project         RepologyProject `gorm:"foreignKey:Name"`
 	Repository      string
 	SubRepository   *string `gorm:"default:null"`
-	SourceName      *string `gorm:"default:null"`
-	VisibleName     *string `gorm:"default:null"`
-	BinaryName      *string `gorm:"default:null"`
+	SourceName      *string `gorm:"index:,default:null"`
+	VisibleName     *string `gorm:"index:,default:null"`
+	BinaryName      *string `gorm:"index:,default:null"`
 	Version         string
 	OriginalVersion string
 	Status          string
 	Summary         string
+	Active          bool `gorm:"index:,default:false"`
 }
 
 var RepologyProjectProviderColumns = struct {
@@ -27,6 +30,7 @@ var RepologyProjectProviderColumns = struct {
 	OriginalVersion string
 	Status          string
 	Summary         string
+	Active          string
 }{
 	ID:              "id",
 	ProjectName:     "project_name",
@@ -39,4 +43,5 @@ var RepologyProjectProviderColumns = struct {
 	OriginalVersion: "original_version",
 	Status:          "status",
 	Summary:         "summary",
+	Active:          "active",
 }

@@ -2,6 +2,7 @@ package internal
 
 import (
 	"errors"
+	"fmt"
 	"sync"
 	"time"
 
@@ -11,7 +12,7 @@ import (
 )
 
 func ExportRepologyDatabase(db *gorm.DB) error {
-	err := resetTables(db)
+	err := migrateTables(db)
 	if err != nil {
 		return errors.Join(errors.New("failed to reset repology tables"), err)
 	}
@@ -33,8 +34,8 @@ func ExportRepologyDatabase(db *gorm.DB) error {
 		for projectName, apiProjectProvider := range projectPage {
 			lastProjectName = projectName
 			for _, apiProjectProvider := range apiProjectProvider {
+				// Save project provider as inactive
 				projectProvider := mapRepologyApiProjectProviderToModel(projectName, apiProjectProvider)
-
 				projectProviders = append(projectProviders, projectProvider)
 
 				project := model.RepologyProject{
@@ -62,26 +63,32 @@ func ExportRepologyDatabase(db *gorm.DB) error {
 		it++
 	}
 
+	// Delete active (old) repology project providers
+	if err := db.Where(fmt.Sprintf("%v = ?", model.RepologyProjectProviderColumns.Active), true).Delete(&model.RepologyProjectProvider{}).Error; err != nil {
+		return errors.Join(errors.New("failed to delete old repology project providers"), err)
+	}
+
+	// Mark new repology project providers as active
+	if err := db.Exec(
+		fmt.Sprintf(
+			"UPDATE %s SET %s = 1",
+			model.RepologyProjectProviderTableName,
+			model.RepologyProjectProviderColumns.Active,
+		),
+	).Error; err != nil {
+		return errors.Join(errors.New("failed to update new repology project providers"), err)
+	}
+
 	return nil
 }
 
-func resetTables(db *gorm.DB) error {
+func migrateTables(db *gorm.DB) error {
 	err := db.AutoMigrate(&model.RepologyProject{})
 	if err != nil {
 		return err
 	}
 
 	err = db.AutoMigrate(&model.RepologyProjectProvider{})
-	if err != nil {
-		return err
-	}
-
-	err = db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&model.RepologyProjectProvider{}).Error
-	if err != nil {
-		return err
-	}
-
-	err = db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&model.RepologyProject{}).Error
 	if err != nil {
 		return err
 	}
@@ -95,7 +102,9 @@ func makeSecondDelay() *sync.WaitGroup {
 
 	go func() {
 		defer delay.Done()
-		time.Sleep(1 * time.Second)
+		// Wait 750ms before making another request
+		// Repology API has a rate limit of 1 request per second but some requests take longer than 1 second so it averages out
+		time.Sleep(750 * time.Millisecond)
 	}()
 
 	return &delay
@@ -113,6 +122,7 @@ func mapRepologyApiProjectProviderToModel(projectName string, apiProjectProvider
 		OriginalVersion: apiProjectProvider.OriginalVersion,
 		Status:          apiProjectProvider.Status,
 		Summary:         apiProjectProvider.Summary,
+		Active:          false,
 	}
 	return projectProvider
 }
