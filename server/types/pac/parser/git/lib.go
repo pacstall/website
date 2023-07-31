@@ -12,13 +12,20 @@ func hardResetAndPull(path string) error {
 		return err
 	}
 
-	cmd = exec.Command("git", "fetch")
+	// https://stackoverflow.com/a/41081908/13449010
+	cmd = exec.Command("git", "fetch", "--depth=1")
 	cmd.Dir = path
 	if err := cmd.Run(); err != nil {
 		return err
 	}
 
-	cmd = exec.Command("git", "pull")
+	cmd = exec.Command("git", "reset", "--hard", "origin/HEAD")
+	cmd.Dir = path
+	if err := cmd.Run(); err != nil {
+		return err
+	}
+
+	cmd = exec.Command("git", "clean", "-dfx")
 	cmd.Dir = path
 	if err := cmd.Run(); err != nil {
 		return err
@@ -28,7 +35,7 @@ func hardResetAndPull(path string) error {
 }
 
 func clonePrograms(path, url string) error {
-	cmd := exec.Command("git", "clone", url, path)
+	cmd := exec.Command("git", "clone", "--depth=1", url, path)
 	if err := cmd.Run(); err != nil {
 		return err
 	}
