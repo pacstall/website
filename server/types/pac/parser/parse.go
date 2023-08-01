@@ -71,26 +71,17 @@ func parsePacscriptFiles(names []string) []*pac.Script {
 		if err != nil {
 			log.Warn("Failed to parse %v. err: %v", pacName, err)
 		}
+
+		if config.Repology.Enabled {
+			if err := repology.Sync(&out); err != nil {
+				log.Debug("Failed to sync %v with repology. Error: %v", pacName, err)
+			}
+		}
+
 		return &out, err
 	})
 
-	results := channels.ToSlice(outChan)
-
-	if !config.Repology.Enabled {
-		return results
-	}
-
-	repologySync := repology.NewSyncer(15)
-	log.Info("Syncing pacscripts with repology...")
-
-	for _, result := range results {
-		log.Info("Checking %v", result.Name)
-		if err := repologySync(result); err != nil {
-			log.Warn("Failed to sync %v. err: %v", result.Name, err)
-		}
-	}
-
-	return results
+	return channels.ToSlice(outChan)
 }
 
 func readPacscriptFile(rootDir, name string) (scriptBytes []byte, fileName string, err error) {

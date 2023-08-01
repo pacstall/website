@@ -28,6 +28,7 @@ run:
 	PACSTALL_MATOMO_ENABLED="false" \
 	PACSTALL_REPOLOGY_ENABLED="false" \
 	go run bin/webserver/main.go
+
 dist/webserver: $(shell find . -not \( -path ./tmp -prune \) -not \( -path ./dist -prune \) -type f)
 	CGO_ENABLED=0 go build -o dist/webserver -ldflags "${LDFLAGS}" bin/webserver/main.go
 clean:

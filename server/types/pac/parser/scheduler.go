@@ -9,12 +9,12 @@ import (
 func ScheduleRefresh(every time.Duration) {
 	go func() {
 		for {
-			time.Sleep(every)
 			err := ParseAll()
 			if err != nil {
 				log.Error("Failed to parse pacscripts: %v", err)
 			}
 
+			time.Sleep(every)
 		}
 	}()
 }
