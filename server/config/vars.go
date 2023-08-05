@@ -9,6 +9,7 @@ import (
 var Production = toBool(build.Production)
 
 var UpdateInterval = time.Duration(toInt(build.UpdateInterval)) * time.Second
+var RepologyUpdateInterval = time.Duration(toInt(build.RepologyUpdateInterval)) * time.Second
 var TempDir = build.TempDir
 var MaxOpenFiles = toInt(build.MaxOpenFiles)
 var GitURL = build.GitURL

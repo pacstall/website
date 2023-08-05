@@ -16,6 +16,7 @@ import PackageInfo from '../../types/package-info'
 import SemanticVersionColor from '../SemanticVersionColor'
 import PackageDetailsMaintainer from './PackageDetailsMaintainer'
 import { useTranslation } from 'react-i18next'
+import useNumericDisplay from '../../hooks/useNumericDisplay'
 
 const Entry: FC<{
     header: string
@@ -39,6 +40,7 @@ const PackageDetailsTable: FC<{
     dependenciesModal: UseDisclosureProps
 }> = ({ data, dependencyCount, requiredByModal, dependenciesModal }) => {
     const { t } = useTranslation()
+    const displayNumber = useNumericDisplay()
     return (
         <Table mt='10'>
             <Tbody>
@@ -61,7 +63,9 @@ const PackageDetailsTable: FC<{
                 </Entry>
 
                 <Entry header={t('packageDetails.table.dependencies')}>
-                    {dependencyCount || t('packageDetails.noResults')}{' '}
+                    {dependencyCount
+                        ? displayNumber(dependencyCount)
+                        : t('packageDetails.noResults')}{' '}
                     {dependencyCount > 0 ? (
                         <Link
                             onClick={dependenciesModal.onOpen}
@@ -78,7 +82,9 @@ const PackageDetailsTable: FC<{
                 </Entry>
 
                 <Entry header={t('packageDetails.table.requiredBy')}>
-                    {data.requiredBy.length || t('packageDetails.noResults')}{' '}
+                    {data.requiredBy.length
+                        ? displayNumber(data.requiredBy.length)
+                        : t('packageDetails.noResults')}{' '}
                     {data.requiredBy?.length || 0 > 0 ? (
                         <Link
                             onClick={requiredByModal.onOpen}

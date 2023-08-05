@@ -3,6 +3,7 @@ package build
 var Production = "false"
 
 var UpdateInterval = "900"
+var RepologyUpdateInterval = "43200"
 var TempDir = "./tmp"
 var MaxOpenFiles = "100"
 var GitURL = "https://github.com/pacstall/pacstall-programs.git"

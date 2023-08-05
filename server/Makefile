@@ -17,7 +17,7 @@ test:
 	GO_ENV=test go test -v ./...
 
 run: 
-	(cd .. && docker-compose up -d mariadb)
+	(cd .. && docker compose up -d mariadb)
 
 	PACSTALL_DATABASE_HOST=localhost \
 	PACSTALL_DATABASE_PORT=3306 \
@@ -31,6 +31,7 @@ run:
 	PACSTALL_MATOMO_ENABLED="false" \
 	PACSTALL_REPOLOGY_ENABLED="false" \
 	go run bin/webserver/main.go
+
 dist/webserver: $(shell find . -not \( -path ./tmp -prune \) -not \( -path ./dist -prune \) -type f)
 	CGO_ENABLED=0 go build -o dist/webserver -ldflags "${LDFLAGS}" bin/webserver/main.go
 clean:
