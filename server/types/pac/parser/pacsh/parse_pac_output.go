@@ -9,9 +9,9 @@ import (
 )
 
 var ParsePacOutput = parseOutput
-var PacstallCVars []string = []string{"name", "pkgname", "maintainer", "description", "url", "gives", "hash", "version"}
+var PacstallCVars []string = []string{"name", "pkgname", "maintainer", "pkgdesc", "url", "gives", "hash", "pkgver"}
 var PacstallCArrays []string = []string{}
-var PacstallCMaps []string = []string{"depends", "breaks", "replace", "build_depends", "optdepends", "pacdeps", "patch", "ppa", "repology"}
+var PacstallCMaps []string = []string{"depends", "breaks", "replace", "makedepends", "optdepends", "pacdeps", "patch", "ppa", "repology"}
 
 const (
 	nameIdx = iota

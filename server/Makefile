@@ -13,6 +13,9 @@ LDFLAGS= \
 
 all: dist/webserver
 
+test:
+	GO_ENV=test go test -v ./...
+
 run: 
 	(cd .. && docker compose up -d mariadb)
 
