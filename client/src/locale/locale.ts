@@ -147,7 +147,7 @@ export const translations = {
     },
     'pt-BR': {
         translation: ptLocale,
-        },
+    },
     'pt-PT': {
         translation: ptLocale
     },
