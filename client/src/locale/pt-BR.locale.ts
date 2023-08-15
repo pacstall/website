@@ -120,6 +120,7 @@ export default <Locale>{
             close: 'Fechar',
             provider: 'Provedor',
             noDescription: 'Nenhuma descrição disponível',
+            version: 'Versão',
         },
         requiredByModal: {
             title: 'Requerido Por',
