@@ -13,7 +13,7 @@ export default <Locale>{
                     'você precise se preocupar com correções de segurança ou novos recursos.',
             },
             howItWorks: {
-                title: 'How does it work then?',
+                title: 'Como funciona então?',
                 description:
                     ' O Pacstall recebe arquivos chamados de <0>pacscripts</0> (semelhantes ' +
                     ' ao PKGBUILD) que contêm a informação necessária para compilar pacotes ' +
