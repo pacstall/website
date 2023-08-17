@@ -6,7 +6,7 @@ export default <Locale>{
         subtitle: 'O AUR para Ubuntu',
         cards: {
             whyDifferent: {
-                title: 'Porque é que isto é diferente de qualquer outro gestor de pacotes?',
+                title: 'Por que é que isto é diferente de qualquer outro gestor de pacotes?',
                 description:
                     'O Pacstall usa a base estável do Ubuntu mas permite-lhe usar o ' +
                     'software de última geração com poucos ou nenhuns compromissos, pelo que ' +
