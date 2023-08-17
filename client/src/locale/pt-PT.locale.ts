@@ -20,7 +20,7 @@ export default <Locale>{
                     ' e compila-os como executáveis no seu sistema.',
             },
         },
-        installationInstructions: 'Instruções de instalação',
+        installationInstructions: 'Instruções de Instalação',
         showcase: {
             title: 'Demonstração',
             packageSearch: 'Procurar pacotes',
