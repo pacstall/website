@@ -106,7 +106,7 @@ export default <Locale>{
         openInGithub: 'Abrir no Github',
         view: 'Visualizar',
         howToInstall: {
-            title: 'Como instalar',
+            title: 'Como Instalar',
             step1: '1º Passo: Configurar o Pacstall',
             step2: '2º Passo: Instalar {{ name }}',
         },
