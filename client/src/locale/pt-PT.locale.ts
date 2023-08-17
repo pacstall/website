@@ -23,7 +23,7 @@ export default <Locale>{
         installationInstructions: 'Instruções de Instalação',
         showcase: {
             title: 'Demonstração',
-            packageSearch: 'Procurar pacotes',
+            packageSearch: 'Procurar Pacotes',
         },
     },
     navbar: {
