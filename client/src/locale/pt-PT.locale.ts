@@ -99,7 +99,7 @@ export default <Locale>{
             version: 'Versão',
             maintainer: 'Responsável',
             dependencies: 'Dependências',
-            requiredBy: 'Requerido por',
+            requiredBy: 'Requerido Por',
         },
         orphaned: 'Órfão',
         noResults: 'Nenhum',
