@@ -46,7 +46,7 @@ export default <Locale>{
             title: 'Navegar pelos pacotes',
         },
         privacy: {
-            title: 'Poliítica de privacidade',
+            title: 'Política de Privacidade',
         },
         install: 'Instalar',
     },
