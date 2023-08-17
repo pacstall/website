@@ -43,7 +43,7 @@ export default <Locale>{
             mastodon: 'Mastodon',
         },
         browse: {
-            title: 'Navegar pelos pacotes',
+            title: 'Navegar pelos Pacotes',
         },
         privacy: {
             title: 'Política de Privacidade',
