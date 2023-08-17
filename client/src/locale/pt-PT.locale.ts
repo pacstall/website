@@ -35,7 +35,7 @@ export default <Locale>{
             becomeAMaintainer: 'Torne-se um responsável de pacotes',
         },
         social: {
-            title: 'Redes sociais',
+            title: 'Redes Sociais',
             discord: 'Discord',
             matrix: 'Matrix',
             reddit: 'Reddit',
