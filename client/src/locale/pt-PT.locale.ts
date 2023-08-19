@@ -123,7 +123,7 @@ export default <Locale>{
             version: 'Versão',
         },
         requiredByModal: {
-            title: 'Requerido por',
+            title: 'Requerido Por',
             name: 'Nome',
             provider: 'Provedor',
             close: 'Fechar',
