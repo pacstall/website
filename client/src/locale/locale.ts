@@ -2,8 +2,8 @@ import { Resource } from 'i18next'
 import enLocale from './en-US.locale'
 import roLocale from './ro-RO.locale'
 import esLocale from './es-ES.locale'
-import ptLocale from './pt-BR.locale'
-import ptLocale from './pt-PT.locale'
+import ptbrLocale from './pt-BR.locale'
+import ptptLocale from './pt-PT.locale'
 import plLocale from './pl-PL.locale'
 import svLocale from './sv-SE.locale'
 import itLocale from './it-IT.locale'
@@ -146,10 +146,10 @@ export const translations = {
         translation: esLocale,
     },
     'pt-BR': {
-        translation: ptLocale,
+        translation: ptbrLocale,
     },
     'pt-PT': {
-        translation: ptLocale
+        translation: ptptLocale
     },
     'pl-PL': {
         translation: plLocale,
