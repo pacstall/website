@@ -6,7 +6,7 @@ export default <Locale>{
         subtitle: 'AUR dla Ubuntu',
         cards: {
             whyDifferent: {
-                title: 'Dlaczego różni się to od innych menedżerów pakietów',
+                title: 'Czym różni się to od innych menedżerów pakietów',
                 description:
                     'Pacstall korzysta ze stabilnej bazy Ubuntu, ale pozwala na użycie ' +
                     'najnowszego oprogramowania z niewielkimi lub zerowymi kompromisami, więc nie musisz ' +
@@ -69,7 +69,7 @@ export default <Locale>{
                 'Wyszukiwanie według nazw twórców i adresów e-mail',
         },
         table: {
-            name: 'Imie',
+            name: 'Nazwa',
             maintainer: 'Twórca',
             version: 'Wersja',
             install: 'Zainstaluj',
