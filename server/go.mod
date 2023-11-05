@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/fatih/color v1.15.0 // for colorizing output
-	github.com/gorilla/mux v1.8.0 // for http request routing
+	github.com/gorilla/mux v1.8.1 // for http request routing
 	github.com/hashicorp/go-version v1.6.0 // for version parsing
 )
 
