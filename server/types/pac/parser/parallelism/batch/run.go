@@ -3,6 +3,8 @@ package batch
 import (
 	"sync/atomic"
 	"time"
+
+	"pacstall.dev/webserver/log"
 )
 
 func Run[T any, E any](batchSize int, items []T, fn func(T) (E, error)) <-chan E {
@@ -18,6 +20,8 @@ func Run[T any, E any](batchSize int, items []T, fn func(T) (E, error)) <-chan E
 
 			if err == nil {
 				out <- result
+			} else {
+				log.Error("batch error: %+v", err)
 			}
 
 			atomic.AddInt32(&left, -1)

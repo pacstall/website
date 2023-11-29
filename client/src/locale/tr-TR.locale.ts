@@ -101,6 +101,7 @@ export default <Locale>{
             maintainer: 'Bakıcı',
             dependencies: 'Gereksinimler',
             requiredBy: 'Taradından gerekli',
+            lastUpdatedAt: 'Son güncelleme',
         },
         orphaned: 'Terk edilmiş',
         noResults: 'Hiçbirşey',
@@ -121,6 +122,7 @@ export default <Locale>{
             close: 'Kapat',
             provider: 'Sağlayıcı',
             noDescription: 'Açıklama mevcut değil',
+            version: 'Sürüm',
         },
         requiredByModal: {
             title: 'Tarafından Gerekli',

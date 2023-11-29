@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"pacstall.dev/webserver/types/list"
+	"pacstall.dev/webserver/types/array"
 )
 
 func cleanup() {
@@ -62,7 +62,7 @@ func Test_CreateTempDirectory_NoExisting(t *testing.T) {
 		}
 
 		statFileCalled += 1
-		name, _ := list.From(strings.Split(path, "/")).Last()
+		name, _ := array.Last(strings.Split(path, "/"))
 		return testFileInfo{
 			name:    name,
 			size:    0,
@@ -85,19 +85,19 @@ func Test_CreateTempDirectory_NoExisting(t *testing.T) {
 	err := CreateTempDirectory("/tmp")
 
 	if err != nil {
-		t.Errorf("Expected no error, got %v", err)
+		t.Errorf("expected no error, got %v", err)
 	}
 
 	if removeDirCalled != 1 {
-		t.Error("Expected removeAll to be called 1 time but was called", removeDirCalled)
+		t.Error("expected removeAll to be called 1 time but was called", removeDirCalled)
 	}
 
 	if makeDirCalled != 1 {
-		t.Error("Expected makeDir to be called 1 time but was called", makeDirCalled)
+		t.Error("expected makeDir to be called 1 time but was called", makeDirCalled)
 	}
 
 	if statFileCalled != 2 {
-		t.Error("Expected statFile to be called 2 times but was called", statFileCalled)
+		t.Error("expected statFile to be called 2 times but was called", statFileCalled)
 	}
 }
 
@@ -115,7 +115,7 @@ func Test_CreateTempDirectory_AlreadyExisting(t *testing.T) {
 		}
 
 		statFileCalled += 1
-		name, _ := list.From(strings.Split(path, "/")).Last()
+		name, _ := array.Last(strings.Split(path, "/"))
 		return testFileInfo{
 			name:    name,
 			size:    0,
@@ -138,18 +138,18 @@ func Test_CreateTempDirectory_AlreadyExisting(t *testing.T) {
 	err := CreateTempDirectory("/tmp")
 
 	if err != nil {
-		t.Errorf("Expected no error, got %v", err)
+		t.Errorf("expected no error, got %v", err)
 	}
 
 	if removeDirCalled != 0 {
-		t.Error("Expected removeAll to be called 0 times but was called", removeDirCalled)
+		t.Error("expected removeAll to be called 0 times but was called", removeDirCalled)
 	}
 
 	if makeDirCalled != 1 {
-		t.Error("Expected makeDir to be called 1 time but was called", makeDirCalled)
+		t.Error("expected makeDir to be called 1 time but was called", makeDirCalled)
 	}
 
 	if statFileCalled != 1 {
-		t.Error("Expected statFile to be called 2 times but was called", statFileCalled)
+		t.Error("expected statFile to be called 2 times but was called", statFileCalled)
 	}
 }

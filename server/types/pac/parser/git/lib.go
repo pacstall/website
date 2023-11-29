@@ -3,6 +3,8 @@ package git
 import (
 	"os"
 	"os/exec"
+
+	"github.com/joomcode/errorx"
 )
 
 func hardResetAndPull(path string) error {
@@ -13,7 +15,7 @@ func hardResetAndPull(path string) error {
 	}
 
 	// https://stackoverflow.com/a/41081908/13449010
-	cmd = exec.Command("git", "fetch", "--depth=1")
+	cmd = exec.Command("git", "fetch")
 	cmd.Dir = path
 	if err := cmd.Run(); err != nil {
 		return err
@@ -35,9 +37,9 @@ func hardResetAndPull(path string) error {
 }
 
 func clonePrograms(path, url string) error {
-	cmd := exec.Command("git", "clone", "--depth=1", url, path)
+	cmd := exec.Command("git", "clone", url, path)
 	if err := cmd.Run(); err != nil {
-		return err
+		return errorx.Decorate(err, "failed to run git clone command")
 	}
 
 	return nil
@@ -49,11 +51,11 @@ func RefreshPrograms(path, url string) error {
 	}
 
 	if err := os.RemoveAll(path); err != nil {
-		return err
+		return errorx.Decorate(err, "failed to remove directory '%v'", path)
 	}
 
 	if err := clonePrograms(path, url); err != nil {
-		return err
+		return errorx.Decorate(err, "failed to clone repository '%v'", url)
 	}
 
 	return nil

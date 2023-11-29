@@ -101,6 +101,7 @@ export default <Locale>{
             maintainer: 'Pemelihara',
             dependencies: 'Dependensi',
             requiredBy: 'Dibutuhkan oleh',
+            lastUpdatedAt: 'Diperbarui pada',
         },
         orphaned: 'Ditelantarkan',
         noResults: 'Tidak ditemukan',
@@ -121,6 +122,7 @@ export default <Locale>{
             close: 'Tutup',
             provider: 'Penyedia',
             noDescription: 'Deskripsi tidak tersedia',
+            version: 'Versi',
         },
         requiredByModal: {
             title: 'Disediakan oleh',

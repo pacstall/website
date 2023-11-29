@@ -102,6 +102,7 @@ export default <Locale>{
             maintainer: 'Twórca',
             dependencies: 'Zależności',
             requiredBy: 'Wymagany przez',
+            lastUpdatedAt: 'Ostatnio zaktualizowany',
         },
         orphaned: 'Nie utrzymywany',
         noResults: 'Brak',
@@ -122,6 +123,7 @@ export default <Locale>{
             close: 'Zamknij',
             provider: 'Dostawca',
             noDescription: 'Brak opisu',
+            version: 'Wersja',
         },
         requiredByModal: {
             title: 'Wymagany przez',

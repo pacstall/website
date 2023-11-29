@@ -11,12 +11,12 @@ func ScheduleRefresh(every time.Duration) {
 	go func() {
 		for {
 			db := model.Instance()
-			log.Info("Refreshing Repology database...")
+			log.Info("refreshing Repology database...")
 			err := ExportRepologyDatabase(db)
 			if err != nil {
-				log.Error("Failed to export Repology projects: %v", err)
+				log.Error("failed to export Repology projects: %v", err)
 			} else {
-				log.Info("Repology database refreshed successfully")
+				log.Info("repology database refreshed successfully")
 			}
 
 			time.Sleep(every)

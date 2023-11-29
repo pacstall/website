@@ -7,6 +7,7 @@ import (
 	"github.com/gorilla/mux"
 	"pacstall.dev/webserver/log"
 	"pacstall.dev/webserver/server"
+	"pacstall.dev/webserver/types/array"
 	"pacstall.dev/webserver/types/pac"
 	"pacstall.dev/webserver/types/pac/pacstore"
 )
@@ -35,7 +36,10 @@ func GetPacscriptDependenciesHandle(w http.ResponseWriter, req *http.Request) {
 
 	allPacscripts := pacstore.GetAll()
 
-	pacpkg, err := allPacscripts.FindByName(name)
+	pacpkg, err := array.FindBy(allPacscripts, func(s *pac.Script) bool {
+		return s.Name == name
+	})
+
 	if err != nil {
 		w.WriteHeader(404)
 		return
@@ -43,10 +47,10 @@ func GetPacscriptDependenciesHandle(w http.ResponseWriter, req *http.Request) {
 
 	pacstallDependencies := make([]*pac.Script, 0)
 	for _, pkg := range pacpkg.PacstallDependencies {
-		if found, err := pacstore.GetAll().FindBy(func(pi *pac.Script) bool { return pkg == pi.Name }); err == nil {
+		if found, err := array.FindBy(allPacscripts, func(pi *pac.Script) bool { return pkg == pi.Name }); err == nil {
 			pacstallDependencies = append(pacstallDependencies, found)
 		} else {
-			log.Error("Could not find pacstall dependency %s of package %s.\n", pkg, pacpkg.Name)
+			log.Error("could not find pacstall dependency %s of package %s.\n", pkg, pacpkg.Name)
 		}
 	}
 

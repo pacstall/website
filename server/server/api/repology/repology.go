@@ -5,15 +5,17 @@ import (
 	"net/http"
 
 	"pacstall.dev/webserver/server"
-	"pacstall.dev/webserver/types/list"
+	"pacstall.dev/webserver/types/array"
 	"pacstall.dev/webserver/types/pac"
 	"pacstall.dev/webserver/types/pac/pacstore"
 )
 
 func GetRepologyPackageListHandle(w http.ResponseWriter, req *http.Request) {
-	packages := pacstore.GetAll().Filter(func(s *pac.Script) bool {
-		return len(s.Version) > 0
-	}).ToSlice()
+	packages := pacstore.GetAll()
+
+	packages = array.Filter(packages, func(it *array.Iterator[*pac.Script]) bool {
+		return len(it.Value.Version) > 0
+	})
 
 	etag := fmt.Sprintf("%v", pacstore.LastModified().UTC().String())
 	if server.ApplyHeaders(etag, w, req) {
@@ -21,8 +23,8 @@ func GetRepologyPackageListHandle(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	results := list.Map(packages, func(_ int, p *pac.Script) repologyPackage {
-		return newRepologyPackage(*p)
+	results := array.SwitchMap(packages, func(it *array.Iterator[*pac.Script]) repologyPackage {
+		return newRepologyPackage(it.Value)
 	})
 
 	server.Json(w, results)

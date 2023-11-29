@@ -101,6 +101,7 @@ export default <Locale>{
             maintainer: 'Menținut de',
             dependencies: 'Dependențe',
             requiredBy: 'Necesar pentru',
+            lastUpdatedAt: 'Ultima actualizare',
         },
         orphaned: 'Nemenținut',
         noResults: 'Fără',
@@ -121,6 +122,7 @@ export default <Locale>{
             close: 'Închide',
             provider: 'Furnizor',
             noDescription: 'Nu există o descriere disponibilă',
+            version: 'Versiune',
         },
         requiredByModal: {
             title: 'Necesar pentru',
