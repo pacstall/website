@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"path"
 
+	"github.com/joomcode/errorx"
 	"pacstall.dev/webserver/log"
 )
 
@@ -19,8 +20,7 @@ func createTempExecutable(dirPath, fileName string, content []byte) (string, err
 	tmpFile, err := createFile(joinPaths(dirPath, fileName))
 
 	if err != nil {
-		log.Error("Failed to create temporary file '%v' in dir '%v'", fileName, dirPath)
-		return "", err
+		return "", errorx.Decorate(err, "failed to create temporary file '%v' in dir '%v'", fileName, dirPath)
 	}
 	defer tmpFile.Close()
 	tmpPath := tmpFile.Name()
@@ -29,18 +29,16 @@ func createTempExecutable(dirPath, fileName string, content []byte) (string, err
 		cmd := execCommand("chmod", "+rwx", fileName)
 		cmd.Dir = dirPath
 		if err := cmd.Run(); err != nil {
-			log.Error("Failed to chmod temporary file '%v' in dir '%v'", fileName, dirPath)
+			log.Error("%+v", errorx.Decorate(err, "failed to chmod temporary file '%v' in dir '%v'", fileName, dirPath))
 		}
 	}()
 
 	if _, err = tmpFile.Write([]byte(content)); err != nil {
-		log.Error("Failed to write to file '%v'\n%v", tmpPath, err)
-		return "", err
+		return "", errorx.Decorate(err, "failed to write to file '%v'", tmpPath)
 	}
 
 	if err := tmpFile.Chmod(fs.FileMode(int(0777))); err != nil {
-		log.Error("Failed to chmod file '%v'\n%v", tmpPath, err)
-		return "", err
+		return "", errorx.Decorate(err, "failed to chmod file '%v'", tmpPath)
 	}
 
 	return tmpPath, nil

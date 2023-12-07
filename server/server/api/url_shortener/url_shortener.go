@@ -84,6 +84,6 @@ func pingMatomoTracker(user, userAgent, urlRef, link string) {
 
 	err := matomo.Send(params)
 	if err != nil {
-		log.Warn("Failed to ping matomo tracker: %s", err)
+		log.Warn("failed to ping matomo tracker: %s", err)
 	}
 }

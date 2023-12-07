@@ -59,24 +59,24 @@ func main() {
 	printLogo()
 
 	setupRequests()
-	log.Info("Registered http requests")
+	log.Info("registered http requests")
 
-	log.Info("Attempting to start TCP listener")
+	log.Info("attempting to start TCP listener")
 
 	server.OnServerOnline(func() {
-		log.NotifyCustom("🚀 Startup 🧑‍🚀", "Successfully started up.")
-		log.Info("Server is now online on port %v.\n", config.Port)
+		log.NotifyCustom("🚀 Startup 🧑‍🚀", "successfully started up.")
+		log.Info("server is now online on port %v.\n", config.Port)
 
-		log.Info("Booted in %v\n", color.GreenString("%v", time.Since(startedAt)))
+		log.Info("booted in %v\n", color.GreenString("%v", time.Since(startedAt)))
 
 		parser.ScheduleRefresh(config.UpdateInterval)
-		log.Info("Scheduled pacscripts to auto-refresh every %v", config.UpdateInterval)
+		log.Info("scheduled pacscripts to auto-refresh every %v", config.UpdateInterval)
 
 		if config.Repology.Enabled {
 			repology.ScheduleRefresh(config.RepologyUpdateInterval)
-			log.Info("Scheduled repology to auto-refresh every %v", config.RepologyUpdateInterval)
+			log.Info("scheduled repology to auto-refresh every %v", config.RepologyUpdateInterval)
 		} else {
-			log.Warn("Repology is disabled. Pacstall will not be able to fetch package data from Repology.")
+			log.Warn("repository repology is disabled")
 		}
 	})
 

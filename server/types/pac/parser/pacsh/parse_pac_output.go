@@ -1,10 +1,10 @@
 package pacsh
 
 import (
-	"fmt"
 	"strings"
 
-	"pacstall.dev/webserver/types/list"
+	"github.com/joomcode/errorx"
+	"pacstall.dev/webserver/types/array"
 	"pacstall.dev/webserver/types/pac"
 )
 
@@ -34,15 +34,20 @@ const (
 )
 
 func parseSubcategory(category string) []string {
-	return list.From(strings.Split(category, "+  +++")).Map(func(s string) string {
-		return strings.TrimSpace(s)
-	}).Filter(list.Not(""))
+	subcategories := strings.Split(category, "+  +++")
+	for i, subcategory := range subcategories {
+		subcategories[i] = strings.TrimSpace(subcategory)
+	}
+
+	return array.Filter(subcategories, func(it *array.Iterator[string]) bool {
+		return len(it.Value) > 0
+	})
 }
 
 func parseOutput(data []byte) (out pac.Script, err error) {
 	content := string(data)
 
-	categories := list.From(strings.Split(content, "++++")).Map(func(s string) string { return strings.TrimSpace(s) }).ToSlice()[1:]
+	categories := array.Map(strings.Split(content, "++++"), func(it *array.Iterator[string]) string { return strings.TrimSpace(it.Value) })[1:]
 	name := categories[nameIdx]
 	packageName := categories[pkgnameIdx]
 	maintainer := categories[maintainerIdx]
@@ -70,7 +75,7 @@ func parseOutput(data []byte) (out pac.Script, err error) {
 		if strings.HasSuffix(name, "-git") {
 			version = "git"
 		} else {
-			return out, fmt.Errorf("version is empty")
+			return out, errorx.IllegalArgument.New("expected version to be non-empty but got: %v", version)
 		}
 	}
 

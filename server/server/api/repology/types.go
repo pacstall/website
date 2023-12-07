@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"pacstall.dev/webserver/consts"
 	"pacstall.dev/webserver/types/pac"
 )
 
@@ -25,7 +26,7 @@ type repologyPackage struct {
 	Patches           []string          `json:"patches"`
 }
 
-func newRepologyPackage(p pac.Script) repologyPackage {
+func newRepologyPackage(p *pac.Script) repologyPackage {
 	return repologyPackage{
 		Name:              p.Name,
 		VisibleName:       p.PrettyName,
@@ -34,7 +35,7 @@ func newRepologyPackage(p pac.Script) repologyPackage {
 		Version:           p.Version,
 		URL:               p.URL,
 		Type:              getType(p),
-		RecipeURL:         fmt.Sprintf("https://raw.githubusercontent.com/pacstall/pacstall-programs/master/packages/%s/%s.pacscript", p.Name, p.Name),
+		RecipeURL:         fmt.Sprintf("https://raw.githubusercontent.com/pacstall/pacstall-programs/master/packages/%s/%s.%s", p.Name, p.Name, consts.PACSCRIPT_FILE_EXTENSION),
 		PackageDetailsURL: fmt.Sprintf("https://pacstall.dev/packages/%s", p.Name),
 		Patches:           p.Patch,
 	}
@@ -47,7 +48,7 @@ var pacTypes = map[string]string{
 	"-app": "AppImage",
 }
 
-func getMaintainer(p pac.Script) maintainerDetails {
+func getMaintainer(p *pac.Script) maintainerDetails {
 	if !strings.Contains(p.Maintainer, "<") {
 		return maintainerDetails{
 			Name: &p.Maintainer,
@@ -64,7 +65,7 @@ func getMaintainer(p pac.Script) maintainerDetails {
 	}
 }
 
-func getType(p pac.Script) string {
+func getType(p *pac.Script) string {
 	for suffix, kind := range pacTypes {
 		if strings.HasSuffix(p.Name, suffix) {
 			return kind

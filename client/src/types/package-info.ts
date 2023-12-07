@@ -19,6 +19,7 @@ export default interface PackageInfo {
     latestVersion?: string
     prettyName: string
     updateStatus: UpdateStatus
+    lastUpdatedAt: string
 }
 
 export enum UpdateStatus {

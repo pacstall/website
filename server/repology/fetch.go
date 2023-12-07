@@ -1,12 +1,12 @@
 package repology
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 
+	"github.com/joomcode/errorx"
 	"pacstall.dev/webserver/model"
-	"pacstall.dev/webserver/types/list"
+	"pacstall.dev/webserver/types/array"
 )
 
 func parseRepologyFilter(filter string) (string, string) {
@@ -30,7 +30,7 @@ func findRepologyProject(search []string) (model.RepologyProjectProvider, error)
 	var result model.RepologyProjectProvider
 
 	if len(search) == 0 {
-		return result, fmt.Errorf("no search terms provided")
+		return result, errorx.IllegalArgument.New("no search terms provided")
 	}
 
 	db := model.Instance()
@@ -41,7 +41,7 @@ func findRepologyProject(search []string) (model.RepologyProjectProvider, error)
 		filterName, filterValue := parseRepologyFilter(filter)
 		column, ok := repologyFilterToColumn[filterName]
 		if !ok {
-			return result, fmt.Errorf("invalid filter '%v'", filterName)
+			return result, errorx.IllegalArgument.New("invalid filter '%v'", filterName)
 		}
 
 		query = query.Where(fmt.Sprintf("%v = ?", column), filterValue)
@@ -49,7 +49,7 @@ func findRepologyProject(search []string) (model.RepologyProjectProvider, error)
 
 	var results []model.RepologyProjectProvider
 	if err := query.Order("version desc").Find(&results).Error; err != nil || len(results) == 0 {
-		return result, errors.Join(errors.New("failed to fetch repology project"), err)
+		return result, errorx.Decorate(err, "failed to fetch repology project")
 	}
 
 	results = sortByStatus(results)
@@ -72,7 +72,7 @@ var repologyStatusPriority = map[string]int{
 }
 
 func sortByStatus(projects []model.RepologyProjectProvider) []model.RepologyProjectProvider {
-	return list.From(projects).SortBy(func(p1, p2 model.RepologyProjectProvider) bool {
+	return array.SortBy(array.Clone(projects), func(p1, p2 model.RepologyProjectProvider) bool {
 		return repologyStatusPriority[p1.Status] < repologyStatusPriority[p2.Status]
-	}).ToSlice()
+	})
 }

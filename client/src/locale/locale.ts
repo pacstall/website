@@ -103,6 +103,7 @@ export default interface Locale {
             maintainer: string
             dependencies: string
             requiredBy: string
+            lastUpdatedAt: string
         }
         noResults: string
         orphaned: string

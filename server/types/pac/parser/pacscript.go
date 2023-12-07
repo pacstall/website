@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"pacstall.dev/webserver/types/list"
+	"pacstall.dev/webserver/types/array"
 	"pacstall.dev/webserver/types/pac"
 	"pacstall.dev/webserver/types/pac/parser/pacsh"
 )
@@ -62,17 +62,16 @@ fi
 	return []byte(script)
 }
 
-func computeRequiredBy(script pac.Script, scripts list.List[*pac.Script]) *pac.Script {
-	pickBeforeColon := func(line string) string {
-		return strings.Split(line, ": ")[0]
+func computeRequiredBy(script *pac.Script, scripts []*pac.Script) {
+	pickBeforeColon := func(it *array.Iterator[string]) string {
+		return strings.Split(it.Value, ": ")[0]
 	}
 
-	script.RequiredBy = list.Map(
-		scripts.Filter(func(s *pac.Script) bool {
-			return list.From(s.PacstallDependencies).Map(pickBeforeColon).Contains(list.Is(script.Name))
-		}), func(_ int, s *pac.Script) string {
-			return s.Name
-		})
-
-	return &script
+	script.RequiredBy = make([]string, 0)
+	for _, otherScript := range scripts {
+		otherScriptDependencies := array.Map(otherScript.PacstallDependencies, pickBeforeColon)
+		if array.Contains(otherScriptDependencies, array.Is(script.Name)) {
+			script.RequiredBy = append(script.RequiredBy, otherScript.Name)
+		}
+	}
 }

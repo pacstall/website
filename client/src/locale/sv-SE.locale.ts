@@ -101,6 +101,7 @@ export default <Locale>{
             maintainer: 'Underhållare',
             dependencies: 'Beroenden',
             requiredBy: 'Krävs av',
+            lastUpdatedAt: 'Senast uppdaterad',
         },
         orphaned: 'Oandvänd',
         noResults: 'Inga resultat',
@@ -121,6 +122,7 @@ export default <Locale>{
             close: 'Stäng',
             provider: 'Leverantör',
             noDescription: 'Ingen beskrivning finns',
+            version: 'Version',
         },
         requiredByModal: {
             title: 'Krävs av',
