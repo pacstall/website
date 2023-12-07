@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path"
+	"strconv"
 	"strings"
 	"time"
 
@@ -29,7 +30,7 @@ func getPackageLastUpdatedTuples() ([]packageLastUpdatedTuple, error) {
 	programsPath := path.Join(wordingDirectoryAbsolute, config.GitClonePath)
 	script := fmt.Sprintf(`
 	cd %v
-	for i in ./packages/*/*.%s; do echo $i; git log -1 --pretty=\"%%as\" $i; done
+	for i in ./packages/*/*.%s; do echo $i; git log -1 --pretty=\"%%at\" $i; done
 	`, programsPath, consts.PACSCRIPT_FILE_EXTENSION)
 
 	outputBytes, err := pacsh.ExecBash(programsPath, "last_updated.sh", []byte(script))
@@ -44,7 +45,10 @@ func getPackageLastUpdatedTuples() ([]packageLastUpdatedTuple, error) {
 
 	for i := 0; i < len(lines)-1; i += 2 {
 		packagePath := lines[i]
-		lastUpdatedString := lines[i+1]
+		lastUpdatedString := lines[i+1] // Unix time
+
+		// Remove quotes
+		lastUpdatedString = lastUpdatedString[1 : len(lastUpdatedString) - 1]
 
 		packageNameWithExtension := path.Base(packagePath)
 		packageName := strings.TrimSuffix(packageNameWithExtension, "."+consts.PACSCRIPT_FILE_EXTENSION)
@@ -53,10 +57,12 @@ func getPackageLastUpdatedTuples() ([]packageLastUpdatedTuple, error) {
 			return nil, errorx.IllegalState.New("failed to parse package name from package path '%v'", packagePath)
 		}
 
-		lastUpdated, err := time.Parse("\"2006-01-02\"", lastUpdatedString)
+		lastUpdatedUnixTime, err := strconv.ParseInt(lastUpdatedString, 10, 64)
 		if err != nil {
-			return nil, errorx.Decorate(err, "failed to parse last updated time for package '%v'", packagePath)
+			return nil, errorx.Decorate(err, "failed to parse '%v' as int64", lastUpdatedString)
 		}
+
+		lastUpdated := time.Unix(lastUpdatedUnixTime, 0).UTC()
 
 		if lastUpdated.Year() < 2000 {
 			return nil, errorx.IllegalState.New("failed to parse last updated time for package '%v'. Given date is %v", packagePath, lastUpdatedString)
