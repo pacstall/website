@@ -33,6 +33,8 @@ const Entry: FC<{
     </>
 )
 
+const UNKNOWN_DATE_SENTINEL = '0001-01-01T00:00:00Z'
+
 const PackageDetailsTable: FC<{
     data: PackageInfo
     dependencyCount: number
@@ -60,6 +62,14 @@ const PackageDetailsTable: FC<{
 
                 <Entry header={t('packageDetails.table.maintainer')}>
                     <PackageDetailsMaintainer text={data.maintainer} />
+                </Entry>
+
+                <Entry header={t('packageDetails.table.lastUpdatedAt')}>
+                    {data.lastUpdatedAt === UNKNOWN_DATE_SENTINEL
+                        ? '-'
+                        : new Intl.DateTimeFormat().format(
+                              new Date(data.lastUpdatedAt),
+                          )}
                 </Entry>
 
                 <Entry header={t('packageDetails.table.dependencies')}>

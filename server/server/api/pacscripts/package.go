@@ -6,6 +6,8 @@ import (
 
 	"github.com/gorilla/mux"
 	"pacstall.dev/webserver/server"
+	"pacstall.dev/webserver/types/array"
+	"pacstall.dev/webserver/types/pac"
 	"pacstall.dev/webserver/types/pac/pacstore"
 )
 
@@ -21,7 +23,10 @@ func GetPacscriptHandle(w http.ResponseWriter, req *http.Request) {
 		return // req is cached
 	}
 
-	pkg, err := pacstore.GetAll().FindByName(name)
+	pkg, err := array.FindBy(pacstore.GetAll(), func(s *pac.Script) bool {
+		return s.Name == name
+	})
+
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		return

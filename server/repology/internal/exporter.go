@@ -23,7 +23,7 @@ func ExportRepologyDatabase(db *gorm.DB) error {
 		delay := makeSecondDelay()
 		defer delay.Wait()
 
-		log.Debug("Page %v | Cursor at: %v", it, lastProjectName)
+		log.Debug("page %v | cursor at: %v", it, lastProjectName)
 		projectPage, err := getProjectSearch(lastProjectName)
 		if err != nil {
 			return errors.Join(errors.New("failed to fetch repology project page"), err)

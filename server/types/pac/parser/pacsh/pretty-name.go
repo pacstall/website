@@ -3,7 +3,6 @@ package pacsh
 import (
 	"strings"
 
-	"pacstall.dev/webserver/types/list"
 	"pacstall.dev/webserver/types/pac"
 )
 
@@ -31,12 +30,14 @@ func getPrettyName(p pac.Script) string {
 }
 
 func titleCase(s string) string {
-	out := list.Reduce(strings.Split(s, "-"), func(word string, acc string) string {
-		if acc != "" {
-			acc += " "
+	title := ""
+	for _, word := range strings.Split(s, "-") {
+		if title != "" {
+			title += " "
 		}
-		return acc + strings.ToUpper(word[:1]) + strings.ToLower(word[1:])
-	}, "")
 
-	return out
+		title += strings.ToUpper(word[:1]) + strings.ToLower(word[1:])
+	}
+
+	return title
 }

@@ -101,6 +101,7 @@ export default <Locale>{
             maintainer: 'Mantenitore',
             dependencies: 'Dipendenze',
             requiredBy: 'Richiesto da',
+            lastUpdatedAt: 'Ultimo aggiornamento',
         },
         orphaned: 'Orfano',
         noResults: 'Nessuno',
@@ -121,6 +122,7 @@ export default <Locale>{
             close: 'Chiudi',
             provider: 'Fornitore',
             noDescription: 'Nessuna descrizione disponibile',
+            version: 'Versione',
         },
         requiredByModal: {
             title: 'Richiesto da',

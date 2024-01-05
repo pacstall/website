@@ -7,14 +7,21 @@ import (
 )
 
 func ScheduleRefresh(every time.Duration) {
-	go func() {
-		for {
-			err := ParseAll()
-			if err != nil {
-				log.Error("Failed to parse pacscripts: %v", err)
-			}
+	go refresh(every)
+}
 
-			time.Sleep(every)
+func refresh(every time.Duration) {
+	for {
+		err := ParseAll()
+		if err != nil {
+			log.Error("parse error: %+v", err)
+
+			retryIn := time.Second * 30
+			log.Info("retrying in %v", retryIn)
+			time.Sleep(retryIn)
+			continue
 		}
-	}()
+
+		time.Sleep(every)
+	}
 }

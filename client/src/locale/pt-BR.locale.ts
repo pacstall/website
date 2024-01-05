@@ -100,6 +100,7 @@ export default <Locale>{
             maintainer: 'Mantenedor',
             dependencies: 'Dependências',
             requiredBy: 'Requerido Por',
+            lastUpdatedAt: 'Última Atualização',
         },
         orphaned: 'Órfão',
         noResults: 'Nenhum',

@@ -38,7 +38,7 @@ func generateStaticSiteMap() []SitemapEntry {
 }
 
 func generateDynamicSiteMap() []SitemapEntry {
-	packages := pacstore.GetAll().ToSlice()
+	packages := pacstore.GetAll()
 	entries := make([]SitemapEntry, len(packages))
 
 	for idx, pkg := range packages {

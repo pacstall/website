@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"pacstall.dev/webserver/types/list"
+	"pacstall.dev/webserver/types/array"
 	"pacstall.dev/webserver/types/pac/parser/parallelism/batch"
 	"pacstall.dev/webserver/types/pac/parser/parallelism/channels"
 )
@@ -22,7 +22,7 @@ func Test_Batch_Run(t *testing.T) {
 		return item, nil
 	})
 
-	if channels.ToList(out).SortBy(list.Asc[int]()).Equals(items, list.Eq[int]()) == false {
-		t.Error("Expected results to be sorted")
+	if array.Equals(array.SortBy(channels.ToSlice(out), array.Asc[int]()), items, array.Eq[int]()) == false {
+		t.Error("expected results to be sorted")
 	}
 }

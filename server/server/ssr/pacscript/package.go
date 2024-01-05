@@ -4,7 +4,10 @@ import (
 	"fmt"
 	"regexp"
 
+	"pacstall.dev/webserver/consts"
 	r "pacstall.dev/webserver/server/ssr"
+	"pacstall.dev/webserver/types/array"
+	"pacstall.dev/webserver/types/pac"
 	"pacstall.dev/webserver/types/pac/pacstore"
 )
 
@@ -14,7 +17,10 @@ func registerPacscriptSSRData() {
 		func(path string, groups []string) r.IndexTemplateData {
 			name := groups[1]
 
-			pkg, err := pacstore.GetAll().FindByName(name)
+			pkg, err := array.FindBy(pacstore.GetAll(), func(s *pac.Script) bool {
+				return s.Name == name
+			})
+
 			if err != nil {
 				return r.GenerateDefaultIndexTemplateData()
 			}
@@ -38,13 +44,13 @@ func registerPacscriptSSRData() {
 						<h3>Maintainer: %s</h3>
 						<h3>Version: %s</h3>
 						<h3><a href="%s">URL</a></h3>
-						<h3><a href="https://github.com/pacstall/pacstall-programs/blob/master/packages/%s/%s.pacscript">Source</a></h3>
+						<h3><a href="https://github.com/pacstall/pacstall-programs/blob/master/packages/%s/%s.%s">Source</a></h3>
 					</article>
 
 					<button>Install now!</button>
 					<p>Find similar packages <a href="/packages?page=0&size=25&sortBy=default&sort=asc&filter=%s&filterBy=name">here</a>.</p>
 				</main>
-			`, pkg.Name, pkg.Name, pkg.Description, pkg.Maintainer, pkg.Version, pkg.URL, pkg.Name, pkg.Name, pkg.PackageName),
+			`, pkg.Name, pkg.Name, pkg.Description, pkg.Maintainer, pkg.Version, pkg.URL, pkg.Name, pkg.Name, consts.PACSCRIPT_FILE_EXTENSION, pkg.PackageName),
 			}
 		},
 	)
