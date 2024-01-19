@@ -3,7 +3,7 @@ package internal
 import (
 	"errors"
 	"fmt"
-	"sync"
+	"strings"
 	"time"
 
 	"gorm.io/gorm"
@@ -19,9 +19,15 @@ func ExportRepologyDatabase(db *gorm.DB) error {
 
 	it := 1
 	lastProjectName := ""
+
+	const REPOLOGY_PROJECT_FETCH_THROTTLE = 400 * time.Millisecond
+
+	lastRepoFetch := time.Now()
+
 	for {
-		delay := makeSecondDelay()
-		defer delay.Wait()
+		if time.Since(lastRepoFetch) < REPOLOGY_PROJECT_FETCH_THROTTLE {
+			time.Sleep(REPOLOGY_PROJECT_FETCH_THROTTLE - time.Since(lastRepoFetch))
+		}
 
 		log.Debug("page %v | cursor at: %v", it, lastProjectName)
 		projectPage, err := getProjectSearch(lastProjectName)
@@ -29,10 +35,13 @@ func ExportRepologyDatabase(db *gorm.DB) error {
 			return errors.Join(errors.New("failed to fetch repology project page"), err)
 		}
 
-		var projectProviders []model.RepologyProjectProvider
+		lastRepoFetch = time.Now()
+
 		var projects []model.RepologyProject
+		var projectProviders []model.RepologyProjectProvider
 		for projectName, apiProjectProvider := range projectPage {
-			lastProjectName = projectName
+
+			lastProjectName = identityOrSkipProject(projectName)
 			for _, apiProjectProvider := range apiProjectProvider {
 				// Save project provider as inactive
 				projectProvider := mapRepologyApiProjectProviderToModel(projectName, apiProjectProvider)
@@ -64,12 +73,12 @@ func ExportRepologyDatabase(db *gorm.DB) error {
 	}
 
 	// Delete active (old) repology project providers
-	if err := db.Where(fmt.Sprintf("%v = ?", model.RepologyProjectProviderColumns.Active), true).Delete(&model.RepologyProjectProvider{}).Error; err != nil {
+	if err := db.Debug().Where(fmt.Sprintf("%v = ?", model.RepologyProjectProviderColumns.Active), true).Delete(&model.RepologyProjectProvider{}).Error; err != nil {
 		return errors.Join(errors.New("failed to delete old repology project providers"), err)
 	}
 
 	// Mark new repology project providers as active
-	if err := db.Exec(
+	if err := db.Debug().Exec(
 		fmt.Sprintf(
 			"UPDATE %s SET %s = 1",
 			model.RepologyProjectProviderTableName,
@@ -82,9 +91,39 @@ func ExportRepologyDatabase(db *gorm.DB) error {
 	return nil
 }
 
+var projectNamesToSkipToNextCussor = map[string]string{
+	"emacs:":   "emacsa",
+	"go:":      "goa",
+	"haskell:": "haskella",
+	"lisp:":    "lispa",
+	"node:":    "nodea",
+	"ocaml:":   "ocamla",
+	"perl:":    "perla",
+	"php:":     "phpa",
+	"python:":  "pythona",
+	"r:":       "ra",
+	"ruby:":    "rubya",
+	"rust:":    "rusta",
+	"texlive:": "texlivea",
+}
+
+func identityOrSkipProject(name string) string {
+	for prefix, skipTo := range projectNamesToSkipToNextCussor {
+		if strings.HasPrefix(name, prefix) {
+			return skipTo
+		}
+	}
+
+	return name
+}
+
 func migrateTables(db *gorm.DB) error {
 	err := db.AutoMigrate(&model.RepologyProject{})
 	if err != nil {
+		return err
+	}
+
+	if err = truncateTable(db, model.RepologyProjectTableName); err != nil {
 		return err
 	}
 
@@ -93,21 +132,22 @@ func migrateTables(db *gorm.DB) error {
 		return err
 	}
 
+	if err = truncateTable(db, model.RepologyProjectProviderTableName); err != nil {
+		return err
+	}
+
 	return nil
 }
 
-func makeSecondDelay() *sync.WaitGroup {
-	var delay sync.WaitGroup
-	delay.Add(1)
+func truncateTable(db *gorm.DB, tableName string) error {
+	log.Debug("attempting to truncate table %v", tableName)
+	err := db.Exec("TRUNCATE TABLE " + tableName).Error
+	if err != nil {
+		return errors.Join(fmt.Errorf("failed to truncate table %v", tableName), err)
+	}
 
-	go func() {
-		defer delay.Done()
-		// Wait 750ms before making another request
-		// Repology API has a rate limit of 1 request per second but some requests take longer than 1 second so it averages out
-		time.Sleep(750 * time.Millisecond)
-	}()
-
-	return &delay
+	log.Info("successfully truncated table %v", tableName)
+	return nil
 }
 
 func mapRepologyApiProjectProviderToModel(projectName string, apiProjectProvider RepologyApiProject) model.RepologyProjectProvider {

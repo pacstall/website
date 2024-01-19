@@ -2,7 +2,7 @@ package internal
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 )
@@ -26,7 +26,7 @@ func getProjectSearch(projectName string) (RepologyApiProjectSearchResponse, err
 		return response, err
 	}
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return response, err
 	}

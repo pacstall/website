@@ -1,5 +1,7 @@
 package model
 
+const RepologyProjectTableName = "repology_projects"
+
 type RepologyProject struct {
 	Name string `gorm:"primaryKey"`
 }
