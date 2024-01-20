@@ -8,9 +8,10 @@ import (
 )
 
 func ScheduleRefresh(every time.Duration) {
+	db := model.Instance()
 	go func() {
+
 		for {
-			db := model.Instance()
 			log.Info("refreshing Repology database...")
 			err := ExportRepologyDatabase(db)
 			if err != nil {
@@ -18,7 +19,6 @@ func ScheduleRefresh(every time.Duration) {
 			} else {
 				log.Info("repology database refreshed successfully")
 			}
-
 			time.Sleep(every)
 		}
 	}()
