@@ -1,4 +1,5 @@
 import { Resource } from 'i18next'
+import bnLocale from './bn-IN.locale'
 import enLocale from './en-US.locale'
 import roLocale from './ro-RO.locale'
 import esLocale from './es-ES.locale'
@@ -137,6 +138,9 @@ export default interface Locale {
 }
 
 export const translations = {
+    'bn-IN': {
+        translation: bnLocale,
+    },
     'en-US': {
         translation: enLocale,
     },
@@ -197,6 +201,7 @@ export const localeNumericDisplay = {
 
 export const localeFlags: Record<keyof typeof translations, string> = {
     'en-US': 'US 🇺🇸',
+    'bn-IN': 'BN 🇮🇳',
     'de-DE': 'DE 🇩🇪',
     'es-ES': 'ES 🇪🇸',
     'fr-FR': 'FR 🇫🇷',
