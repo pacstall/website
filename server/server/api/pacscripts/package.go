@@ -24,7 +24,7 @@ func GetPacscriptHandle(w http.ResponseWriter, req *http.Request) {
 	}
 
 	pkg, err := array.FindBy(pacstore.GetAll(), func(s *pac.Script) bool {
-		return s.Name == name
+		return s.PackageName == name
 	})
 
 	if err != nil {

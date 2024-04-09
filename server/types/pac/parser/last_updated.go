@@ -48,7 +48,7 @@ func getPackageLastUpdatedTuples() ([]packageLastUpdatedTuple, error) {
 		lastUpdatedString := lines[i+1] // Unix time
 
 		// Remove quotes
-		lastUpdatedString = lastUpdatedString[1 : len(lastUpdatedString) - 1]
+		lastUpdatedString = lastUpdatedString[1 : len(lastUpdatedString)-1]
 
 		packageNameWithExtension := path.Base(packagePath)
 		packageName := strings.TrimSuffix(packageNameWithExtension, "."+consts.PACSCRIPT_FILE_EXTENSION)
@@ -85,7 +85,7 @@ func setLastUpdatedAt(packages []*pac.Script) error {
 
 	packages = array.Clone(packages)
 	packages = array.SortBy(packages, func(s1, s2 *pac.Script) bool {
-		return s1.Name < s2.Name
+		return s1.PackageName < s2.PackageName
 	})
 
 	lastUpdatedTuples = array.SortBy(lastUpdatedTuples, func(t1, t2 packageLastUpdatedTuple) bool {

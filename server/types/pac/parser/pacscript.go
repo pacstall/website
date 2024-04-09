@@ -30,34 +30,25 @@ func buildCustomFormatScript(header []byte) []byte {
 	// TODO: remove after `preinstall` gets implemented
 	script := removeDebianCheck(string(header)) + "\n"
 
-	categoryToken := `++++`
-	subcategoryToken := `+  +++`
-
-	script = script + "echo ''\n"
-
-	for _, bashName := range pacsh.PacstallCVars {
+	script += "echo ''\n"
+	for _, bashName := range pacsh.PacscriptVars {
 		// If the variable is a function, then we replace it with the output of the function
 		script += fmt.Sprintf(`
 if [[ "$(declare -F -p %v)" ]]; then
 	%v=$(%v)
 fi
 `, bashName, bashName, bashName)
-		script += fmt.Sprintf("echo \"%s $%v\"", categoryToken, bashName) + "\n"
 	}
 
-	for _, bashName := range pacsh.PacstallCArrays {
-		script += fmt.Sprintf("echo \"%s $%v\"", categoryToken, bashName) + "\n"
+	script = script + "\njo -p -- "
+
+	for _, bashName := range pacsh.PacscriptVars {
+		script += fmt.Sprintf("-s %v=\"$%v\" ", bashName, bashName)
 	}
 
-	mapsPartialScript := make([]string, 0)
-	for _, bashName := range pacsh.PacstallCMaps {
-		partial := "echo " + categoryToken + "\n"
-
-		partial += fmt.Sprintf("printf '%s%%s\\n' \"${%v[@]}\"\n", subcategoryToken, bashName)
-		mapsPartialScript = append(mapsPartialScript, partial)
+	for _, bashName := range pacsh.PacscriptArrays {
+		script += fmt.Sprintf("%v=$(jo -a ${%v[@]}) ", bashName, bashName)
 	}
-
-	script += strings.Join(mapsPartialScript, "\n")
 
 	return []byte(script)
 }
@@ -70,8 +61,8 @@ func computeRequiredBy(script *pac.Script, scripts []*pac.Script) {
 	script.RequiredBy = make([]string, 0)
 	for _, otherScript := range scripts {
 		otherScriptDependencies := array.Map(otherScript.PacstallDependencies, pickBeforeColon)
-		if array.Contains(otherScriptDependencies, array.Is(script.Name)) {
-			script.RequiredBy = append(script.RequiredBy, otherScript.Name)
+		if array.Contains(otherScriptDependencies, array.Is(script.PackageName)) {
+			script.RequiredBy = append(script.RequiredBy, otherScript.PackageName)
 		}
 	}
 }

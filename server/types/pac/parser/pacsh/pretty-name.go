@@ -17,7 +17,7 @@ func getPrettyName(p pac.Script) string {
 	name := ""
 
 	if name == "" {
-		name = p.Name
+		name = p.PackageName
 	}
 
 	for suffix := range pacTypes {

@@ -25,15 +25,19 @@ const PackageDetailsPage: FC<PackageDetailsPageProps> = ({
 }) => (
     <>
         <Helmet>
-            <title>{data.name} - Pacstall</title>
+            <title>{data.packageName} - Pacstall</title>
             <meta
                 name='keywords'
-                content={data.name + ',' + data.name.split('-').join(',')}
+                content={
+                    data.packageName +
+                    ',' +
+                    data.packageName.split('-').join(',')
+                }
             />
             <meta name='description' content={data.description} />
 
             <meta name='twitter:card' content='summary' />
-            <meta property='og:title' content={data.name} />
+            <meta property='og:title' content={data.packageName} />
             <meta property='og:type' content='article' />
             <meta property='og:url' content={location.href} />
             <meta property='og:image' content='/public/app.png' />
@@ -48,13 +52,16 @@ const PackageDetailsPage: FC<PackageDetailsPageProps> = ({
                 requiredByModal={requiredByModal}
             />
             <HowToInstall
-                name={data.name}
-                prettyName={data.name}
+                name={data.packageName}
+                prettyName={data.packageName}
                 isMobile={isMobile}
             />
         </Container>
-        <PackageRequiredByModal name={data.name} {...requiredByModal} />
-        <PackageDependenciesModal name={data.name} {...dependenciesModal} />
+        <PackageRequiredByModal name={data.packageName} {...requiredByModal} />
+        <PackageDependenciesModal
+            name={data.packageName}
+            {...dependenciesModal}
+        />
     </>
 )
 

@@ -37,7 +37,7 @@ func GetPacscriptDependenciesHandle(w http.ResponseWriter, req *http.Request) {
 	allPacscripts := pacstore.GetAll()
 
 	pacpkg, err := array.FindBy(allPacscripts, func(s *pac.Script) bool {
-		return s.Name == name
+		return s.PackageName == name
 	})
 
 	if err != nil {
@@ -47,10 +47,10 @@ func GetPacscriptDependenciesHandle(w http.ResponseWriter, req *http.Request) {
 
 	pacstallDependencies := make([]*pac.Script, 0)
 	for _, pkg := range pacpkg.PacstallDependencies {
-		if found, err := array.FindBy(allPacscripts, func(pi *pac.Script) bool { return pkg == pi.Name }); err == nil {
+		if found, err := array.FindBy(allPacscripts, func(pi *pac.Script) bool { return pkg == pi.PackageName }); err == nil {
 			pacstallDependencies = append(pacstallDependencies, found)
 		} else {
-			log.Error("could not find pacstall dependency %s of package %s.\n", pkg, pacpkg.Name)
+			log.Error("could not find pacstall dependency %s of package %s.\n", pkg, pacpkg.PackageName)
 		}
 	}
 
