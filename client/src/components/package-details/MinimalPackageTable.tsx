@@ -22,8 +22,11 @@ const MinimalPackageTable: FC<{ packages: (PackageInfo | string)[] }> = ({
                 {packages.map((pkg, i) => (
                     <MinimalPackageTableRow
                         external={typeof pkg === 'string'}
-                        key={(typeof pkg === 'string' ? pkg : pkg.name) + i}
-                        pkg={typeof pkg === 'string' ? pkg : pkg.name}
+                        key={
+                            (typeof pkg === 'string' ? pkg : pkg.packageName) +
+                            i
+                        }
+                        pkg={typeof pkg === 'string' ? pkg : pkg.packageName}
                     />
                 ))}
             </Tbody>

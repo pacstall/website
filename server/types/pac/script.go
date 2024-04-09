@@ -21,20 +21,20 @@ var UpdateStatus = updateStatus{
 type UpdateStatusValue = int
 
 type Script struct {
-	Name                 string    `json:"name"`
 	PrettyName           string    `json:"prettyName"`
 	Version              string    `json:"version"`
 	LatestVersion        *string   `json:"latestVersion"`
 	PackageName          string    `json:"packageName"`
-	Maintainer           string    `json:"maintainer"`
+	Maintainers          []string  `json:"maintainers"`
 	Description          string    `json:"description"`
-	URL                  string    `json:"url"`
+	Source               []string  `json:"source"`
 	RuntimeDependencies  []string  `json:"runtimeDependencies"`
 	BuildDependencies    []string  `json:"buildDependencies"`
 	OptionalDependencies []string  `json:"optionalDependencies"`
+	Conflicts            []string  `json:"conflicts"`
 	Breaks               []string  `json:"breaks"`
 	Gives                string    `json:"gives"`
-	Replace              []string  `json:"replace"`
+	Replaces             []string  `json:"replaces"`
 	Hash                 *string   `json:"hash"`
 	PPA                  []string  `json:"ppa"`
 	PacstallDependencies []string  `json:"pacstallDependencies"`

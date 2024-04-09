@@ -43,7 +43,7 @@ func ParseAll() error {
 	}
 
 	array.SortBy(loadedPacscripts, func(s1, s2 *pac.Script) bool {
-		return s1.Name < s2.Name
+		return s1.PackageName < s2.PackageName
 	})
 
 	if err := setLastUpdatedAt(loadedPacscripts); err != nil {

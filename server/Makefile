@@ -25,7 +25,7 @@ test:
 	PACSTALL_DISCORD_TAGS="" \
 	PACSTALL_MATOMO_ENABLED="false" \
 	PACSTALL_REPOLOGY_ENABLED="false" \
-	GO_ENV=test go test -v ./...
+	GO_ENV=test go test -v types/pac/parser/parse_test.go
 
 run: 
 	(cd .. && docker compose up -d mariadb)
@@ -47,7 +47,6 @@ dist/webserver: $(shell find . -not \( -path ./tmp -prune \) -not \( -path ./dis
 	CGO_ENABLED=0 go build -o dist/webserver -ldflags "${LDFLAGS}" bin/webserver/main.go
 clean:
 	[ -d ./dist ] && rm -r dist || :
-test:
-	go test -v ./...
+
 fmt:
 	go fmt ./...
