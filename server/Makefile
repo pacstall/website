@@ -9,6 +9,7 @@ LDFLAGS= \
 	-X 'pacstall.dev/webserver/config/build.Production=true' \
 	-X 'pacstall.dev/webserver/config/build.GitURL=https://github.com/pacstall/pacstall-programs.git' \
 	-X 'pacstall.dev/webserver/config/build.GitClonePath=./programs' \
+	-X 'pacstall.dev/webserver/config/build.GitBranch=master' \
 	-X 'pacstall.dev/webserver/config/build.Version=${VERSION}'
 
 all: dist/webserver

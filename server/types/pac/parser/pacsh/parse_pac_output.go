@@ -43,7 +43,6 @@ func parseOutput(data []byte) (out pac.Script, err error) {
 	if err != nil {
 		return out, errorx.IllegalFormat.New("failed to deserialize json content '%v'. err: %v", string(data), err)
 	}
-
 	if parsedContent.Pkgver == nil {
 		if strings.HasSuffix(parsedContent.Pkgname, "-git") {
 			parsedContent.Pkgver = &_GIT_VERSION
@@ -58,23 +57,23 @@ func parseOutput(data []byte) (out pac.Script, err error) {
 
 	out = pac.Script{
 		PackageName:          parsedContent.Pkgname,
-		Maintainers:          parseMaintainers(parsedContent.Maintainer),
+		Maintainers:          parseMaintainers(removePrefixFromArray(parsedContent.Maintainer)),
 		Description:          parsedContent.Pkgdesc,
-		Source:               parsedContent.Source,
+		Source:               removePrefixFromArray(parsedContent.Source),
 		Gives:                *parsedContent.Gives,
 		Hash:                 parsedContent.Hash,
 		Version:              *parsedContent.Pkgver,
-		RuntimeDependencies:  parsedContent.Depends,
-		Conflicts:            parsedContent.Conflicts,
-		Breaks:               parsedContent.Breaks,
-		Replaces:             parsedContent.Replaces,
-		BuildDependencies:    parsedContent.Makedepends,
-		OptionalDependencies: parsedContent.Optdepends,
-		PacstallDependencies: parsedContent.Pacdeps,
-		PPA:                  parsedContent.Ppa,
-		Patch:                parsedContent.Patch,
+		RuntimeDependencies:  removePrefixFromArray(parsedContent.Depends),
+		BuildDependencies:    removePrefixFromArray(parsedContent.Makedepends),
+		OptionalDependencies: removePrefixFromArray(parsedContent.Optdepends),
+		Conflicts:            removePrefixFromArray(parsedContent.Conflicts),
+		Replaces:             removePrefixFromArray(parsedContent.Replaces),
+		Breaks:               removePrefixFromArray(parsedContent.Breaks),
+		PacstallDependencies: removePrefixFromArray(parsedContent.Pacdeps),
+		PPA:                  removePrefixFromArray(parsedContent.Ppa),
+		Patch:                removePrefixFromArray(parsedContent.Patch),
 		RequiredBy:           make([]string, 0),
-		Repology:             parsedContent.Repology,
+		Repology:             removePrefixFromArray(parsedContent.Repology),
 		LatestVersion:        nil,
 		UpdateStatus:         pac.UpdateStatus.Unknown,
 	}
@@ -108,4 +107,25 @@ func parseMaintainers(maintainers []string) []string {
 	}
 
 	return out
+}
+
+func removePrefix(word string) string {
+	if strings.HasPrefix(word, "_") {
+		return word[1:]
+	}
+
+	return word
+}
+
+func removePrefixFromArray(words []string) []string {
+	if len(words) == 0 {
+		return words
+	}
+
+	words[0] = removePrefix(words[0])
+	if len(words) == 1 && len(words[0]) == 0 {
+		return []string{}
+	}
+
+	return words
 }
