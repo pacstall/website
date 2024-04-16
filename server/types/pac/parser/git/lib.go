@@ -3,11 +3,13 @@ package git
 import (
 	"os"
 	"os/exec"
+	"strings"
 
 	"github.com/joomcode/errorx"
+	"pacstall.dev/webserver/log"
 )
 
-func hardResetAndPull(path string) error {
+func hardResetAndPull(path, branch string) error {
 	cmd := exec.Command("git", "reset", "--hard", "HEAD")
 	cmd.Dir = path
 	if err := cmd.Run(); err != nil {
@@ -33,20 +35,63 @@ func hardResetAndPull(path string) error {
 		return err
 	}
 
-	return nil
-}
-
-func clonePrograms(path, url string) error {
-	cmd := exec.Command("git", "clone", url, path)
-	if err := cmd.Run(); err != nil {
-		return errorx.Decorate(err, "failed to run git clone command")
+	if err := checkoutBranch(path, branch); err != nil {
+		return err
 	}
 
 	return nil
 }
 
-func RefreshPrograms(path, url string) error {
-	if err := hardResetAndPull(path); err == nil {
+func clonePrograms(path, url, branch string) error {
+	cmd := exec.Command("git", "clone", url, path)
+	if err := cmd.Run(); err != nil {
+		return errorx.Decorate(err, "failed to run git clone command")
+	}
+
+	if err := checkoutBranch(path, branch); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func getCurrentBranch(path string) (string, error) {
+	cmd := exec.Command("git", "name-rev", "--name-only", "HEAD")
+	cmd.Dir = path
+	out, err := cmd.Output()
+	if err != nil {
+		return "", nil
+	}
+
+	return strings.TrimSpace(string(out)), nil
+}
+
+func checkoutBranch(path, branch string) error {
+	currentBranch, err := getCurrentBranch(path)
+	if err != nil {
+		return errorx.Decorate(err, "failed to read current branch name")
+	}
+
+	if currentBranch != branch {
+		log.Info("programs repository is on the wrong branch '%v'. checking out branch '%v'", currentBranch, branch)
+	} else {
+		return nil
+	}
+
+	cmd := exec.Command("git", "checkout", branch)
+	cmd.Dir = path
+	out, err := cmd.Output()
+	if err != nil {
+		return errorx.Decorate(err, "failed to checkout git branch '%v'", branch)
+	}
+
+	log.Info("got branch checkout output: %v", string(out))
+
+	return nil
+}
+
+func RefreshPrograms(path, url, branch string) error {
+	if err := hardResetAndPull(path, branch); err == nil {
 		return nil
 	}
 
@@ -54,7 +99,7 @@ func RefreshPrograms(path, url string) error {
 		return errorx.Decorate(err, "failed to remove directory '%v'", path)
 	}
 
-	if err := clonePrograms(path, url); err != nil {
+	if err := clonePrograms(path, url, branch); err != nil {
 		return errorx.Decorate(err, "failed to clone repository '%v'", url)
 	}
 

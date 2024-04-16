@@ -31,11 +31,16 @@ func getPrettyName(p pac.Script) string {
 
 func titleCase(s string) string {
 	title := ""
-	for _, word := range strings.Split(s, "-") {
+	words := strings.Split(s, "-")
+
+	for _, word := range words {
 		if title != "" {
 			title += " "
 		}
 
+		if len(word) == 0 {
+			continue
+		}
 		title += strings.ToUpper(word[:1]) + strings.ToLower(word[1:])
 	}
 

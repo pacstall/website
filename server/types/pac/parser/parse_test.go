@@ -25,7 +25,7 @@ var TEST_PROGRAMS_DIR = path.Join(FIXTURES_DIR, "test-programs")
 
 func assertEquals(t *testing.T, what string, expected interface{}, actual interface{}) {
 	if actual != expected {
-		t.Errorf("expected %v '%v', got '%v'", what, expected, actual)
+		t.Errorf("pacscript.%v: expected '%v', got '%v'", what, expected, actual)
 	}
 }
 
@@ -35,12 +35,13 @@ func assertArrayEquals(t *testing.T, what string, expected []string, actual []st
 	}
 
 	if len(actual) != len(expected) {
-		t.Errorf("expected %v '%v', got '%v'", what, expected, actual)
+		t.Errorf("pacscript.%v expected len '%v', got len '%v' (expected '%#v', got '%#v')", what, len(expected), len(actual), expected, actual)
+		return
 	}
 
 	for idx := range expected {
 		if expected[idx] != actual[idx] {
-			t.Errorf("expected %v '%v', got '%v'", what, expected, actual)
+			t.Errorf("pacscript.%v[%v] expected '%v', got '%v'", what, idx, expected, actual)
 		}
 	}
 }
@@ -135,7 +136,7 @@ func Test_PacscriptSnapshots(t *testing.T) {
 			continue
 		}
 
-		t.Logf("Running snapshot test for file: %v", dirEntry.Name())
+		t.Logf("==> Running snapshot test for file: %v", dirEntry.Name())
 		assertPacscriptMatchesSnapshot(t, dirEntry.Name())
 	}
 }

@@ -14,6 +14,7 @@ var TempDir = build.TempDir
 var MaxOpenFiles = toInt(build.MaxOpenFiles)
 var GitURL = build.GitURL
 var GitClonePath = build.GitClonePath
+var GitBranch = build.GitBranch
 
 var Port = toInt(build.Port)
 var PublicDir = build.PublicDir

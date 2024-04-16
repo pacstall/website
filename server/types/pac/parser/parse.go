@@ -24,7 +24,7 @@ import (
 const PACKAGE_LIST_FILE_NAME = "./packagelist"
 
 func ParseAll() error {
-	if err := git.RefreshPrograms(config.GitClonePath, config.GitURL); err != nil {
+	if err := git.RefreshPrograms(config.GitClonePath, config.GitURL, config.GitBranch); err != nil {
 		return errorx.Decorate(err, "could not update repository 'pacstall-programs'")
 	}
 
