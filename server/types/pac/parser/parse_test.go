@@ -25,7 +25,7 @@ var TEST_PROGRAMS_DIR = path.Join(FIXTURES_DIR, "test-programs")
 
 func assertEquals(t *testing.T, what string, expected interface{}, actual interface{}) {
 	if actual != expected {
-		t.Errorf("pacscript.%v: expected '%v', got '%v'", what, expected, actual)
+		t.Errorf("pacscript.%v: expected '%#v', got '%#v'", what, expected, actual)
 	}
 }
 
@@ -41,7 +41,7 @@ func assertArrayEquals(t *testing.T, what string, expected []string, actual []st
 
 	for idx := range expected {
 		if expected[idx] != actual[idx] {
-			t.Errorf("pacscript.%v[%v] expected '%v', got '%v'", what, idx, expected, actual)
+			t.Errorf("pacscript.%v[%v] expected '%#v', got '%#v'", what, idx, expected, actual)
 		}
 	}
 }
