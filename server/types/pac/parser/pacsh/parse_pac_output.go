@@ -2,10 +2,10 @@ package pacsh
 
 import (
 	"encoding/json"
-	"fmt"
 	"strings"
 
 	"github.com/joomcode/errorx"
+	"pacstall.dev/webserver/types/array"
 	"pacstall.dev/webserver/types/pac"
 )
 
@@ -13,31 +13,102 @@ var ParsePacOutput = parseOutput
 var PacscriptVars []string = []string{"pkgname", "pkgdesc", "gives", "hash", "pkgver"}
 var PacscriptArrays []string = []string{"source", "arch", "maintainer", "depends", "conflicts", "breaks", "replaces", "makedepends", "optdepends", "pacdeps", "patch", "ppa", "repology"}
 
+type Stringable struct {
+	Data string
+}
+
+func (s *Stringable) UnmarshalJSON(data []byte) error {
+	s.Data = string(data)
+	s.Data = strings.ReplaceAll(s.Data, "\"", "")
+	return nil
+}
+
+func (s *Stringable) String() string {
+	return s.Data
+}
+
+type StringableArrayWithComments struct {
+	Data []Stringable
+}
+
+func (s StringableArrayWithComments) toStringArray() []string {
+	return array.SwitchMapPtr(s.Data, func(it *array.PtrIterator[Stringable]) string {
+		val := *it.Value
+		return val.String()
+	})
+}
+
+func (s *StringableArrayWithComments) UnmarshalJSON(data []byte) error {
+	err := json.Unmarshal(data, &s.Data)
+	if err != nil {
+		return err
+	}
+
+	out := make([]string, 0)
+	item := ""
+	hasComments := false
+	for _, word := range s.Data {
+		strWord := word.String()
+		wordHasComment := strings.HasSuffix(strWord, ":")
+
+		if wordHasComment {
+			hasComments = true
+			if item != "" {
+				out = append(out, strings.TrimSpace(item))
+			}
+			item = strWord
+		} else if !hasComments {
+			out = append(out, strWord)
+		} else {
+			item += " " + strWord
+		}
+
+	}
+
+	if item != "" {
+		out = append(out, strings.TrimSpace(item))
+	}
+
+	s.Data = array.SwitchMap(out, func(it *array.Iterator[string]) Stringable {
+		return Stringable{it.Value}
+	})
+
+	return nil
+}
+
 type pacscriptJsonStructure struct {
-	Pkgname     string   `json:"pkgname"`
-	Pkgdesc     string   `json:"pkgdesc"`
-	Gives       *string  `json:"gives"`
-	Hash        *string  `json:"hash"`
-	Pkgver      *string  `json:"pkgver"`
-	Source      []string `json:"source"`
-	Maintainer  []string `json:"maintainer"`
-	Depends     []string `json:"depends"`
-	Conflicts   []string `json:"conflicts"`
-	Arch        []string `json:"arch"`
-	Breaks      []string `json:"breaks"`
-	Replaces    []string `json:"replaces"`
-	Makedepends []string `json:"makedepends"`
-	Optdepends  []string `json:"optdepends"`
-	Pacdeps     []string `json:"pacdeps"`
-	Patch       []string `json:"patch"`
-	Ppa         []string `json:"ppa"`
-	Repology    []string `json:"repology"`
+	Pkgname     string                      `json:"pkgname"`
+	Pkgdesc     string                      `json:"pkgdesc"`
+	Gives       *string                     `json:"gives"`
+	Hash        *string                     `json:"hash"`
+	Pkgver      *string                     `json:"pkgver"`
+	Source      StringableArrayWithComments `json:"source"`
+	Maintainer  StringableArrayWithComments `json:"maintainer"`
+	Depends     StringableArrayWithComments `json:"depends"`
+	Conflicts   StringableArrayWithComments `json:"conflicts"`
+	Arch        StringableArrayWithComments `json:"arch"`
+	Breaks      StringableArrayWithComments `json:"breaks"`
+	Replaces    StringableArrayWithComments `json:"replaces"`
+	Makedepends StringableArrayWithComments `json:"makedepends"`
+	Optdepends  StringableArrayWithComments `json:"optdepends"`
+	Pacdeps     StringableArrayWithComments `json:"pacdeps"`
+	Patch       StringableArrayWithComments `json:"patch"`
+	Ppa         StringableArrayWithComments `json:"ppa"`
+	Repology    StringableArrayWithComments `json:"repology"`
 }
 
 var _GIT_VERSION = "git"
 var _EMPTI_STR = ""
 
 func parseOutput(data []byte) (out pac.Script, err error) {
+	// remove prefixes if any
+	runeIndex := strings.IndexRune(string(data), '{')
+	if runeIndex >= 0 {
+		str := string(data)
+		str = str[runeIndex:]
+		data = []byte(str)
+	}
+
 	var parsedContent pacscriptJsonStructure
 	err = json.Unmarshal(data, &parsedContent)
 	if err != nil {
@@ -57,33 +128,25 @@ func parseOutput(data []byte) (out pac.Script, err error) {
 
 	out = pac.Script{
 		PackageName:          parsedContent.Pkgname,
-		Maintainers:          parseMaintainers(removePrefixFromArray(parsedContent.Maintainer)),
+		Maintainers:          parseMaintainers(parsedContent.Maintainer.toStringArray()),
 		Description:          parsedContent.Pkgdesc,
-		Source:               removePrefixFromArray(parsedContent.Source),
+		Source:               parsedContent.Source.toStringArray(),
 		Gives:                *parsedContent.Gives,
 		Hash:                 parsedContent.Hash,
 		Version:              *parsedContent.Pkgver,
-		RuntimeDependencies:  removePrefixFromArray(parsedContent.Depends),
-		BuildDependencies:    removePrefixFromArray(parsedContent.Makedepends),
-		OptionalDependencies: removePrefixFromArray(parsedContent.Optdepends),
-		Conflicts:            removePrefixFromArray(parsedContent.Conflicts),
-		Replaces:             removePrefixFromArray(parsedContent.Replaces),
-		Breaks:               removePrefixFromArray(parsedContent.Breaks),
-		PacstallDependencies: removePrefixFromArray(parsedContent.Pacdeps),
-		PPA:                  removePrefixFromArray(parsedContent.Ppa),
-		Patch:                removePrefixFromArray(parsedContent.Patch),
+		RuntimeDependencies:  parsedContent.Depends.toStringArray(),
+		BuildDependencies:    parsedContent.Makedepends.toStringArray(),
+		OptionalDependencies: parsedContent.Optdepends.toStringArray(),
+		Conflicts:            parsedContent.Conflicts.toStringArray(),
+		Replaces:             parsedContent.Replaces.toStringArray(),
+		Breaks:               parsedContent.Breaks.toStringArray(),
+		PacstallDependencies: parsedContent.Pacdeps.toStringArray(),
+		PPA:                  parsedContent.Ppa.toStringArray(),
+		Patch:                parsedContent.Patch.toStringArray(),
 		RequiredBy:           make([]string, 0),
-		Repology:             removePrefixFromArray(parsedContent.Repology),
+		Repology:             parsedContent.Repology.toStringArray(),
 		LatestVersion:        nil,
 		UpdateStatus:         pac.UpdateStatus.Unknown,
-	}
-
-	// Fixes up repology project split
-	if len(out.Repology) > 1 && out.Repology[0] == "project:" {
-		repology := []string{}
-		repology = append(repology, fmt.Sprintf("project: %v", out.Repology[1]))
-		repology = append(repology, out.Repology[2:]...)
-		out.Repology = repology
 	}
 
 	if out.Hash != nil && len(*out.Hash) == 0 {
@@ -107,25 +170,4 @@ func parseMaintainers(maintainers []string) []string {
 	}
 
 	return out
-}
-
-func removePrefix(word string) string {
-	if strings.HasPrefix(word, "_") {
-		return word[1:]
-	}
-
-	return word
-}
-
-func removePrefixFromArray(words []string) []string {
-	if len(words) == 0 {
-		return words
-	}
-
-	words[0] = removePrefix(words[0])
-	if len(words) == 1 && len(words[0]) == 0 {
-		return []string{}
-	}
-
-	return words
 }

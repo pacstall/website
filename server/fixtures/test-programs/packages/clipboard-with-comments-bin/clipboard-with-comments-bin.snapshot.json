@@ -1,0 +1,39 @@
+{
+    "prettyName": "Clipboard",
+    "version": "0.9.0.1",
+    "latestVersion": null,
+    "packageName": "clipboard-bin",
+    "maintainers": [
+        "wizard-28 \u003cwiz28@pm.me\u003e"
+    ],
+    "description": "Cut, copy, and paste anything in your terminal",
+    "source": [
+        "https://github.com/Slackadays/Clipboard/releases/download/0.9.0.1/clipboard-linux-amd64.zip"
+    ],
+    "runtimeDependencies": [],
+    "buildDependencies": [],
+    "optionalDependencies": [
+        "gnome-disk-utility: Default disk CMD if not set",
+        "epiphany-browser: Default browser CMD if not set",
+        "gnome-control-center: Default wifi CMD if not set"
+    ],
+    "conflicts": [
+        "clipboard",
+        "clipboard-git",
+        "clipboard-deb",
+        "clipboard-app"
+    ],
+    "breaks": [],
+    "gives": "clipboard",
+    "replaces": [],
+    "hash": null,
+    "ppa": [],
+    "pacstallDependencies": [],
+    "patch": [],
+    "repology": [
+        "project: clipboard"
+    ],
+    "requiredBy": [],
+    "lastUpdatedAt": "0001-01-01T00:00:00Z",
+    "updateStatus": -1
+}

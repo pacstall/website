@@ -53,7 +53,7 @@ fi
 	// By adding an underscore prefix we mitigate this issue of coercing to number but
 	// we have to remove it later in the json parsing
 	for _, bashName := range pacsh.PacscriptArrays {
-		script += fmt.Sprintf("%v=$(jo -a _${%v[@]}) ", bashName, bashName)
+		script += fmt.Sprintf("%v=$(jo -a ${%v[@]}) ", bashName, bashName)
 	}
 
 	return []byte(script)
