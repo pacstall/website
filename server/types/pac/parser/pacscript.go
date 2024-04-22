@@ -46,12 +46,6 @@ fi
 		script += fmt.Sprintf("-s %v=\"$%v\" ", bashName, bashName)
 	}
 
-	// `jo` json utility coerces all types to the closest matching.
-	// So, for example, if a maintainer has the name "1234 me@example.com" it will
-	// parse it as [1234, "me@example.com"], basically [int, string] array.
-	// We need it to be a pure string array ["1234", "me@example.com"].
-	// By adding an underscore prefix we mitigate this issue of coercing to number but
-	// we have to remove it later in the json parsing
 	for _, bashName := range pacsh.PacscriptArrays {
 		script += fmt.Sprintf("%v=$(jo -a ${%v[@]}) ", bashName, bashName)
 	}
