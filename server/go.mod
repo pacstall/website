@@ -13,7 +13,7 @@ require (
 	github.com/joomcode/errorx v1.1.1
 	github.com/treelightsoftware/go-matomo v0.1.0-beta
 	gorm.io/driver/mysql v1.5.6
-	gorm.io/gorm v1.25.9
+	gorm.io/gorm v1.25.10
 )
 
 require (
