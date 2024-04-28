@@ -14,7 +14,7 @@ gives="${gives}"
 conflicts=("${gives}" "${gives}-git" "${gives}-deb" "${gives}-app")
 arch=("amd64" "arm64" "armhf" "ppc64el" "riscv64")
 repology=("project: clipboard")
-optdepends=("gnome-disk-utility: Default disk CMD if not set"
+optdepends=("gnome-disk-utility"
   "epiphany-browser: Default browser CMD if not set"
   "gnome-control-center: Default wifi CMD if not set")
 source=("https://github.com/Slackadays/Clipboard/releases/download/${pkgver}/${gives}-linux-${CARCH}.zip")

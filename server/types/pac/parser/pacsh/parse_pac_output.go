@@ -7,6 +7,7 @@ import (
 	"github.com/joomcode/errorx"
 	"pacstall.dev/webserver/types/array"
 	"pacstall.dev/webserver/types/pac"
+	"pacstall.dev/webserver/types/pac/parser/pacsh/internal"
 )
 
 var ParsePacOutput = parseOutput
@@ -112,7 +113,7 @@ func parseOutput(data []byte) (out pac.Script, err error) {
 	var parsedContent pacscriptJsonStructure
 	err = json.Unmarshal(data, &parsedContent)
 	if err != nil {
-		return out, errorx.IllegalFormat.New("failed to deserialize json content '%v'. err: %v", string(data), err)
+		return out, errorx.IllegalFormat.Wrap(err, "failed to deserialize json content '%v'", string(data))
 	}
 	if parsedContent.Pkgver == nil {
 		if strings.HasSuffix(parsedContent.Pkgname, "-git") {
@@ -147,6 +148,10 @@ func parseOutput(data []byte) (out pac.Script, err error) {
 		Repology:             parsedContent.Repology.toStringArray(),
 		LatestVersion:        nil,
 		UpdateStatus:         pac.UpdateStatus.Unknown,
+	}
+
+	if pkgver, err := internal.NewGitSources(out.Source).ParseGitPackageVersion(); err == nil && pkgver != "" {
+		out.Version = pkgver
 	}
 
 	if out.Hash != nil && len(*out.Hash) == 0 {

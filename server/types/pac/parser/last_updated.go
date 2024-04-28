@@ -11,6 +11,7 @@ import (
 	"github.com/joomcode/errorx"
 	"pacstall.dev/webserver/config"
 	"pacstall.dev/webserver/consts"
+	"pacstall.dev/webserver/log"
 	"pacstall.dev/webserver/types/array"
 	"pacstall.dev/webserver/types/pac"
 	"pacstall.dev/webserver/types/pac/parser/pacsh"
@@ -83,21 +84,14 @@ func setLastUpdatedAt(packages []*pac.Script) error {
 		return errorx.Decorate(err, "failed to get package last updated tuples")
 	}
 
-	packages = array.Clone(packages)
-	packages = array.SortBy(packages, func(s1, s2 *pac.Script) bool {
-		return s1.PackageName < s2.PackageName
-	})
-
-	lastUpdatedTuples = array.SortBy(lastUpdatedTuples, func(t1, t2 packageLastUpdatedTuple) bool {
-		return t1.packageName < t2.packageName
-	})
-
-	if len(lastUpdatedTuples) != len(packages) {
-		return errorx.AssertionFailed.New("expected %v package last updated tuples but got %v", len(packages), len(lastUpdatedTuples))
-	}
-
-	for i := 0; i < len(packages); i++ {
-		packages[i].LastUpdatedAt = lastUpdatedTuples[i].lastUpdated
+	for _, pkg := range packages {
+		if tuple, err := array.FindBy(lastUpdatedTuples, func(tuple packageLastUpdatedTuple) bool {
+			return tuple.packageName == pkg.PackageName
+		}); err == nil {
+			pkg.LastUpdatedAt = tuple.lastUpdated
+		} else {
+			log.Warn("failed to set 'LastUpdatedAt' for package %#v. err: %+v", pkg, err)
+		}
 	}
 
 	return nil

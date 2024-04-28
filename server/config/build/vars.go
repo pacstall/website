@@ -8,7 +8,6 @@ var TempDir = "./tmp"
 var MaxOpenFiles = "100"
 var GitURL = "https://github.com/pacstall/pacstall-programs.git"
 var GitClonePath = "./programs"
-var GitBranch = "master"
 
 var Port = "3300"
 var PublicDir = "../client/dist"

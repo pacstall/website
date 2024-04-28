@@ -1,7 +1,7 @@
 export default interface PackageInfo {
     version: string
     packageName: string
-    maintainer: string
+    maintainers: string[]
     description: string
     source: string[]
     runtimeDependencies: string[]

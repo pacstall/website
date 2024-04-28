@@ -13,7 +13,7 @@
     "runtimeDependencies": [],
     "buildDependencies": [],
     "optionalDependencies": [
-        "gnome-disk-utility: Default disk CMD if not set",
+        "gnome-disk-utility",
         "epiphany-browser: Default browser CMD if not set",
         "gnome-control-center: Default wifi CMD if not set"
     ],
