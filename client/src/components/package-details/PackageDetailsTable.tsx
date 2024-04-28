@@ -61,7 +61,7 @@ const PackageDetailsTable: FC<{
                 </Entry>
 
                 <Entry header={t('packageDetails.table.maintainer')}>
-                    <PackageDetailsMaintainer text={data.maintainer} />
+                    <PackageDetailsMaintainer text={data.maintainers} />
                 </Entry>
 
                 <Entry header={t('packageDetails.table.lastUpdatedAt')}>

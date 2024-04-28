@@ -39,6 +39,12 @@ func hardResetAndPull(path, branch string) error {
 		return err
 	}
 
+	cmd = exec.Command("git", "pull")
+	cmd.Dir = path
+	if err := cmd.Run(); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -73,8 +79,9 @@ func checkoutBranch(path, branch string) error {
 	}
 
 	if currentBranch != branch {
-		log.Info("programs repository is on the wrong branch '%v'. checking out branch '%v'", currentBranch, branch)
+		log.Warn("programs repository is on the wrong branch '%v'. checking out branch '%v'", currentBranch, branch)
 	} else {
+		log.Info("programs repository is using branch: %v", currentBranch)
 		return nil
 	}
 
@@ -88,6 +95,19 @@ func checkoutBranch(path, branch string) error {
 	log.Info("got branch checkout output: %v", string(out))
 
 	return nil
+}
+
+// Returns the remote Git (short) commit hash
+func GetRemoteCommitHash(url, branchOrTag string) (string, error) {
+	cmd := exec.Command("git", "ls-remote", url, branchOrTag)
+
+	if bytes, err := cmd.Output(); err != nil {
+		return "", errorx.ExternalError.Wrap(err, "failed to fetch git commit hash from source '%v' branch/tag '%v'", url, branchOrTag)
+	} else if len(string(bytes)) < 8 {
+		return "", errorx.ExternalError.New("commit hash '%v' has less than 8 characters. source '%v' branch/tag '%v'", string(bytes), url, branchOrTag)
+	} else {
+		return strings.TrimSpace(string(bytes))[0:8], nil
+	}
 }
 
 func RefreshPrograms(path, url, branch string) error {
