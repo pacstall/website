@@ -53,20 +53,24 @@ const PackageTableRow: FC<{ pkg: PackageInfo; disabled?: boolean }> = ({
                 <Tooltip
                     openDelay={500}
                     label={
-                        pkg.maintainer
+                        pkg.maintainers.length
                             ? t(
                                   'packageSearch.maintainerTooltip.maintainedBy',
                                   {
-                                      name: pkg.maintainer.split('<')[0].trim(),
+                                      name: pkg.maintainers
+                                          .map(maintainer =>
+                                              maintainer.split('<')[0].trim(),
+                                          )
+                                          .join(', '),
                                   },
                               )
                             : t('packageSearch.maintainerTooltip.noMaintainer')
                     }
                 >
                     <Text fontSize='sm'>
-                        {(pkg.maintainer || t('packageDetails.orphaned'))
-                            .split('<')[0]
-                            .trim()}
+                        {pkg.maintainers
+                            .map(maintainer => maintainer.split('<')[0].trim())
+                            .join(', ') || t('packageDetails.orphaned')}
                     </Text>
                 </Tooltip>
             </Td>
