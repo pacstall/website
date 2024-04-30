@@ -11,7 +11,7 @@ type result[T interface{}] struct {
 	err   error
 }
 
-func Run[T interface{}](timeoutName string, handle func() (T, error), ms int) (T, error) {
+func Run[T interface{}](timeoutName string, handle func() (T, error), duration time.Duration) (T, error) {
 	var zero T
 	errChan := make(chan error)
 	resultChan := make(chan result[T])
@@ -25,7 +25,7 @@ func Run[T interface{}](timeoutName string, handle func() (T, error), ms int) (T
 	}()
 
 	go func() {
-		time.Sleep(time.Millisecond * time.Duration(ms))
+		time.Sleep(duration)
 		errChan <- errorx.TimeoutElapsed.New("operation %v has timed out", timeoutName)
 	}()
 
