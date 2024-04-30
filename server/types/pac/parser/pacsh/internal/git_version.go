@@ -3,6 +3,7 @@ package internal
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/joomcode/errorx"
 	"pacstall.dev/webserver/types/pac/parser/git"
@@ -10,7 +11,7 @@ import (
 )
 
 type GitSourceInfo struct {
-	Url    string
+	Urls   []string
 	Branch string
 	Tag    string
 	Commit string
@@ -18,7 +19,7 @@ type GitSourceInfo struct {
 
 type GitSources struct {
 	sources       []string
-	getCommitHash func(string, string) (string, error)
+	getCommitHash func(url string, ref string) (string, error)
 }
 
 func NewGitSources(sources []string) GitSources {
@@ -28,7 +29,7 @@ func NewGitSources(sources []string) GitSources {
 			version, err := timeout.Run(fmt.Sprintf("commit-hash/%v/%v", url, ref), func() (string, error) {
 				version, err := git.GetRemoteCommitHash(url, ref)
 				return version, err
-			}, 1000)
+			}, 3*time.Second)
 			return version, err
 		},
 	}
@@ -68,14 +69,36 @@ func ExtractGitSourceInformation(source string) GitSourceInfo {
 		commit = parts[1]
 	}
 
-	sourceUrl = strings.ReplaceAll(sourceUrl, "git+https://", "git://")
+	urls := []string{}
+	if strings.Contains(sourceUrl, "git+https://") {
+		httpsUrl := strings.ReplaceAll(sourceUrl, "git+https://", "https://")
+		gitUrl := strings.ReplaceAll(sourceUrl, "git+https://", "git://")
+		urls = append(urls, httpsUrl, gitUrl)
+	} else {
+		urls = append(urls, sourceUrl)
+	}
 
 	return GitSourceInfo{
-		Url:    sourceUrl,
+		Urls:   urls,
 		Tag:    tag,
 		Branch: branch,
 		Commit: commit,
 	}
+}
+
+func (s GitSources) TryGetCommitHashFromAnySource(urls []string, ref string) (string, error) {
+	errors := []error{}
+
+	for _, url := range urls {
+		out, err := s.getCommitHash(url, ref)
+		if err == nil {
+			return out, nil
+		}
+
+		errors = append(errors, err)
+	}
+
+	return "", errorx.DecorateMany("failed to get commit hash from any source", errors...)
 }
 
 func (s GitSources) ParseGitPackageVersion() (string, error) {
@@ -85,13 +108,6 @@ func (s GitSources) ParseGitPackageVersion() (string, error) {
 	}
 
 	primarySource := []string(s.sources)[0]
-	if !strings.Contains(primarySource, "git://") && !strings.Contains(primarySource, "git+") {
-		// Probably not a Git source. Note that `git+` might appear somewhere in the source
-		// and that might lead to a false positive.
-		// TODO: Find a better way to check if the source is a git one.
-		return "", nil
-	}
-
 	// Only keep the url part of "mycoolname::git+https://github.com/me/project.git#branch=coolfeature"
 	sourceInfo := ExtractGitSourceInformation(primarySource)
 
@@ -107,17 +123,17 @@ func (s GitSources) ParseGitPackageVersion() (string, error) {
 		}
 	} else if sourceInfo.Tag != "" { // the following if branches look similar and could be merged but let's keep them this way for now.
 		calculateCommit = func() (string, error) {
-			out, err := s.getCommitHash(sourceInfo.Url, sourceInfo.Tag)
+			out, err := s.TryGetCommitHashFromAnySource(sourceInfo.Urls, sourceInfo.Tag)
 			return out, err
 		}
 	} else if sourceInfo.Branch != "" {
 		calculateCommit = func() (string, error) {
-			out, err := s.getCommitHash(sourceInfo.Url, sourceInfo.Branch)
+			out, err := s.TryGetCommitHashFromAnySource(sourceInfo.Urls, sourceInfo.Branch)
 			return out, err
 		}
 	} else {
 		calculateCommit = func() (string, error) {
-			out, err := s.getCommitHash(sourceInfo.Url, "HEAD")
+			out, err := s.TryGetCommitHashFromAnySource(sourceInfo.Urls, "HEAD")
 			return out, err
 		}
 	}

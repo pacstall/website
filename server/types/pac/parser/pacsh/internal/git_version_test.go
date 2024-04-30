@@ -9,8 +9,15 @@ import (
 func assertGitSourceInfoEquals(t *testing.T, expected, actual internal.GitSourceInfo) {
 	t.Helper()
 
-	if expected.Url != actual.Url {
-		t.Errorf("expected url '%v' but got '%v'", expected.Url, actual.Url)
+	if len(expected.Urls) != len(actual.Urls) {
+		t.Errorf("expected url %+v but got %+v", expected.Urls, actual.Urls)
+	}
+
+	for idx, expectedUrl := range expected.Urls {
+		if expectedUrl != actual.Urls[idx] {
+			t.Errorf("expected url %+v but got %+v", expected.Urls, actual.Urls)
+			return
+		}
 	}
 
 	if expected.Branch != actual.Branch {
@@ -29,7 +36,7 @@ func assertGitSourceInfoEquals(t *testing.T, expected, actual internal.GitSource
 func Test_ExtractGitSourceInformation_Simple(t *testing.T) {
 	actual := internal.ExtractGitSourceInformation("git://git.deluge-torrent.org/deluge.git")
 	expected := internal.GitSourceInfo{
-		Url: "git://git.deluge-torrent.org/deluge.git",
+		Urls: []string{"git://git.deluge-torrent.org/deluge.git"},
 	}
 
 	assertGitSourceInfoEquals(t, expected, actual)
@@ -38,8 +45,8 @@ func Test_ExtractGitSourceInformation_Simple(t *testing.T) {
 func Test_ExtractGitSourceInformation_Tag(t *testing.T) {
 	actual := internal.ExtractGitSourceInformation("git://git.deluge-torrent.org/deluge.git#tag=example_tag")
 	expected := internal.GitSourceInfo{
-		Url: "git://git.deluge-torrent.org/deluge.git",
-		Tag: "example_tag",
+		Urls: []string{"git://git.deluge-torrent.org/deluge.git"},
+		Tag:  "example_tag",
 	}
 
 	assertGitSourceInfoEquals(t, expected, actual)
@@ -48,7 +55,7 @@ func Test_ExtractGitSourceInformation_Tag(t *testing.T) {
 func Test_ExtractGitSourceInformation_Branch(t *testing.T) {
 	actual := internal.ExtractGitSourceInformation("git://git.deluge-torrent.org/deluge.git#branch=develop")
 	expected := internal.GitSourceInfo{
-		Url:    "git://git.deluge-torrent.org/deluge.git",
+		Urls:   []string{"git://git.deluge-torrent.org/deluge.git"},
 		Branch: "develop",
 	}
 
@@ -58,7 +65,7 @@ func Test_ExtractGitSourceInformation_Branch(t *testing.T) {
 func Test_ExtractGitSourceInformation_Commit(t *testing.T) {
 	actual := internal.ExtractGitSourceInformation("git://git.deluge-torrent.org/deluge.git#commit=a0b1b2d3e4")
 	expected := internal.GitSourceInfo{
-		Url:    "git://git.deluge-torrent.org/deluge.git",
+		Urls:   []string{"git://git.deluge-torrent.org/deluge.git"},
 		Commit: "a0b1b2d3e4",
 	}
 
@@ -68,7 +75,7 @@ func Test_ExtractGitSourceInformation_Commit(t *testing.T) {
 func Test_ExtractGitSourceInformation_GitPlusHttps(t *testing.T) {
 	actual := internal.ExtractGitSourceInformation("git+https://git.deluge-torrent.org/deluge.git#commit=a0b1b2d3e4")
 	expected := internal.GitSourceInfo{
-		Url:    "git://git.deluge-torrent.org/deluge.git",
+		Urls:   []string{"https://git.deluge-torrent.org/deluge.git", "git://git.deluge-torrent.org/deluge.git"},
 		Commit: "a0b1b2d3e4",
 	}
 
@@ -78,7 +85,7 @@ func Test_ExtractGitSourceInformation_GitPlusHttps(t *testing.T) {
 func Test_ExtractGitSourceInformation_WithNamePrefix(t *testing.T) {
 	actual := internal.ExtractGitSourceInformation("someName::git+https://git.deluge-torrent.org/deluge.git#commit=a0b1b2d3e4")
 	expected := internal.GitSourceInfo{
-		Url:    "git://git.deluge-torrent.org/deluge.git",
+		Urls:   []string{"https://git.deluge-torrent.org/deluge.git", "git://git.deluge-torrent.org/deluge.git"},
 		Commit: "a0b1b2d3e4",
 	}
 
