@@ -25,21 +25,30 @@ func (c *PackageController) GetPackageRequiredByHandle(w http.ResponseWriter, re
 		return nil
 	}
 
+	requiredBy, packageFound := c.findPackagesRequiredBy(name)
+	if !packageFound {
+		w.WriteHeader(404)
+		return nil
+	}
+
+	server.Json(w, requiredBy)
+	return nil
+}
+
+func (c *PackageController) findPackagesRequiredBy(packageName string) ([]*pac.Script, bool) {
 	allPackages := c.packageCacheService.GetAll()
 
 	found, err := array.FindBy(allPackages, func(p *pac.Script) bool {
-		return p.PackageName == name
+		return p.PackageName == packageName
 	})
 
 	if err != nil {
-		w.WriteHeader(404)
-		return nil
+		return nil, false
 	}
 
 	requiredBy := array.Filter(allPackages, func(it *array.Iterator[*pac.Script]) bool {
 		return array.Contains(found.RequiredBy, array.Is(it.Value.PackageName))
 	})
 
-	server.Json(w, requiredBy)
-	return nil
+	return requiredBy, true
 }
