@@ -14,9 +14,7 @@ func Test_PackageController_findPackageDependencies_NotFound(t *testing.T) {
 	controller := New(config.ServerConfiguration{}, cacheService)
 
 	_, found := controller.findPackageDependencies("package-that-does-not-exist")
-	if found {
-		t.Errorf("expected to not find any package")
-	}
+	expect.False(t, "expected to not find any package", found)
 }
 
 func Test_PackageController_findPackageDependencies_Found(t *testing.T) {
@@ -30,9 +28,7 @@ func Test_PackageController_findPackageDependencies_Found(t *testing.T) {
 	})
 
 	dependencies, found := controller.findPackageDependencies("test")
-	if !found {
-		t.Errorf("expected to find any test package")
-	}
+	expect.True(t, "expected to find test package", found)
 
 	expected := pacscriptDependencies{
 		PacstallDependencies: []*pac.Script{},
@@ -59,9 +55,7 @@ func Test_PackageController_findPackageDependencies_CorrectDependencies(t *testi
 	})
 
 	dependencies, found := controller.findPackageDependencies("test")
-	if !found {
-		t.Errorf("expected to find any test package")
-	}
+	expect.True(t, "expected to find test package", found)
 
 	expected := pacscriptDependencies{
 		RuntimeDependencies:  []string{"runtime"},
