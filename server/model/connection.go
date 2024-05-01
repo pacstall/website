@@ -9,18 +9,19 @@ import (
 	"pacstall.dev/webserver/config"
 )
 
-var database *gorm.DB = nil
-var connectionString = fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-	config.Database.User,
-	config.Database.Password,
-	config.Database.Host,
-	config.Database.Port,
-	config.Database.Name,
-)
+var connectionString = ""
 
-func Instance() *gorm.DB {
-	if database != nil {
-		return database
+func Connect(config config.DatabaseConfiguration) *gorm.DB {
+	connectionString = fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		config.User,
+		config.Password,
+		config.Host,
+		config.Port,
+		config.Name,
+	)
+
+	if connectionString == "" {
+		panic("database connection has not been initialized")
 	}
 
 	db, err := gorm.Open(mysql.Open(connectionString), &gorm.Config{
@@ -31,12 +32,11 @@ func Instance() *gorm.DB {
 		panic(fmt.Sprintf("failed to connect database: %v", err))
 	}
 
-	defer postConnect()
+	defer postConnect(db)
 
-	database = db
-	return database
+	return db
 }
 
-func postConnect() {
+func postConnect(database *gorm.DB) {
 	database.AutoMigrate(&ShortenedLink{})
 }
