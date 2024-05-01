@@ -10,22 +10,28 @@ import (
 )
 
 func (c *RepologyController) GetRepologyPackageListHandle(w http.ResponseWriter, req *http.Request) error {
-	packages := c.packageCacheService.GetAll()
-
-	packages = array.Filter(packages, func(it *array.Iterator[*pac.Script]) bool {
-		return len(it.Value.Version) > 0
-	})
-
 	etag := fmt.Sprintf("%v", c.packageCacheService.LastModified().UTC().String())
 	if server.ApplyHeaders(c.serverConfiguration, etag, w, req) {
 		// Response was cached and already sent
 		return nil
 	}
 
+	results := c.findPackagesForRepology()
+
+	server.Json(w, results)
+	return nil
+}
+
+func (c *RepologyController) findPackagesForRepology() []repologyPackage {
+	packages := c.packageCacheService.GetAll()
+
+	packages = array.Filter(packages, func(it *array.Iterator[*pac.Script]) bool {
+		return len(it.Value.Version) > 0
+	})
+
 	results := array.SwitchMap(packages, func(it *array.Iterator[*pac.Script]) repologyPackage {
 		return newRepologyPackage(it.Value)
 	})
 
-	server.Json(w, results)
-	return nil
+	return results
 }
