@@ -2,11 +2,10 @@ package urlshortener
 
 import (
 	"net/http"
-	"strings"
 
 	"github.com/gorilla/mux"
-	"github.com/treelightsoftware/go-matomo"
 	"pacstall.dev/webserver/log"
+	"pacstall.dev/webserver/types/repository"
 )
 
 var pathParams = struct {
@@ -33,10 +32,22 @@ func (c *UrlShortenerController) GetShortenedLinkRedirectHandle(w http.ResponseW
 		return nil
 	}
 
-	shortenedLink, err := c.shortenedLinkRepository.FindOneByLinkId(linkId)
-	if err != nil {
+	shortenedLink, found := c.findShortenedLinkAndTrack(linkId, doNotTrack, req.RemoteAddr, req.UserAgent(), req.Referer())
+	if !found {
 		w.WriteHeader(404)
 		return nil
+	}
+
+	w.Header().Add("Location", shortenedLink.GetLink())
+	w.WriteHeader(302)
+
+	return nil
+}
+
+func (c *UrlShortenerController) findShortenedLinkAndTrack(linkId string, doNotTrack bool, remoteAddress, userAgent, referer string) (repository.ShortenedLink, bool) {
+	shortenedLink, err := c.shortenedLinkRepository.FindOneByLinkId(linkId)
+	if err != nil {
+		return nil, false
 	}
 
 	// Increment visits in the background and ping matomo
@@ -50,39 +61,9 @@ func (c *UrlShortenerController) GetShortenedLinkRedirectHandle(w http.ResponseW
 		}
 
 		if c.matomoConfiguration.Enabled {
-			pingMatomoTracker(req.RemoteAddr, req.UserAgent(), req.Referer(), linkId)
+			c.matomoTrackerSerice.TrackShortLink(remoteAddress, userAgent, referer, linkId)
 		}
 	}()
 
-	w.Header().Add("Location", shortenedLink.GetLink())
-	w.WriteHeader(302)
-
-	return nil
-}
-
-func pingMatomoTracker(user, userAgent, urlRef, link string) {
-	// Strip the port from the user
-	user = user[:strings.LastIndex(user, ":")]
-
-	params := &matomo.Parameters{
-		RecommendedParameters: &matomo.RecommendedParameters{
-			URL:        matomo.StringPtr("/" + link),
-			ActionName: matomo.StringPtr("ShortenedLink"),
-			VisitorID:  matomo.StringPtr("@pacstall/webserver/" + user),
-		},
-		UserParameters: &matomo.UserParameters{
-			UserID:    matomo.StringPtr("@pacstall/webserver/" + user),
-			UserAgent: matomo.StringPtr(userAgent),
-			URLRef:    matomo.StringPtr(urlRef),
-		},
-		EventTrackingParameters: &matomo.EventTrackingParameters{
-			Category: matomo.StringPtr("ShortenedLink"),
-			Action:   matomo.StringPtr(link),
-		},
-	}
-
-	err := matomo.Send(params)
-	if err != nil {
-		log.Warn("failed to ping matomo tracker: %s", err)
-	}
+	return shortenedLink, true
 }

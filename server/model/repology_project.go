@@ -31,10 +31,8 @@ type RepologyProjectRepository struct {
 	database *gorm.DB
 }
 
-func InitRepologyProjectRepository(r *RepologyProjectRepository, db *gorm.DB) *RepologyProjectRepository {
-	if r == nil {
-		r = &RepologyProjectRepository{}
-	}
+func InitRepologyProjectRepository(db *gorm.DB) *RepologyProjectRepository {
+	r := &RepologyProjectRepository{}
 
 	r.database = db
 

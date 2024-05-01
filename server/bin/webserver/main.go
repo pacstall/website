@@ -13,6 +13,7 @@ import (
 	"pacstall.dev/webserver/log"
 	"pacstall.dev/webserver/model"
 	grs "pacstall.dev/webserver/services/git_resolver_service"
+	"pacstall.dev/webserver/services/matomo_tracker"
 	pkgcache "pacstall.dev/webserver/services/package_cache"
 	"pacstall.dev/webserver/services/parser"
 	"pacstall.dev/webserver/services/repology"
@@ -62,14 +63,9 @@ func main() {
 
 	// Initialize repositories
 	databaseConnection := model.Connect(globalConfiguration.DatabaseConfiguration)
-	var repologyProjectProviderRepository repository.RepologyProjectProviderRepository = model.InitRepologyProjectProviderRepository(
-		nil,
-		databaseConnection,
-	)
-	var repologyProjectRepository repository.RepologyProjectRepository = model.InitRepologyProjectRepository(
-		nil,
-		databaseConnection,
-	)
+	var repologyProjectProviderRepository repository.RepologyProjectProviderRepository = model.InitRepologyProjectProviderRepository(databaseConnection)
+	var repologyProjectRepository repository.RepologyProjectRepository = model.InitRepologyProjectRepository(databaseConnection)
+	var shortenedLinkRepository repository.ShortenedLinkRepository = model.InitShortenedLinkRepository(databaseConnection)
 
 	// Initialize services
 	var repologyService service.RepologyService = repology.New(
@@ -91,10 +87,13 @@ func main() {
 		packageCacheService,
 	)
 	var ssrService service.ServerSideRenderService = ssr.New(packageCacheService)
+	var matomoTrackerService service.MatomoTrackerService = matomo_tracker.New()
 
 	// Initialize controllers
 	var urlShortenerController controller.Controller = urlshortener.New(
 		globalConfiguration.MatomoConfiguration,
+		shortenedLinkRepository,
+		matomoTrackerService,
 	)
 	var repologyController controller.Controller = repology_api.New(
 		globalConfiguration.ServerConfiguration,

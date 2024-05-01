@@ -73,10 +73,8 @@ type ShortenedLinkRepository struct {
 	database *gorm.DB
 }
 
-func InitShortenedLinkRepository(r *ShortenedLinkRepository, db *gorm.DB) *ShortenedLinkRepository {
-	if r == nil {
-		r = &ShortenedLinkRepository{}
-	}
+func InitShortenedLinkRepository(db *gorm.DB) *ShortenedLinkRepository {
+	r := &ShortenedLinkRepository{}
 
 	r.database = db
 	return r
