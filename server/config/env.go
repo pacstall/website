@@ -21,6 +21,7 @@ func Parse() GlobalConfiguration {
 		Port:         internal.GetEnvIntOrDefault("PACSTALL_SERVER_PORT", 3300),
 		PublicDir:    internal.GetEnvStringOrDefault("PACSTALL_SERVER_PUBLIC_DIR", "../client/dist"),
 		Version:      build.Version,
+		BuildDate:    build.BuildDate,
 		TempDir:      internal.GetEnvStringOrDefault("PACSTALL_SERVER_TEMP_DIR", "./tmp"),
 		MaxOpenFiles: internal.GetEnvIntOrDefault("PACSTALL_SERVER_MAX_OPEN_FILES", 100),
 		Production:   internal.GetEnvBoolOrDefault("PACSTALL_SERVER_PRODUCTION", false),
@@ -67,6 +68,7 @@ type ServerConfiguration struct {
 	Port         int
 	PublicDir    string
 	Version      string
+	BuildDate    string
 	TempDir      string
 	MaxOpenFiles int
 }

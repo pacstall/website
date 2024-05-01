@@ -23,7 +23,7 @@ import (
 	"pacstall.dev/webserver/types/service"
 )
 
-func printLogo() {
+func printLogo(conf config.ServerConfiguration) {
 	logoColor := color.New(color.FgHiMagenta, color.Bold).SprintFunc()
 	fmt.Println(logoColor(`
     ____                  __        ____         
@@ -35,8 +35,17 @@ func printLogo() {
 | | /| / / _ \/ __ \\__ \/ _ \/ ___/ | / / _ \/ ___/
 | |/ |/ /  __/ /_/ /__/ /  __/ /   | |/ /  __/ /    
 |__/|__/\___/_.___/____/\___/_/    |___/\___/_/     
-		coded by saenai255, owned by Pacstall Org		  
-   `))
+		coded by saenai255, owned by Pacstall Org
+		built at: ` + conf.BuildDate + `
+		version: ` + conf.Version + `
+		mode: ` + func() string {
+		if conf.Production {
+			return "production"
+		}
+
+		return "development"
+	}() + `
+`))
 }
 
 func main() {
@@ -107,7 +116,7 @@ func main() {
 	)
 
 	// Startup
-	printLogo()
+	printLogo(globalConfiguration.ServerConfiguration)
 
 	ssrService.EnableServerSideRendering()
 	controllesManager.RegisterRoutes()
