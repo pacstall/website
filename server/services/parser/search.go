@@ -36,14 +36,14 @@ func FilterPackages(packages []*pac.Script, filter, filterBy string) []*pac.Scri
 	switch filterBy {
 	case "name":
 		return filterByFunc(func(pi *pac.Script) bool {
-			return strings.Contains(pi.PackageName, filter) ||
-				strings.Contains(pi.Gives, filter) ||
-				strings.Contains(pi.Description, filter)
+			return strings.Contains(strings.ToLower(pi.PackageName), strings.ToLower(filter)) ||
+				strings.Contains(strings.ToLower(pi.Gives), strings.ToLower(filter)) ||
+				strings.Contains(strings.ToLower(pi.Description), strings.ToLower(filter))
 		})
 
 	case "maintainer":
 		return filterByFunc(func(pi *pac.Script) bool {
-			return strings.Contains(strings.Join(pi.Maintainers, ", "), filter)
+			return strings.Contains(strings.ToLower(strings.Join(pi.Maintainers, ", ")), strings.ToLower(filter))
 		})
 	default:
 		return packages

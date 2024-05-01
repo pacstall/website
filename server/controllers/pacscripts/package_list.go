@@ -25,7 +25,6 @@ type packageListPage struct {
 
 func (c *PackageController) GetPackageListHandle(w http.ResponseWriter, req *http.Request) error {
 
-	packages := c.packageCacheService.GetAll()
 	params, err := query.
 		New(req).
 		OptionalInt(parser.PageKey, 0).
@@ -57,6 +56,14 @@ func (c *PackageController) GetPackageListHandle(w http.ResponseWriter, req *htt
 		return nil
 	}
 
+	result := c.findProjectsPageMatchingFilter(filter, filterBy, sort, sortBy, page, pageSize)
+
+	server.Json(w, result)
+	return nil
+}
+
+func (c *PackageController) findProjectsPageMatchingFilter(filter string, filterBy string, sort string, sortBy string, page int, pageSize int) packageListPage {
+	packages := c.packageCacheService.GetAll()
 	packages = parser.FilterPackages(packages, filter, filterBy)
 	packages = parser.SortPackages(packages, sort, sortBy)
 	found := len(packages)
@@ -73,9 +80,7 @@ func (c *PackageController) GetPackageListHandle(w http.ResponseWriter, req *htt
 		LastPage: int(math.Floor(float64(found) / float64(pageSize))),
 		Data:     packages,
 	}
-
-	server.Json(w, result)
-	return nil
+	return result
 }
 
 func computePage(packages []*pac.Script, page, pageSize int) []*pac.Script {
