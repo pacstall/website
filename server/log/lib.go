@@ -25,6 +25,14 @@ const (
 	logDiscordNotify = "📢 Notification"
 )
 
+var discordConfiguration = config.DiscordConfiguration{
+	Enabled: false,
+}
+
+func Init(config config.DiscordConfiguration) {
+	discordConfiguration = config
+}
+
 type tLogLevel uint8
 
 var Level = struct {
@@ -111,17 +119,17 @@ func NotifyCustom(level, message string, args ...any) {
 }
 
 func sendDiscordMessage(tag bool, level, message string, args ...any) {
-	if !config.Discord.Enabled {
+	if !discordConfiguration.Enabled {
 		return
 	}
 
 	msg := fmt.Sprintf("Webserver - %s: %s\n", level, fmt.Sprintf(message, args...))
 	if tag {
-		msg = fmt.Sprintf("%s %s", config.Discord.Tags, msg)
+		msg = fmt.Sprintf("%s %s", discordConfiguration.Tags, msg)
 	}
 
 	_, err := discordClient.ChannelMessageSend(
-		config.Discord.ChannelID,
+		discordConfiguration.ChannelID,
 		msg,
 	)
 
@@ -131,8 +139,8 @@ func sendDiscordMessage(tag bool, level, message string, args ...any) {
 }
 
 var discordClient = func() *discordgo.Session {
-	if config.Discord.Enabled {
-		return connect(config.Discord.Token)
+	if discordConfiguration.Enabled {
+		return connect(discordConfiguration.Token)
 	}
 
 	return nil
