@@ -33,33 +33,40 @@ func (c *PackageController) GetPackageDependenciesHandle(w http.ResponseWriter, 
 		return nil
 	}
 
-	allPacscripts := c.packageCacheService.GetAll()
-
-	pacpkg, err := array.FindBy(allPacscripts, func(s *pac.Script) bool {
-		return s.PackageName == name
-	})
-
-	if err != nil {
+	dependencies, ok := c.findPackageDependencies(name)
+	if !ok {
 		w.WriteHeader(404)
 		return nil
 	}
 
+	server.Json(w, dependencies)
+	return nil
+}
+
+func (c *PackageController) findPackageDependencies(name string) (pacscriptDependencies, bool) {
+	allPackages := c.packageCacheService.GetAll()
+
+	foundPackage, err := array.FindBy(allPackages, func(s *pac.Script) bool {
+		return s.PackageName == name
+	})
+
+	if err != nil {
+		return pacscriptDependencies{}, false
+	}
+
 	pacstallDependencies := make([]*pac.Script, 0)
-	for _, pkg := range pacpkg.PacstallDependencies {
-		if found, err := array.FindBy(allPacscripts, func(pi *pac.Script) bool { return pkg == pi.PackageName }); err == nil {
+	for _, pkg := range foundPackage.PacstallDependencies {
+		if found, err := array.FindBy(allPackages, func(pi *pac.Script) bool { return pkg == pi.PackageName }); err == nil {
 			pacstallDependencies = append(pacstallDependencies, found)
 		} else {
-			log.Error("could not find pacstall dependency %s of package %s.\n", pkg, pacpkg.PackageName)
+			log.Error("could not find pacstall dependency %s of package %s.\n", pkg, foundPackage.PackageName)
 		}
 	}
 
-	response := pacscriptDependencies{
-		RuntimeDependencies:  pacpkg.RuntimeDependencies,
-		BuildDependencies:    pacpkg.BuildDependencies,
-		OptionalDependencies: pacpkg.OptionalDependencies,
+	return pacscriptDependencies{
+		RuntimeDependencies:  foundPackage.RuntimeDependencies,
+		BuildDependencies:    foundPackage.BuildDependencies,
+		OptionalDependencies: foundPackage.OptionalDependencies,
 		PacstallDependencies: pacstallDependencies,
-	}
-
-	server.Json(w, response)
-	return nil
+	}, true
 }

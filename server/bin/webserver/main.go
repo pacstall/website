@@ -111,7 +111,6 @@ func main() {
 
 	ssrService.EnableServerSideRendering()
 	controllesManager.RegisterRoutes()
-	log.Info("registered http requests")
 
 	log.Info("attempting to start TCP listener")
 

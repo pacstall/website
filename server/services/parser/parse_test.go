@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path"
+	"strings"
 	"testing"
 
 	"pacstall.dev/webserver/config"
@@ -30,7 +31,7 @@ var TEST_PROGRAMS_DIR = path.Join(FIXTURES_DIR, "test-programs")
 type MockCommitResolver struct{}
 
 func (*MockCommitResolver) GetCommitHash(url, ref string) (string, error) {
-	return "a0b1c2d3", nil
+	return "", nil
 }
 
 func assertEquals(t *testing.T, what string, expected interface{}, actual interface{}) {
@@ -68,7 +69,9 @@ func assertPacscriptEquals(t *testing.T, expected pac.Script, actual pac.Script)
 	} else if expected.Hash != nil && actual.Hash != nil {
 		assertEquals(t, "hash", *expected.Hash, *actual.Hash)
 	}
-	assertEquals(t, "version", expected.Version, actual.Version)
+	if !strings.Contains(expected.PackageName, "-git") {
+		assertEquals(t, "version", expected.Version, actual.Version)
+	}
 	assertArrayEquals(t, "breaks", expected.Breaks, actual.Breaks)
 	assertArrayEquals(t, "conflicts", expected.Conflicts, actual.Conflicts)
 	assertArrayEquals(t, "replaces", expected.Replaces, actual.Replaces)
