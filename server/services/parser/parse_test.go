@@ -11,6 +11,7 @@ import (
 	"pacstall.dev/webserver/config"
 	grs "pacstall.dev/webserver/services/git_resolver_service"
 	pkgcache "pacstall.dev/webserver/services/package_cache"
+	pkglastupd "pacstall.dev/webserver/services/package_last_updated"
 	"pacstall.dev/webserver/services/parser"
 	"pacstall.dev/webserver/services/parser/pacsh"
 	"pacstall.dev/webserver/services/repology"
@@ -125,6 +126,7 @@ func assertPacscriptMatchesSnapshot(t *testing.T, pkgname string) {
 		&repology.RepologyService{},
 		grs.New(&MockCommitResolver{}),
 		pkgcache.New(),
+		pkglastupd.New(),
 	)
 
 	actual, err := parserService.ParsePacscriptFile(TEST_PROGRAMS_DIR, pkgname)

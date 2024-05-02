@@ -31,3 +31,19 @@ func True(t *testing.T, message string, condition bool) {
 		t.Errorf(message)
 	}
 }
+
+func NoError(t *testing.T, err error) {
+	t.Helper()
+
+	if err != nil {
+		t.Errorf("expected no error but got %+v", err)
+	}
+}
+
+func AnyError(t *testing.T, err error) {
+	t.Helper()
+
+	if err == nil {
+		t.Errorf("expected error but got nil")
+	}
+}

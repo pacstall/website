@@ -23,12 +23,13 @@ import (
 const PACKAGE_LIST_FILE_NAME = "./packagelist"
 
 type ParserService struct {
-	programsConfiguration config.PacstallProgramsConfiguration
-	serverConfiguration   config.ServerConfiguration
-	repologyConfiguration config.RepologyConfiguration
-	repologyService       service.RepologyService
-	gitVersionResolver    service.GitVersionResolver
-	packageCacheService   service.PackageCacheService
+	programsConfiguration     config.PacstallProgramsConfiguration
+	serverConfiguration       config.ServerConfiguration
+	repologyConfiguration     config.RepologyConfiguration
+	repologyService           service.RepologyService
+	gitVersionResolver        service.GitVersionResolver
+	packageCacheService       service.PackageCacheService
+	packageLastUpdatedService service.PackageLastUpdatedService
 }
 
 func New(
@@ -38,14 +39,18 @@ func New(
 	repologyService service.RepologyService,
 	gitVersionResolver service.GitVersionResolver,
 	packageCacheService service.PackageCacheService,
+	packageLastUpdatedService service.PackageLastUpdatedService,
+
 ) *ParserService {
 	s := &ParserService{}
 
 	s.programsConfiguration = programsConfiguration
 	s.serverConfiguration = serverConfiguration
 	s.repologyConfiguration = repologyConfiguration
+	s.repologyService = repologyService
 	s.gitVersionResolver = gitVersionResolver
 	s.packageCacheService = packageCacheService
+	s.packageLastUpdatedService = packageLastUpdatedService
 
 	return s
 }
@@ -74,7 +79,7 @@ func (s *ParserService) ParseAll() error {
 		return s1.PackageName < s2.PackageName
 	})
 
-	if err := setLastUpdatedAt(loadedPacscripts, s.programsConfiguration.ClonePath); err != nil {
+	if err := s.setLastUpdatedAt(loadedPacscripts, s.programsConfiguration.ClonePath); err != nil {
 		return errorx.Decorate(err, "failed to set last updated at")
 	}
 

@@ -15,6 +15,7 @@ import (
 	grs "pacstall.dev/webserver/services/git_resolver_service"
 	"pacstall.dev/webserver/services/matomo_tracker"
 	pkgcache "pacstall.dev/webserver/services/package_cache"
+	pkglastupd "pacstall.dev/webserver/services/package_last_updated"
 	"pacstall.dev/webserver/services/parser"
 	"pacstall.dev/webserver/services/repology"
 	"pacstall.dev/webserver/services/server"
@@ -78,6 +79,7 @@ func main() {
 		globalConfiguration.ServerConfiguration,
 		packageCacheService,
 	)
+	var packageLastUpdatedService service.PackageLastUpdatedService = pkglastupd.New()
 	var parserService service.ParserService = parser.New(
 		globalConfiguration.PacstallProgramsConfiguration,
 		globalConfiguration.ServerConfiguration,
@@ -85,6 +87,7 @@ func main() {
 		repologyService,
 		grs.New(grs.NewShellGitCommitResolver()),
 		packageCacheService,
+		packageLastUpdatedService,
 	)
 	var ssrService service.ServerSideRenderService = ssr.New(packageCacheService)
 	var matomoTrackerService service.MatomoTrackerService = matomo_tracker.New()
