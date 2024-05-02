@@ -57,7 +57,7 @@ run:
 	PACSTALL_DISCORD_TAGS="" \
 	PACSTALL_MATOMO_ENABLED="false" \
 	PACSTALL_REPOLOGY_ENABLED="false" \
-	PACSTALL_PROGRAMS_GIT_BRANCH="5.0.0-master" \
+	PACSTALL_PROGRAMS_GIT_BRANCH="master" \
 	go run bin/webserver/main.go
 
 dist/webserver: $(shell find . -not \( -path ./tmp -prune \) -not \( -path ./dist -prune \) -type f)
