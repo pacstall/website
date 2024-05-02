@@ -29,7 +29,7 @@ func NewGitSources(sources []string) GitSources {
 			version, err := timeout.Run(fmt.Sprintf("commit-hash/%v/%v", url, ref), func() (string, error) {
 				version, err := git.GetRemoteCommitHash(url, ref)
 				return version, err
-			}, 3*time.Second)
+			}, 10*time.Second)
 			return version, err
 		},
 	}
