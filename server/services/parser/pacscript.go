@@ -26,9 +26,9 @@ func removeDebianCheck(script string) string {
 	return script[debianCheckEnd+len("fi"):]
 }
 
-func buildCustomFormatScript(header []byte) []byte {
+func buildCustomFormatScript(header string) string {
 	// TODO: remove after `preinstall` gets implemented
-	script := removeDebianCheck(string(header)) + "\n"
+	script := removeDebianCheck(header) + "\n"
 
 	script += "echo ''\n"
 	for _, bashName := range pacsh.PacscriptVars {
@@ -50,7 +50,7 @@ fi
 		script += fmt.Sprintf("%v=$(jo -a ${%v[@]}) ", bashName, bashName)
 	}
 
-	return []byte(script)
+	return script
 }
 
 func computeRequiredBy(script *pac.Script, scripts []*pac.Script) {

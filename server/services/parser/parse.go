@@ -120,16 +120,16 @@ func (s *ParserService) parsePacscriptFiles(names []string) ([]*pac.Script, erro
 	return channels.ToSlice(outChan), nil
 }
 
-func readPacscriptFile(rootDir, name string) (scriptBytes []byte, fileName string, err error) {
+func readPacscriptFile(rootDir, name string) (script string, fileName string, err error) {
 	fileName = fmt.Sprintf("%s.%s", name, consts.PACSCRIPT_FILE_EXTENSION)
 	scriptPath := path.Join(rootDir, "packages", name, fileName)
-	scriptBytes, err = os.ReadFile(scriptPath)
+	scriptBytes, err := os.ReadFile(scriptPath)
 
 	if err != nil {
-		return nil, "", errorx.Decorate(err, "failed to read file '%v'", scriptPath)
+		return "", "", errorx.Decorate(err, "failed to read file '%v'", scriptPath)
 	}
 
-	return scriptBytes, fileName, nil
+	return string(scriptBytes), fileName, nil
 }
 
 func (s *ParserService) ParsePacscriptFile(programsDirPath, name string) (pac.Script, error) {

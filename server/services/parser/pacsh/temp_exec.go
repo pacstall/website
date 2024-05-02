@@ -16,7 +16,7 @@ var execCommand = exec.Command
 
 var CreateTempExecutable = createTempExecutable
 
-func createTempExecutable(dirPath, fileName string, content []byte) (string, error) {
+func createTempExecutable(dirPath, fileName string, content string) (string, error) {
 	tmpFile, err := createFile(joinPaths(dirPath, fileName))
 
 	if err != nil {

@@ -33,7 +33,7 @@ func getPackageLastUpdatedTuples(programsClonePath string) ([]packageLastUpdated
 	for i in ./packages/*/*.%s; do echo $i; git log -1 --pretty=\"%%at\" $i; done
 	`, programsPath, consts.PACSCRIPT_FILE_EXTENSION)
 
-	outputBytes, err := pacsh.ExecBash(programsPath, "last_updated.sh", []byte(script))
+	outputBytes, err := pacsh.ExecBash(programsPath, "last_updated.sh", script)
 	if err != nil {
 		return nil, errorx.Decorate(err, "failed to get last updated git output")
 	}

@@ -101,17 +101,17 @@ type pacscriptJsonStructure struct {
 var _GIT_VERSION = "git"
 var _EMPTI_STR = ""
 
-func parseOutput(gitVersionResolver service.GitVersionResolver, data []byte) (out pac.Script, err error) {
+func parseOutput(gitVersionResolver service.GitVersionResolver, data string) (out pac.Script, err error) {
 	// remove prefixes if any
 	runeIndex := strings.IndexRune(string(data), '{')
 	if runeIndex >= 0 {
 		str := string(data)
 		str = str[runeIndex:]
-		data = []byte(str)
+		data = str
 	}
 
 	var parsedContent pacscriptJsonStructure
-	err = json.Unmarshal(data, &parsedContent)
+	err = json.Unmarshal([]byte(data), &parsedContent)
 	if err != nil {
 		return out, errorx.IllegalFormat.Wrap(err, "failed to deserialize json content '%v'", string(data))
 	}
