@@ -12,13 +12,17 @@ var loadedPacscripts []*pac.Script
 
 func FindByName(name string) (*pac.Script, error) {
 	return array.FindBy(loadedPacscripts, func(p *pac.Script) bool {
-		return p.Name == name
+		return p.PackageName == name
 	})
 }
 
 func FindByMaintainer(maintainer string) (*pac.Script, error) {
 	return array.FindBy(loadedPacscripts, func(p *pac.Script) bool {
-		return p.Maintainer == maintainer
+		_, err := array.FindBy(p.Maintainers, func(s string) bool {
+			return s == maintainer
+		})
+
+		return err != nil
 	})
 }
 

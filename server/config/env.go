@@ -13,6 +13,12 @@ var Discord = struct {
 	Tags:      getEnvString("PACSTALL_DISCORD_TAGS"),
 }
 
+var PacstallPrograms = struct {
+	Branch string
+}{
+	Branch: getEnvString("PACSTALL_PROGRAMS_GIT_BRANCH"),
+}
+
 // Configuration for the database
 var Database = struct {
 	Host     string

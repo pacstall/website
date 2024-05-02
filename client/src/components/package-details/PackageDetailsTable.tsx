@@ -47,13 +47,13 @@ const PackageDetailsTable: FC<{
         <Table mt='10'>
             <Tbody>
                 <Entry header={t('packageDetails.table.name')}>
-                    {data.name}
+                    {data.packageName}
                 </Entry>
 
                 <Entry header={t('packageDetails.table.version')}>
                     <Text fontWeight='bold'>
                         <SemanticVersionColor
-                            git={data.name.endsWith('-git')}
+                            git={data.packageName.endsWith('-git')}
                             version={data.version}
                             status={data.updateStatus}
                         />
@@ -61,7 +61,7 @@ const PackageDetailsTable: FC<{
                 </Entry>
 
                 <Entry header={t('packageDetails.table.maintainer')}>
-                    <PackageDetailsMaintainer text={data.maintainer} />
+                    <PackageDetailsMaintainer text={data.maintainers} />
                 </Entry>
 
                 <Entry header={t('packageDetails.table.lastUpdatedAt')}>
@@ -114,7 +114,7 @@ const PackageDetailsTable: FC<{
                     <Link
                         color='pink.400'
                         isExternal
-                        href={`https://github.com/pacstall/pacstall-programs/blob/master/packages/${data.name}/${data.name}.pacscript`}
+                        href={`https://github.com/pacstall/pacstall-programs/blob/master/packages/${data.packageName}/${data.packageName}.pacscript`}
                     >
                         {t('packageDetails.openInGithub')}{' '}
                         <Icon

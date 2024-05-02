@@ -24,7 +24,7 @@ import (
 const PACKAGE_LIST_FILE_NAME = "./packagelist"
 
 func ParseAll() error {
-	if err := git.RefreshPrograms(config.GitClonePath, config.GitURL); err != nil {
+	if err := git.RefreshPrograms(config.GitClonePath, config.GitURL, config.PacstallPrograms.Branch); err != nil {
 		return errorx.Decorate(err, "could not update repository 'pacstall-programs'")
 	}
 
@@ -43,7 +43,7 @@ func ParseAll() error {
 	}
 
 	array.SortBy(loadedPacscripts, func(s1, s2 *pac.Script) bool {
-		return s1.Name < s2.Name
+		return s1.PackageName < s2.PackageName
 	})
 
 	if err := setLastUpdatedAt(loadedPacscripts); err != nil {
@@ -79,9 +79,6 @@ func parsePacscriptFiles(names []string) ([]*pac.Script, error) {
 	log.Info("parsing pacscripts...")
 	outChan := batch.Run(int(config.MaxOpenFiles), names, func(pacName string) (*pac.Script, error) {
 		out, err := ParsePacscriptFile(config.GitClonePath, pacName)
-		if err != nil {
-			log.Warn("failed to parse %v. err: %v", pacName, err)
-		}
 
 		if config.Repology.Enabled {
 			if err := repology.Sync(&out); err != nil {

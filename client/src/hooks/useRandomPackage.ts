@@ -8,8 +8,7 @@ const pickRandomPackage = (packages: PackageInfo[]) => {
     const idx = Math.floor(Math.random() * packages.length)
     return (
         packages[idx].packageName ||
-        packages[idx].name.split('-').slice(0, -1).join('-') ||
-        packages[idx].name
+        packages[idx].packageName.split('-').slice(0, -1).join('-')
     )
 }
 

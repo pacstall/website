@@ -1,0 +1,57 @@
+{
+    "prettyName": "Sample Valid",
+    "version": "1.0.0",
+    "latestVersion": null,
+    "packageName": "sample-valid-deb",
+    "maintainers": [
+        "1234 \u003ctest@pacstall.dev\u003e"
+    ],
+    "description": "Sample description",
+    "source": [
+        "https://example.com"
+    ],
+    "runtimeDependencies": [
+        "dep1",
+        "dep2"
+    ],
+    "buildDependencies": [
+        "go",
+        "gcc"
+    ],
+    "optionalDependencies": [
+        "opt1",
+        "opt2"
+    ],
+    "conflicts": [
+        "conflicts1",
+        "conflicts2"
+    ],
+    "breaks": [
+        "breaks1",
+        "breaks2"
+    ],
+    "gives": "sample-valid",
+    "replaces": [
+        "replaces1",
+        "replaces2"
+    ],
+    "hash": "10101010",
+    "ppa": [
+        "ppa1",
+        "ppa2"
+    ],
+    "pacstallDependencies": [
+        "pacdep1",
+        "pacdep2"
+    ],
+    "patch": [
+        "patch1",
+        "patch2"
+    ],
+    "repology": [
+        "project: sample-valid"
+    ],
+    "requiredBy": [],
+    "lastUpdatedAt": "0001-01-01T00:00:00Z",
+    "updateStatus": -1
+}

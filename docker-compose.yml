@@ -40,6 +40,7 @@ services:
       PACSTALL_MATOMO_ENABLED: "true"
       MATOMO_DOMAIN: "http://matomo"
       MATOMO_SITE_ID: "1"
+      PACSTALL_PROGRAMS_GIT_BRANCH: "master"
         
   matomo:
     image: matomo

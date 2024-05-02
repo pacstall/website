@@ -43,7 +43,7 @@ func generateDynamicSiteMap() []SitemapEntry {
 
 	for idx, pkg := range packages {
 		entries[idx] = SitemapEntry{
-			Location:        fmt.Sprintf("https://pacstall.dev/packages/%s/", pkg.Name),
+			Location:        fmt.Sprintf("https://pacstall.dev/packages/%s/", pkg.PackageName),
 			ChangeFrequency: "monthly",
 		}
 	}

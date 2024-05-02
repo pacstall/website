@@ -15,8 +15,8 @@
         "isolatedModules": true,
         "jsx": "preserve",
         "incremental": true,
-        "strictNullChecks": false,
+        "strictNullChecks": false
     },
     "include": ["**/*.tsx", "**/*.ts", "**/*.css"],
-    "exclude": ["node_modules"],
+    "exclude": ["node_modules"]
 }

@@ -3,6 +3,7 @@ package ssr
 import (
 	"fmt"
 	"regexp"
+	"strings"
 
 	"pacstall.dev/webserver/consts"
 	r "pacstall.dev/webserver/server/ssr"
@@ -18,7 +19,7 @@ func registerPacscriptSSRData() {
 			name := groups[1]
 
 			pkg, err := array.FindBy(pacstore.GetAll(), func(s *pac.Script) bool {
-				return s.Name == name
+				return s.PackageName == name
 			})
 
 			if err != nil {
@@ -26,7 +27,7 @@ func registerPacscriptSSRData() {
 			}
 
 			return r.IndexTemplateData{
-				Title:       fmt.Sprintf("%s - Pacstall", pkg.Name),
+				Title:       fmt.Sprintf("%s - Pacstall", pkg.PackageName),
 				Description: pkg.Description,
 				Html: fmt.Sprintf(`
 				<h1>Pacstall - The AUR for Ubuntu<h1>
@@ -41,16 +42,15 @@ func registerPacscriptSSRData() {
 					<article>
 						<h3>Package: %s</h3>
 						<h3>Description: %s</h3>
-						<h3>Maintainer: %s</h3>
+						<h3>Maintainers: %s</h3>
 						<h3>Version: %s</h3>
-						<h3><a href="%s">URL</a></h3>
 						<h3><a href="https://github.com/pacstall/pacstall-programs/blob/master/packages/%s/%s.%s">Source</a></h3>
 					</article>
 
 					<button>Install now!</button>
 					<p>Find similar packages <a href="/packages?page=0&size=25&sortBy=default&sort=asc&filter=%s&filterBy=name">here</a>.</p>
 				</main>
-			`, pkg.Name, pkg.Name, pkg.Description, pkg.Maintainer, pkg.Version, pkg.URL, pkg.Name, pkg.Name, consts.PACSCRIPT_FILE_EXTENSION, pkg.PackageName),
+			`, pkg.PackageName, pkg.PackageName, pkg.Description, strings.Join(pkg.Maintainers, ", "), pkg.Version, pkg.PackageName, pkg.PackageName, consts.PACSCRIPT_FILE_EXTENSION, pkg.PackageName),
 			}
 		},
 	)

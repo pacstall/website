@@ -29,7 +29,7 @@ func GetPacscriptRequiredByHandle(w http.ResponseWriter, req *http.Request) {
 	allPackages := pacstore.GetAll()
 
 	found, err := array.FindBy(allPackages, func(p *pac.Script) bool {
-		return p.Name == name
+		return p.PackageName == name
 	})
 
 	if err != nil {
@@ -38,7 +38,7 @@ func GetPacscriptRequiredByHandle(w http.ResponseWriter, req *http.Request) {
 	}
 
 	requiredBy := array.Filter(allPackages, func(it *array.Iterator[*pac.Script]) bool {
-		return array.Contains(found.RequiredBy, array.Is(it.Value.Name))
+		return array.Contains(found.RequiredBy, array.Is(it.Value.PackageName))
 	})
 
 	server.Json(w, requiredBy)
