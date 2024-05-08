@@ -13,8 +13,7 @@ type result[T interface{}] struct {
 
 func Run[T interface{}](timeoutName string, handle func() (T, error), duration time.Duration) (T, error) {
 	var zero T
-	errChan := make(chan error)
-	resultChan := make(chan result[T])
+	resultChan := make(chan result[T], 1)
 
 	go func() {
 		value, err := handle()
@@ -22,17 +21,13 @@ func Run[T interface{}](timeoutName string, handle func() (T, error), duration t
 			value: value,
 			err:   err,
 		}
-	}()
-
-	go func() {
-		time.Sleep(duration)
-		errChan <- errorx.TimeoutElapsed.New("operation %v has timed out", timeoutName)
+		close(resultChan)
 	}()
 
 	select {
 	case it := <-resultChan:
 		return it.value, it.err
-	case err := <-errChan:
-		return zero, err
+	case <-time.After(duration):
+		return zero, errorx.TimeoutElapsed.New("operation %v has timed out", timeoutName)
 	}
 }
