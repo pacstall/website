@@ -9,7 +9,7 @@ require (
 )
 
 require (
-	github.com/bwmarrin/discordgo v0.27.1
+	github.com/bwmarrin/discordgo v0.28.1
 	github.com/joomcode/errorx v1.1.1
 	github.com/treelightsoftware/go-matomo v0.1.0-beta
 	gorm.io/driver/mysql v1.5.7
