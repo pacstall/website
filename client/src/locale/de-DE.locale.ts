@@ -39,6 +39,7 @@ export default <Locale>{
             discord: 'Discord',
             matrix: 'Matrix',
             reddit: 'Reddit',
+            lemmy: 'Lemmy',
             mastodon: 'Mastodon',
         },
         browse: {
@@ -63,7 +64,7 @@ export default <Locale>{
         dropdown: {
             package: 'Paket',
             packageTooltip: 'Sucht in Paketnamen und Beschreibungen',
-            maintainer: 'Betrauer',
+            maintainer: 'Betreuer',
             maintainerTooltip: 'Sucht nach Namen und E-Mails von Betreuern',
         },
         table: {

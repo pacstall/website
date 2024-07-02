@@ -21,7 +21,11 @@ const PackageTableRow: FC<{ pkg: PackageInfo; disabled?: boolean }> = ({
     const { t } = useTranslation()
 
     return (
-        <Tr key={pkg.name} transition={'ease-in-out'} transitionDelay='0.5s'>
+        <Tr
+            key={pkg.packageName}
+            transition={'ease-in-out'}
+            transitionDelay='0.5s'
+        >
             <Td>
                 <Tooltip openDelay={500} label={pkg.description}>
                     <Text
@@ -29,7 +33,7 @@ const PackageTableRow: FC<{ pkg: PackageInfo; disabled?: boolean }> = ({
                         fontWeight={useColorModeValue('700', '500')}
                     >
                         {disabled === true ? (
-                            <span>{pkg.name}</span>
+                            <span>{pkg.packageName}</span>
                         ) : (
                             <Link
                                 as={Rlink}
@@ -37,9 +41,9 @@ const PackageTableRow: FC<{ pkg: PackageInfo; disabled?: boolean }> = ({
                                     'pink.600',
                                     'pink.400',
                                 )}
-                                to={`/packages/${pkg.name}`}
+                                to={`/packages/${pkg.packageName}`}
                             >
-                                {pkg.name}
+                                {pkg.packageName}
                             </Link>
                         )}
                     </Text>
@@ -49,20 +53,24 @@ const PackageTableRow: FC<{ pkg: PackageInfo; disabled?: boolean }> = ({
                 <Tooltip
                     openDelay={500}
                     label={
-                        pkg.maintainer
+                        pkg.maintainers.length
                             ? t(
                                   'packageSearch.maintainerTooltip.maintainedBy',
                                   {
-                                      name: pkg.maintainer.split('<')[0].trim(),
+                                      name: pkg.maintainers
+                                          .map(maintainer =>
+                                              maintainer.split('<')[0].trim(),
+                                          )
+                                          .join(', '),
                                   },
                               )
                             : t('packageSearch.maintainerTooltip.noMaintainer')
                     }
                 >
                     <Text fontSize='sm'>
-                        {(pkg.maintainer || t('packageDetails.orphaned'))
-                            .split('<')[0]
-                            .trim()}
+                        {pkg.maintainers
+                            .map(maintainer => maintainer.split('<')[0].trim())
+                            .join(', ') || t('packageDetails.orphaned')}
                     </Text>
                 </Tooltip>
             </Td>
@@ -71,7 +79,7 @@ const PackageTableRow: FC<{ pkg: PackageInfo; disabled?: boolean }> = ({
             >
                 <Text fontSize='sm'>
                     <SemanticVersionColor
-                        git={pkg.name.endsWith('-git')}
+                        git={pkg.packageName.endsWith('-git')}
                         fill
                         version={pkg.version.substring(0, 14)}
                         status={pkg.updateStatus}
@@ -82,7 +90,7 @@ const PackageTableRow: FC<{ pkg: PackageInfo; disabled?: boolean }> = ({
                 display={useBreakpointValue({ base: 'none', md: 'table-cell' })}
             >
                 <Text fontSize='sm'>
-                    <SmartCodeSnippetInstall size='sm' name={pkg.name} />
+                    <SmartCodeSnippetInstall size='sm' name={pkg.packageName} />
                 </Text>
             </Td>
         </Tr>

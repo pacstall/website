@@ -1,10 +1,11 @@
 package query
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/joomcode/errorx"
 )
 
 type Key = string
@@ -96,7 +97,7 @@ func (q *Query) Parse() (*QueryResult, error) {
 
 	for _, requiredStr := range q.requiredStrs {
 		if !vals.Has(requiredStr) {
-			return nil, fmt.Errorf("missing required query parameter '%v'", requiredStr)
+			return nil, errorx.IllegalArgument.New("missing required query parameter '%v'", requiredStr)
 		}
 
 		stringParams[requiredStr] = vals.Get(requiredStr)
@@ -104,12 +105,12 @@ func (q *Query) Parse() (*QueryResult, error) {
 
 	for _, requiredInt := range q.requiredInts {
 		if !vals.Has(requiredInt) {
-			return nil, fmt.Errorf("missing required query parameter '%v'", requiredInt)
+			return nil, errorx.IllegalArgument.New("missing required query parameter '%v'", requiredInt)
 		}
 
 		value, err := strconv.ParseInt(vals.Get(requiredInt), 10, 32)
 		if err != nil {
-			return nil, fmt.Errorf("required query parameter '%v' is not int", requiredInt)
+			return nil, errorx.Decorate(err, "failed to parse required query parameter '%v' as int", requiredInt)
 		}
 
 		intParams[requiredInt] = int(value)
@@ -117,7 +118,7 @@ func (q *Query) Parse() (*QueryResult, error) {
 
 	for requiredEnum, enumValues := range q.requiredEnums {
 		if !vals.Has(requiredEnum) {
-			return nil, fmt.Errorf("missing required query parameter '%v'", requiredEnum)
+			return nil, errorx.IllegalArgument.New("missing required query parameter '%v'", requiredEnum)
 		}
 
 		value := vals.Get(requiredEnum)
@@ -130,7 +131,7 @@ func (q *Query) Parse() (*QueryResult, error) {
 		}
 
 		if !found {
-			return nil, fmt.Errorf("required query parameter '%v' has value '%v' but expected one of [%v]", requiredEnum, value, enumValues)
+			return nil, errorx.IllegalArgument.New("required query parameter '%v' has value '%v' but expected one of [%v]", requiredEnum, value, enumValues)
 		}
 
 		stringParams[requiredEnum] = value
@@ -183,7 +184,7 @@ func (q *Query) Parse() (*QueryResult, error) {
 		_, okInt = intParams[required]
 
 		if !okStr && !okInt {
-			return nil, fmt.Errorf("constraint error: param '%v' requires '%v' but it does not exit", key, required)
+			return nil, errorx.IllegalArgument.New("param '%v' requires '%v' but it does not exit", key, required)
 		}
 	}
 

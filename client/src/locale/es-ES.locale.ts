@@ -40,6 +40,7 @@ export default <Locale>{
             discord: 'Discord',
             matrix: 'Matrix',
             reddit: 'Reddit',
+            lemmy: 'Lemmy',
             mastodon: 'Mastodon',
         },
         browse: {
@@ -53,12 +54,12 @@ export default <Locale>{
     cookieConsent: {
         title: 'Condiciones de las cookies TL;DR',
         paragraphs: [
-            'Hola, sí, utilizamos cookies.',
+            'Hola, utilizamos cookies en nuestro sitio web.',
             'No nos gusta darle información engañosa o confusa. Solo utilizamos cookies para funciones esenciales como la configuración de temas, la localización y la autenticación.',
             'Puede leer la política de privacidad completa <0>aquí <1/></0>',
             'Al continuar utilizando este sitio, usted <0>acepta esta política de privacidad</0>.',
         ],
-        accept: 'ok, genial',
+        accept: 'Ok, genial',
     },
     packageSearch: {
         dropdown: {
@@ -102,6 +103,7 @@ export default <Locale>{
             maintainer: 'Mantenedor',
             dependencies: 'Dependencias',
             requiredBy: 'Requierdo por',
+            lastUpdatedAt: 'Última actualización',
         },
         orphaned: 'Huérfanos',
         noResults: 'Nada',
@@ -119,6 +121,7 @@ export default <Locale>{
             runtimeDependencies: 'Dependencias del tiempo de Ejecución',
             pacstallDependencies: 'Dependencias de Pacstall',
             name: 'Nombre',
+            version: 'Versión',
             close: 'Cerrar',
             provider: 'Proveedor',
             noDescription: 'No hay descripción disponible',

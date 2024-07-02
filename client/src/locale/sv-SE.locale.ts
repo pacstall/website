@@ -8,7 +8,7 @@ export default <Locale>{
             whyDifferent: {
                 title: 'Vad är skillnaden mellan detta och alla andra pakethanterare?',
                 description:
-                    'Pacstall andvänder den stabilla grunden av Ubuntu men tillåter' +
+                    'Pacstall andvänder den stabilla grunden av Ubuntu men tillåter ' +
                     'dig att andvända den senaste mjukvaran utan orsaker, så du behöver' +
                     'inte oroa dig för säkerhetspatcher eller nya funktioner.',
             },
@@ -39,6 +39,7 @@ export default <Locale>{
             discord: 'Discord',
             matrix: 'Matrix',
             reddit: 'Reddit',
+            lemmy: 'Lemmy',
             mastodon: 'Mastodon',
         },
         browse: {
@@ -100,6 +101,7 @@ export default <Locale>{
             maintainer: 'Underhållare',
             dependencies: 'Beroenden',
             requiredBy: 'Krävs av',
+            lastUpdatedAt: 'Senast uppdaterad',
         },
         orphaned: 'Oandvänd',
         noResults: 'Inga resultat',
@@ -120,6 +122,7 @@ export default <Locale>{
             close: 'Stäng',
             provider: 'Leverantör',
             noDescription: 'Ingen beskrivning finns',
+            version: 'Version',
         },
         requiredByModal: {
             title: 'Krävs av',

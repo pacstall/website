@@ -51,6 +51,11 @@ func (f boolFormatter) Format(str string) bool {
 func getEnvVar[T any](key string, format formatter[T]) T {
 	val, ok := os.LookupEnv(key)
 	if !ok {
+		if os.Getenv("GO_ENV") == "test" {
+			fmt.Printf("Running in test mode. Using value '0' for '%s'\n", key)
+			return format.Format("0")
+		}
+
 		panic(fmt.Sprintf("could not find environment variable '%s'", key))
 	}
 

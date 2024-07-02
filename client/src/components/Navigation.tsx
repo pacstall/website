@@ -27,10 +27,10 @@ import {
     ExternalLinkIcon,
 } from '@chakra-ui/icons'
 import { Link as RLink, useNavigate } from 'react-router-dom'
-import { PrimaryButton } from './Button'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import { localeEntries } from '../locale/locale'
+import { ANIMATIONS_DISABLED } from '../util/animation'
 
 export function Navigation() {
     const { isOpen, onToggle } = useDisclosure()
@@ -252,6 +252,12 @@ const DesktopNav = () => {
     )
 }
 
+const TRANSITION_MODE_NORMAL = 'all .3s ease'
+const TRANSITION_MODE_INSTANT = 'all .0s ease'
+const TRANSITION_MODE = ANIMATIONS_DISABLED
+    ? TRANSITION_MODE_INSTANT
+    : TRANSITION_MODE_NORMAL
+
 const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
     const { t } = useTranslation()
     return (
@@ -266,7 +272,7 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
             <Stack direction={'row'} align={'center'}>
                 <Box>
                     <Text
-                        transition={'all .3s ease'}
+                        transition={TRANSITION_MODE}
                         _groupHover={{ color: 'brand.400' }}
                         fontWeight={500}
                     >
@@ -275,7 +281,7 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
                     <Text fontSize={'sm'}>{t(subLabel)}</Text>
                 </Box>
                 <Flex
-                    transition={'all .3s ease'}
+                    transition={TRANSITION_MODE}
                     transform={'translateX(-10px)'}
                     opacity={0}
                     _groupHover={{
@@ -346,7 +352,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
                 {children && (
                     <Icon
                         as={ChevronDownIcon}
-                        transition={'all .25s ease-in-out'}
+                        transition={TRANSITION_MODE}
                         transform={isOpen ? 'rotate(180deg)' : ''}
                         w={6}
                         h={6}
@@ -415,6 +421,10 @@ const NAV_ITEMS: Array<NavItem> = [
             {
                 label: 'navbar.social.matrix',
                 href: 'https://matrix.to/#/#pacstall:matrix.org',
+            },
+            {
+                label: 'navbar.social.lemmy',
+                href: 'https://lemmy.ml/c/pacstall',
             },
             {
                 label: 'navbar.social.reddit',

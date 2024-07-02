@@ -17,7 +17,7 @@
         "buffer": "^6.0.3",
         "postcss": "^8.4.19",
         "postcss-modules": "^6.0.0",
-        "prettier": "^2.8.8",
+        "prettier": "^3.0.0",
         "typescript": "^5.0.0"
     },
     "dependencies": {
@@ -41,6 +41,6 @@
         "react-use-cookie": "^1.4.0",
         "recoil": "^0.7.6",
         "use-query-params": "^2.1.2",
-        "vite": "^4.0.4"
+        "vite": "^5.0.0"
     }
 }

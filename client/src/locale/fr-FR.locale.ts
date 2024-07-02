@@ -39,6 +39,7 @@ export default <Locale>{
             discord: 'Discord',
             matrix: 'Matrix',
             reddit: 'Reddit',
+            lemmy: 'Lemmy',
             mastodon: 'Mastodon',
         },
         browse: {
@@ -101,6 +102,7 @@ export default <Locale>{
             maintainer: 'Mainteneur',
             dependencies: 'Dépendances',
             requiredBy: 'Requis par',
+            lastUpdatedAt: 'Dernière mise à jour',
         },
         orphaned: 'Orphelin',
         noResults: 'Aucun',
@@ -121,6 +123,7 @@ export default <Locale>{
             close: 'Fermer',
             provider: 'Fournisseur',
             noDescription: 'Aucune description disponible',
+            version: 'Version',
         },
         requiredByModal: {
             title: 'Requis par',

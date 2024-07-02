@@ -13,7 +13,7 @@ RUN apk add --no-cache make
 RUN make VERSION=${VERSION} client/dist
 
 
-FROM golang:1.20-alpine AS server
+FROM golang:1.22-alpine AS server
 WORKDIR /root/
 
 COPY ./server ./server
@@ -32,7 +32,7 @@ COPY --from=client /root/client/dist/ /root/client/dist/
 COPY --from=server /root/server/dist/ /root/server/dist/
 COPY ./Makefile ./Makefile
 
-RUN apt update && apt install make git -y
+RUN apt update && apt install make git jo jq -y
 
 RUN make dist \
     && rm -rf server client

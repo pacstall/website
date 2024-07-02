@@ -3,13 +3,18 @@ import bnLocale from './bn-IN.locale'
 import enLocale from './en-US.locale'
 import roLocale from './ro-RO.locale'
 import esLocale from './es-ES.locale'
-import ptLocale from './pt-BR.locale'
+import ptbrLocale from './pt-BR.locale'
+import ptptLocale from './pt-PT.locale'
 import plLocale from './pl-PL.locale'
 import svLocale from './sv-SE.locale'
 import itLocale from './it-IT.locale'
 import frLocale from './fr-FR.locale'
 import deLocale from './de-DE.locale'
 import nlLocale from './nl-NL.locale'
+import idLocale from './id-ID.locale'
+import trLocale from './tr-TR.locale'
+import { NumericDisplayHandler } from '../hooks/useNumericDisplay'
+import { arabic } from './numeric-systems/arabic'
 
 export default interface Locale {
     home: {
@@ -99,6 +104,7 @@ export default interface Locale {
             maintainer: string
             dependencies: string
             requiredBy: string
+            lastUpdatedAt: string
         }
         noResults: string
         orphaned: string
@@ -145,7 +151,10 @@ export const translations = {
         translation: esLocale,
     },
     'pt-BR': {
-        translation: ptLocale,
+        translation: ptbrLocale,
+    },
+    'pt-PT': {
+        translation: ptptLocale,
     },
     'pl-PL': {
         translation: plLocale,
@@ -165,7 +174,30 @@ export const translations = {
     'de-DE': {
         translation: deLocale,
     },
+    'id-ID': {
+        translation: idLocale,
+    },
+    'tr-TR': {
+        translation: trLocale,
+    },
 } as const satisfies Resource
+
+export const localeNumericDisplay = {
+    'en-US': arabic,
+    'ro-RO': arabic,
+    'es-ES': arabic,
+    'pt-BR': arabic,
+    'pt-PT': arabic,
+    'pl-PL': arabic,
+    'sv-SE': arabic,
+    'it-IT': arabic,
+    'nl-NL': arabic,
+    'fr-FR': arabic,
+    'de-DE': arabic,
+    'id-ID': arabic,
+    'tr-TR': arabic,
+    // 'bn_IN': bengali,
+} satisfies Record<keyof typeof translations, NumericDisplayHandler>
 
 export const localeFlags: Record<keyof typeof translations, string> = {
     'en-US': 'US 🇺🇸',
@@ -173,12 +205,15 @@ export const localeFlags: Record<keyof typeof translations, string> = {
     'de-DE': 'DE 🇩🇪',
     'es-ES': 'ES 🇪🇸',
     'fr-FR': 'FR 🇫🇷',
+    'id-ID': 'ID 🇮🇩',
     'it-IT': 'IT 🇮🇹',
     'nl-NL': 'NL 🇳🇱',
     'pl-PL': 'PL 🇵🇱',
     'pt-BR': 'PT 🇧🇷',
+    'pt-PT': 'PT 🇵🇹',
     'ro-RO': 'RO 🇷🇴',
     'sv-SE': 'SV 🇸🇪',
+    'tr-TR': 'TR 🇹🇷',
 }
 
 export const locales = Object.keys(

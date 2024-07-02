@@ -13,8 +13,38 @@ LDFLAGS= \
 
 all: dist/webserver
 
+test:
+	PACSTALL_DATABASE_HOST=localhost \
+	PACSTALL_DATABASE_PORT=3306 \
+	PACSTALL_DATABASE_USER=root \
+	PACSTALL_DATABASE_PASSWORD=changeme \
+	PACSTALL_DATABASE_NAME=pacstall \
+	PACSTALL_DISCORD_ENABLED=false \
+	PACSTALL_DISCORD_TOKEN="" \
+	PACSTALL_DISCORD_CHANNEL_ID="" \
+	PACSTALL_DISCORD_TAGS="" \
+	PACSTALL_MATOMO_ENABLED="false" \
+	PACSTALL_REPOLOGY_ENABLED="false" \
+	PACSTALL_PROGRAMS_GIT_BRANCH="master" \
+	GO_ENV=test go test -v types/pac/parser/parse_test.go
+
+test_internal:
+	PACSTALL_DATABASE_HOST=localhost \
+	PACSTALL_DATABASE_PORT=3306 \
+	PACSTALL_DATABASE_USER=root \
+	PACSTALL_DATABASE_PASSWORD=changeme \
+	PACSTALL_DATABASE_NAME=pacstall \
+	PACSTALL_DISCORD_ENABLED=false \
+	PACSTALL_DISCORD_TOKEN="" \
+	PACSTALL_DISCORD_CHANNEL_ID="" \
+	PACSTALL_DISCORD_TAGS="" \
+	PACSTALL_MATOMO_ENABLED="false" \
+	PACSTALL_REPOLOGY_ENABLED="false" \
+	PACSTALL_PROGRAMS_GIT_BRANCH="master" \
+	GO_ENV=test go test -v types/pac/parser/pacsh/internal/git_version_test.go
+
 run: 
-	(cd .. && docker-compose up -d mariadb)
+	(cd .. && docker compose up -d mariadb)
 
 	PACSTALL_DATABASE_HOST=localhost \
 	PACSTALL_DATABASE_PORT=3306 \
@@ -27,12 +57,13 @@ run:
 	PACSTALL_DISCORD_TAGS="" \
 	PACSTALL_MATOMO_ENABLED="false" \
 	PACSTALL_REPOLOGY_ENABLED="false" \
+	PACSTALL_PROGRAMS_GIT_BRANCH="master" \
 	go run bin/webserver/main.go
+
 dist/webserver: $(shell find . -not \( -path ./tmp -prune \) -not \( -path ./dist -prune \) -type f)
 	CGO_ENABLED=0 go build -o dist/webserver -ldflags "${LDFLAGS}" bin/webserver/main.go
 clean:
 	[ -d ./dist ] && rm -r dist || :
-test:
-	go test -v ./...
+
 fmt:
 	go fmt ./...

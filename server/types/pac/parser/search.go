@@ -3,7 +3,7 @@ package parser
 import (
 	"strings"
 
-	"pacstall.dev/webserver/types/list"
+	"pacstall.dev/webserver/types/array"
 	"pacstall.dev/webserver/types/pac"
 )
 
@@ -36,15 +36,14 @@ func FilterPackages(packages []*pac.Script, filter, filterBy string) []*pac.Scri
 	switch filterBy {
 	case "name":
 		return filterByFunc(func(pi *pac.Script) bool {
-			return strings.Contains(pi.Name, filter) ||
-				strings.Contains(pi.PackageName, filter) ||
+			return strings.Contains(pi.PackageName, filter) ||
 				strings.Contains(pi.Gives, filter) ||
 				strings.Contains(pi.Description, filter)
 		})
 
 	case "maintainer":
 		return filterByFunc(func(pi *pac.Script) bool {
-			return strings.Contains(pi.Maintainer, filter)
+			return strings.Contains(strings.Join(pi.Maintainers, ", "), filter)
 		})
 	default:
 		return packages
@@ -56,38 +55,38 @@ func SortPackages(packages []*pac.Script, sortType, sortBy string) []*pac.Script
 		return packages
 	}
 
-	out := list.From(packages)
+	out := array.Clone(packages)
 
 	switch sortBy {
 	case "name":
 		if strings.Compare(sortType, "asc") == 0 {
-			out = out.SortBy(func(a, b *pac.Script) bool {
-				return strings.Compare(a.Name, b.Name) < 0
+			out = array.SortBy(out, func(a, b *pac.Script) bool {
+				return strings.Compare(a.PackageName, b.PackageName) < 0
 			})
 		} else {
-			out = out.SortBy(func(a, b *pac.Script) bool {
-				return strings.Compare(a.Name, b.Name) > 0
+			out = array.SortBy(out, func(a, b *pac.Script) bool {
+				return strings.Compare(a.PackageName, b.PackageName) > 0
 			})
 		}
 
 	case "maintainer":
 		if strings.Compare(sortType, "asc") == 0 {
-			out = out.SortBy(func(a, b *pac.Script) bool {
-				return strings.Compare(a.Maintainer, b.Maintainer) < 0
+			out = array.SortBy(out, func(a, b *pac.Script) bool {
+				return strings.Compare(strings.Join(a.Maintainers, ","), strings.Join(b.Maintainers, ",")) < 0
 			})
 		} else {
-			out = out.SortBy(func(a, b *pac.Script) bool {
-				return strings.Compare(a.Maintainer, b.Maintainer) > 0
+			out = array.SortBy(out, func(a, b *pac.Script) bool {
+				return strings.Compare(strings.Join(a.Maintainers, ","), strings.Join(b.Maintainers, ",")) > 0
 			})
 		}
 
 	case "version":
 		if strings.Compare(sortType, "asc") == 0 {
-			out = out.SortBy(func(a, b *pac.Script) bool {
+			out = array.SortBy(out, func(a, b *pac.Script) bool {
 				return strings.Compare(a.Version, b.Version) < 0
 			})
 		} else {
-			out = out.SortBy(func(a, b *pac.Script) bool {
+			out = array.SortBy(out, func(a, b *pac.Script) bool {
 				return strings.Compare(a.Version, b.Version) > 0
 			})
 		}

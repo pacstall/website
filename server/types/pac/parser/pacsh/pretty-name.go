@@ -3,7 +3,6 @@ package pacsh
 import (
 	"strings"
 
-	"pacstall.dev/webserver/types/list"
 	"pacstall.dev/webserver/types/pac"
 )
 
@@ -18,7 +17,7 @@ func getPrettyName(p pac.Script) string {
 	name := ""
 
 	if name == "" {
-		name = p.Name
+		name = p.PackageName
 	}
 
 	for suffix := range pacTypes {
@@ -31,12 +30,19 @@ func getPrettyName(p pac.Script) string {
 }
 
 func titleCase(s string) string {
-	out := list.Reduce(strings.Split(s, "-"), func(word string, acc string) string {
-		if acc != "" {
-			acc += " "
-		}
-		return acc + strings.ToUpper(word[:1]) + strings.ToLower(word[1:])
-	}, "")
+	title := ""
+	words := strings.Split(s, "-")
 
-	return out
+	for _, word := range words {
+		if title != "" {
+			title += " "
+		}
+
+		if len(word) == 0 {
+			continue
+		}
+		title += strings.ToUpper(word[:1]) + strings.ToLower(word[1:])
+	}
+
+	return title
 }

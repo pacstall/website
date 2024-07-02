@@ -43,7 +43,7 @@ const PackageTable: FC<{
             <Tbody>
                 {packages.map(pkg => (
                     <PackageTableRow
-                        key={pkg.name}
+                        key={pkg.packageName}
                         disabled={linksDisabled}
                         pkg={pkg}
                     />

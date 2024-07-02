@@ -1,16 +1,15 @@
 export default interface PackageInfo {
-    name: string
     version: string
     packageName: string
-    maintainer: string
+    maintainers: string[]
     description: string
-    url: string
+    source: string[]
     runtimeDependencies: string[]
     buildDependencies: string[]
     optionalDependencies: string[]
-    breaks: string[]
+    conflicts: string[]
     gives: string
-    replace: string[]
+    replaces: string[]
     hash?: string
     ppa: string[]
     pacstallDependencies: string[]
@@ -19,6 +18,7 @@ export default interface PackageInfo {
     latestVersion?: string
     prettyName: string
     updateStatus: UpdateStatus
+    lastUpdatedAt: string
 }
 
 export enum UpdateStatus {

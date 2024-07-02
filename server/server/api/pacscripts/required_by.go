@@ -6,7 +6,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"pacstall.dev/webserver/server"
-	"pacstall.dev/webserver/types/list"
+	"pacstall.dev/webserver/types/array"
 	"pacstall.dev/webserver/types/pac"
 	"pacstall.dev/webserver/types/pac/pacstore"
 )
@@ -28,14 +28,17 @@ func GetPacscriptRequiredByHandle(w http.ResponseWriter, req *http.Request) {
 
 	allPackages := pacstore.GetAll()
 
-	found, err := allPackages.FindByName(name)
+	found, err := array.FindBy(allPackages, func(p *pac.Script) bool {
+		return p.PackageName == name
+	})
+
 	if err != nil {
 		w.WriteHeader(404)
 		return
 	}
 
-	requiredBy := allPackages.Filter(func(p *pac.Script) bool {
-		return list.List[string](found.RequiredBy).Contains(list.Is(p.Name))
+	requiredBy := array.Filter(allPackages, func(it *array.Iterator[*pac.Script]) bool {
+		return array.Contains(found.RequiredBy, array.Is(it.Value.PackageName))
 	})
 
 	server.Json(w, requiredBy)

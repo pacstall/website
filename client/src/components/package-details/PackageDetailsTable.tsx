@@ -16,6 +16,7 @@ import PackageInfo from '../../types/package-info'
 import SemanticVersionColor from '../SemanticVersionColor'
 import PackageDetailsMaintainer from './PackageDetailsMaintainer'
 import { useTranslation } from 'react-i18next'
+import useNumericDisplay from '../../hooks/useNumericDisplay'
 
 const Entry: FC<{
     header: string
@@ -32,6 +33,8 @@ const Entry: FC<{
     </>
 )
 
+const UNKNOWN_DATE_SENTINEL = '0001-01-01T00:00:00Z'
+
 const PackageDetailsTable: FC<{
     data: PackageInfo
     dependencyCount: number
@@ -39,17 +42,18 @@ const PackageDetailsTable: FC<{
     dependenciesModal: UseDisclosureProps
 }> = ({ data, dependencyCount, requiredByModal, dependenciesModal }) => {
     const { t } = useTranslation()
+    const displayNumber = useNumericDisplay()
     return (
         <Table mt='10'>
             <Tbody>
                 <Entry header={t('packageDetails.table.name')}>
-                    {data.name}
+                    {data.packageName}
                 </Entry>
 
                 <Entry header={t('packageDetails.table.version')}>
                     <Text fontWeight='bold'>
                         <SemanticVersionColor
-                            git={data.name.endsWith('-git')}
+                            git={data.packageName.endsWith('-git')}
                             version={data.version}
                             status={data.updateStatus}
                         />
@@ -57,11 +61,21 @@ const PackageDetailsTable: FC<{
                 </Entry>
 
                 <Entry header={t('packageDetails.table.maintainer')}>
-                    <PackageDetailsMaintainer text={data.maintainer} />
+                    <PackageDetailsMaintainer text={data.maintainers} />
+                </Entry>
+
+                <Entry header={t('packageDetails.table.lastUpdatedAt')}>
+                    {data.lastUpdatedAt === UNKNOWN_DATE_SENTINEL
+                        ? '-'
+                        : new Intl.DateTimeFormat().format(
+                              new Date(data.lastUpdatedAt),
+                          )}
                 </Entry>
 
                 <Entry header={t('packageDetails.table.dependencies')}>
-                    {dependencyCount || t('packageDetails.noResults')}{' '}
+                    {dependencyCount
+                        ? displayNumber(dependencyCount)
+                        : t('packageDetails.noResults')}{' '}
                     {dependencyCount > 0 ? (
                         <Link
                             onClick={dependenciesModal.onOpen}
@@ -78,7 +92,9 @@ const PackageDetailsTable: FC<{
                 </Entry>
 
                 <Entry header={t('packageDetails.table.requiredBy')}>
-                    {data.requiredBy.length || t('packageDetails.noResults')}{' '}
+                    {data.requiredBy.length
+                        ? displayNumber(data.requiredBy.length)
+                        : t('packageDetails.noResults')}{' '}
                     {data.requiredBy?.length || 0 > 0 ? (
                         <Link
                             onClick={requiredByModal.onOpen}
@@ -98,7 +114,7 @@ const PackageDetailsTable: FC<{
                     <Link
                         color='pink.400'
                         isExternal
-                        href={`https://github.com/pacstall/pacstall-programs/blob/master/packages/${data.name}/${data.name}.pacscript`}
+                        href={`https://github.com/pacstall/pacstall-programs/blob/master/packages/${data.packageName}/${data.packageName}.pacscript`}
                     >
                         {t('packageDetails.openInGithub')}{' '}
                         <Icon
