@@ -15,6 +15,7 @@ import idLocale from './id-ID.locale'
 import trLocale from './tr-TR.locale'
 import { NumericDisplayHandler } from '../hooks/useNumericDisplay'
 import { arabic } from './numeric-systems/arabic'
+import { bengali } from './numeric-systems/bengali'
 
 export default interface Locale {
     home: {
