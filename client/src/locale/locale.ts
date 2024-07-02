@@ -196,7 +196,7 @@ export const localeNumericDisplay = {
     'de-DE': arabic,
     'id-ID': arabic,
     'tr-TR': arabic,
-    'bn_IN': bengali,
+    bn_IN: bengali,
 } satisfies Record<keyof typeof translations, NumericDisplayHandler>
 
 export const localeFlags: Record<keyof typeof translations, string> = {
