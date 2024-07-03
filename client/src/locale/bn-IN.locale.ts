@@ -38,6 +38,7 @@ export default <Locale>{
             discord: 'ডিসকর্ড',
             matrix: 'ম্যাট্রিক্স',
             reddit: 'রেড্ডিট',
+            lemmy: 'লেমী',
             mastodon: 'ম্যাস্টোডন',
         },
         browse: {
@@ -99,6 +100,7 @@ export default <Locale>{
             maintainer: 'সম্প্রণেতা',
             dependencies: 'নির্ভরতা',
             requiredBy: 'অন্বিষ্ট',
+            lastUpdatedAt: 'শেষ আপডেট',
         },
         orphaned: 'সম্প্রণেতা হীন',
         noResults: 'শূন্য',
@@ -119,6 +121,7 @@ export default <Locale>{
             close: 'বন্ধ',
             provider: 'প্রদানকারী',
             noDescription: 'কোনো বর্ণনা নেই',
+            version: 'সংস্করণ',
         },
         requiredByModal: {
             title: 'অন্বিষ্ট',
