@@ -1,4 +1,5 @@
 import { Resource } from 'i18next'
+import bnLocale from './bn-IN.locale'
 import enLocale from './en-US.locale'
 import roLocale from './ro-RO.locale'
 import esLocale from './es-ES.locale'
@@ -14,6 +15,7 @@ import idLocale from './id-ID.locale'
 import trLocale from './tr-TR.locale'
 import { NumericDisplayHandler } from '../hooks/useNumericDisplay'
 import { arabic } from './numeric-systems/arabic'
+import { bengali } from './numeric-systems/bengali'
 
 export default interface Locale {
     home: {
@@ -137,6 +139,9 @@ export default interface Locale {
 }
 
 export const translations = {
+    'bn-IN': {
+        translation: bnLocale,
+    },
     'en-US': {
         translation: enLocale,
     },
@@ -192,11 +197,12 @@ export const localeNumericDisplay = {
     'de-DE': arabic,
     'id-ID': arabic,
     'tr-TR': arabic,
-    // 'bn_IN': bengali,
+    bn_IN: bengali,
 } satisfies Record<keyof typeof translations, NumericDisplayHandler>
 
 export const localeFlags: Record<keyof typeof translations, string> = {
     'en-US': 'US 🇺🇸',
+    'bn-IN': 'BN 🇮🇳',
     'de-DE': 'DE 🇩🇪',
     'es-ES': 'ES 🇪🇸',
     'fr-FR': 'FR 🇫🇷',
