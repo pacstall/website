@@ -37,7 +37,7 @@ export default <Locale>{
         social: {
             title: 'Social Nettwerks',
             discord: 'Discord',
-            matrix: 'Maytrix',
+            matrix: 'Matrix',
             reddit: 'Reddit',
             lemmy: 'Lemmy',
             mastodon: 'Mastodon',
