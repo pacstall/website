@@ -207,7 +207,7 @@ export const localeNumericDisplay = {
 
 export const localeFlags: Record<keyof typeof translations, string> = {
     'en-US': 'US 🇺🇸',
-    'en-ANG': 'ANG 🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+    'en-ANG': 'ᚩᛝ 🏴󠁧󠁢󠁥󠁮󠁧󠁿',
     'bn-IN': 'BN 🇮🇳',
     'de-DE': 'DE 🇩🇪',
     'es-ES': 'ES 🇪🇸',
