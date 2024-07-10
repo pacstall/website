@@ -6,17 +6,17 @@ export default <Locale>{
         subtitle: 'Þe AUR for Ubuntu',
         cards: {
             whyDifferent: {
-                title: 'Why is this ani different than any other pakagge manager?',
+                title: 'Why is þis ani different þan any oþer pakagge manager?',
                 description:
-                    'Pacstall noteþ the stable base of Ubuntu but alloweþ þe to notest ' +
+                    'Pacstall noteþ þe stable base of Ubuntu but alloweþ þe to notest ' +
                     'bledynge egge softeware wiþ litel to no compromises, so þou ne dost ' +
                     'have to troubleþ þeself wiþ securite pacches or newe fetures.',
             },
             howItWorks: {
-                title: 'How thenne doþ hit werk?',
+                title: 'How þenne doþ hit werk?',
                 description:
                     ' Pacstall takeþ in fyles witen as <0>pacscripts</0> (like' +
-                    ' PKGBUILDs) þat holden the necessarye contents to bylden pakagges,' +
+                    ' PKGBUILDs) þat holden þe necessarye contents to bylden pakagges,' +
                     ' and byldeþ þem in-to executables on þi systeme.',
             },
         },
@@ -55,8 +55,8 @@ export default <Locale>{
         paragraphs: [
             'Hail, we are notynge cookies on ure website.',
             'We ne doþ wisshe to given ȝe misledynge ne mistakynge informacion. We oonly noten cookies for essential fetures swich as teme setynges, localisacioun and auþentikacioun.',
-            'Ȝe can rede the ful privacie policie <0>her <1/></0>.',
-            'By continuynge to noten þis site, ȝe <strong>ȝivest eower agrement to the privacie policie</strong>.',
+            'Ȝe can rede þe ful privacie policie <0>her <1/></0>.',
+            'By continuynge to noten þis site, ȝe <strong>ȝivest eower agrement to þe privacie policie</strong>.',
         ],
         accept: "God be wi' ye",
     },
@@ -75,7 +75,7 @@ export default <Locale>{
         },
         versionTooltip: {
             notInRegistry: 'Þis pakagge ne is in þe Repologgye reggistrye',
-            latest: 'Þis pakagge is the latest version',
+            latest: 'Þis pakagge is þe latest version',
             patch: 'Þis pakagge haveþ a patche update available',
             minor: 'Þis pakagge haveþ a minor update available',
             major: 'Þis pakagge haveþ a major update available',
