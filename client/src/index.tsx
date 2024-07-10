@@ -46,8 +46,8 @@ const theme = extendTheme({
         useSystemColorMode: false,
     },
     fonts: {
-        heading: 'Open Sans, Noto Sans Bengali, sans-serif',
-        body: 'Titillium Web, Noto Sans Bengali, Noto Sans Devanagari, sans-serif',
+        heading: 'Open Sans, Noto Sans Bengali, Catrinity, sans-serif',
+        body: 'Titillium Web, Noto Sans Bengali, Noto Sans Devanagari, Catrinity, sans-serif',
     },
     colors: {
         brand: {
