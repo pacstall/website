@@ -13,7 +13,7 @@ require (
 	github.com/joomcode/errorx v1.1.1
 	github.com/treelightsoftware/go-matomo v0.1.0-beta
 	gorm.io/driver/mysql v1.5.7
-	gorm.io/gorm v1.25.10
+	gorm.io/gorm v1.25.11
 )
 
 require (
@@ -30,4 +30,5 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/sys v0.14.0 // indirect
+	golang.org/x/text v0.14.0 // indirect
 )
