@@ -54,9 +54,9 @@ export default <Locale>{
         title: 'Cookie notice TL;DR',
         paragraphs: [
             'Hail, we are notynge cookies on ure website.',
-            'We ne doþ wisshe to given ȝe misledynge ne mistakynge informacion. We oonly noten cookies for essential fetures swich as teme setynges, localisacioun and auþentikacioun.',
+            'We ne doþ wisshe to ȝiven ȝe misledynge ne mistakynge informacion. We oonly noten cookies for essential fetures swich as teme setynges, localisacioun and auþentikacioun.',
             'Ȝe can rede þe ful privacie policie <0>her <1/></0>.',
-            'By continuynge to noten þis site, ȝe <strong>ȝivest eower agrement to þe privacie policie</strong>.',
+            'By continuenge to noten þis site, ȝe <strong>ȝivest eower agrement to þe privacie policie</strong>.',
         ],
         accept: "God be wi' ye",
     },
