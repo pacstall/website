@@ -141,7 +141,7 @@ export default interface Locale {
 }
 
 export const translations = {
-    'bn-IN': {
+    bn: {
         translation: bnLocale,
     },
     'en-ANG': {
@@ -153,10 +153,13 @@ export const translations = {
     'en-US': {
         translation: enLocale,
     },
+    en: {
+        translation: enLocale,
+    },
     'ro-RO': {
         translation: roLocale,
     },
-    'es-ES': {
+    es: {
         translation: esLocale,
     },
     'pt-BR': {
@@ -165,28 +168,31 @@ export const translations = {
     'pt-PT': {
         translation: ptptLocale,
     },
-    'pl-PL': {
+    pt: {
+        translation: ptptLocale,
+    },
+    pl: {
         translation: plLocale,
     },
-    'sv-SE': {
+    sv: {
         translation: svLocale,
     },
-    'it-IT': {
+    it: {
         translation: itLocale,
     },
-    'nl-NL': {
+    nl: {
         translation: nlLocale,
     },
-    'fr-FR': {
+    fr: {
         translation: frLocale,
     },
-    'de-DE': {
+    de: {
         translation: deLocale,
     },
-    'id-ID': {
+    id: {
         translation: idLocale,
     },
-    'tr-TR': {
+    tr: {
         translation: trLocale,
     },
 } as const satisfies Resource
@@ -195,19 +201,19 @@ export const localeNumericDisplay = {
     'en-US': arabic,
     'en-AN': arabic,
     'en-ENM': arabic,
-    'ro-RO': arabic,
-    'es-ES': arabic,
+    ro: arabic,
+    es: arabic,
     'pt-BR': arabic,
     'pt-PT': arabic,
-    'pl-PL': arabic,
-    'sv-SE': arabic,
-    'it-IT': arabic,
-    'nl-NL': arabic,
-    'fr-FR': arabic,
-    'de-DE': arabic,
-    'id-ID': arabic,
-    'tr-TR': arabic,
-    bn_IN: bengali,
+    pl: arabic,
+    sv: arabic,
+    it: arabic,
+    nl: arabic,
+    fr: arabic,
+    de: arabic,
+    id: arabic,
+    tr: arabic,
+    'bn-IN': bengali,
 } satisfies Record<keyof typeof translations, NumericDisplayHandler>
 
 export const localeFlags: Record<keyof typeof translations, string> = {
@@ -215,18 +221,18 @@ export const localeFlags: Record<keyof typeof translations, string> = {
     'en-ANG': 'ᚩᛝ 🏴󠁧󠁢󠁥󠁮󠁧󠁿',
     'en-ENM': 'ME 🇬🇧',
     'bn-IN': 'BN 🇮🇳',
-    'de-DE': 'DE 🇩🇪',
-    'es-ES': 'ES 🇪🇸',
-    'fr-FR': 'FR 🇫🇷',
-    'id-ID': 'ID 🇮🇩',
-    'it-IT': 'IT 🇮🇹',
-    'nl-NL': 'NL 🇳🇱',
-    'pl-PL': 'PL 🇵🇱',
+    de: 'DE 🇩🇪',
+    es: 'ES 🇪🇸',
+    fr: 'FR 🇫🇷',
+    id: 'ID 🇮🇩',
+    it: 'IT 🇮🇹',
+    nl: 'NL 🇳🇱',
+    pl: 'PL 🇵🇱',
     'pt-BR': 'PT 🇧🇷',
     'pt-PT': 'PT 🇵🇹',
-    'ro-RO': 'RO 🇷🇴',
-    'sv-SE': 'SV 🇸🇪',
-    'tr-TR': 'TR 🇹🇷',
+    ro: 'RO 🇷🇴',
+    sv: 'SV 🇸🇪',
+    tr: 'TR 🇹🇷',
 }
 
 export const locales = Object.keys(
