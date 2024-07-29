@@ -106,12 +106,16 @@ const Home: FC = () => {
                         loop={true}
                         src='/showcase.cast'
                         preload={true}
+                        theme={colorMode === 'light' ? 'sparkle' : 'glitter'}
                     />
 
                     <Heading size={'lg'} mb='3'>
                         {t('home.showcase.packageSearch')}
                     </Heading>
-                    <AsciinemaFrame src='/search.cast' />
+                    <AsciinemaFrame
+                        src='/search.cast'
+                        theme={colorMode === 'light' ? 'sparkle' : 'glitter'}
+                    />
 
                     <Stack justify='center'>
                         <Image
