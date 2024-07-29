@@ -19,7 +19,7 @@ type AsciinemaPlayerProps = {
     // END asciinemaOptions
 }
 
-function AsciinemaFrame({ src, ...asciinemaOptions }: AsciinemaPlayerProps) {
+function AsciinemaFrame({ src, speed = 0.75, ...asciinemaOptions }: AsciinemaPlayerProps) {
     const ref = useRef<HTMLDivElement>(null)
     const [player, setPlayer] = useState<typeof import('asciinema-player')>()
     useEffect(() => {
