@@ -16,6 +16,7 @@ import { Helmet } from 'react-helmet'
 import AsciinemaFrame from '../components/AsciinemaFrame'
 import PageAnimation from '../components/animations/PageAnimation'
 import { Trans, useTranslation } from 'react-i18next'
+import 'asciinema-player/dist/bundle/asciinema-player.css'
 
 const Home: FC = () => {
     const { t } = useTranslation()
@@ -101,16 +102,16 @@ const Home: FC = () => {
                         {t('home.showcase.title')}
                     </Heading>
                     <AsciinemaFrame
-                        autoplay
-                        loop
-                        id='538264'
-                        dark={colorMode === 'light'}
+                        autoPlay={true}
+                        loop={true}
+                        src='/showcase.cast'
+                        preload={true}
                     />
 
                     <Heading size={'lg'} mb='3'>
                         {t('home.showcase.packageSearch')}
                     </Heading>
-                    <AsciinemaFrame id='538265' dark={colorMode === 'light'} />
+                    <AsciinemaFrame src='/search.cast' />
 
                     <Stack justify='center'>
                         <Image
