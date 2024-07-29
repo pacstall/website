@@ -4,9 +4,10 @@ const AsciinemaFrame: FC<{
     id: string
     autoplay?: boolean
     loop?: boolean
-}> = ({ id, autoplay, loop }) => (
+    dark?: boolean
+}> = ({ id, autoplay, loop, dark }) => (
     <iframe
-        src={`https://asciinema.org/a/${id}/iframe?theme=monokai&autoplay=${
+        src={`https://asciinema.org/a/${id}/iframe?theme=${dark ? 'solarized-light' : 'monokai'}&autoplay=${
             autoplay ? 1 : 0
         }&loop=${loop ? 1 : 0}&speed=0.75`}
         id={`asciicast-iframe-${id}`}
