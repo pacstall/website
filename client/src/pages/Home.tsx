@@ -104,16 +104,13 @@ const Home: FC = () => {
                         autoplay
                         loop
                         id='538264'
-                        dark={colorMode === 'light' ? true : false}
+                        dark={colorMode === 'light'}
                     />
 
                     <Heading size={'lg'} mb='3'>
                         {t('home.showcase.packageSearch')}
                     </Heading>
-                    <AsciinemaFrame
-                        id='538265'
-                        dark={colorMode === 'light' ? true : false}
-                    />
+                    <AsciinemaFrame id='538265' dark={colorMode === 'light'} />
 
                     <Stack justify='center'>
                         <Image
