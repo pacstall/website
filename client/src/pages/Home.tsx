@@ -101,16 +101,24 @@ const Home: FC = () => {
                         {t('home.showcase.title')}
                     </Heading>
                     <AsciinemaFrame
-                        autoplay
-                        loop
-                        id='538264'
-                        dark={colorMode === 'light'}
+                        autoPlay={true}
+                        loop={true}
+                        src='/showcase.cast'
+                        preload={true}
+                        terminalFontFamily='Fira Code'
+                        terminalfontSize='13'
+                        theme={colorMode === 'light' ? 'glitter' : 'sparkle'}
                     />
 
                     <Heading size={'lg'} mb='3'>
                         {t('home.showcase.packageSearch')}
                     </Heading>
-                    <AsciinemaFrame id='538265' dark={colorMode === 'light'} />
+                    <AsciinemaFrame
+                        src='/search.cast'
+                        terminalFontFamily='Fira Code'
+                        terminalfontSize='13'
+                        theme={colorMode === 'light' ? 'glitter' : 'sparkle'}
+                    />
 
                     <Stack justify='center'>
                         <Image
