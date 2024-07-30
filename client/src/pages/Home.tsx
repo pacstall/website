@@ -16,7 +16,6 @@ import { Helmet } from 'react-helmet'
 import AsciinemaFrame from '../components/AsciinemaFrame'
 import PageAnimation from '../components/animations/PageAnimation'
 import { Trans, useTranslation } from 'react-i18next'
-import 'asciinema-player/dist/bundle/asciinema-player.css'
 
 const Home: FC = () => {
     const { t } = useTranslation()
@@ -106,7 +105,9 @@ const Home: FC = () => {
                         loop={true}
                         src='/showcase.cast'
                         preload={true}
-                        theme={colorMode === 'light' ? 'sparkle' : 'glitter'}
+                        terminalFontFamily='Fira Code'
+                        terminalfontSize='13'
+                        theme={colorMode === 'light' ? 'glitter' : 'sparkle'}
                     />
 
                     <Heading size={'lg'} mb='3'>
@@ -114,7 +115,9 @@ const Home: FC = () => {
                     </Heading>
                     <AsciinemaFrame
                         src='/search.cast'
-                        theme={colorMode === 'light' ? 'sparkle' : 'glitter'}
+                        terminalFontFamily='Fira Code'
+                        terminalfontSize='13'
+                        theme={colorMode === 'light' ? 'glitter' : 'sparkle'}
                     />
 
                     <Stack justify='center'>

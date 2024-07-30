@@ -1,10 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
+import 'asciinema-player/dist/bundle/asciinema-player.css'
+import '../../public/styles/asciicast.css'
 
 type AsciinemaPlayerProps = {
     src: string
     // START asciinemaOptions
     cols?: string
     rows?: string
+    controls?: boolean | string
     autoPlay?: boolean
     preload?: boolean
     loop?: boolean | number
@@ -14,7 +17,7 @@ type AsciinemaPlayerProps = {
     theme?: string
     poster?: string
     fit?: string
-    fontSize?: string
+    terminalfontSize?: string
     terminalFontFamily?: string
     // END asciinemaOptions
 }
@@ -22,6 +25,7 @@ type AsciinemaPlayerProps = {
 function AsciinemaFrame({
     src,
     speed = 0.75,
+    controls = false,
     ...asciinemaOptions
 }: AsciinemaPlayerProps) {
     const ref = useRef<HTMLDivElement>(null)

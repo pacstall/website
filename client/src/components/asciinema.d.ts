@@ -6,6 +6,7 @@ declare module 'asciinema-player' {
         opts: {
             cols?: string
             rows?: string
+            controls?: boolean | string
             autoPlay?: boolean
             preload?: boolean
             loop?: boolean | number
@@ -15,7 +16,7 @@ declare module 'asciinema-player' {
             theme?: string
             poster?: string
             fit?: string
-            fontSize?: string
+            terminalfontSize?: string
             terminalFontFamily?: string
         },
     )
