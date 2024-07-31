@@ -105,7 +105,7 @@ const Home: FC = () => {
                         loop={true}
                         src='/showcase.cast'
                         preload={true}
-                        terminalFontFamily='MesloLGSNF'
+                        terminalFontFamily='FiraCodeNF'
                         terminalfontSize='13'
                         theme={colorMode === 'light' ? 'glitter' : 'sparkle'}
                         rows='32'
@@ -119,7 +119,7 @@ const Home: FC = () => {
                         loop={true}
                         src='/search.cast'
                         preload={true}
-                        terminalFontFamily='MesloLGSNF'
+                        terminalFontFamily='FiraCodeNF'
                         terminalfontSize='13'
                         theme={colorMode === 'light' ? 'glitter' : 'sparkle'}
                         rows='32'

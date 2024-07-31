@@ -6,14 +6,14 @@
 @import url('https://fonts.cdnfonts.com/css/catrinity');
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@100;200;300;400;500;600;700;800&display=swap");
 @font-face {
-  font-family: 'MesloLGSNF';
-  src: url('../fonts/MesloLGSNF-Regular.ttf') format('truetype');
+  font-family: 'FiraCodeNF';
+  src: url('../fonts/FiraCodeNF-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
-  font-family: 'MesloLGSNF';
-  src: url('../fonts/MesloLGSNF-Bold.ttf') format('truetype');
+  font-family: 'FiraCodeNF';
+  src: url('../fonts/FiraCodeNF-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }
