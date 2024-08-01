@@ -105,19 +105,24 @@ const Home: FC = () => {
                         loop={true}
                         src='/showcase.cast'
                         preload={true}
-                        terminalFontFamily='Fira Code'
+                        terminalFontFamily='FiraCodeNF'
                         terminalfontSize='13'
                         theme={colorMode === 'light' ? 'glitter' : 'sparkle'}
+                        rows='32'
                     />
 
                     <Heading size={'lg'} mb='3'>
                         {t('home.showcase.packageSearch')}
                     </Heading>
                     <AsciinemaFrame
+                        autoPlay={true}
+                        loop={true}
                         src='/search.cast'
-                        terminalFontFamily='Fira Code'
+                        preload={true}
+                        terminalFontFamily='FiraCodeNF'
                         terminalfontSize='13'
                         theme={colorMode === 'light' ? 'glitter' : 'sparkle'}
+                        rows='32'
                     />
 
                     <Stack justify='center'>
