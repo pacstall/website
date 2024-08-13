@@ -2,7 +2,7 @@ import Locale from './locale'
 
 export default <Locale>{
     home: {
-        title: 'Pacstall',
+        title: 'Pacſtall',
         subtitle: 'Þe AUR for Ubuntu',
         cards: {
             whyDifferent: {
