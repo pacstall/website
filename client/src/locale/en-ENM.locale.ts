@@ -10,7 +10,7 @@ export default <Locale>{
                 description:
                     'Pacſtall noteþ þe ſtable baſe of Ubuntu but alloweþ þe to noteſt ' +
                     'bledynge egge ſofteware wiþ litel to no compromiſes, ſo þou ne doſt ' +
-                    'have to troubleþ þeſelf wiþ ſecurite pacches or newe fetures.',
+                    'haue to troubleþ þeſelf wiþ ſecurite pacches or newe fetures.',
             },
             howItWorks: {
                 title: 'How þenne doþ hit werk?',
@@ -76,9 +76,9 @@ export default <Locale>{
         versionTooltip: {
             notInRegistry: 'Þis pakagge ne is in þe Repologgye reggiſtrye',
             latest: 'Þis pakagge is þe lateſt version',
-            patch: 'Þis pakagge haveþ a patche update auailable',
-            minor: 'Þis pakagge haveþ a minor update auailable',
-            major: 'Þis pakagge haveþ a major update auailable',
+            patch: 'Þis pakagge haueþ a patche update auailable',
+            minor: 'Þis pakagge haueþ a minor update auailable',
+            major: 'Þis pakagge haueþ a major update auailable',
             isGit: 'Þis pakagge is a Git pakagge',
         },
         noResults: 'Ne findynge what ȝe wiſsheſt? <0>Create a requeſt!</0>',
