@@ -108,8 +108,8 @@ export default <Locale>{
         view: 'Vewen',
         howToInstall: {
             title: 'How to Inſtall',
-            step1: 'Steppe 1: Setup Pacſtall',
-            step2: 'Steppe 2: Inſtall {{ name }}',
+            step1: 'Steppe I: Setup Pacſtall',
+            step2: 'Steppe II: Inſtall {{ name }}',
         },
         dependenciesModal: {
             title: 'Dependencies',
