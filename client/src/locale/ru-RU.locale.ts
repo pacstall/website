@@ -2,20 +2,20 @@ import Locale from './locale'
 
 export default <Locale>{
     home: {
-        title: 'Pacstall',
+        title: 'Паксталл',
         subtitle: 'AUR для Ubuntu',
         cards: {
             whyDifferent: {
                 title: 'Чем это отличается от любого другого пакетного менеджера?',
                 description:
-                    'Pacstall использует стабильную базу Ubuntu, но позволяет использовать ' +
+                    'Паксталл использует стабильную базу Ubuntu, но позволяет использовать ' +
                     "bleeding-edge программы почти что без компромиссов, так что вам не " +
                     'нужно беспокоиться о патчах безопасности или новом функционале.',
             },
             howItWorks: {
                 title: 'Тогда как это работает?',
                 description:
-                    ' Pacstall использует файлы, известные как <0>pacscript-ы</0> (похоже' +
+                    ' Паксталл использует файлы, известные как <0>пакскрипты</0> (похоже' +
                     ' на PKGBUILD-ы) которые содержат обязательные компоненты для сборки пакетов,' +
                     ' и собирает из них исполняемые файлы на вашей системе.',
             },
@@ -36,11 +36,11 @@ export default <Locale>{
         },
         social: {
             title: 'Соцсети',
-            discord: 'Discord',
-            matrix: 'Matrix',
-            reddit: 'Reddit',
-            lemmy: 'Lemmy',
-            mastodon: 'Mastodon',
+            discord: 'Дискорд',
+            matrix: 'Матрикс',
+            reddit: 'Реддит',
+            lemmy: 'Лемми',
+            mastodon: 'Мастодон',
         },
         browse: {
             title: 'Просмотреть пакеты',
@@ -51,7 +51,7 @@ export default <Locale>{
         install: 'Установить',
     },
     cookieConsent: {
-        title: 'Уведомление о Cookie',
+        title: 'Уведомление о куки',
         paragraphs: [
             "Привет, мы используем cookie-файлы на нашем сайте.",
             "Мы не любим давать вводящую в заблужение или ложную информацию. Мы используем cookie только для основных функций, таких как настройки темы, переводы и аутентификация.",
@@ -108,7 +108,7 @@ export default <Locale>{
         view: 'Посмотреть',
         howToInstall: {
             title: 'Как скачать',
-            step1: 'Шаг 1: Установить Pacstall',
+            step1: 'Шаг 1: Установить Паксталл',
             step2: 'Шаг 2: Установить {{ name }}',
         },
         dependenciesModal: {
@@ -116,7 +116,7 @@ export default <Locale>{
             buildDependencies: 'Зависимости для сборки',
             optionalDependencies: 'Необязательные зависимости',
             runtimeDependencies: 'Зависимости среды выполнения',
-            pacstallDependencies: 'Зависимости Pacstall',
+            pacstallDependencies: 'Зависимости Паксталл',
             name: 'Название',
             close: 'Закрыть',
             provider: 'Провайдер',
