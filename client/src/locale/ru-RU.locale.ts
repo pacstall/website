@@ -22,8 +22,8 @@ export default <Locale>{
         },
         installationInstructions: 'Инструкция по установке',
         showcase: {
-            title: 'Showcase',
-            packageSearch: 'Package Search',
+            title: 'Шоукейс',
+            packageSearch: 'Поиск пакетов',
         },
     },
     navbar: {
@@ -43,7 +43,7 @@ export default <Locale>{
             mastodon: 'Mastodon',
         },
         browse: {
-            title: 'Browse Packages',
+            title: 'Просмотреть пакеты',
         },
         privacy: {
             title: 'Политика конфиденциальности',
@@ -54,7 +54,7 @@ export default <Locale>{
         title: 'Уведомление о Cookie',
         paragraphs: [
             "Привет, мы используем cookie-файлы на нашем сайте.",
-            "We don't like to give you misleading or confusing information. Мы используем cookie только для основных функций, таких как настройки темы, переводы и аутентификация.",
+            "Мы не любим давать вводящую в заблужение или ложную информацию. Мы используем cookie только для основных функций, таких как настройки темы, переводы и аутентификация.",
             'Вы можете прочитать полную политику конфиденциальности <0>здесь <1/></0>.',
             'Продолжая пользоваться этим сайтом, вы <strong>соглашаетесь с политикой конфиденциальности</strong>.',
         ],
@@ -62,14 +62,14 @@ export default <Locale>{
     },
     packageSearch: {
         dropdown: {
-            package: 'Package',
-            packageTooltip: 'Searches in package names and descriptions',
-            maintainer: 'Maintainer',
-            maintainerTooltip: 'Searches by maintainer names and emails',
+            package: 'Пакет',
+            packageTooltip: 'Ищет по именам пакетов и описаниям',
+            maintainer: 'Сопровождающий',
+            maintainerTooltip: 'Ищет по именам сопровождающих и почтам',
         },
         table: {
             name: 'Название',
-            maintainer: 'Разработчик',
+            maintainer: 'Сопровождающий',
             version: 'Версия',
             install: 'Установить',
         },
@@ -82,7 +82,7 @@ export default <Locale>{
             isGit: 'Этот пакет - это Git-пакет',
         },
         noResults: 'Не находите то, что хотели? <0>Создайте запрос!</0>',
-        search: 'Search',
+        search: 'Поиск',
         orphaned: 'Осиротевший',
         maintainerTooltip: {
             maintainedBy: 'Этот пакет обслуживается {{ name }}',
