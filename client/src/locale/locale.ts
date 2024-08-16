@@ -15,6 +15,7 @@ import deLocale from './de-DE.locale'
 import nlLocale from './nl-NL.locale'
 import idLocale from './id-ID.locale'
 import trLocale from './tr-TR.locale'
+import ruLocale from './ru-RU.locale'
 import { NumericDisplayHandler } from '../hooks/useNumericDisplay'
 import { arabic } from './numeric-systems/arabic'
 import { bengali } from './numeric-systems/bengali'
@@ -195,6 +196,9 @@ export const translations = {
     tr: {
         translation: trLocale,
     },
+    ru: {
+      translation: ruLocale  
+    },
 } as const satisfies Resource
 
 export const localeNumericDisplay = {
@@ -213,6 +217,7 @@ export const localeNumericDisplay = {
     de: arabic,
     id: arabic,
     tr: arabic,
+    ru: arabic,
     'bn-IN': bengali,
 } satisfies Record<keyof typeof translations, NumericDisplayHandler>
 
@@ -231,6 +236,7 @@ export const localeFlags: Record<keyof typeof translations, string> = {
     'pt-BR': 'PT 🇧🇷',
     'pt-PT': 'PT 🇵🇹',
     ro: 'RO 🇷🇴',
+    ru: 'RU 🇷🇺',
     sv: 'SV 🇸🇪',
     tr: 'TR 🇹🇷',
 }
