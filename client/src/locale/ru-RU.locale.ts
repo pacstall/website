@@ -125,7 +125,7 @@ export default <Locale>{
         },
         requiredByModal: {
             title: 'Требуется',
-            name: 'Name',
+            name: 'Название',
             provider: 'Провайдер',
             close: 'Закрыть',
             noDescription: 'Нет доступного описания',
