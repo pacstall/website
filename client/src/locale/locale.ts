@@ -197,7 +197,7 @@ export const translations = {
         translation: trLocale,
     },
     ru: {
-      translation: ruLocale  
+        translation: ruLocale,
     },
 } as const satisfies Resource
 
