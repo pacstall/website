@@ -3,21 +3,21 @@ import Locale from './locale'
 export default <Locale>{
     home: {
         title: 'Pacſtall',
-        subtitle: 'Þe AUR for Ubuntu',
+        subtitle: 'Þe AUR foꝛ Ubuntu',
         cards: {
             whyDifferent: {
                 title: 'Why is þis ani different þan any oþer pakagge manager?',
                 description:
-                    'Pacſtall noteþ þe ſtable baſe of Ubuntu but alloweþ þe to noteſt ' +
-                    'bledynge egge ſofteware wiþ litel to no compromiſes, ſo þou ne doſt ' +
-                    'haue to troubleþ þeſelf wiþ ſecurite pacches or newe fetures.',
+                    'Pacſtall noteþ þͤ ſtable baſe of Ubuntu but alloweþ þͤ to noteſt ' +
+                    'bledynge egge ſofteware wiþ litel to no compꝛomiſes, ſo þͧ ne doſt ' +
+                    'haue to troubleþ þeſelf wiþ ſecurite pacches oꝛ newe fetures⸵',
             },
             howItWorks: {
                 title: 'How þenne doþ hit werk?',
                 description:
                     ' Pacſtall takeþ in fyles witen as <0>pacſcripts</0> (like' +
-                    ' PKGBUILDs) þat holden þe neceſsarye contents to bylden pakagges,' +
-                    ' and byldeþ þem in-to executables on þi ſyſteme.',
+                    ' PKGBUILDs) þat holden þͤ neceſsarye contents to bylden pakagges‧' +
+                    ' ⁊ byldeþ þem in-to executables on þi ſyſteme⸵',
             },
         },
         installationInstructions: 'Inſtallacioun Inſtrucciouns',
@@ -36,7 +36,7 @@ export default <Locale>{
         },
         social: {
             title: 'Social Nettwerks',
-            discord: 'Diſcord',
+            discord: 'Diſcoꝛd',
             matrix: 'Matrix',
             reddit: 'Reddit',
             lemmy: 'Lemmy',
@@ -53,19 +53,19 @@ export default <Locale>{
     cookieConsent: {
         title: 'Cookie notice TL;DR',
         paragraphs: [
-            'Hail, we are notynge cookies on ure webſite.',
-            'We ne doþ wiſshe to ȝiuen ȝe miſledynge ne miſtakynge informacion. We oonly noten cookies for eſsential fetures ſwich as teme ſetynges, localiſacioun and auþentikacioun.',
-            'Ȝe can rede þe ful priuacie policie <0>her <1/></0>.',
-            'By continuenge to noten þis ſite, ȝe <strong>ȝiuest eower agrement to þe priuacie policie</strong>.',
+            'Hail‧ we are notynge cookies on ure webſite⸵',
+            'We ne doþ wiſshe to ȝiuen ȝe miſledynge ne miſtakynge infoꝛmacion⸵ We oonly noten cookies foꝛ eſsential fetures ſwich as teme ſetynges, localiſacioun ⁊ auþentikacioun⸵',
+            'Ȝe can rede þͤ ful pꝛiuacie policie <0>her <1/></0>⸵',
+            'By continuenge to noten þis ſite‧ ȝe <strong>ȝiuest eower agrement to þͤ pꝛiuacie policie</strong>⸵',
         ],
-        accept: "God be wi' ye",
+        accept: "God be wi' yͤ",
     },
     packageSearch: {
         dropdown: {
             package: 'Pakagge',
-            packageTooltip: 'Serchen in pakagge names and deſcripciouns',
+            packageTooltip: 'Serchen in pakagge names ⁊ deſcripciouns',
             maintainer: 'Mayntener',
-            maintainerTooltip: 'Serchen by mayntener names and emailes',
+            maintainerTooltip: 'Serchen by mayntener names ⁊ emailes',
         },
         table: {
             name: 'Name',
@@ -74,16 +74,16 @@ export default <Locale>{
             install: 'Inſtall',
         },
         versionTooltip: {
-            notInRegistry: 'Þis pakagge ne is in þe Repologgye reggiſtrye',
-            latest: 'Þis pakagge is þe lateſt version',
+            notInRegistry: 'Þis pakagge ne is in þͤ Repologgye reggiſtrye',
+            latest: 'Þis pakagge is þͤ lateſt version',
             patch: 'Þis pakagge haueþ a patche update auailable',
-            minor: 'Þis pakagge haueþ a minor update auailable',
-            major: 'Þis pakagge haueþ a major update auailable',
+            minor: 'Þis pakagge haueþ a minoꝛ update auailable',
+            major: 'Þis pakagge haueþ a majoꝛ update auailable',
             isGit: 'Þis pakagge is a Git pakagge',
         },
         noResults: 'Ne findynge what ȝe wiſsheſt? <0>Create a requeſt!</0>',
         search: 'Serchen',
-        orphaned: 'Orphaned',
+        orphaned: 'Oꝛphaned',
         maintainerTooltip: {
             maintainedBy: 'Þis pakagge is beynge mayntened by {{ name }}',
             noMaintainer: 'Þis pakagge ne is beynge mayntened',
