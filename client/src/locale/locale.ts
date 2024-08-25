@@ -1,6 +1,7 @@
 import { Resource } from 'i18next'
 import bnLocale from './bn-IN.locale'
 import angLocale from './en-ANG.locale'
+import agnLocale from './en-AGN.locale'
 import enmLocale from './en-ENM.locale'
 import enLocale from './en-US.locale'
 import roLocale from './ro-RO.locale'
@@ -148,6 +149,9 @@ export const translations = {
     'en-ANG': {
         translation: angLocale,
     },
+    'en-AGN': {
+        translation: agnLocale,
+    },
     'en-ENM': {
         translation: enmLocale,
     },
@@ -203,7 +207,8 @@ export const translations = {
 
 export const localeNumericDisplay = {
     'en-US': arabic,
-    'en-AN': arabic,
+    'en-ANG': arabic,
+    'en-AGN': arabic,
     'en-ENM': arabic,
     ro: arabic,
     es: arabic,
@@ -224,6 +229,7 @@ export const localeNumericDisplay = {
 export const localeFlags: Record<keyof typeof translations, string> = {
     'en-US': 'US 🇺🇸',
     'en-ANG': 'ᚩᛝ 🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+    'en-AGN': 'AŊ ᛖᛝ',
     'en-ENM': 'ME 🇬🇧',
     'bn-IN': 'BN 🇮🇳',
     de: 'DE 🇩🇪',
