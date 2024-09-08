@@ -6,7 +6,7 @@ server/dist: $(shell find server -not \( -path server/tmp -prune \) -not \( -pat
 
 client/dist: $(shell find client -not \( -path client/dist -prune \) -not \( -path client/.parcel-cache -prune \) -type f)
 	which node
-	+$(MAKE) -s -C client	
+	+$(MAKE) -s -C client
 
 dist:
 	mkdir -p dist
@@ -16,7 +16,7 @@ dist:
 	cp -r server/dist/* dist
 
 docker:
-	docker build --rm --build-arg VERSION="${VERSION}" --no-cache -t webserver .
+	docker build --rm --build-arg VITE_VERSION="${VERSION}" --no-cache -t webserver .
 	docker tag webserver "ghcr.io/pacstall/webserver:${VERSION}"
 	docker tag webserver ghcr.io/pacstall/webserver:latest
 

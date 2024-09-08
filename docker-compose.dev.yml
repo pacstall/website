@@ -10,6 +10,8 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
+      args:
+        VITE_VERSION: "${VITE_VERSION}"
     # inherited from docker-compose.yml
     
   matomo:

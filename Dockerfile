@@ -1,7 +1,7 @@
 FROM node:20-alpine AS client
 
-ARG VERSION
-ENV VERSION="${VERSION}"
+ARG VITE_VERSION
+ENV VITE_VERSION="${VITE_VERSION}"
 ENV NODE_ENV="production"
 
 WORKDIR /root/
@@ -10,7 +10,8 @@ COPY ./client ./client
 COPY ./Makefile ./Makefile
 
 RUN apk add --no-cache make
-RUN make VERSION=${VERSION} client/dist
+RUN echo "VITE_VERSION is '${VITE_VERSION}'"
+RUN make VITE_VERSION=${VITE_VERSION} client/dist
 
 
 FROM golang:1.23-alpine AS server
@@ -40,7 +41,6 @@ RUN make dist \
 WORKDIR /root/dist/
 
 RUN ls -al /root/dist
-
 
 CMD echo "Starting webserver in a few seconds..." && sleep 3 && "./webserver"
 EXPOSE 3300

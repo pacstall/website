@@ -4,7 +4,7 @@ dist: $(shell find . -not \( -path dist -prune \) -not \( -path .parcel-cache -p
 	npm install
 	npm run lint
 	npm run clean
-	npm run build
+	VITE_VERSION=$$VITE_VERSION npm run build
 
 run:
 	npm install
