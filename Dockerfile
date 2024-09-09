@@ -10,7 +10,6 @@ COPY ./client ./client
 COPY ./Makefile ./Makefile
 
 RUN apk add --no-cache make
-RUN echo "VITE_VERSION is '${VITE_VERSION}'"
 RUN make VITE_VERSION=${VITE_VERSION} client/dist
 
 
