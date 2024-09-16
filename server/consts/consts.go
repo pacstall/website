@@ -1,3 +1,3 @@
 package consts
 
-const PACSCRIPT_FILE_EXTENSION = "pacscript"
+const SRCINFO_FILE_EXTENSION = ".SRCINFO"

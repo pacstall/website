@@ -10,7 +10,6 @@ import (
 
 	"github.com/joomcode/errorx"
 	"pacstall.dev/webserver/config"
-	"pacstall.dev/webserver/consts"
 	"pacstall.dev/webserver/log"
 	"pacstall.dev/webserver/types/array"
 	"pacstall.dev/webserver/types/pac"
@@ -31,8 +30,8 @@ func getPackageLastUpdatedTuples() ([]packageLastUpdatedTuple, error) {
 	programsPath := path.Join(wordingDirectoryAbsolute, config.GitClonePath)
 	script := fmt.Sprintf(`
 	cd %v
-	for i in ./packages/*/*.%s; do echo $i; git log -1 --pretty=\"%%at\" $i; done
-	`, programsPath, consts.PACSCRIPT_FILE_EXTENSION)
+	for i in ./packages/*/*.pacscript; do echo $i; git log -1 --pretty=\"%%at\" $i; done
+	`, programsPath)
 
 	outputBytes, err := pacsh.ExecBash(programsPath, "last_updated.sh", []byte(script))
 	if err != nil {
@@ -52,7 +51,7 @@ func getPackageLastUpdatedTuples() ([]packageLastUpdatedTuple, error) {
 		lastUpdatedString = lastUpdatedString[1 : len(lastUpdatedString)-1]
 
 		packageNameWithExtension := path.Base(packagePath)
-		packageName := strings.TrimSuffix(packageNameWithExtension, "."+consts.PACSCRIPT_FILE_EXTENSION)
+		packageName := strings.TrimSuffix(packageNameWithExtension, ".pacscript")
 
 		if packageName == "" || strings.HasPrefix(packageName, "-") {
 			return nil, errorx.IllegalState.New("failed to parse package name from package path '%v'", packagePath)

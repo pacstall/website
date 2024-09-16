@@ -13,7 +13,7 @@ var pacTypes = map[string]string{
 	"-app": "AppImage",
 }
 
-func getPrettyName(p pac.Script) string {
+func getPrettyName(p *pac.Script) string {
 	name := ""
 
 	if name == "" {

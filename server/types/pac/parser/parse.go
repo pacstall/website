@@ -1,7 +1,6 @@
 package parser
 
 import (
-	"fmt"
 	"os"
 	"path"
 	"strings"
@@ -38,6 +37,8 @@ func ParseAll() error {
 		return errorx.Decorate(err, "failed to parse pacscripts")
 	}
 
+	log.Info("pacscript parsing done. computing dependency graph")
+
 	for _, script := range loadedPacscripts {
 		computeRequiredBy(script, loadedPacscripts)
 	}
@@ -46,12 +47,14 @@ func ParseAll() error {
 		return s1.PackageName < s2.PackageName
 	})
 
+	log.Info("dependency graph done. setting up git updated-at dates")
+
 	if err := setLastUpdatedAt(loadedPacscripts); err != nil {
 		return errorx.Decorate(err, "failed to set last updated at")
 	}
 
 	pacstore.Update(loadedPacscripts)
-	log.Info("successfully parsed %v (%v / %v) packages", types.Percent(float64(len(loadedPacscripts))/float64(len(pkgList))), len(loadedPacscripts), len(pkgList))
+	log.Info("successfully loaded %v (%v / %v) packages", types.Percent(float64(len(loadedPacscripts))/float64(len(pkgList))), len(loadedPacscripts), len(pkgList))
 
 	return nil
 }
@@ -81,45 +84,37 @@ func parsePacscriptFiles(names []string) ([]*pac.Script, error) {
 		out, err := ParsePacscriptFile(config.GitClonePath, pacName)
 
 		if config.Repology.Enabled {
-			if err := repology.Sync(&out); err != nil {
+			if err := repology.Sync(out); err != nil {
 				log.Debug("failed to sync %v with repology. Error: %v", pacName, err)
 			}
 		}
 
-		return &out, err
+		return out, err
 	})
 
 	return channels.ToSlice(outChan), nil
 }
 
 func readPacscriptFile(rootDir, name string) (scriptBytes []byte, fileName string, err error) {
-	fileName = fmt.Sprintf("%s.%s", name, consts.PACSCRIPT_FILE_EXTENSION)
-	scriptPath := path.Join(rootDir, "packages", name, fileName)
+	scriptPath := path.Join(rootDir, "packages", name, consts.SRCINFO_FILE_EXTENSION)
 	scriptBytes, err = os.ReadFile(scriptPath)
 
 	if err != nil {
 		return nil, "", errorx.Decorate(err, "failed to read file '%v'", scriptPath)
 	}
 
-	return scriptBytes, fileName, nil
+	return scriptBytes, consts.SRCINFO_FILE_EXTENSION, nil
 }
 
-func ParsePacscriptFile(programsDirPath, name string) (pac.Script, error) {
-	pacshell, filename, err := readPacscriptFile(programsDirPath, name)
+func ParsePacscriptFile(programsDirPath, name string) (*pac.Script, error) {
+	srcInfoData, _, err := readPacscriptFile(programsDirPath, name)
 	if err != nil {
-		return pac.Script{}, errorx.Decorate(err, "failed to read pacscript '%v'", name)
+		return nil, errorx.Decorate(err, "failed to read pacscript '%v'", name)
 	}
 
-	pacshell = buildCustomFormatScript(pacshell)
-
-	stdout, err := pacsh.ExecBash(config.TempDir, filename, pacshell)
+	pacscript, err := pacsh.ParsePacOutput(srcInfoData)
 	if err != nil {
-		return pac.Script{}, errorx.Decorate(err, "failed to execute pacscript '%v'", name)
-	}
-
-	pacscript, err := pacsh.ParsePacOutput(stdout)
-	if err != nil {
-		return pac.Script{}, errorx.Decorate(err, "failed to parse pacscript '%v'", name)
+		return nil, errorx.Decorate(err, "failed to parse pacscript '%v'", name)
 	}
 
 	return pacscript, nil

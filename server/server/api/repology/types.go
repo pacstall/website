@@ -23,13 +23,12 @@ type repologyPackage struct {
 	RecipeURL         string            `json:"recipeUrl"`
 	PackageDetailsURL string            `json:"packageDetailsUrl"`
 	Type              string            `json:"type"`
-	Patches           []string          `json:"patches"`
 }
 
 func newRepologyPackage(p *pac.Script) repologyPackage {
 	var source *string = nil
 	if len(p.Source) > 0 {
-		source = &p.Source[0]
+		source = &p.Source[0].Value
 	}
 
 	return repologyPackage{
@@ -40,9 +39,8 @@ func newRepologyPackage(p *pac.Script) repologyPackage {
 		Version:           p.Version,
 		URL:               source,
 		Type:              getType(p),
-		RecipeURL:         fmt.Sprintf("https://raw.githubusercontent.com/pacstall/pacstall-programs/master/packages/%s/%s.%s", p.PackageName, p.PackageName, consts.PACSCRIPT_FILE_EXTENSION),
+		RecipeURL:         fmt.Sprintf("https://raw.githubusercontent.com/pacstall/pacstall-programs/master/packages/%s/%s.%s", p.PackageName, p.PackageName, consts.SRCINFO_FILE_EXTENSION),
 		PackageDetailsURL: fmt.Sprintf("https://pacstall.dev/packages/%s", p.PackageName),
-		Patches:           p.Patch,
 	}
 }
 
