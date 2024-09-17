@@ -27,8 +27,8 @@ var UpdateStatus = updateStatus{
 type UpdateStatusValue = int
 
 type ArchDistroString struct {
-	Arch   string `json:"arch"`
-	Distro string `json:"distro"`
+	Arch   string `json:"arch,omitempty"`
+	Distro string `json:"distro,omitempty"`
 	Value  string `json:"value"`
 }
 
@@ -53,16 +53,37 @@ type Script struct {
 	RuntimeDependencies  []ArchDistroString `json:"runtimeDependencies"`
 	BuildDependencies    []ArchDistroString `json:"buildDependencies"`
 	OptionalDependencies []ArchDistroString `json:"optionalDependencies"`
+	CheckDependencies    []ArchDistroString `json:"checkDependencies"`
 	Conflicts            []ArchDistroString `json:"conflicts"`
 	Breaks               []ArchDistroString `json:"breaks"`
 	Gives                []ArchDistroString `json:"gives"`
 	Replaces             []ArchDistroString `json:"replaces"`
-	Hash                 *string            `json:"hash"`
+	Sha1Sums             []ArchDistroString `json:"sha1sums"`
+	Sha224Sums           []ArchDistroString `json:"sha224sums"`
+	Sha256Sums           []ArchDistroString `json:"sha256sums"`
+	Sha384Sums           []ArchDistroString `json:"sha384sums"`
+	Sha512Sums           []ArchDistroString `json:"sha512sums"`
+	Md5Sums              []ArchDistroString `json:"md5sums"`
+	Priority             []ArchDistroString `json:"priority"`
+	Recommends           []ArchDistroString `json:"recommends"`
+	Suggests             []ArchDistroString `json:"suggests"`
 	PacstallDependencies []ArchDistroString `json:"pacstallDependencies"`
+	Enhances             []ArchDistroString `json:"enhances"`
 	Repology             []string           `json:"repology"`
 	RequiredBy           []string           `json:"requiredBy"`
 	LastUpdatedAt        time.Time          `json:"lastUpdatedAt"`
 	UpdateStatus         int                `json:"updateStatus"` // enum UpdateStatus
+	Changelog            string             `json:"changelog"`
+	Backup               []string           `json:"backup"`
+	Compatible           []string           `json:"compatible"`
+	Incompatible         []string           `json:"incompatible"`
+	Epoch                string             `json:"epoch"`
+	Install              string             `json:"install"`
+	License              []string           `json:"license"`
+	Mask                 []string           `json:"mask"`
+	NoExtract            []string           `json:"noExtract"`
+	ValidPGPKeys         []string           `json:"validPgpKeys"`
+	Groups               []string           `json:"groups"`
 }
 
 func FromSrcInfo(info srcinfo.Srcinfo) *Script {
@@ -84,7 +105,29 @@ func FromSrcInfo(info srcinfo.Srcinfo) *Script {
 		Architectures:        info.Arch,
 		Repology:             info.Repology,
 		RequiredBy:           []string{},
+		Sha1Sums:             toArchDistroStrings(info.SHA1Sums),
+		Sha224Sums:           toArchDistroStrings(info.SHA224Sums),
+		Sha256Sums:           toArchDistroStrings(info.SHA256Sums),
+		Sha384Sums:           toArchDistroStrings(info.SHA384Sums),
+		Sha512Sums:           toArchDistroStrings(info.SHA512Sums),
 		PrettyName:           "",
+		Changelog:            info.Changelog,
+		Backup:               orEmptyArray(info.Backup),
+		Compatible:           orEmptyArray(info.Compatible),
+		Incompatible:         orEmptyArray(info.Incompatible),
+		Epoch:                info.Epoch,
+		Install:              info.Install,
+		License:              orEmptyArray(info.License),
+		Mask:                 orEmptyArray(info.Mask),
+		NoExtract:            orEmptyArray(info.NoExtract),
+		ValidPGPKeys:         orEmptyArray(info.ValidPGPKeys),
+		Groups:               orEmptyArray(info.Groups),
+		Enhances:             toArchDistroStrings(info.Enhances),
+		CheckDependencies:    toArchDistroStrings(info.CheckDepends),
+		Md5Sums:              toArchDistroStrings(info.MD5Sums),
+		Priority:             toArchDistroStrings(info.Priority),
+		Suggests:             toArchDistroStrings(info.Suggests),
+		Recommends:           toArchDistroStrings(info.Recommends),
 	}
 }
 
@@ -100,4 +143,12 @@ func toArchDistroString(ads srcinfo.ArchDistroString) ArchDistroString {
 		Distro: ads.Distro,
 		Value:  ads.Value,
 	}
+}
+
+func orEmptyArray[T interface{}](items []T) []T {
+	if items == nil {
+		return []T{}
+	}
+
+	return items
 }

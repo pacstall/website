@@ -69,13 +69,6 @@ func assertPacscriptEquals(t *testing.T, expected *pac.Script, actual *pac.Scrip
 	assertStringArrayEquals(t, "maintainers", expected.Maintainers, actual.Maintainers)
 	assertEquals(t, "description", expected.Description, actual.Description)
 	assertEquals(t, "gives", expected.Gives, actual.Gives)
-	if expected.Hash != nil && actual.Hash == nil {
-		t.Errorf("expected hash '%v', got nil", *expected.Hash)
-	} else if expected.Hash == nil && actual.Hash != nil {
-		t.Errorf("expected hash nil, got %v", *actual.Hash)
-	} else if expected.Hash != nil && actual.Hash != nil {
-		assertEquals(t, "hash", *expected.Hash, *actual.Hash)
-	}
 	assertEquals(t, "version", expected.Version, actual.Version)
 	assertArrayEquals(t, "breaks", expected.Breaks, actual.Breaks)
 	assertArrayEquals(t, "conflicts", expected.Conflicts, actual.Conflicts)
