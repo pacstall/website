@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strings"
 
-	"pacstall.dev/webserver/consts"
 	"pacstall.dev/webserver/types/pac"
 )
 
@@ -39,7 +38,7 @@ func newRepologyPackage(p *pac.Script) repologyPackage {
 		Version:           p.Version,
 		URL:               source,
 		Type:              getType(p),
-		RecipeURL:         fmt.Sprintf("https://raw.githubusercontent.com/pacstall/pacstall-programs/master/packages/%s/%s.%s", p.PackageName, p.PackageName, consts.SRCINFO_FILE_EXTENSION),
+		RecipeURL:         fmt.Sprintf("https://raw.githubusercontent.com/pacstall/pacstall-programs/master/packages/%s/%s.pacscript", p.PackageName, p.PackageName),
 		PackageDetailsURL: fmt.Sprintf("https://pacstall.dev/packages/%s", p.PackageName),
 	}
 }
