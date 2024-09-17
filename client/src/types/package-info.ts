@@ -1,24 +1,50 @@
 export default interface PackageInfo {
+    architectures: string[]
     version: string
     packageName: string
     maintainers: string[]
     description: string
-    source: string[]
-    runtimeDependencies: string[]
-    buildDependencies: string[]
-    optionalDependencies: string[]
-    conflicts: string[]
-    gives: string
-    replaces: string[]
-    hash?: string
-    ppa: string[]
-    pacstallDependencies: string[]
-    patch: string[]
+    source: ArchDistroString[]
+    runtimeDependencies: ArchDistroString[]
+    buildDependencies: ArchDistroString[]
+    optionalDependencies: ArchDistroString[]
+    checkDependencies: ArchDistroString[]
+    pacstallDependencies: ArchDistroString[]
+    conflicts: ArchDistroString[]
+    gives: ArchDistroString
+    replaces: ArchDistroString[]
+    sha1sums: ArchDistroString[]
+    sha224sums: ArchDistroString[]
+    sha256sums: ArchDistroString[]
+    sha384sums: ArchDistroString[]
+    sha512sums: ArchDistroString[]
+    md5sums: ArchDistroString[]
+    priority: ArchDistroString[]
     requiredBy: string[]
+    suggests: ArchDistroString[]
+    recommends: ArchDistroString[]
     latestVersion?: string
     prettyName: string
     updateStatus: UpdateStatus
     lastUpdatedAt: string
+    enhances: ArchDistroString[]
+    changelog: string
+    backup: string[]
+    compatible: string[]
+    incompatible: string[]
+    epoch: string
+    install: string
+    license: string[]
+    mask: string[]
+    noExtract: string[]
+    validPgpKeys: string[]
+    groups: string[]
+}
+
+export interface ArchDistroString {
+    arch?: string
+    distro?: string
+    value: string
 }
 
 export enum UpdateStatus {

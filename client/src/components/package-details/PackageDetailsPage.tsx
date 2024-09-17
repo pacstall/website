@@ -1,7 +1,7 @@
 import { Container, UseDisclosureProps } from '@chakra-ui/react'
 import { FC } from 'react'
 import { Helmet } from 'react-helmet'
-import PackageInfo from '../../types/package-info'
+import PackageInfo, { ArchDistroString } from '../../types/package-info'
 import HowToInstall from './HowToInstall'
 import PackageDependenciesModal from './PackageDependenciesModal'
 import PackageDetailsHeader from './PackageDetailsHeader'
@@ -10,7 +10,7 @@ import PackageRequiredByModal from './PackageRequiredByModal'
 
 type PackageDetailsPageProps = {
     data: PackageInfo
-    allDependencies: string[]
+    allDependencies: ArchDistroString[]
     isMobile: boolean
     requiredByModal: UseDisclosureProps
     dependenciesModal: UseDisclosureProps

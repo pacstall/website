@@ -11,13 +11,13 @@ import { useTranslation } from 'react-i18next'
 import { Link as Rlink } from 'react-router-dom'
 
 const getDescription = (nameWithDescription: string): string | null => {
-    return nameWithDescription.includes(':')
+    return nameWithDescription?.includes(':')
         ? nameWithDescription.split(':')[1].trim()
         : null
 }
 
 const getName = (nameWithDescription: string): string => {
-    return nameWithDescription.includes(':')
+    return nameWithDescription?.includes(':')
         ? nameWithDescription.split(':')[0]
         : nameWithDescription
 }
