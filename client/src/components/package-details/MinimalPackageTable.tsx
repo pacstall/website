@@ -22,10 +22,7 @@ const MinimalPackageTable: FC<{ packages: (ArchDistroString | string)[] }> = ({
                 {packages.map((pkg, i) => (
                     <MinimalPackageTableRow
                         external={typeof pkg === 'string'}
-                        key={
-                            (typeof pkg === 'string' ? pkg : pkg.value) +
-                            i
-                        }
+                        key={(typeof pkg === 'string' ? pkg : pkg.value) + i}
                         pkg={typeof pkg === 'string' ? pkg : pkg.value}
                     />
                 ))}
