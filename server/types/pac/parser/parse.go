@@ -97,7 +97,7 @@ func parsePacscriptFiles(names []string) ([]*pac.Script, error) {
 
 		if config.Repology.Enabled {
 			if err := repology.Sync(out); err != nil {
-				log.Debug("failed to sync %v with repology. Error: %v", pacName, err)
+				log.Debug("failed to sync %v with repology. Error: %+v", pacName, err)
 			}
 		}
 

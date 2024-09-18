@@ -139,6 +139,7 @@ func FromSrcInfo(info srcinfo.Srcinfo) *Script {
 		Priority:             toArchDistroStrings(info.Priority),
 		Suggests:             toArchDistroStrings(info.Suggests),
 		Recommends:           toArchDistroStrings(info.Recommends),
+		UpdateStatus:         UpdateStatus.Unknown,
 	}
 }
 

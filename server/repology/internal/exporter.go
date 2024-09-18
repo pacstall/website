@@ -6,10 +6,13 @@ import (
 	"strings"
 	"time"
 
+	"github.com/joomcode/errorx"
 	"gorm.io/gorm"
 	"pacstall.dev/webserver/log"
 	"pacstall.dev/webserver/model"
 )
+
+const RETRY_COUNT = 5
 
 func ExportRepologyDatabase(db *gorm.DB) error {
 	err := migrateTables(db)
@@ -20,7 +23,7 @@ func ExportRepologyDatabase(db *gorm.DB) error {
 	it := 1
 	lastProjectName := ""
 
-	const REPOLOGY_PROJECT_FETCH_THROTTLE = 400 * time.Millisecond
+	const REPOLOGY_PROJECT_FETCH_THROTTLE = time.Second
 
 	lastRepoFetch := time.Now()
 
@@ -30,9 +33,24 @@ func ExportRepologyDatabase(db *gorm.DB) error {
 		}
 
 		log.Debug("page %v | cursor at: %v", it, lastProjectName)
-		projectPage, err := getProjectSearch(lastProjectName)
+
+		var projectPage map[string][]RepologyApiProject
+		var err error
+
+	retry:
+		for i := 0; i < RETRY_COUNT; i += 1 {
+			projectPage, err = getProjectSearch(lastProjectName)
+			if err == nil {
+				break retry
+			}
+
+			retryDelay := time.Duration(i+1) * REPOLOGY_PROJECT_FETCH_THROTTLE
+			log.Debug("failed to fetch repology project page '%s'. retrying in %v", lastProjectName, retryDelay)
+			time.Sleep(retryDelay)
+		}
+
 		if err != nil {
-			return errors.Join(errors.New("failed to fetch repology project page"), err)
+			return errorx.Decorate(err, "failed to fetch repology project page '%s'", lastProjectName)
 		}
 
 		lastRepoFetch = time.Now()
