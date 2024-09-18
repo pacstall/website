@@ -1,6 +1,7 @@
 package pac
 
 import (
+	"strings"
 	"time"
 
 	"github.com/pacstall/go-srcinfo"
@@ -84,6 +85,16 @@ type Script struct {
 	NoExtract            []string           `json:"noExtract"`
 	ValidPGPKeys         []string           `json:"validPgpKeys"`
 	Groups               []string           `json:"groups"`
+}
+
+func (p *Script) Type() types.PackageTypeName {
+	for suffix, name := range types.PackageTypeSuffixToPackageTypeName {
+		if strings.HasSuffix(p.PackageName, string(suffix)) {
+			return name
+		}
+	}
+
+	return types.PackageTypeSuffixToPackageTypeName["-git"]
 }
 
 func FromSrcInfo(info srcinfo.Srcinfo) *Script {

@@ -21,6 +21,7 @@ import (
 )
 
 const PACKAGE_LIST_FILE_NAME = "./packagelist"
+const MAX_GIT_VERSION_CONCURRENCY = 5
 
 func ParseAll() error {
 	if err := git.RefreshPrograms(config.GitClonePath, config.GitURL, config.PacstallPrograms.Branch); err != nil {
@@ -52,6 +53,17 @@ func ParseAll() error {
 	if err := setLastUpdatedAt(loadedPacscripts); err != nil {
 		return errorx.Decorate(err, "failed to set last updated at")
 	}
+
+	log.Info("updated-at dates done. fetching git versions")
+
+	gitPacscripts := array.Filter(loadedPacscripts, func(it *array.Iterator[*pac.Script]) bool {
+		return strings.HasSuffix(it.Value.PackageName, string(types.PACKAGE_TYPE_SUFFIX_GIT))
+	})
+
+	batch.Run(MAX_GIT_VERSION_CONCURRENCY, gitPacscripts, func(p *pac.Script) (interface{}, error) {
+		err := pacsh.ApplyGitVersion(p)
+		return nil, err
+	})
 
 	pacstore.Update(loadedPacscripts)
 	log.Info("successfully loaded %v (%v / %v) packages", types.Percent(float64(len(loadedPacscripts))/float64(len(pkgList))), len(loadedPacscripts), len(pkgList))

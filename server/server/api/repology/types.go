@@ -37,17 +37,10 @@ func newRepologyPackage(p *pac.Script) repologyPackage {
 		Maintainer:        getMaintainer(p),
 		Version:           p.Version,
 		URL:               source,
-		Type:              getType(p),
+		Type:              string(p.Type()),
 		RecipeURL:         fmt.Sprintf("https://raw.githubusercontent.com/pacstall/pacstall-programs/master/packages/%s/%s.pacscript", p.PackageName, p.PackageName),
 		PackageDetailsURL: fmt.Sprintf("https://pacstall.dev/packages/%s", p.PackageName),
 	}
-}
-
-var pacTypes = map[string]string{
-	"-deb": "Debian Native",
-	"-git": "Source Code",
-	"-bin": "Precompiled",
-	"-app": "AppImage",
 }
 
 func getMaintainer(p *pac.Script) maintainerDetails {
@@ -70,14 +63,4 @@ func getMaintainer(p *pac.Script) maintainerDetails {
 		Name:  &name,
 		Email: &email,
 	}
-}
-
-func getType(p *pac.Script) string {
-	for suffix, kind := range pacTypes {
-		if strings.HasSuffix(p.PackageName, suffix) {
-			return kind
-		}
-	}
-
-	return pacTypes["-git"]
 }
