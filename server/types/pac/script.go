@@ -46,6 +46,7 @@ type Script struct {
 	Architectures        []string           `json:"architectures"`
 	PrettyName           string             `json:"prettyName"`
 	Version              string             `json:"version"`
+	Release              string             `json:"release"`
 	LatestVersion        *string            `json:"latestVersion"`
 	PackageName          string             `json:"packageName"`
 	Maintainers          []string           `json:"maintainers"`
@@ -100,6 +101,7 @@ func (p *Script) Type() types.PackageTypeName {
 func FromSrcInfo(info srcinfo.Srcinfo) *Script {
 	return &Script{
 		Version:              info.Version(),
+		Release:              info.Pkgrel,
 		LatestVersion:        nil,
 		PackageName:          info.Packages[0].Pkgname,
 		Maintainers:          info.Maintainer,

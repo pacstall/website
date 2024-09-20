@@ -17,6 +17,11 @@ func ApplyGitVersion(p *pac.Script) error {
 		return errorx.Decorate(err, "failed to parse git version for package '%s'", p.PackageName)
 	}
 
-	p.Version = version
+	if p.Epoch != "" {
+		p.Version = p.Epoch + ":" + version + "-" + p.Release
+	} else {
+		p.Version = version + "-" + p.Release
+	}
+
 	return nil
 }
