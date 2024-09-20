@@ -81,7 +81,7 @@ const PackageTableRow: FC<{ pkg: PackageInfo; disabled?: boolean }> = ({
                     <SemanticVersionColor
                         git={pkg.packageName.endsWith('-git')}
                         fill
-                        version={pkg.version.substring(0, 14)}
+                        version={pkg.version.substring(0, 18)}
                         status={pkg.updateStatus}
                     />
                 </Text>
