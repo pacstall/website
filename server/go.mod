@@ -2,7 +2,7 @@ module pacstall.dev/webserver
 
 go 1.22.2
 
-toolchain go1.22.6
+toolchain go1.23.1
 
 require (
 	github.com/fatih/color v1.17.0 // for colorizing output
@@ -13,6 +13,7 @@ require (
 require (
 	github.com/bwmarrin/discordgo v0.28.1
 	github.com/joomcode/errorx v1.1.1
+	github.com/pacstall/go-srcinfo v0.0.0-20240916164747-6f75fe362117
 	github.com/treelightsoftware/go-matomo v0.1.0-beta
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gorm v1.25.12
@@ -31,7 +32,6 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
-	github.com/pacstall/go-srcinfo v0.0.0-20240916164747-6f75fe362117 // indirect
 	golang.org/x/net v0.27.0 // indirect
 	golang.org/x/sys v0.22.0 // indirect
 	golang.org/x/text v0.16.0 // indirect
