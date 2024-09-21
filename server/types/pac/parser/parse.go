@@ -60,10 +60,10 @@ func ParseAll() error {
 		return strings.HasSuffix(it.Value.PackageName, string(types.PACKAGE_TYPE_SUFFIX_GIT))
 	})
 
-	batch.Run(MAX_GIT_VERSION_CONCURRENCY, gitPacscripts, func(p *pac.Script) (interface{}, error) {
+	channels.Exhaust(batch.Run(MAX_GIT_VERSION_CONCURRENCY, gitPacscripts, func(p *pac.Script) (interface{}, error) {
 		err := pacsh.ApplyGitVersion(p)
 		return nil, err
-	})
+	}))
 
 	pacstore.Update(loadedPacscripts)
 	log.Info("successfully loaded %v (%v / %v) packages", types.Percent(float64(len(loadedPacscripts))/float64(len(pkgList))), len(loadedPacscripts), len(pkgList))
