@@ -3,25 +3,19 @@ package pacsh
 import (
 	"strings"
 
+	"pacstall.dev/webserver/types"
 	"pacstall.dev/webserver/types/pac"
 )
 
-var pacTypes = map[string]string{
-	"-deb": "Debian Native",
-	"-git": "Source Code",
-	"-bin": "Precompiled",
-	"-app": "AppImage",
-}
-
-func getPrettyName(p pac.Script) string {
+func getPrettyName(p *pac.Script) string {
 	name := ""
 
 	if name == "" {
 		name = p.PackageName
 	}
 
-	for suffix := range pacTypes {
-		if strings.HasSuffix(name, suffix) {
+	for suffix := range types.PackageTypeSuffixToPackageTypeName {
+		if strings.HasSuffix(name, string(suffix)) {
 			name = name[0 : len(name)-len(suffix)]
 		}
 	}

@@ -7,6 +7,7 @@ import (
 	"path"
 	"testing"
 
+	"pacstall.dev/webserver/types"
 	"pacstall.dev/webserver/types/pac"
 	"pacstall.dev/webserver/types/pac/parser"
 	"pacstall.dev/webserver/types/pac/parser/pacsh"
@@ -29,7 +30,24 @@ func assertEquals(t *testing.T, what string, expected interface{}, actual interf
 	}
 }
 
-func assertArrayEquals(t *testing.T, what string, expected []string, actual []string) {
+func assertArrayEquals[T types.Equaller](t *testing.T, what string, expected []T, actual []T) {
+	if len(actual) == len(expected) && len(actual) == 0 {
+		return
+	}
+
+	if len(actual) != len(expected) {
+		t.Errorf("pacscript.%v expected len '%v', got len '%v' (expected '%#v', got '%#v')", what, len(expected), len(actual), expected, actual)
+		return
+	}
+
+	for idx := range expected {
+		if !expected[idx].Equals(actual[idx]) {
+			t.Errorf("pacscript.%v[%v] expected '%#v', got '%#v'", what, idx, expected, actual)
+		}
+	}
+}
+
+func assertStringArrayEquals(t *testing.T, what string, expected []string, actual []string) {
 	if len(actual) == len(expected) && len(actual) == 0 {
 		return
 	}
@@ -46,18 +64,11 @@ func assertArrayEquals(t *testing.T, what string, expected []string, actual []st
 	}
 }
 
-func assertPacscriptEquals(t *testing.T, expected pac.Script, actual pac.Script) {
+func assertPacscriptEquals(t *testing.T, expected *pac.Script, actual *pac.Script) {
 	assertEquals(t, "package name", expected.PackageName, actual.PackageName)
-	assertArrayEquals(t, "maintainers", expected.Maintainers, actual.Maintainers)
+	assertStringArrayEquals(t, "maintainers", expected.Maintainers, actual.Maintainers)
 	assertEquals(t, "description", expected.Description, actual.Description)
 	assertEquals(t, "gives", expected.Gives, actual.Gives)
-	if expected.Hash != nil && actual.Hash == nil {
-		t.Errorf("expected hash '%v', got nil", *expected.Hash)
-	} else if expected.Hash == nil && actual.Hash != nil {
-		t.Errorf("expected hash nil, got %v", *actual.Hash)
-	} else if expected.Hash != nil && actual.Hash != nil {
-		assertEquals(t, "hash", *expected.Hash, *actual.Hash)
-	}
 	assertEquals(t, "version", expected.Version, actual.Version)
 	assertArrayEquals(t, "breaks", expected.Breaks, actual.Breaks)
 	assertArrayEquals(t, "conflicts", expected.Conflicts, actual.Conflicts)
@@ -68,10 +79,8 @@ func assertPacscriptEquals(t *testing.T, expected pac.Script, actual pac.Script)
 	assertArrayEquals(t, "build dependencies", expected.BuildDependencies, actual.BuildDependencies)
 	assertArrayEquals(t, "optional dependencies", expected.OptionalDependencies, actual.OptionalDependencies)
 	assertArrayEquals(t, "pacstall dependencies", expected.PacstallDependencies, actual.PacstallDependencies)
-	assertArrayEquals(t, "ppa", expected.PPA, actual.PPA)
-	assertArrayEquals(t, "patch", expected.Patch, actual.Patch)
-	assertArrayEquals(t, "required by", expected.RequiredBy, actual.RequiredBy)
-	assertArrayEquals(t, "repology", expected.Repology, actual.Repology)
+	assertStringArrayEquals(t, "required by", expected.RequiredBy, actual.RequiredBy)
+	assertStringArrayEquals(t, "repology", expected.Repology, actual.Repology)
 	assertEquals(t, "update status", expected.UpdateStatus, actual.UpdateStatus)
 }
 
@@ -121,7 +130,7 @@ func assertPacscriptMatchesSnapshot(t *testing.T, pkgname string) {
 		return
 	}
 
-	assertPacscriptEquals(t, *expected, actual)
+	assertPacscriptEquals(t, expected, actual)
 }
 
 func Test_PacscriptSnapshots(t *testing.T) {

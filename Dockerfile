@@ -32,7 +32,7 @@ COPY --from=client /root/client/dist/ /root/client/dist/
 COPY --from=server /root/server/dist/ /root/server/dist/
 COPY ./Makefile ./Makefile
 
-RUN apt update && apt install make git jo jq -y
+RUN apt update && apt install make git jq -y
 
 RUN make dist \
     && rm -rf server client

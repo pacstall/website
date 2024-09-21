@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strings"
 
-	"pacstall.dev/webserver/consts"
 	"pacstall.dev/webserver/types/pac"
 )
 
@@ -23,13 +22,12 @@ type repologyPackage struct {
 	RecipeURL         string            `json:"recipeUrl"`
 	PackageDetailsURL string            `json:"packageDetailsUrl"`
 	Type              string            `json:"type"`
-	Patches           []string          `json:"patches"`
 }
 
 func newRepologyPackage(p *pac.Script) repologyPackage {
 	var source *string = nil
 	if len(p.Source) > 0 {
-		source = &p.Source[0]
+		source = &p.Source[0].Value
 	}
 
 	return repologyPackage{
@@ -39,18 +37,10 @@ func newRepologyPackage(p *pac.Script) repologyPackage {
 		Maintainer:        getMaintainer(p),
 		Version:           p.Version,
 		URL:               source,
-		Type:              getType(p),
-		RecipeURL:         fmt.Sprintf("https://raw.githubusercontent.com/pacstall/pacstall-programs/master/packages/%s/%s.%s", p.PackageName, p.PackageName, consts.PACSCRIPT_FILE_EXTENSION),
+		Type:              string(p.Type()),
+		RecipeURL:         fmt.Sprintf("https://raw.githubusercontent.com/pacstall/pacstall-programs/master/packages/%s/%s.pacscript", p.PackageName, p.PackageName),
 		PackageDetailsURL: fmt.Sprintf("https://pacstall.dev/packages/%s", p.PackageName),
-		Patches:           p.Patch,
 	}
-}
-
-var pacTypes = map[string]string{
-	"-deb": "Debian Native",
-	"-git": "Source Code",
-	"-bin": "Precompiled",
-	"-app": "AppImage",
 }
 
 func getMaintainer(p *pac.Script) maintainerDetails {
@@ -73,14 +63,4 @@ func getMaintainer(p *pac.Script) maintainerDetails {
 		Name:  &name,
 		Email: &email,
 	}
-}
-
-func getType(p *pac.Script) string {
-	for suffix, kind := range pacTypes {
-		if strings.HasSuffix(p.PackageName, suffix) {
-			return kind
-		}
-	}
-
-	return pacTypes["-git"]
 }

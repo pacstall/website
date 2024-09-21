@@ -15,7 +15,7 @@ func ScheduleRefresh(every time.Duration) {
 			log.Info("refreshing Repology database...")
 			err := ExportRepologyDatabase(db)
 			if err != nil {
-				log.Error("failed to export Repology projects: %v", err)
+				log.Error("failed to export Repology projects: %+v", err)
 			} else {
 				log.Info("repology database refreshed successfully")
 			}
