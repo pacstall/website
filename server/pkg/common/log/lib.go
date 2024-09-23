@@ -4,38 +4,49 @@ import (
 	"fmt"
 	glog "log"
 	"os"
+	"strings"
 
 	"github.com/fatih/color"
+	"pacstall.dev/webserver/pkg/common/config"
 )
 
 var (
 	logInfo  = color.CyanString("INFO")
 	logError = color.RedString("ERROR")
 	logDebug = color.GreenString("DEBUG")
+	logTrace = color.HiGreenString("TRACE")
 	logFatal = color.New(color.BgHiRed, color.FgBlack).Sprintf("FATAL")
 	logWarn  = color.YellowString("WARN")
 )
 
 type tLogLevel uint8
 
-var Level = struct {
-	Info  tLogLevel
-	Error tLogLevel
-	Debug tLogLevel
-	Fatal tLogLevel
-	Warn  tLogLevel
-}{
-	Debug: 0,
-	Info:  1,
-	Warn:  2,
-	Error: 3,
-	Fatal: 4,
+const (
+	_LEVEL_TRACE tLogLevel = iota
+	_LEVEL_DEBUG
+	_LEVEL_INFO
+	_LEVEL_WARN
+	_LEVEL_ERROR
+	_LEVEL_FATAL
+)
+
+var logLevels = map[string]tLogLevel{
+	"TRACE": _LEVEL_TRACE,
+	"DEBUG": _LEVEL_DEBUG,
+	"INFO":  _LEVEL_INFO,
+	"WARN":  _LEVEL_WARN,
+	"ERROR": _LEVEL_ERROR,
+	"FATAL": _LEVEL_FATAL,
 }
 
-var logLevel = Level.Debug
+func getLogLevel() tLogLevel {
+	l, ok := logLevels[strings.ToUpper(config.LogLevel)]
+	if !ok {
+		doLog(logWarn, "unknown log level '%s'. defaulting to INFO", config.LogLevel)
+		return _LEVEL_INFO
+	}
 
-func SetLogLevel(level tLogLevel) {
-	logLevel = level
+	return l
 }
 
 var logger = glog.New(os.Stdout, "", glog.Ldate|glog.Ltime)
@@ -51,7 +62,7 @@ func doLog(level, message string, args ...any) {
 }
 
 func Info(message string, args ...any) {
-	if logLevel > Level.Info {
+	if getLogLevel() > _LEVEL_INFO {
 		return
 	}
 
@@ -59,7 +70,7 @@ func Info(message string, args ...any) {
 }
 
 func Error(message string, args ...any) {
-	if logLevel > Level.Error {
+	if getLogLevel() > _LEVEL_ERROR {
 		return
 	}
 
@@ -67,7 +78,7 @@ func Error(message string, args ...any) {
 }
 
 func Fatal(message string, args ...any) {
-	if logLevel > Level.Fatal {
+	if getLogLevel() > _LEVEL_FATAL {
 		return
 	}
 
@@ -75,7 +86,7 @@ func Fatal(message string, args ...any) {
 }
 
 func Warn(message string, args ...any) {
-	if logLevel > Level.Warn {
+	if getLogLevel() > _LEVEL_WARN {
 		return
 	}
 
@@ -83,9 +94,17 @@ func Warn(message string, args ...any) {
 }
 
 func Debug(message string, args ...any) {
-	if logLevel > Level.Debug {
+	if getLogLevel() > _LEVEL_DEBUG {
 		return
 	}
 
 	doLog(logDebug, message, args...)
+}
+
+func Trace(message string, args ...any) {
+	if getLogLevel() > _LEVEL_TRACE {
+		return
+	}
+
+	doLog(logTrace, message, args...)
 }

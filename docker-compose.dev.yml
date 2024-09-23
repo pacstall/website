@@ -5,13 +5,25 @@ services:
   mariadb:
     image: mariadb
     # inherited from docker-compose.yml
-  webserver:
+  pacnexus:
     # overrides the image used from docker-compose.yml
     build: 
       context: .
-      dockerfile: Dockerfile
+      dockerfile: pacnexus.Dockerfile
       args:
         VITE_VERSION: "${VITE_VERSION}"
+    environment:
+      PACSTALL_LOG_LEVEL: "debug"
+    # inherited from docker-compose.yml
+  pacsight:
+    # overrides the image used from docker-compose.yml
+    build: 
+      context: .
+      dockerfile: pacsight.Dockerfile
+      args:
+        VITE_VERSION: "${VITE_VERSION}"
+    environment:
+      PACSTALL_LOG_LEVEL: "debug"
     # inherited from docker-compose.yml
     
   matomo:

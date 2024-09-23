@@ -1,5 +1,3 @@
-version: '3.2'
-
 services:
 
   mariadb:
@@ -14,7 +12,7 @@ services:
       - target: 3306
         published: 3306
     
-  webserver:
+  pacnexus:
     image: ghcr.io/pacstall/webserver:latest
     depends_on:
       - mariadb
@@ -28,10 +26,8 @@ services:
         max-file: "5"
         max-size: "10m"
     environment:
-      PACSTALL_DISCORD_TOKEN: ""
-      PACSTALL_DISCORD_CHANNEL_ID: ""
-      PACSTALL_DISCORD_ENABLED: "false"
-      PACSTALL_DISCORD_TAGS: "" # See https://discord.com/developers/docs/reference#message-formatting
+      PACSTALL_PACSIGHT_PORT: 3301
+      PACSTALL_PACSIGHT_HOST: pacsight
       PACSTALL_DATABASE_HOST: mariadb
       PACSTALL_DATABASE_USER: root
       PACSTALL_DATABASE_PASSWORD: changeme
@@ -40,7 +36,25 @@ services:
       PACSTALL_MATOMO_ENABLED: "true"
       MATOMO_DOMAIN: "http://matomo"
       MATOMO_SITE_ID: "1"
-      PACSTALL_PROGRAMS_GIT_BRANCH: "master"
+      PACSTALL_LOG_LEVEL: "info"
+    
+  pacsight:
+    image: ghcr.io/pacstall/pacsight:latest
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    environment:
+      PACSTALL_PACSIGHT_PORT: 3301
+      PACSTALL_REPOLOGY_CACHE_PATH: "/var/cache/pacsight"
+      PACSTALL_LOG_LEVEL: "info"
+    deploy:
+      resources:
+        limits:
+          memory: 6g
+    volumes:
+      - pacsight_cache:/var/cache/pacsight
         
   matomo:
     image: matomo
@@ -60,3 +74,4 @@ services:
 volumes:
   db:
   matomo:
+  pacsight_cache:

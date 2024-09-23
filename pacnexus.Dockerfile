@@ -41,5 +41,5 @@ WORKDIR /root/dist/
 
 RUN ls -al /root/dist
 
-CMD echo "Starting webserver in a few seconds..." && sleep 3 && "./webserver"
+CMD echo "Starting pacnexus in a few seconds..." && sleep 3 && "./pacnexus"
 EXPOSE 3300

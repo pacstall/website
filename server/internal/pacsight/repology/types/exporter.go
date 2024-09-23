@@ -26,7 +26,7 @@ func ExportRepologyDatabase() (types.RepologyApiProjectSearchResponse, error) {
 			time.Sleep(REPOLOGY_PROJECT_FETCH_THROTTLE - time.Since(lastRepoFetch))
 		}
 
-		log.Debug("page %v | cursor at: %v", page, lastProjectName)
+		log.Trace("page %v | cursor at: %v", page, lastProjectName)
 
 		var projectPage map[string][]types.RepologyApiProject
 		var err error

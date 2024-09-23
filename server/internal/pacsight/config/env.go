@@ -11,15 +11,17 @@ var PacSight = struct {
 }{}
 
 func initPacSightEnv() {
-	PacSight.Port = env.GetEnvIntOrDefault("PACSTALL_PACSIGHT_PORT", 8080)
+	PacSight.Port = env.GetEnvIntOrDefault("PACSTALL_PACSIGHT_PORT", 3301)
 }
 
 var Repology = struct {
 	RepologyUpdateInterval time.Duration
+	CachePath              string
 }{}
 
 func initRepologyEnv() {
 	Repology.RepologyUpdateInterval = time.Duration(env.GetEnvIntOrDefault("PACSTALL_REPOLOGY_UPDATE_INTERVAL", 60*60*6)) * time.Second
+	Repology.CachePath = env.GetEnvStringOrDefault("PACSTALL_REPOLOGY_CACHE_PATH", ".")
 }
 
 func Init() {

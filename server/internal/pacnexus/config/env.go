@@ -8,10 +8,12 @@ import (
 
 var PacSight = struct {
 	Port int
+	Host string
 }{}
 
 func initPacSightEnv() {
-	PacSight.Port = env.GetEnvIntOrDefault("PACSTALL_PACSIGHT_PORT", 8080)
+	PacSight.Port = env.GetEnvIntOrDefault("PACSTALL_PACSIGHT_PORT", 3301)
+	PacSight.Host = env.GetEnvStringOrDefault("PACSTALL_PACSIGHT_HOST", "localhost")
 }
 
 var PacNexus = struct {

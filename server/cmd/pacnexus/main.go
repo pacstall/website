@@ -12,7 +12,6 @@ import (
 	urlshortener "pacstall.dev/webserver/internal/pacnexus/server/api/url_shortener"
 	pac_ssr "pacstall.dev/webserver/internal/pacnexus/server/ssr/pacscript"
 	"pacstall.dev/webserver/internal/pacnexus/types/pac/parser"
-	globalConfig "pacstall.dev/webserver/pkg/common/config"
 	"pacstall.dev/webserver/pkg/common/log"
 	"pacstall.dev/webserver/pkg/common/pacsight"
 )
@@ -49,22 +48,15 @@ func setupRequests() {
 }
 
 func main() {
-	config.Init()
-
-	if globalConfig.Production {
-		log.SetLogLevel(log.Level.Info)
-	} else {
-		log.SetLogLevel(log.Level.Debug)
-	}
-
 	startedAt := time.Now()
 
+	config.Init()
 	printLogo()
 
 	setupRequests()
 	log.Info("registered http requests")
 
-	pacsightRpc, err := pacsight.NewPacsightRpcService("localhost", 8080)
+	pacsightRpc, err := pacsight.NewPacsightRpcService(config.PacSight.Host, config.PacSight.Port)
 	if err != nil {
 		log.Error("failed to create pacsight rpc service: %+v", err)
 		return

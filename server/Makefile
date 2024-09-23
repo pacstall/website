@@ -42,4 +42,4 @@ clean:
 	@echo "Cleaned up."
 
 fmt:
-	go fmt ./...
+ 
