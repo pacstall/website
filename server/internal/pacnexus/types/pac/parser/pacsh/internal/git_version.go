@@ -7,7 +7,7 @@ import (
 
 	"github.com/joomcode/errorx"
 	"pacstall.dev/webserver/internal/pacnexus/types/pac/parser/git"
-	"pacstall.dev/webserver/internal/pacnexus/types/pac/parser/parallelism/timeout"
+	"pacstall.dev/webserver/pkg/common/parallelism/timeout"
 )
 
 type GitSourceInfo struct {

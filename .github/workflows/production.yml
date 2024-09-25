@@ -22,13 +22,24 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.PUBLISH_PACKAGE_PAT }}
 
-    - name: Build Docker image
+    - name: Build PacNexus Docker image
       run: |
-        docker build --build-arg VITE_VERSION="${{ github.event.inputs.version }}" --no-cache -t webserver .
-        docker tag webserver "ghcr.io/pacstall/webserver:${{ github.event.inputs.version }}"
-        docker tag webserver ghcr.io/pacstall/webserver:latest
+        docker build --build-arg VITE_VERSION="${{ github.event.inputs.version }}" --no-cache -t pacnexus pacnexus.Dockerfile
+        docker tag pacnexus "ghcr.io/pacstall/pacnexus:${{ github.event.inputs.version }}"
+        docker tag pacnexus ghcr.io/pacstall/pacnexus:latest
 
-    - name: Push Image
+    - name: Build PacSight Docker image
       run: |
-        docker push "ghcr.io/pacstall/webserver:${{ github.event.inputs.version }}"
-        docker push ghcr.io/pacstall/webserver:latest
+        docker build --build-arg VITE_VERSION="${{ github.event.inputs.version }}" --no-cache -t pacsight pacsight.Dockerfile
+        docker tag pacsight "ghcr.io/pacstall/pacsight:${{ github.event.inputs.version }}"
+        docker tag pacsight ghcr.io/pacstall/pacsight:latest
+
+    - name: Push PacNexus Image
+      run: |
+        docker push "ghcr.io/pacstall/pacnexus:${{ github.event.inputs.version }}"
+        docker push ghcr.io/pacstall/pacnexus:latest
+
+    - name: Push PacSight Image
+      run: |
+        docker push "ghcr.io/pacstall/pacsight:${{ github.event.inputs.version }}"
+        docker push ghcr.io/pacstall/pacsight:latest

@@ -12,11 +12,11 @@ import (
 	"pacstall.dev/webserver/internal/pacnexus/types/pac/pacstore"
 	"pacstall.dev/webserver/internal/pacnexus/types/pac/parser/git"
 	"pacstall.dev/webserver/internal/pacnexus/types/pac/parser/pacsh"
-	"pacstall.dev/webserver/internal/pacnexus/types/pac/parser/parallelism/batch"
-	"pacstall.dev/webserver/internal/pacnexus/types/pac/parser/parallelism/channels"
 	"pacstall.dev/webserver/pkg/common/array"
 	"pacstall.dev/webserver/pkg/common/log"
 	"pacstall.dev/webserver/pkg/common/pacsight"
+	"pacstall.dev/webserver/pkg/common/parallelism/batch"
+	"pacstall.dev/webserver/pkg/common/parallelism/channels"
 	"pacstall.dev/webserver/pkg/common/types"
 )
 

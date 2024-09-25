@@ -24,13 +24,24 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.PUBLISH_PACKAGE_PAT }}
 
-    - name: Build Docker Images
+    - name: Build PacNexus Docker Images
       run: |
-        docker build --build-arg version="${SHORT_SHA}-dev" --no-cache -t webserver .
-        docker tag webserver "ghcr.io/pacstall/webserver:$SHORT_SHA"
-        docker tag webserver ghcr.io/pacstall/webserver:development
+        docker build --build-arg version="${SHORT_SHA}-dev" --no-cache -t pacnexus pacnexus.Dockerfile
+        docker tag pacnexus "ghcr.io/pacstall/pacnexus:$SHORT_SHA"
+        docker tag pacnexus ghcr.io/pacstall/pacnexus:development
 
-    - name: Push Images
+    - name: Push PacNexus Images
       run: |
-        docker push "ghcr.io/pacstall/webserver:$SHORT_SHA"
-        docker push ghcr.io/pacstall/webserver:development
+        docker push "ghcr.io/pacstall/pacnexus:$SHORT_SHA"
+        docker push ghcr.io/pacstall/pacnexus:development
+
+    - name: Build PacSight Docker Images
+      run: |
+        docker build --build-arg version="${SHORT_SHA}-dev" --no-cache -t pacsight pacsight.Dockerfile
+        docker tag pacsight "ghcr.io/pacstall/pacsight:$SHORT_SHA"
+        docker tag pacsight ghcr.io/pacstall/pacsight:development
+
+    - name: Push PacSight Images
+      run: |
+        docker push "ghcr.io/pacstall/pacsight:$SHORT_SHA"
+        docker push ghcr.io/pacstall/pacsight:development

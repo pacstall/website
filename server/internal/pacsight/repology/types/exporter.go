@@ -14,61 +14,82 @@ import (
 const RETRY_COUNT = 10
 const REPOLOGY_PROJECT_FETCH_THROTTLE = time.Second
 
-func ExportRepologyDatabase() (types.RepologyApiProjectSearchResponse, error) {
-	page := 1
-	lastProjectName := ""
+type RepologyProjectPair struct {
+	ProjectName string
+	Projects    []types.RepologyApiProject
+}
 
-	lastRepoFetch := time.Now()
-	var repologyProjectsMap = make(types.RepologyApiProjectSearchResponse)
+func ExportRepologyDatabase() (<-chan RepologyProjectPair, <-chan error) {
+	out := make(chan RepologyProjectPair)
+	errs := make(chan error)
 
-	for {
-		if time.Since(lastRepoFetch) < REPOLOGY_PROJECT_FETCH_THROTTLE {
-			time.Sleep(REPOLOGY_PROJECT_FETCH_THROTTLE - time.Since(lastRepoFetch))
-		}
+	go func() {
+		page := 1
+		lastProjectName := ""
 
-		log.Trace("page %v | cursor at: %v", page, lastProjectName)
+		lastRepoFetch := time.Now()
+		var repologyProjectsMap = make(types.RepologyApiProjectSearchResponse)
 
-		var projectPage map[string][]types.RepologyApiProject
-		var err error
-
-	retry:
-		for i := 1; i <= RETRY_COUNT; i += 1 {
-			projectPage, err = getProjectSearch(lastProjectName)
-			if err == nil {
-				break retry
+		for {
+			if time.Since(lastRepoFetch) < REPOLOGY_PROJECT_FETCH_THROTTLE {
+				time.Sleep(REPOLOGY_PROJECT_FETCH_THROTTLE - time.Since(lastRepoFetch))
 			}
 
-			retryDelay := time.Duration(math.Pow(float64(i), 2)) * REPOLOGY_PROJECT_FETCH_THROTTLE
-			log.Debug("failed to fetch repology project page '%s'. retrying in %v", lastProjectName, retryDelay)
-			time.Sleep(retryDelay)
-		}
+			log.Trace("page %v | cursor at: %v", page, lastProjectName)
 
-		if err != nil {
-			return nil, errorx.Decorate(err, "failed to fetch repology project page '%s'", lastProjectName)
-		}
+			var projectPage map[string][]types.RepologyApiProject
+			var err error
 
-		lastRepoFetch = time.Now()
+		retry:
+			for i := 1; i <= RETRY_COUNT; i += 1 {
+				projectPage, err = getProjectSearch(lastProjectName)
+				if err == nil {
+					break retry
+				}
 
-		shouldStop := false
-		for projectName, apiProjectProvider := range projectPage {
-			if _, ok := repologyProjectsMap[projectName]; !ok {
-				repologyProjectsMap[projectName] = []types.RepologyApiProject{}
+				retryDelay := time.Duration(math.Pow(float64(i), 2)) * REPOLOGY_PROJECT_FETCH_THROTTLE
+				log.Debug("failed to fetch repology project page '%s'. retrying in %v", lastProjectName, retryDelay)
+				time.Sleep(retryDelay)
 			}
 
-			repologyProjectsMap[projectName] = append(repologyProjectsMap[projectName], apiProjectProvider...)
+			if err != nil {
+				errs <- errorx.Decorate(err, "failed to fetch repology project page '%s'", lastProjectName)
+				close(out)
+				close(errs)
+				return
+			}
 
-			shouldStop = projectName == lastProjectName
-			lastProjectName = identityOrSkipProject(projectName)
+			lastRepoFetch = time.Now()
+
+			shouldStop := false
+			for projectName, apiProjectProvider := range projectPage {
+				if _, ok := repologyProjectsMap[projectName]; !ok {
+					repologyProjectsMap[projectName] = []types.RepologyApiProject{}
+				}
+
+				repologyProjectsMap[projectName] = append(repologyProjectsMap[projectName], apiProjectProvider...)
+
+				out <- RepologyProjectPair{
+					ProjectName: projectName,
+					Projects:    apiProjectProvider,
+				}
+
+				shouldStop = projectName == lastProjectName
+				lastProjectName = identityOrSkipProject(projectName)
+			}
+
+			if shouldStop {
+				break
+			}
+
+			page += 1
 		}
 
-		if shouldStop {
-			break
-		}
+		close(errs)
+		close(out)
+	}()
 
-		page += 1
-	}
-
-	return repologyProjectsMap, nil
+	return out, errs
 }
 
 var projectNamesToSkipToNextCussor = map[string]string{
