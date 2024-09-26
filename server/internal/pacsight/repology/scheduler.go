@@ -38,7 +38,6 @@ func ScheduleRefresh(every time.Duration) {
 				select {
 				case pair, ok := <-resultsChan:
 					if !ok {
-						log.Info("repology database refreshed successfully. %d projects found", len(out))
 						break chanLoop
 					}
 
@@ -50,11 +49,15 @@ func ScheduleRefresh(every time.Duration) {
 						log.Trace("cached repology project '%s'", pair.ProjectName)
 					}
 				case err := <-errChan:
-					log.Error("failed to export Repology projects: %+v", err)
-					break chanLoop
+					if err != nil {
+						log.Error("failed to export Repology projects: %+v", err)
+						break chanLoop
+					}
 				}
 			}
 
+			log.Info("repology database refreshed successfully. %d projects found", len(out))
+			Packages = out
 			time.Sleep(every)
 		}
 	}()
