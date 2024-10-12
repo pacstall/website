@@ -43,49 +43,50 @@ func (a ArchDistroString) Equals(b types.Equaller) bool {
 }
 
 type Script struct {
-	Architectures        []string           `json:"architectures"`
+	PackageName          string             `json:"packageName"`
 	PrettyName           string             `json:"prettyName"`
+	Description          string             `json:"description"`
 	Version              string             `json:"version"`
 	Release              string             `json:"release"`
+	Epoch                string             `json:"epoch"`
 	LatestVersion        *string            `json:"latestVersion"`
-	PackageName          string             `json:"packageName"`
-	Maintainers          []string           `json:"maintainers"`
-	Description          string             `json:"description"`
-	Source               []ArchDistroString `json:"source"`
+	Homepage             string             `json:"homepage"`
+	Priority             string             `json:"priority"`
+	Architectures        []string           `json:"architectures"`
+	License              []string           `json:"license"`
+	Gives                []ArchDistroString `json:"gives"`
 	RuntimeDependencies  []ArchDistroString `json:"runtimeDependencies"`
+	CheckDependencies    []ArchDistroString `json:"checkDependencies"`
 	BuildDependencies    []ArchDistroString `json:"buildDependencies"`
 	OptionalDependencies []ArchDistroString `json:"optionalDependencies"`
-	CheckDependencies    []ArchDistroString `json:"checkDependencies"`
+	PacstallDependencies []ArchDistroString `json:"pacstallDependencies"`
+	CheckConflicts       []ArchDistroString `json:"checkConflicts"`
+	BuildConflicts       []ArchDistroString `json:"buildConflicts"`
 	Conflicts            []ArchDistroString `json:"conflicts"`
+	Provides             []ArchDistroString `json:"provides"`
 	Breaks               []ArchDistroString `json:"breaks"`
-	Gives                []ArchDistroString `json:"gives"`
 	Replaces             []ArchDistroString `json:"replaces"`
+	Enhances             []ArchDistroString `json:"enhances"`
+	Recommends           []ArchDistroString `json:"recommends"`
+	Suggests             []ArchDistroString `json:"suggests"`
+	Mask                 []string           `json:"mask"`
+	Compatible           []string           `json:"compatible"`
+	Incompatible         []string           `json:"incompatible"`
+	Maintainers          []string           `json:"maintainers"`
+	Source               []ArchDistroString `json:"source"`
+	NoExtract            []string           `json:"noExtract"`
+	NoSubmodules         []string           `json:"NoSubmodules"`
+	Md5Sums              []ArchDistroString `json:"md5sums"`
 	Sha1Sums             []ArchDistroString `json:"sha1sums"`
 	Sha224Sums           []ArchDistroString `json:"sha224sums"`
 	Sha256Sums           []ArchDistroString `json:"sha256sums"`
 	Sha384Sums           []ArchDistroString `json:"sha384sums"`
 	Sha512Sums           []ArchDistroString `json:"sha512sums"`
-	Md5Sums              []ArchDistroString `json:"md5sums"`
-	Priority             []ArchDistroString `json:"priority"`
-	Recommends           []ArchDistroString `json:"recommends"`
-	Suggests             []ArchDistroString `json:"suggests"`
-	PacstallDependencies []ArchDistroString `json:"pacstallDependencies"`
-	Enhances             []ArchDistroString `json:"enhances"`
+	Backup               []string           `json:"backup"`
 	Repology             []string           `json:"repology"`
 	RequiredBy           []string           `json:"requiredBy"`
-	LastUpdatedAt        time.Time          `json:"lastUpdatedAt"`
 	UpdateStatus         int                `json:"updateStatus"` // enum UpdateStatus
-	Changelog            string             `json:"changelog"`
-	Backup               []string           `json:"backup"`
-	Compatible           []string           `json:"compatible"`
-	Incompatible         []string           `json:"incompatible"`
-	Epoch                string             `json:"epoch"`
-	Install              string             `json:"install"`
-	License              []string           `json:"license"`
-	Mask                 []string           `json:"mask"`
-	NoExtract            []string           `json:"noExtract"`
-	ValidPGPKeys         []string           `json:"validPgpKeys"`
-	Groups               []string           `json:"groups"`
+	LastUpdatedAt        time.Time          `json:"lastUpdatedAt"`
 }
 
 func (p *Script) Type() types.PackageTypeName {
@@ -100,47 +101,48 @@ func (p *Script) Type() types.PackageTypeName {
 
 func FromSrcInfo(info srcinfo.Srcinfo) *Script {
 	return &Script{
+		PackageName:          info.Packages[0].Pkgname, // needs to be looped for every pkgname within pkgbase
+		PrettyName:           "",
+		Description:          info.Pkgdesc,
 		Version:              info.Version(),
 		Release:              info.Pkgrel,
+		Epoch:                info.Epoch,
 		LatestVersion:        nil,
-		PackageName:          info.Packages[0].Pkgname,
-		Maintainers:          info.Maintainer,
-		Description:          info.Pkgdesc,
-		Source:               toArchDistroStrings(info.Source),
+		Homepage:             info.URL,
+		Priority:             info.Priority,
+		Architectures:        info.Arch,
+		License:              orEmptyArray(info.License),
+		Gives:                toArchDistroStrings(info.Gives),
 		RuntimeDependencies:  toArchDistroStrings(info.Depends),
+		CheckDependencies:    toArchDistroStrings(info.CheckDepends),
 		BuildDependencies:    toArchDistroStrings(info.MakeDepends),
 		OptionalDependencies: toArchDistroStrings(info.OptDepends),
-		Conflicts:            toArchDistroStrings(info.Conflicts),
-		Breaks:               toArchDistroStrings(info.Breaks),
-		Gives:                toArchDistroStrings(info.Gives),
-		Replaces:             toArchDistroStrings(info.Replaces),
 		PacstallDependencies: toArchDistroStrings(info.Pacdeps),
-		Architectures:        info.Arch,
-		Repology:             info.Repology,
-		RequiredBy:           []string{},
+		CheckConflicts:       toArchDistroStrings(info.CheckConflicts),
+		BuildConflicts:       toArchDistroStrings(info.MakeConflicts),
+		Conflicts:            toArchDistroStrings(info.Conflicts),
+		Provides:             toArchDistroStrings(info.Provides),
+		Breaks:               toArchDistroStrings(info.Breaks),
+		Replaces:             toArchDistroStrings(info.Replaces),
+		Enhances:             toArchDistroStrings(info.Enhances),
+		Recommends:           toArchDistroStrings(info.Recommends),
+		Suggests:             toArchDistroStrings(info.Suggests),
+		Mask:                 orEmptyArray(info.Mask),
+		Compatible:           orEmptyArray(info.Compatible),
+		Incompatible:         orEmptyArray(info.Incompatible),
+		Maintainers:          info.Maintainer,
+		Source:               toArchDistroStrings(info.Source),
+		NoExtract:            orEmptyArray(info.NoExtract),
+		NoSubmodules:         orEmptyArray(info.NoSubmodules),
+		Md5Sums:              toArchDistroStrings(info.MD5Sums),
 		Sha1Sums:             toArchDistroStrings(info.SHA1Sums),
 		Sha224Sums:           toArchDistroStrings(info.SHA224Sums),
 		Sha256Sums:           toArchDistroStrings(info.SHA256Sums),
 		Sha384Sums:           toArchDistroStrings(info.SHA384Sums),
 		Sha512Sums:           toArchDistroStrings(info.SHA512Sums),
-		PrettyName:           "",
-		Changelog:            info.Changelog,
 		Backup:               orEmptyArray(info.Backup),
-		Compatible:           orEmptyArray(info.Compatible),
-		Incompatible:         orEmptyArray(info.Incompatible),
-		Epoch:                info.Epoch,
-		Install:              info.Install,
-		License:              orEmptyArray(info.License),
-		Mask:                 orEmptyArray(info.Mask),
-		NoExtract:            orEmptyArray(info.NoExtract),
-		ValidPGPKeys:         orEmptyArray(info.ValidPGPKeys),
-		Groups:               orEmptyArray(info.Groups),
-		Enhances:             toArchDistroStrings(info.Enhances),
-		CheckDependencies:    toArchDistroStrings(info.CheckDepends),
-		Md5Sums:              toArchDistroStrings(info.MD5Sums),
-		Priority:             toArchDistroStrings(info.Priority),
-		Suggests:             toArchDistroStrings(info.Suggests),
-		Recommends:           toArchDistroStrings(info.Recommends),
+		Repology:             info.Repology,
+		RequiredBy:           []string{},
 		UpdateStatus:         UpdateStatus.Unknown,
 	}
 }
