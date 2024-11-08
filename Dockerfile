@@ -1,4 +1,4 @@
-FROM node:20-alpine AS client
+FROM node:22-alpine AS client
 
 ARG VITE_VERSION
 ENV VITE_VERSION="${VITE_VERSION}"
@@ -22,7 +22,7 @@ COPY ./Makefile ./Makefile
 RUN apk add --no-cache make gcc musl-dev
 RUN make server/dist
 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 WORKDIR /root/
 
 RUN apt update
