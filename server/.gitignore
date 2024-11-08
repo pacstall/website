@@ -4,3 +4,4 @@ tmp/
 dist/
 programs/
 main
+repology_cache.json
