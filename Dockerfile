@@ -1,4 +1,4 @@
-FROM node:20-alpine AS client
+FROM node:22-alpine AS client
 
 ARG VITE_VERSION
 ENV VITE_VERSION="${VITE_VERSION}"
