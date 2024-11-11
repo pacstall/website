@@ -48,7 +48,7 @@ func registerPacscriptSSRData() {
 					</article>
 
 					<button>Install now!</button>
-					<p>Find similar packages <a href="/packages?page=0&size=25&sortBy=default&sort=asc&filter=%s&filterBy=name">here</a>.</p>
+					<p>Find similar packages <a href="/packages?filter=%s">here</a>.</p>
 				</main>
 			`, pkg.PackageName, pkg.PackageName, pkg.Description, strings.Join(pkg.Maintainers, ", "), pkg.Version, pkg.PackageName, pkg.PackageName, consts.PACSCRIPT_FILE_EXTENSION, pkg.PackageName),
 			}
