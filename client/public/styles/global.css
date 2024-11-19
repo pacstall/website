@@ -1,21 +1,22 @@
-@import url("https://fonts.cdnfonts.com/css/open-sans");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap");
 @import url("https://fonts.cdnfonts.com/css/titillium-web");
-@import url("https://fonts.cdnfonts.com/css/jetbrains-mono");
-@import url("https://fonts.cdnfonts.com/css/noto-sans-bengali");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&subset=latin&display=swap");
 /* Runes */
 @import url('https://fonts.cdnfonts.com/css/catrinity');
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@100;200;300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@100..800&family=Noto+Sans+Bengali:wght@100..800&display=swap");
+
 @font-face {
-  font-family: 'FiraCodeNF';
-  src: url('../fonts/FiraCodeNF-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'FiraCodeNF';
+    src: url('../fonts/FiraCodeNF-Regular.woff2') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
+
 @font-face {
-  font-family: 'FiraCodeNF';
-  src: url('../fonts/FiraCodeNF-Bold.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
+    font-family: 'FiraCodeNF';
+    src: url('../fonts/FiraCodeNF-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
 }
 
 button:focus,
