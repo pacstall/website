@@ -131,7 +131,7 @@ func FromSrcInfo(info srcinfo.Srcinfo) *Script {
 		Compatible:           orEmptyArray(info.Compatible),
 		Incompatible:         orEmptyArray(info.Incompatible),
 		Maintainers:          info.Maintainer,
-		Source:               toArchDistroStrings(info.Source),
+		Source:               toSourceStrings(info.Source),
 		NoExtract:            orEmptyArray(info.NoExtract),
 		NoSubmodules:         orEmptyArray(info.NoSubmodules),
 		Md5Sums:              toArchDistroStrings(info.MD5Sums),
@@ -161,10 +161,28 @@ func toArchDistroString(ads srcinfo.ArchDistroString) ArchDistroString {
 	}
 }
 
+func toSourceStrings(ads []srcinfo.ArchDistroString) []ArchDistroString {
+	return array.SwitchMap(ads, func(it *array.Iterator[srcinfo.ArchDistroString]) ArchDistroString {
+		return ArchDistroString{
+			Arch:   it.Value.Arch,
+			Distro: it.Value.Distro,
+			Value:  extractSourceUrl(it.Value.Value),
+		}
+	})
+}
+
 func orEmptyArray[T interface{}](items []T) []T {
 	if items == nil {
 		return []T{}
 	}
 
 	return items
+}
+
+func extractSourceUrl(source string) string {
+	parts := strings.Split(source, "::")
+	if len(parts) > 1 {
+		return parts[1]
+	}
+	return parts[0]
 }
