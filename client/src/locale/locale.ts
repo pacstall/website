@@ -161,7 +161,7 @@ export const translations = {
     en: {
         translation: enLocale,
     },
-    'ro-RO': {
+    ro: {
         translation: roLocale,
     },
     es: {
