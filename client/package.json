@@ -38,7 +38,7 @@
         "react-dom": "^19.0.0",
         "react-helmet": "^6.1.0",
         "react-i18next": "^12.3.1",
-        "react-router-dom": "^6.28.0",
+        "react-router-dom": "^7.0.0",
         "react-use-cookie": "^1.6.1",
         "recoil": "^0.7.7",
         "use-query-params": "^2.2.1",
