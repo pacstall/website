@@ -51,6 +51,7 @@ const PackageDependenciesModal: FC<{ name: string } & UseDisclosureProps> = ({
                                         packages={
                                             data!.runtimeDependencies || []
                                         }
+                                        type='runtimeDependencies'
                                     />
                                 </Box>
                             )}
@@ -64,6 +65,7 @@ const PackageDependenciesModal: FC<{ name: string } & UseDisclosureProps> = ({
                                     </Heading>
                                     <MinimalPackageTable
                                         packages={data!.buildDependencies || []}
+                                        type='buildDependencies'
                                     />
                                 </Box>
                             )}
@@ -79,6 +81,7 @@ const PackageDependenciesModal: FC<{ name: string } & UseDisclosureProps> = ({
                                         packages={
                                             data!.optionalDependencies || []
                                         }
+                                        type='optionalDependencies'
                                     />
                                 </Box>
                             )}
@@ -94,6 +97,7 @@ const PackageDependenciesModal: FC<{ name: string } & UseDisclosureProps> = ({
                                         packages={
                                             data!.pacstallDependencies || []
                                         }
+                                        type='pacstallDependencies'
                                     />
                                 </Box>
                             )}

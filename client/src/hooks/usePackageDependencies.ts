@@ -9,20 +9,50 @@ const usePackageDependencies = (name: string) => {
     const [error, setError] = useState(false)
 
     useEffect(() => {
-        setError(false)
-        setLoading(true)
-        axios
-            .get<PackageDependencies>(
-                serverConfig.host + `/api/packages/${name}/dependencies`,
-            )
-            .then(result => {
+        const fetchDependencies = async () => {
+            setError(false)
+            setLoading(true)
+
+            try {
+                const result = await axios.get<PackageDependencies>(
+                    `${serverConfig.host}/api/packages/${name}/dependencies`,
+                )
+
+                const pacdeps = result.data.pacstallDependencies || []
+
+                const descriptionDeps = await Promise.all(
+                    pacdeps.map(async dep => {
+                        try {
+                            const depResult = await axios.get(
+                                `${serverConfig.host}/api/packages/${dep.value}`,
+                            )
+                            return {
+                                ...dep,
+                                description: depResult.data.description,
+                            }
+                        } catch (e) {
+                            console.error(
+                                `Failed to fetch description for ${dep.value}`,
+                                e,
+                            )
+                            return { ...dep, description: null }
+                        }
+                    }),
+                )
+
+                setData({
+                    ...result.data,
+                    pacstallDependencies: descriptionDeps,
+                })
                 setLoading(false)
-                setData(result.data)
-            })
-            .catch(() => {
+            } catch (e) {
+                console.error('Error fetching package dependencies:', e)
                 setError(true)
                 setLoading(false)
-            })
+            }
+        }
+
+        fetchDependencies()
     }, [name])
 
     return {

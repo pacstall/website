@@ -4,12 +4,13 @@ import { ArchDistroString } from '../../types/package-info'
 import MinimalPackageTableRow from './MinimalPackageTableRow'
 import { useTranslation } from 'react-i18next'
 
-const MinimalPackageTable: FC<{ packages: (ArchDistroString | string)[] }> = ({
-    packages,
-}) => {
+const MinimalPackageTable: FC<{
+    packages: (ArchDistroString | string)[]
+    type: string
+}> = ({ packages, type }) => {
     const { t } = useTranslation()
     return (
-        <Table variant={'simple'}>
+        <Table variant='simple'>
             <Thead>
                 <Tr>
                     <Th>{t('packageDetails.requiredByModal.name')}</Th>
@@ -21,9 +22,13 @@ const MinimalPackageTable: FC<{ packages: (ArchDistroString | string)[] }> = ({
             <Tbody>
                 {packages.map((pkg, i) => (
                     <MinimalPackageTableRow
-                        external={typeof pkg === 'string'}
-                        key={(typeof pkg === 'string' ? pkg : pkg.value) + i}
-                        pkg={typeof pkg === 'string' ? pkg : pkg.value}
+                        external={
+                            type !== 'requiredBy' &&
+                            type !== 'pacstallDependencies'
+                        }
+                        key={(pkg.value || pkg.packageName) + i}
+                        pkg={pkg.value || pkg.packageName}
+                        description={pkg.description || null}
                     />
                 ))}
             </Tbody>

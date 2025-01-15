@@ -114,7 +114,7 @@ const PackageDetailsTable: FC<{
                     <Link
                         color='pink.400'
                         isExternal
-                        href={`https://github.com/pacstall/pacstall-programs/blob/master/packages/${data.packageName}/${data.packageName}.pacscript`}
+                        href={`https://github.com/pacstall/pacstall-programs/blob/master/packages/${data.packageBase}/${data.packageBase}.pacscript`}
                     >
                         {t('packageDetails.openInGithub')}{' '}
                         <Icon

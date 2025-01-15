@@ -1,7 +1,6 @@
 import { HStack, Heading, Text } from '@chakra-ui/react'
 import { FC } from 'react'
 import PackageInfo from '../../types/package-info'
-import InstallNowButton from './InstallNowButton'
 
 const PackageDetailsHeader: FC<{ data: PackageInfo; isMobile: boolean }> = (
     { data },
@@ -13,7 +12,6 @@ const PackageDetailsHeader: FC<{ data: PackageInfo; isMobile: boolean }> = (
                 <HStack>
                     <Heading>{data.packageName}</Heading>
                 </HStack>
-                {!isMobile && <InstallNowButton />}
             </HStack>
 
             <Text mt='5'>{data.description}</Text>

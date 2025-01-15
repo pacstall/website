@@ -85,7 +85,7 @@ func setLastUpdatedAt(packages []*pac.Script) error {
 
 	for _, pkg := range packages {
 		if tuple, err := array.FindBy(lastUpdatedTuples, func(tuple packageLastUpdatedTuple) bool {
-			return tuple.packageName == pkg.PackageName
+			return tuple.packageName == pkg.PackageBase
 		}); err == nil {
 			pkg.LastUpdatedAt = tuple.lastUpdated
 		} else {

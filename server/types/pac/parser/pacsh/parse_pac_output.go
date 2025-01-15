@@ -5,15 +5,17 @@ import (
 	"pacstall.dev/webserver/types/pac"
 )
 
-func ParsePacOutput(data []byte) (*pac.Script, error) {
+func ParsePacOutput(data []byte) ([]*pac.Script, error) {
+	var scripts []*pac.Script
 	out, err := srcinfo.Parse(string(data))
 	if err != nil {
 		return nil, err
 	}
 
-	ps := pac.FromSrcInfo(*out)
+	scripts = pac.FromSrcInfo(*out)
+	for idx := range scripts {
+        scripts[idx].PrettyName = getPrettyName(scripts[idx])
+    }
 
-	ps.PrettyName = getPrettyName(ps)
-
-	return ps, nil
+	return scripts, nil
 }
