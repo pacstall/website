@@ -10,22 +10,11 @@ import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link as Rlink } from 'react-router-dom'
 
-const getDescription = (nameWithDescription: string): string | null => {
-    return nameWithDescription?.includes(':')
-        ? nameWithDescription.split(':')[1].trim()
-        : null
-}
-
-const getName = (nameWithDescription: string): string => {
-    return nameWithDescription?.includes(':')
-        ? nameWithDescription.split(':')[0]
-        : nameWithDescription
-}
-
-const MinimalPackageTableRow: FC<{ pkg: string; external: boolean }> = ({
-    pkg,
-    external,
-}) => {
+const MinimalPackageTableRow: FC<{
+    pkg: string
+    description: string
+    external: boolean
+}> = ({ pkg, description, external }) => {
     const { t } = useTranslation()
 
     return (
@@ -34,13 +23,13 @@ const MinimalPackageTableRow: FC<{ pkg: string; external: boolean }> = ({
                 <Tooltip
                     openDelay={500}
                     label={
-                        getDescription(pkg) ||
+                        description ||
                         t('packageDetails.dependenciesModal.noDescription')
                     }
                 >
                     <Text fontSize='md' fontWeight='500'>
                         {external ? (
-                            <>{getName(pkg)}</>
+                            <>{pkg}</>
                         ) : (
                             <Link
                                 as={Rlink}
@@ -49,9 +38,9 @@ const MinimalPackageTableRow: FC<{ pkg: string; external: boolean }> = ({
                                     'pink.600',
                                     'pink.400',
                                 )}
-                                to={`/packages/${getName(pkg)}`}
+                                to={`/packages/${pkg}`}
                             >
-                                {getName(pkg)}
+                                {pkg}
                             </Link>
                         )}
                     </Text>

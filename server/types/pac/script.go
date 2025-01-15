@@ -45,8 +45,12 @@ func (a ArchDistroString) Equals(b types.Equaller) bool {
 type Script struct {
 	PackageName          string             `json:"packageName"`
 	PrettyName           string             `json:"prettyName"`
+	PackageBase          string             `json:"packageBase"`
+	BaseIndex            int                `json:"baseIndex"`
+	BaseTotal            int                `json:"baseTotal"`
 	Description          string             `json:"description"`
 	Version              string             `json:"version"`
+	SourceVersion        string             `json:"sourceVersion"`
 	Release              string             `json:"release"`
 	Epoch                string             `json:"epoch"`
 	LatestVersion        *string            `json:"latestVersion"`
@@ -99,51 +103,137 @@ func (p *Script) Type() types.PackageTypeName {
 	return types.PackageTypeSuffixToPackageTypeName["-git"]
 }
 
-func FromSrcInfo(info srcinfo.Srcinfo) *Script {
-	return &Script{
-		PackageName:          info.Packages[0].Pkgname, // needs to be looped for every pkgname within pkgbase
-		PrettyName:           "",
-		Description:          info.Pkgdesc,
-		Version:              info.Version(),
-		Release:              info.Pkgrel,
-		Epoch:                info.Epoch,
-		LatestVersion:        nil,
-		Homepage:             info.URL,
-		Priority:             info.Priority,
-		Architectures:        info.Arch,
-		License:              orEmptyArray(info.License),
-		Gives:                toArchDistroStrings(info.Gives),
-		RuntimeDependencies:  toArchDistroStrings(info.Depends),
-		CheckDependencies:    toArchDistroStrings(info.CheckDepends),
-		BuildDependencies:    toArchDistroStrings(info.MakeDepends),
-		OptionalDependencies: toArchDistroStrings(info.OptDepends),
-		PacstallDependencies: toArchDistroStrings(info.Pacdeps),
-		CheckConflicts:       toArchDistroStrings(info.CheckConflicts),
-		BuildConflicts:       toArchDistroStrings(info.MakeConflicts),
-		Conflicts:            toArchDistroStrings(info.Conflicts),
-		Provides:             toArchDistroStrings(info.Provides),
-		Breaks:               toArchDistroStrings(info.Breaks),
-		Replaces:             toArchDistroStrings(info.Replaces),
-		Enhances:             toArchDistroStrings(info.Enhances),
-		Recommends:           toArchDistroStrings(info.Recommends),
-		Suggests:             toArchDistroStrings(info.Suggests),
-		Mask:                 orEmptyArray(info.Mask),
-		Compatible:           orEmptyArray(info.Compatible),
-		Incompatible:         orEmptyArray(info.Incompatible),
-		Maintainers:          info.Maintainer,
-		Source:               toSourceStrings(info.Source),
-		NoExtract:            orEmptyArray(info.NoExtract),
-		NoSubmodules:         orEmptyArray(info.NoSubmodules),
-		Md5Sums:              toArchDistroStrings(info.MD5Sums),
-		Sha1Sums:             toArchDistroStrings(info.SHA1Sums),
-		Sha224Sums:           toArchDistroStrings(info.SHA224Sums),
-		Sha256Sums:           toArchDistroStrings(info.SHA256Sums),
-		Sha384Sums:           toArchDistroStrings(info.SHA384Sums),
-		Sha512Sums:           toArchDistroStrings(info.SHA512Sums),
-		Backup:               orEmptyArray(info.Backup),
-		Repology:             info.Repology,
-		RequiredBy:           []string{},
-		UpdateStatus:         UpdateStatus.Unknown,
+func FromSrcInfo(info srcinfo.Srcinfo) []*Script {
+	var scripts []*Script
+	if len(info.Packages) > 1 {
+		scripts = append(scripts, &Script{
+			PackageName:          info.Pkgbase,
+			PrettyName:           "",
+			PackageBase:          info.Pkgbase,
+			BaseIndex:            0,
+			BaseTotal:            len(info.Packages),
+			Description:          info.Pkgdesc,
+			Version:              info.Version(),
+			SourceVersion:		  info.Pkgver,
+			Release:              info.Pkgrel,
+			Epoch:                info.Epoch,
+			LatestVersion:        nil,
+			Homepage:             info.URL,
+			Priority:             info.Priority,
+			Architectures:        info.Arch,
+			License:              orEmptyArray(info.License),
+			Gives:                toArchDistroStrings(info.Gives),
+			RuntimeDependencies:  toArchDistroStrings(info.Depends),
+			CheckDependencies:    toArchDistroStrings(info.CheckDepends),
+			BuildDependencies:    toArchDistroStrings(info.MakeDepends),
+			OptionalDependencies: toArchDistroStrings(info.OptDepends),
+			PacstallDependencies: toArchDistroStrings(info.Pacdeps),
+			CheckConflicts:       toArchDistroStrings(info.CheckConflicts),
+			BuildConflicts:       toArchDistroStrings(info.MakeConflicts),
+			Conflicts:            toArchDistroStrings(info.Conflicts),
+			Provides:             toArchDistroStrings(info.Provides),
+			Breaks:               toArchDistroStrings(info.Breaks),
+			Replaces:             toArchDistroStrings(info.Replaces),
+			Enhances:             toArchDistroStrings(info.Enhances),
+			Recommends:           toArchDistroStrings(info.Recommends),
+			Suggests:             toArchDistroStrings(info.Suggests),
+			Mask:                 orEmptyArray(info.Mask),
+			Compatible:           orEmptyArray(info.Compatible),
+			Incompatible:         orEmptyArray(info.Incompatible),
+			Maintainers:          info.Maintainer,
+			Source:               toSourceStrings(info.Source),
+			NoExtract:            orEmptyArray(info.NoExtract),
+			NoSubmodules:         orEmptyArray(info.NoSubmodules),
+			Md5Sums:              toArchDistroStrings(info.MD5Sums),
+			Sha1Sums:             toArchDistroStrings(info.SHA1Sums),
+			Sha224Sums:           toArchDistroStrings(info.SHA224Sums),
+			Sha256Sums:           toArchDistroStrings(info.SHA256Sums),
+			Sha384Sums:           toArchDistroStrings(info.SHA384Sums),
+			Sha512Sums:           toArchDistroStrings(info.SHA512Sums),
+			Backup:               orEmptyArray(info.Backup),
+			Repology:             info.Repology,
+			RequiredBy:           []string{},
+			UpdateStatus:         UpdateStatus.Unknown,
+		})
+	}
+	for i, pkg := range info.Packages {
+		scripts = append(scripts, &Script{
+			PackageName:          pkg.Pkgname,
+			PrettyName:           "",
+			PackageBase:          info.Pkgbase,
+			BaseIndex:            i + 1,
+			BaseTotal:            len(info.Packages),
+			Description:          fallback[string, string](pkg.Pkgdesc, info.Pkgdesc, nil),
+			Version:              info.Version(),
+			SourceVersion:		  info.Pkgver,
+			Release:              info.Pkgrel,
+			Epoch:                info.Epoch,
+			LatestVersion:        nil,
+			Homepage:             info.URL,
+			Priority:             fallback[string, string](pkg.Priority, info.Priority, nil),
+			Architectures:        info.Arch,
+			License:              fallback(pkg.License, info.License, orEmptyArray),
+			Gives:                fallback(pkg.Gives, info.Gives, toArchDistroStrings),
+			RuntimeDependencies:  fallback(pkg.Depends, info.Depends, toArchDistroStrings),
+			CheckDependencies:    fallback(pkg.CheckDepends, info.CheckDepends, toArchDistroStrings),
+			BuildDependencies:    toArchDistroStrings(info.MakeDepends),
+			OptionalDependencies: fallback(pkg.OptDepends, info.OptDepends, toArchDistroStrings),
+			PacstallDependencies: fallback(pkg.Pacdeps, info.Pacdeps, toArchDistroStrings),
+			CheckConflicts:       fallback(pkg.CheckConflicts, info.CheckConflicts, toArchDistroStrings),
+			BuildConflicts:       toArchDistroStrings(info.MakeConflicts),
+			Conflicts:            fallback(pkg.Conflicts, info.Conflicts, toArchDistroStrings),
+			Provides:             fallback(pkg.Provides, info.Provides, toArchDistroStrings),
+			Breaks:               fallback(pkg.Breaks, info.Breaks, toArchDistroStrings),
+			Replaces:             fallback(pkg.Replaces, info.Replaces, toArchDistroStrings),
+			Enhances:             fallback(pkg.Enhances, info.Enhances, toArchDistroStrings),
+			Recommends:           fallback(pkg.Recommends, info.Recommends, toArchDistroStrings),
+			Suggests:             fallback(pkg.Suggests, info.Suggests, toArchDistroStrings),
+			Mask:                 orEmptyArray(info.Mask),
+			Compatible:           orEmptyArray(info.Compatible),
+			Incompatible:         orEmptyArray(info.Incompatible),
+			Maintainers:          info.Maintainer,
+			Source:               toSourceStrings(info.Source),
+			NoExtract:            orEmptyArray(info.NoExtract),
+			NoSubmodules:         orEmptyArray(info.NoSubmodules),
+			Md5Sums:              toArchDistroStrings(info.MD5Sums),
+			Sha1Sums:             toArchDistroStrings(info.SHA1Sums),
+			Sha224Sums:           toArchDistroStrings(info.SHA224Sums),
+			Sha256Sums:           toArchDistroStrings(info.SHA256Sums),
+			Sha384Sums:           toArchDistroStrings(info.SHA384Sums),
+			Sha512Sums:           toArchDistroStrings(info.SHA512Sums),
+			Backup:               fallback(pkg.Backup, info.Backup, orEmptyArray),
+			Repology:             fallback(pkg.Repology, info.Repology, orEmptyArray),
+			RequiredBy:           []string{},
+			UpdateStatus:         UpdateStatus.Unknown,
+		})
+	}
+
+	return scripts
+}
+
+func fallback[T any, R any](pkgValue, infoValue T, transform func(T) R) R {
+	if isNonEmpty(pkgValue) {
+		if transform != nil {
+			return transform(pkgValue)
+		}
+		return any(pkgValue).(R)
+	}
+	if transform != nil {
+		return transform(infoValue)
+	}
+	return any(infoValue).(R)
+}
+
+func isNonEmpty[T any](value T) bool {
+	switch v := any(value).(type) {
+	case string:
+		return v != ""
+	case []string:
+		return len(v) > 0
+	case []srcinfo.ArchDistroString:
+		return len(v) > 0
+	default:
+		return true
 	}
 }
 

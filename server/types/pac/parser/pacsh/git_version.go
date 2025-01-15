@@ -18,8 +18,10 @@ func ApplyGitVersion(p *pac.Script) error {
 	}
 
 	if p.Epoch != "" {
+		p.SourceVersion = version
 		p.Version = p.Epoch + ":" + version + "-" + p.Release
 	} else {
+		p.SourceVersion = version
 		p.Version = version + "-" + p.Release
 	}
 

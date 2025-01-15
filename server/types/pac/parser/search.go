@@ -37,6 +37,7 @@ func FilterPackages(packages []*pac.Script, filter, filterBy string) []*pac.Scri
 	case "name":
 		return filterByFunc(func(pi *pac.Script) bool {
 			return strings.Contains(pi.PackageName, filter) ||
+				strings.Contains(pi.PackageBase, filter) ||
 				func(ps []pac.ArchDistroString, filter string) bool {
 					return array.Any(ps, func(it pac.ArchDistroString) bool {
 						return strings.Contains(it.Value, filter)

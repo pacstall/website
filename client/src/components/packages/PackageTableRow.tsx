@@ -90,7 +90,16 @@ const PackageTableRow: FC<{ pkg: PackageInfo; disabled?: boolean }> = ({
                 display={useBreakpointValue({ base: 'none', md: 'table-cell' })}
             >
                 <Text fontSize='sm'>
-                    <SmartCodeSnippetInstall size='sm' name={pkg.packageName} />
+                    <SmartCodeSnippetInstall
+                        size='sm'
+                        name={
+                            pkg.baseTotal > 1
+                                ? pkg.baseIndex === 0
+                                    ? `${pkg.packageBase}:pkgbase`
+                                    : `${pkg.packageBase}:${pkg.packageName}`
+                                : pkg.packageName
+                        }
+                    />
                 </Text>
             </Td>
         </Tr>

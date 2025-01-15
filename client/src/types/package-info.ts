@@ -1,8 +1,12 @@
 export default interface PackageInfo {
     packageName: string
     prettyName: string
+    packageBase: string
+    baseIndex: int
+    baseTotal: int
     description: string
     version: string
+    sourceVersion: string
     release: string
     epoch: string
     latestVersion?: string

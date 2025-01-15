@@ -66,7 +66,7 @@ func ParseAll() error {
 	}))
 
 	pacstore.Update(loadedPacscripts)
-	log.Info("successfully loaded %v (%v / %v) packages", types.Percent(float64(len(loadedPacscripts))/float64(len(pkgList))), len(loadedPacscripts), len(pkgList))
+	log.Info("successfully loaded %v packages from %v pacscripts", len(loadedPacscripts), len(pkgList))
 
 	return nil
 }
@@ -79,11 +79,19 @@ func readKnownPacscriptNames() ([]string, error) {
 	}
 
 	names := strings.Split(strings.TrimSpace(string(bytes)), "\n")
-	for idx := range names {
-		names[idx] = strings.TrimSpace(names[idx])
-	}
+	var filteredNames []string
 
-	return names, nil
+    for idx := range names {
+        names[idx] = strings.TrimSpace(names[idx])
+
+		if strings.HasSuffix(names[idx], ":pkgbase") {
+            filteredNames = append(filteredNames, strings.TrimSuffix(names[idx], ":pkgbase"))
+        } else if !strings.Contains(names[idx], ":") {
+            filteredNames = append(filteredNames, names[idx])
+        }
+    }
+
+    return filteredNames, nil
 }
 
 func parsePacscriptFiles(names []string) ([]*pac.Script, error) {
@@ -92,19 +100,26 @@ func parsePacscriptFiles(names []string) ([]*pac.Script, error) {
 	}
 
 	log.Info("parsing pacscripts...")
-	outChan := batch.Run(int(config.MaxOpenFiles), names, func(pacName string) (*pac.Script, error) {
+	outChan := batch.Run(int(config.MaxOpenFiles), names, func(pacName string) ([]*pac.Script, error) {
 		out, err := ParsePacscriptFile(config.GitClonePath, pacName)
 
 		if config.Repology.Enabled {
-			if err := repology.Sync(out); err != nil {
-				log.Debug("failed to sync %v with repology. Error: %+v", pacName, err)
-			}
+			for _, script := range out {
+		        if err := repology.Sync(script); err != nil {
+		            log.Debug("failed to sync %v with repology. Error: %+v", pacName, err)
+		        }
+		    }
 		}
 
 		return out, err
 	})
+    results := channels.ToSlice(outChan)
+    var allScripts []*pac.Script
+    for _, scripts := range results {
+        allScripts = append(allScripts, scripts...)
+    }
 
-	return channels.ToSlice(outChan), nil
+    return allScripts, nil
 }
 
 func readPacscriptFile(rootDir, name string) (scriptBytes []byte, fileName string, err error) {
@@ -118,7 +133,7 @@ func readPacscriptFile(rootDir, name string) (scriptBytes []byte, fileName strin
 	return scriptBytes, consts.SRCINFO_FILE_EXTENSION, nil
 }
 
-func ParsePacscriptFile(programsDirPath, name string) (*pac.Script, error) {
+func ParsePacscriptFile(programsDirPath, name string) ([]*pac.Script, error) {
 	srcInfoData, _, err := readPacscriptFile(programsDirPath, name)
 	if err != nil {
 		return nil, errorx.Decorate(err, "failed to read pacscript '%v'", name)

@@ -52,7 +52,13 @@ const PackageDetailsPage: FC<PackageDetailsPageProps> = ({
                 requiredByModal={requiredByModal}
             />
             <HowToInstall
-                name={data.packageName}
+                name={
+                    data.baseTotal > 1
+                        ? data.baseIndex === 0
+                            ? `${data.packageBase}:pkgbase`
+                            : `${data.packageBase}:${data.packageName}`
+                        : data.packageName
+                }
                 prettyName={data.packageName}
                 isMobile={isMobile}
             />
