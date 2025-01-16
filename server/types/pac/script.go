@@ -151,7 +151,7 @@ func FromSrcInfo(info srcinfo.Srcinfo) []*Script {
 			Sha384Sums:           toArchDistroStrings(info.SHA384Sums),
 			Sha512Sums:           toArchDistroStrings(info.SHA512Sums),
 			Backup:               orEmptyArray(info.Backup),
-			Repology:             info.Repology,
+			Repology:             orEmptyArray(info.Repology),
 			RequiredBy:           []string{},
 			UpdateStatus:         UpdateStatus.Unknown,
 		})
