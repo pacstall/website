@@ -186,7 +186,6 @@ export const translations = {
     'hi-IN': {
         translation: hiLocale,
     }
-    'it-IT': {
     it: {
         translation: itLocale,
     },
