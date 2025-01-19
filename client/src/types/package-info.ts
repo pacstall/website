@@ -4,6 +4,7 @@ export default interface PackageInfo {
     packageBase: string
     baseIndex: int
     baseTotal: int
+    baseChildren: string[]
     description: string
     version: string
     sourceVersion: string

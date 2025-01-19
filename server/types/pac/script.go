@@ -48,6 +48,7 @@ type Script struct {
 	PackageBase          string             `json:"packageBase"`
 	BaseIndex            int                `json:"baseIndex"`
 	BaseTotal            int                `json:"baseTotal"`
+	BaseChildren         []string           `json:"baseChildren"`
 	Description          string             `json:"description"`
 	Version              string             `json:"version"`
 	SourceVersion        string             `json:"sourceVersion"`
@@ -106,12 +107,17 @@ func (p *Script) Type() types.PackageTypeName {
 func FromSrcInfo(info srcinfo.Srcinfo) []*Script {
 	var scripts []*Script
 	if len(info.Packages) > 1 {
+		children := make([]string, len(info.Packages))
+		for i, pkg := range info.Packages {
+			children[i] = pkg.Pkgname
+		}
 		scripts = append(scripts, &Script{
 			PackageName:          info.Pkgbase,
 			PrettyName:           "",
 			PackageBase:          info.Pkgbase,
 			BaseIndex:            0,
 			BaseTotal:            len(info.Packages),
+			BaseChildren:         children,
 			Description:          info.Pkgdesc,
 			Version:              info.Version(),
 			SourceVersion:		  info.Pkgver,
@@ -163,6 +169,7 @@ func FromSrcInfo(info srcinfo.Srcinfo) []*Script {
 			PackageBase:          info.Pkgbase,
 			BaseIndex:            i + 1,
 			BaseTotal:            len(info.Packages),
+			BaseChildren:         nil,
 			Description:          fallback[string, string](pkg.Pkgdesc, info.Pkgdesc, nil),
 			Version:              info.Version(),
 			SourceVersion:		  info.Pkgver,
