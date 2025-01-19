@@ -18,10 +18,10 @@ import Navigation from './components/Navigation'
 import CookieBanner from './components/CookieBanner'
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import detector from 'i18next-browser-languagedetector'
+import LanguageDetector from 'i18next-browser-languagedetector'
 import { translations } from './locale/locale'
 
-i18n.use(detector)
+i18n.use(LanguageDetector)
     .use(initReactI18next) // passes i18n down to react-i18next
     .init({
         // the translations
@@ -29,6 +29,7 @@ i18n.use(detector)
         // or even better, manage them via a UI: https://react.i18next.com/guides/multiple-translation-files#manage-your-translations-with-a-management-gui)
         resources: translations,
         fallbackLng: 'en-US',
+        load: 'all',
         interpolation: {
             escapeValue: false, // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
         },
@@ -46,8 +47,8 @@ const theme = extendTheme({
         useSystemColorMode: false,
     },
     fonts: {
-        heading: 'Open Sans, sans-serif',
-        body: 'Titillium Web, sans-serif',
+        heading: 'Open Sans, Noto Sans Bengali, Catrinity, sans-serif',
+        body: 'Titillium Web, Noto Sans Bengali, Noto Sans Devanagari, Catrinity, sans-serif',
     },
     colors: {
         brand: {

@@ -4,11 +4,24 @@ import (
 	"strings"
 
 	"github.com/hashicorp/go-version"
+	"pacstall.dev/webserver/model"
 	"pacstall.dev/webserver/types/pac"
 )
 
-func syncToPacscript(project repologyProject, script *pac.Script) (err error) {
-	script.PrettyName = project.PrettyName
+func compareNonStandardVersion(current, latest string) pac.UpdateStatusValue {
+	result := strings.Compare(current, latest)
+
+	const CMP_EQUAL = 0
+	const CMP_GREATER = 1
+
+	if result == CMP_EQUAL || result == CMP_GREATER {
+		return pac.UpdateStatus.Latest
+	}
+
+	return pac.UpdateStatus.Major
+}
+
+func updateScriptVersion(project model.RepologyProjectProvider, script *pac.Script) (err error) {
 	script.LatestVersion = &project.Version
 
 	if *script.LatestVersion == script.Version {
@@ -19,14 +32,14 @@ func syncToPacscript(project repologyProject, script *pac.Script) (err error) {
 	current, err := version.NewVersion(script.Version)
 	if err != nil {
 		err = nil
-		script.UpdateStatus = versionCompare(script.Version, *script.LatestVersion)
+		script.UpdateStatus = compareNonStandardVersion(script.Version, *script.LatestVersion)
 		return
 	}
 
 	latest, err := version.NewVersion(*script.LatestVersion)
 	if err != nil {
 		err = nil
-		script.UpdateStatus = versionCompare(script.Version, *script.LatestVersion)
+		script.UpdateStatus = compareNonStandardVersion(script.Version, *script.LatestVersion)
 		return
 	}
 

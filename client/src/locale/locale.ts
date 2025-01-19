@@ -1,8 +1,13 @@
 import { Resource } from 'i18next'
+import bnLocale from './bn-IN.locale'
+import angLocale from './en-ANG.locale'
+import agnLocale from './en-AGN.locale'
+import enmLocale from './en-ENM.locale'
 import enLocale from './en-US.locale'
 import roLocale from './ro-RO.locale'
 import esLocale from './es-ES.locale'
-import ptLocale from './pt-BR.locale'
+import ptbrLocale from './pt-BR.locale'
+import ptptLocale from './pt-PT.locale'
 import plLocale from './pl-PL.locale'
 import svLocale from './sv-SE.locale'
 import hiLocale from './hi-IN.locale'
@@ -10,6 +15,12 @@ import itLocale from './it-IT.locale'
 import frLocale from './fr-FR.locale'
 import deLocale from './de-DE.locale'
 import nlLocale from './nl-NL.locale'
+import idLocale from './id-ID.locale'
+import trLocale from './tr-TR.locale'
+import ruLocale from './ru-RU.locale'
+import { NumericDisplayHandler } from '../hooks/useNumericDisplay'
+import { arabic } from './numeric-systems/arabic'
+import { bengali } from './numeric-systems/bengali'
 
 export default interface Locale {
     home: {
@@ -99,6 +110,7 @@ export default interface Locale {
             maintainer: string
             dependencies: string
             requiredBy: string
+            lastUpdatedAt: string
         }
         noResults: string
         orphaned: string
@@ -132,53 +144,113 @@ export default interface Locale {
 }
 
 export const translations = {
+    bn: {
+        translation: bnLocale,
+    },
+    'en-ANG': {
+        translation: angLocale,
+    },
+    'en-AGN': {
+        translation: agnLocale,
+    },
+    'en-ENM': {
+        translation: enmLocale,
+    },
     'en-US': {
         translation: enLocale,
     },
-    'ro-RO': {
+    en: {
+        translation: enLocale,
+    },
+    ro: {
         translation: roLocale,
     },
-    'es-ES': {
+    es: {
         translation: esLocale,
     },
     'pt-BR': {
-        translation: ptLocale,
+        translation: ptbrLocale,
     },
-    'pl-PL': {
+    'pt-PT': {
+        translation: ptptLocale,
+    },
+    pt: {
+        translation: ptptLocale,
+    },
+    pl: {
         translation: plLocale,
     },
-    'sv-SE': {
+    sv: {
         translation: svLocale,
     },
     'hi-IN': {
         translation: hiLocale,
     }
     'it-IT': {
+    it: {
         translation: itLocale,
     },
-    'nl-NL': {
+    nl: {
         translation: nlLocale,
     },
-    'fr-FR': {
+    fr: {
         translation: frLocale,
     },
-    'de-DE': {
+    de: {
         translation: deLocale,
+    },
+    id: {
+        translation: idLocale,
+    },
+    tr: {
+        translation: trLocale,
+    },
+    ru: {
+        translation: ruLocale,
     },
 } as const satisfies Resource
 
+export const localeNumericDisplay = {
+    'en-US': arabic,
+    'en-ANG': arabic,
+    'en-AGN': arabic,
+    'en-ENM': arabic,
+    ro: arabic,
+    es: arabic,
+    'pt-BR': arabic,
+    'pt-PT': arabic,
+    pl: arabic,
+    sv: arabic,
+    it: arabic,
+    nl: arabic,
+    fr: arabic,
+    de: arabic,
+    id: arabic,
+    tr: arabic,
+    ru: arabic,
+    'bn-IN': bengali,
+} satisfies Record<keyof typeof translations, NumericDisplayHandler>
+
 export const localeFlags: Record<keyof typeof translations, string> = {
     'en-US': 'US 🇺🇸',
-    'de-DE': 'DE 🇩🇪',
-    'es-ES': 'ES 🇪🇸',
-    'fr-FR': 'FR 🇫🇷',
+    'en-ANG': 'ᚩᛝ 🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+    'en-AGN': 'AŊ ᛖᛝ',
+    'en-ENM': 'ME 🇬🇧',
+    'bn-IN': 'BN 🇮🇳',
+    de: 'DE 🇩🇪',
+    es: 'ES 🇪🇸',
+    fr: 'FR 🇫🇷',
     'hi-IN': 'HI 🇮🇳',
-    'it-IT': 'IT 🇮🇹',
-    'nl-NL': 'NL 🇳🇱',
-    'pl-PL': 'PL 🇵🇱',
+    id: 'ID 🇮🇩',
+    it: 'IT 🇮🇹',
+    nl: 'NL 🇳🇱',
+    pl: 'PL 🇵🇱',
     'pt-BR': 'PT 🇧🇷',
-    'ro-RO': 'RO 🇷🇴',
-    'sv-SE': 'SV 🇸🇪',
+    'pt-PT': 'PT 🇵🇹',
+    ro: 'RO 🇷🇴',
+    ru: 'RU 🇷🇺',
+    sv: 'SV 🇸🇪',
+    tr: 'TR 🇹🇷',
 }
 
 export const locales = Object.keys(

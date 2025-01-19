@@ -39,6 +39,7 @@ export default <Locale>{
             discord: 'Discord',
             matrix: 'Matrix',
             reddit: 'Reddit',
+            lemmy: 'Lemmy',
             mastodon: 'Mastodon',
         },
         browse: {
@@ -100,6 +101,7 @@ export default <Locale>{
             maintainer: 'Onderhouder',
             dependencies: 'Afhankelijkheden',
             requiredBy: 'Vereist Door',
+            lastUpdatedAt: 'Laatst Bijgewerkt Op',
         },
         orphaned: 'Verweesd',
         noResults: 'Geen',
@@ -120,6 +122,7 @@ export default <Locale>{
             close: 'Sluiten',
             provider: 'Aanbieder',
             noDescription: 'Geen omschrijving beschikbaar',
+            version: 'Versie',
         },
         requiredByModal: {
             title: 'Vereist Door',

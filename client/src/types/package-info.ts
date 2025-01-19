@@ -1,24 +1,58 @@
 export default interface PackageInfo {
-    name: string
-    version: string
     packageName: string
-    maintainer: string
-    description: string
-    url: string
-    runtimeDependencies: string[]
-    buildDependencies: string[]
-    optionalDependencies: string[]
-    breaks: string[]
-    gives: string
-    replace: string[]
-    hash?: string
-    ppa: string[]
-    pacstallDependencies: string[]
-    patch: string[]
-    requiredBy: string[]
-    latestVersion?: string
     prettyName: string
+    packageBase: string
+    baseIndex: int
+    baseTotal: int
+    description: string
+    version: string
+    sourceVersion: string
+    release: string
+    epoch: string
+    latestVersion?: string
+    homepage: string
+    priority: string
+    architectures: string[]
+    license: string[]
+    gives: ArchDistroString
+    runtimeDependencies: ArchDistroString[]
+    checkDependencies: ArchDistroString[]
+    buildDependencies: ArchDistroString[]
+    optionalDependencies: ArchDistroString[]
+    pacstallDependencies: ArchDistroString[]
+    checkConflicts: ArchDistroString[]
+    buildConflicts: ArchDistroString[]
+    conflicts: ArchDistroString[]
+    provides: ArchDistroString[]
+    breaks: ArchDistroString[]
+    replaces: ArchDistroString[]
+    enhances: ArchDistroString[]
+    recommends: ArchDistroString[]
+    suggests: ArchDistroString[]
+    mask: string[]
+    compatible: string[]
+    incompatible: string[]
+    maintainers: string[]
+    source: ArchDistroString[]
+    noExtract: string[]
+    noSubmodules: string[]
+    md5sums: ArchDistroString[]
+    sha1sums: ArchDistroString[]
+    sha224sums: ArchDistroString[]
+    sha256sums: ArchDistroString[]
+    sha384sums: ArchDistroString[]
+    sha512sums: ArchDistroString[]
+    backup: string[]
+    repology: string[]
+    requiredBy: string[]
     updateStatus: UpdateStatus
+    lastUpdatedAt: string
+}
+
+export interface ArchDistroString {
+    arch?: string
+    distro?: string
+    value: string
 }
 
 export enum UpdateStatus {

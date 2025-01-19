@@ -56,6 +56,6 @@ func serveIndexHtml(w http.ResponseWriter, r *http.Request, staticPath string) {
 
 	w.Header().Add("Content-Type", "text/html")
 	if template.Execute(w, templateData) != nil {
-		http.Error(w, "Could not execute template", http.StatusInternalServerError)
+		http.Error(w, "could not execute template", http.StatusInternalServerError)
 	}
 }

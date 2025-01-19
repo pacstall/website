@@ -13,10 +13,10 @@ jobs:
       packages: write
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3.5.2
+      uses: actions/checkout@v4.2.2
 
     - name: Login to GitHub Container Registry
-      uses: docker/login-action@v2
+      uses: docker/login-action@v3
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
@@ -24,7 +24,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build --build-arg version="${{ github.event.inputs.version }}" --no-cache -t webserver .
+        docker build --build-arg VITE_VERSION="${{ github.event.inputs.version }}" --no-cache -t webserver .
         docker tag webserver "ghcr.io/pacstall/webserver:${{ github.event.inputs.version }}"
         docker tag webserver ghcr.io/pacstall/webserver:latest
 

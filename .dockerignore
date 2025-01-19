@@ -1,4 +1,4 @@
-./client/node_modules
-./server/dist
-./server/programs
-./server/tmp
+./client/node_modules/
+./server/dist/
+./server/programs/
+./server/tmp/

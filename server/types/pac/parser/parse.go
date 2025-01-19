@@ -1,16 +1,17 @@
 package parser
 
 import (
-	"fmt"
 	"os"
 	"path"
 	"strings"
 
+	"github.com/joomcode/errorx"
 	"pacstall.dev/webserver/config"
+	"pacstall.dev/webserver/consts"
 	"pacstall.dev/webserver/log"
 	"pacstall.dev/webserver/repology"
 	"pacstall.dev/webserver/types"
-	"pacstall.dev/webserver/types/list"
+	"pacstall.dev/webserver/types/array"
 	"pacstall.dev/webserver/types/pac"
 	"pacstall.dev/webserver/types/pac/pacstore"
 	"pacstall.dev/webserver/types/pac/parser/git"
@@ -20,29 +21,57 @@ import (
 )
 
 const PACKAGE_LIST_FILE_NAME = "./packagelist"
+const MAX_GIT_VERSION_CONCURRENCY = 5
 
-func ParseAll() {
-	if err := git.RefreshPrograms(config.GitClonePath, config.GitURL); err != nil {
-		log.Fatal("Could not update repository 'pacstall-programs'. %v", err)
+func ParseAll() error {
+	if err := git.RefreshPrograms(config.GitClonePath, config.GitURL, config.PacstallPrograms.Branch); err != nil {
+		return errorx.Decorate(err, "could not update repository 'pacstall-programs'")
 	}
 
 	pkgList, err := readKnownPacscriptNames()
 	if err != nil {
-		log.Fatal("Failed to parse packagelist. %v", err)
+		return errorx.Decorate(err, "failed to parse packagelist")
 	}
 
-	loadedPacscripts := list.From(parsePacscriptFiles(pkgList)).MapExt(func(p *pac.Script, scripts list.List[*pac.Script]) *pac.Script {
-		return computeRequiredBy(*p, scripts)
-	}).SortBy(func(s1, s2 *pac.Script) bool {
-		return s1.Name < s2.Name
+	loadedPacscripts, err := parsePacscriptFiles(pkgList)
+	if err != nil {
+		return errorx.Decorate(err, "failed to parse pacscripts")
+	}
+
+	log.Info("pacscript parsing done. computing dependency graph")
+
+	for _, script := range loadedPacscripts {
+		computeRequiredBy(script, loadedPacscripts)
+	}
+
+	array.SortBy(loadedPacscripts, func(s1, s2 *pac.Script) bool {
+		return s1.PackageName < s2.PackageName
 	})
 
+	log.Info("dependency graph done. setting up git updated-at dates")
+
+	if err := setLastUpdatedAt(loadedPacscripts); err != nil {
+		return errorx.Decorate(err, "failed to set last updated at")
+	}
+
+	log.Info("updated-at dates done. fetching git versions")
+
+	gitPacscripts := array.Filter(loadedPacscripts, func(it *array.Iterator[*pac.Script]) bool {
+		return strings.HasSuffix(it.Value.PackageName, string(types.PACKAGE_TYPE_SUFFIX_GIT))
+	})
+
+	channels.Exhaust(batch.Run(MAX_GIT_VERSION_CONCURRENCY, gitPacscripts, func(p *pac.Script) (interface{}, error) {
+		err := pacsh.ApplyGitVersion(p)
+		return nil, err
+	}))
+
 	pacstore.Update(loadedPacscripts)
-	log.Info("Successfully parsed %v (%v / %v) packages", types.Percent(float64(len(loadedPacscripts))/float64(pkgList.Len())), loadedPacscripts.Len(), pkgList.Len())
-	log.Notify("Successfully parsed %v (%v / %v) packages", types.Percent(float64(len(loadedPacscripts))/float64(pkgList.Len())), loadedPacscripts.Len(), pkgList.Len())
+	log.Info("successfully loaded %v packages from %v pacscripts", len(loadedPacscripts), len(pkgList))
+
+	return nil
 }
 
-func readKnownPacscriptNames() (list.List[string], error) {
+func readKnownPacscriptNames() ([]string, error) {
 	pkglistPath := path.Join(config.GitClonePath, PACKAGE_LIST_FILE_NAME)
 	bytes, err := os.ReadFile(pkglistPath)
 	if err != nil {
@@ -50,75 +79,69 @@ func readKnownPacscriptNames() (list.List[string], error) {
 	}
 
 	names := strings.Split(strings.TrimSpace(string(bytes)), "\n")
-	for idx := range names {
-		names[idx] = strings.TrimSpace(names[idx])
-	}
+	var filteredNames []string
 
-	return names, nil
+    for idx := range names {
+        names[idx] = strings.TrimSpace(names[idx])
+
+		if strings.HasSuffix(names[idx], ":pkgbase") {
+            filteredNames = append(filteredNames, strings.TrimSuffix(names[idx], ":pkgbase"))
+        } else if !strings.Contains(names[idx], ":") {
+            filteredNames = append(filteredNames, names[idx])
+        }
+    }
+
+    return filteredNames, nil
 }
 
-func parsePacscriptFiles(names []string) []*pac.Script {
+func parsePacscriptFiles(names []string) ([]*pac.Script, error) {
 	if err := pacsh.CreateTempDirectory(config.TempDir); err != nil {
-		log.Error("Failed to create temporary directory. %v", err)
-		return nil
+		return nil, errorx.Decorate(err, "failed to create temporary directory")
 	}
 
-	log.Info("Parsing pacscripts...")
-	outChan := batch.Run(int(config.MaxOpenFiles), names, func(pacName string) (*pac.Script, error) {
-		out, err := parsePacscriptFile(config.GitClonePath, pacName)
-		if err != nil {
-			log.Warn("Failed to parse %v. err: %v", pacName, err)
+	log.Info("parsing pacscripts...")
+	outChan := batch.Run(int(config.MaxOpenFiles), names, func(pacName string) ([]*pac.Script, error) {
+		out, err := ParsePacscriptFile(config.GitClonePath, pacName)
+
+		if config.Repology.Enabled {
+			for _, script := range out {
+		        if err := repology.Sync(script); err != nil {
+		            log.Debug("failed to sync %v with repology. Error: %+v", pacName, err)
+		        }
+		    }
 		}
-		return &out, err
+
+		return out, err
 	})
+    results := channels.ToSlice(outChan)
+    var allScripts []*pac.Script
+    for _, scripts := range results {
+        allScripts = append(allScripts, scripts...)
+    }
 
-	results := channels.ToSlice(outChan)
-
-	if !config.Repology.Enabled {
-		return results
-	}
-
-	repologySync := repology.NewSyncer(15)
-	log.Info("Syncing pacscripts with repology...")
-
-	for _, result := range results {
-		if err := repologySync(result); err != nil {
-			log.Warn("Failed to sync %v. err: %v", result.Name, err)
-		}
-	}
-
-	return results
+    return allScripts, nil
 }
 
 func readPacscriptFile(rootDir, name string) (scriptBytes []byte, fileName string, err error) {
-	fileName = fmt.Sprintf("%v.pacscript", name)
-	scriptPath := path.Join(rootDir, "packages", name, fileName)
+	scriptPath := path.Join(rootDir, "packages", name, consts.SRCINFO_FILE_EXTENSION)
 	scriptBytes, err = os.ReadFile(scriptPath)
 
 	if err != nil {
-		log.Error("Failed to read package pacsh '%v'\n%v", scriptPath, err)
-		return
+		return nil, "", errorx.Decorate(err, "failed to read file '%v'", scriptPath)
 	}
 
-	return scriptBytes, fileName, nil
+	return scriptBytes, consts.SRCINFO_FILE_EXTENSION, nil
 }
 
-func parsePacscriptFile(programsDirPath, name string) (pac.Script, error) {
-	pacshell, filename, err := readPacscriptFile(programsDirPath, name)
+func ParsePacscriptFile(programsDirPath, name string) ([]*pac.Script, error) {
+	srcInfoData, _, err := readPacscriptFile(programsDirPath, name)
 	if err != nil {
-		return pac.Script{}, err
+		return nil, errorx.Decorate(err, "failed to read pacscript '%v'", name)
 	}
 
-	pacshell = buildCustomFormatScript(pacshell)
-
-	stdout, err := pacsh.ExecBash(config.TempDir, filename, pacshell)
+	pacscript, err := pacsh.ParsePacOutput(srcInfoData)
 	if err != nil {
-		return pac.Script{}, err
-	}
-
-	pacscript, err := pacsh.ParsePacOutput(stdout)
-	if err != nil {
-		return pac.Script{}, fmt.Errorf("failed to parse pacscript %v. err: %v", name, err)
+		return nil, errorx.Decorate(err, "failed to parse pacscript '%v'", name)
 	}
 
 	return pacscript, nil

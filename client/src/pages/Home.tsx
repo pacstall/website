@@ -6,6 +6,7 @@ import {
     Stack,
     Text,
     useBreakpointValue,
+    useColorMode,
 } from '@chakra-ui/react'
 import { FC } from 'react'
 import Card from '../components/Card'
@@ -18,6 +19,7 @@ import { Trans, useTranslation } from 'react-i18next'
 
 const Home: FC = () => {
     const { t } = useTranslation()
+    const { colorMode } = useColorMode()
     return (
         <>
             <Helmet>
@@ -98,12 +100,30 @@ const Home: FC = () => {
                     <Heading size={'lg'} mb='3' mt='10'>
                         {t('home.showcase.title')}
                     </Heading>
-                    <AsciinemaFrame autoplay loop id='538264' />
+                    <AsciinemaFrame
+                        autoPlay={true}
+                        loop={true}
+                        src='/showcase.cast'
+                        preload={true}
+                        terminalFontFamily='FiraCodeNF'
+                        terminalfontSize='13'
+                        theme={colorMode === 'light' ? 'glitter' : 'sparkle'}
+                        rows='32'
+                    />
 
                     <Heading size={'lg'} mb='3'>
                         {t('home.showcase.packageSearch')}
                     </Heading>
-                    <AsciinemaFrame id='538265' />
+                    <AsciinemaFrame
+                        autoPlay={true}
+                        loop={true}
+                        src='/search.cast'
+                        preload={true}
+                        terminalFontFamily='FiraCodeNF'
+                        terminalfontSize='13'
+                        theme={colorMode === 'light' ? 'glitter' : 'sparkle'}
+                        rows='32'
+                    />
 
                     <Stack justify='center'>
                         <Image

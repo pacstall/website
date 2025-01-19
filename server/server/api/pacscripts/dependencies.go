@@ -5,17 +5,17 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"pacstall.dev/webserver/log"
 	"pacstall.dev/webserver/server"
+	"pacstall.dev/webserver/types/array"
 	"pacstall.dev/webserver/types/pac"
 	"pacstall.dev/webserver/types/pac/pacstore"
 )
 
 type pacscriptDependencies struct {
-	RuntimeDependencies  []string      `json:"runtimeDependencies"`
-	BuildDependencies    []string      `json:"buildDependencies"`
-	OptionalDependencies []string      `json:"optionalDependencies"`
-	PacstallDependencies []*pac.Script `json:"pacstallDependencies"`
+	RuntimeDependencies  []pac.ArchDistroString `json:"runtimeDependencies"`
+	BuildDependencies    []pac.ArchDistroString `json:"buildDependencies"`
+	OptionalDependencies []pac.ArchDistroString `json:"optionalDependencies"`
+	PacstallDependencies []pac.ArchDistroString `json:"pacstallDependencies"`
 }
 
 func GetPacscriptDependenciesHandle(w http.ResponseWriter, req *http.Request) {
@@ -35,26 +35,20 @@ func GetPacscriptDependenciesHandle(w http.ResponseWriter, req *http.Request) {
 
 	allPacscripts := pacstore.GetAll()
 
-	pacpkg, err := allPacscripts.FindByName(name)
+	pacpkg, err := array.FindBy(allPacscripts, func(s *pac.Script) bool {
+		return s.PackageName == name
+	})
+
 	if err != nil {
 		w.WriteHeader(404)
 		return
-	}
-
-	pacstallDependencies := make([]*pac.Script, 0)
-	for _, pkg := range pacpkg.PacstallDependencies {
-		if found, err := pacstore.GetAll().FindBy(func(pi *pac.Script) bool { return pkg == pi.Name }); err == nil {
-			pacstallDependencies = append(pacstallDependencies, found)
-		} else {
-			log.Error("Could not find pacstall dependency %s of package %s.\n", pkg, pacpkg.Name)
-		}
 	}
 
 	response := pacscriptDependencies{
 		RuntimeDependencies:  pacpkg.RuntimeDependencies,
 		BuildDependencies:    pacpkg.BuildDependencies,
 		OptionalDependencies: pacpkg.OptionalDependencies,
-		PacstallDependencies: pacstallDependencies,
+		PacstallDependencies: pacpkg.PacstallDependencies,
 	}
 
 	server.Json(w, response)

@@ -26,7 +26,7 @@ type packageListPage struct {
 
 func GetPacscriptListHandle(w http.ResponseWriter, req *http.Request) {
 
-	packages := pacstore.GetAll().ToSlice()
+	packages := pacstore.GetAll()
 	params, err := query.
 		New(req).
 		OptionalInt(parser.PageKey, 0).

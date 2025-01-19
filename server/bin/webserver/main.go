@@ -7,6 +7,7 @@ import (
 	"github.com/fatih/color"
 	"pacstall.dev/webserver/config"
 	"pacstall.dev/webserver/log"
+	"pacstall.dev/webserver/repology"
 	"pacstall.dev/webserver/server"
 	ps_api "pacstall.dev/webserver/server/api/pacscripts"
 	repology_api "pacstall.dev/webserver/server/api/repology"
@@ -54,27 +55,30 @@ func main() {
 	}
 
 	startedAt := time.Now()
-	port := config.Port
-	refreshTimer := config.UpdateInterval
 
 	printLogo()
 
 	setupRequests()
-	log.Info("Registered http requests")
+	log.Info("registered http requests")
 
-	log.Info("Attempting to start TCP listener")
+	log.Info("attempting to start TCP listener")
 
 	server.OnServerOnline(func() {
-		log.NotifyCustom("🚀 Startup 🧑‍🚀", "Successfully started up.")
-		log.Info("Server is now online on port %v.\n", port)
+		log.NotifyCustom("🚀 Startup 🧑‍🚀", "successfully started up.")
+		log.Info("server is now online on port %v.\n", config.Port)
 
-		log.Info("Booted in %v\n", color.GreenString("%v", time.Since(startedAt)))
+		log.Info("booted in %v\n", color.GreenString("%v", time.Since(startedAt)))
 
-		log.Info("Attempting to parse existing pacscripts")
-		parser.ParseAll()
-		parser.ScheduleRefresh(refreshTimer)
-		log.Info("Scheduled pacscripts to auto-refresh every %v", refreshTimer)
+		parser.ScheduleRefresh(config.UpdateInterval)
+		log.Info("scheduled pacscripts to auto-refresh every %v", config.UpdateInterval)
+
+		if config.Repology.Enabled {
+			repology.ScheduleRefresh(config.RepologyUpdateInterval)
+			log.Info("scheduled repology to auto-refresh every %v", config.RepologyUpdateInterval)
+		} else {
+			log.Warn("repository repology is disabled")
+		}
 	})
 
-	server.Listen(port)
+	server.Listen(config.Port)
 }

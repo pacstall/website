@@ -31,8 +31,8 @@ const SemanticVersionColor: FC<{
         status !== UpdateStatus.Unknown
             ? versionTooltip[status]
             : git
-            ? 'packageSearch.versionTooltip.isGit'
-            : versionTooltip[UpdateStatus.Unknown]
+              ? 'packageSearch.versionTooltip.isGit'
+              : versionTooltip[UpdateStatus.Unknown]
 
     return (
         <Tooltip openDelay={500} label={t(tooltip)}>

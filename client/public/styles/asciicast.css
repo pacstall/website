@@ -1,0 +1,33 @@
+/* Dark theme */
+.asciinema-player-theme-sparkle {
+    --term-color-foreground: #ffffff;
+    --term-color-background: #1a202c;
+
+    --term-color-0: #ffffff;
+    --term-color-1: #f56565;
+    --term-color-2: #9ae6b4;
+    --term-color-3: #f6e05e;
+    --term-color-4: #63b3ed;
+    --term-color-5: #b794f4;
+    --term-color-6: #76e4f7;
+    --term-color-7: #171923;
+}
+
+/* Light theme */
+.asciinema-player-theme-glitter {
+    /* Foreground (default text) color */
+    --term-color-foreground: #1a202c;
+
+    /* Background color */
+    --term-color-background: #ffffff;
+
+    /* Palette of 16 standard ANSI colors */
+    --term-color-0: #171923;
+    --term-color-1: #f56565;
+    --term-color-2: #9ae6b4;
+    --term-color-3: #f6e05e;
+    --term-color-4: #63b3ed;
+    --term-color-5: #b794f4;
+    --term-color-6: #76e4f7;
+    --term-color-7: #ffffff;
+}

@@ -1,7 +1,7 @@
-FROM node:20-alpine AS client
+FROM node:22-alpine AS client
 
-ARG VERSION
-ENV VERSION="${VERSION}"
+ARG VITE_VERSION
+ENV VITE_VERSION="${VITE_VERSION}"
 ENV NODE_ENV="production"
 
 WORKDIR /root/
@@ -10,10 +10,10 @@ COPY ./client ./client
 COPY ./Makefile ./Makefile
 
 RUN apk add --no-cache make
-RUN make VERSION=${VERSION} client/dist
+RUN make VITE_VERSION=${VITE_VERSION} client/dist
 
 
-FROM golang:1.20-alpine AS server
+FROM golang:1.23-alpine AS server
 WORKDIR /root/
 
 COPY ./server ./server
@@ -22,7 +22,7 @@ COPY ./Makefile ./Makefile
 RUN apk add --no-cache make gcc musl-dev
 RUN make server/dist
 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 WORKDIR /root/
 
 RUN apt update
@@ -32,7 +32,7 @@ COPY --from=client /root/client/dist/ /root/client/dist/
 COPY --from=server /root/server/dist/ /root/server/dist/
 COPY ./Makefile ./Makefile
 
-RUN apt update && apt install make git -y
+RUN apt update && apt install make git jq -y
 
 RUN make dist \
     && rm -rf server client
@@ -40,7 +40,6 @@ RUN make dist \
 WORKDIR /root/dist/
 
 RUN ls -al /root/dist
-
 
 CMD echo "Starting webserver in a few seconds..." && sleep 3 && "./webserver"
 EXPOSE 3300

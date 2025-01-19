@@ -41,7 +41,7 @@ func Listen(port int) {
 	if config.Production {
 		path, err := filepath.Abs(config.PublicDir)
 		if err != nil {
-			log.Fatal("failed to find client public dir at path '%s'. err: %v", config.PublicDir, err)
+			log.Fatal("failed to find client public dir at path '%s'. err: %+v", config.PublicDir, err)
 		}
 
 		Router().PathPrefix("/").Handler(spaHandler{staticPath: path})
@@ -57,18 +57,18 @@ func Listen(port int) {
 	err := serverInstance.ListenAndServe()
 
 	if errors.Is(err, http.ErrServerClosed) {
-		log.Info("Http server stopped")
+		log.Info("http server stopped")
 	} else {
-		log.Fatal("Could not start TCP listener on port %v. Got error: %v\n", port, err)
+		log.Fatal("could not start TCP listener on port %v. Got error: %+v\n", port, err)
 	}
 }
 
 func Shutdown() {
 	if serverInstance == nil {
-		log.Info("Server instance is already down")
+		log.Info("server instance is already down")
 	}
 
 	ctx := context.Background()
 	serverInstance.Shutdown(ctx)
-	log.Info("Gracefully shutting down the http server")
+	log.Info("gracefully shutting down the http server")
 }

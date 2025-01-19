@@ -23,7 +23,9 @@ const PackageRequiredByModal: FC<{ name: string } & UseDisclosureProps> = ({
     const { data, loading, error } = usePackageRequiredBy(name)
     const { t } = useTranslation()
 
-    const ComputedPackageList = () => <MinimalPackageTable packages={data} />
+    const ComputedPackageList = () => (
+        <MinimalPackageTable packages={data} type='requiredBy' />
+    )
 
     return (
         <Modal scrollBehavior='inside' isOpen={isOpen!} onClose={onClose!}>

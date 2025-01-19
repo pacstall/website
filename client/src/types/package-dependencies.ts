@@ -1,8 +1,8 @@
-import PackageInfo from './package-info'
+import PackageInfo, { ArchDistroString } from './package-info'
 
 export default interface PackageDependencies {
-    runtimeDependencies: (PackageInfo | string)[]
-    buildDependencies: (PackageInfo | string)[]
-    optionalDependencies: (PackageInfo | string)[]
-    pacstallDependencies: (PackageInfo | string)[]
+    runtimeDependencies: (ArchDistroString | string)[]
+    buildDependencies: (ArchDistroString | string)[]
+    optionalDependencies: (ArchDistroString | string)[]
+    pacstallDependencies: (ArchDistroString | string)[]
 }

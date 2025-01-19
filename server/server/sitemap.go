@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"pacstall.dev/webserver/types/pac/pacstore"
 )
@@ -10,6 +11,7 @@ import (
 type SitemapEntry struct {
 	Location        string
 	ChangeFrequency string
+	LastUpdated     *string
 }
 
 func registerSiteMap() {
@@ -38,13 +40,15 @@ func generateStaticSiteMap() []SitemapEntry {
 }
 
 func generateDynamicSiteMap() []SitemapEntry {
-	packages := pacstore.GetAll().ToSlice()
+	packages := pacstore.GetAll()
 	entries := make([]SitemapEntry, len(packages))
 
 	for idx, pkg := range packages {
+        lastUpdated := pkg.LastUpdatedAt.Format(time.RFC3339)
 		entries[idx] = SitemapEntry{
-			Location:        fmt.Sprintf("https://pacstall.dev/packages/%s/", pkg.Name),
+			Location:        fmt.Sprintf("https://pacstall.dev/packages/%s/", pkg.PackageName),
 			ChangeFrequency: "monthly",
+			LastUpdated:     &lastUpdated,
 		}
 	}
 
@@ -52,11 +56,16 @@ func generateDynamicSiteMap() []SitemapEntry {
 }
 
 func (entry SitemapEntry) generateSiteMapUrls() string {
-	return fmt.Sprintf(`
-	<url>
-		<loc>%s</loc>
-		<changefreq>%s</changefreq>
-	</url>`, entry.Location, entry.ChangeFrequency)
+	return fmt.Sprintf(`<url>
+	<loc>%s</loc>
+	<changefreq>%s</changefreq>
+    %s
+</url>`, entry.Location, entry.ChangeFrequency, func() string {
+		if entry.LastUpdated != nil {
+			return fmt.Sprintf("<lastmod>%s</lastmod>", *entry.LastUpdated)
+		}
+		return ""
+	}())
 }
 
 func generateSiteMapXML() string {
@@ -68,10 +77,9 @@ func generateSiteMapXML() string {
 		urls += entry.generateSiteMapUrls() + "\n"
 	}
 
-	return fmt.Sprintf(`
-	<?xml version="1.0" encoding="UTF-8"?>
-	<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-		%s	
-	</urlset> 
+	return fmt.Sprintf(`<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	%s
+</urlset>
 	`, urls)
 }
