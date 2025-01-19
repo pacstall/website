@@ -10,6 +10,7 @@ import ptbrLocale from './pt-BR.locale'
 import ptptLocale from './pt-PT.locale'
 import plLocale from './pl-PL.locale'
 import svLocale from './sv-SE.locale'
+import hiLocale from './hi-IN.locale'
 import itLocale from './it-IT.locale'
 import frLocale from './fr-FR.locale'
 import deLocale from './de-DE.locale'
@@ -182,6 +183,9 @@ export const translations = {
     sv: {
         translation: svLocale,
     },
+    'hi-IN': {
+        translation: hiLocale,
+    },
     it: {
         translation: itLocale,
     },
@@ -235,6 +239,7 @@ export const localeFlags: Record<keyof typeof translations, string> = {
     de: 'DE 🇩🇪',
     es: 'ES 🇪🇸',
     fr: 'FR 🇫🇷',
+    'hi-IN': 'HI 🇮🇳',
     id: 'ID 🇮🇩',
     it: 'IT 🇮🇹',
     nl: 'NL 🇳🇱',
