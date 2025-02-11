@@ -419,10 +419,6 @@ const NAV_ITEMS: Array<NavItem> = [
                 href: 'https://discord.com/invite/sWB6YtKyvW',
             },
             {
-                label: 'navbar.social.matrix',
-                href: 'https://matrix.to/#/#pacstall:matrix.org',
-            },
-            {
                 label: 'navbar.social.lemmy',
                 href: 'https://lemmy.ml/c/pacstall',
             },
