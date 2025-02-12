@@ -13,7 +13,7 @@ RUN apk add --no-cache make
 RUN make VITE_VERSION=${VITE_VERSION} client/dist
 
 
-FROM golang:1.23-alpine AS server
+FROM golang:1.24-alpine AS server
 WORKDIR /root/
 
 COPY ./server ./server
