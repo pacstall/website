@@ -13,6 +13,12 @@ services:
     ports:
       - target: 3306
         published: 3306
+
+  color:
+    image: ghcr.io/pacstall/pac-color:master
+    ports:
+      - target: 8000
+        published: 8000
     
   webserver:
     image: ghcr.io/pacstall/webserver:latest
