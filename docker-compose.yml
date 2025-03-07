@@ -14,12 +14,27 @@ services:
       - target: 3306
         published: 3306
 
+  # Used live at `https://colors.pacstall.dev`
   color:
     image: ghcr.io/pacstall/pac-color:master
     ports:
       - target: 8000
         published: 8000
     
+  # Used live at `https://swagger.pacstall.dev`
+  swagger:
+    image: docker.swagger.io/swaggerapi/swagger-ui
+    depends_on:
+      - webserver
+    environment:
+      SWAGGER_JSON: /oas/pacstall-api-1.0.0.yaml
+    ports:
+      - target: 8080
+        published: 6942
+    volumes:
+      - swagger_bridge:/oas
+
+  # Used live at `https://pacstall.dev`
   webserver:
     image: ghcr.io/pacstall/webserver:latest
     depends_on:
@@ -28,6 +43,8 @@ services:
     ports:
       - target: 3300
         published: 3300
+    volumes:
+      - swagger_bridge:/root/dist/public
     logging:
       driver: "json-file"
       options:
@@ -48,6 +65,7 @@ services:
       MATOMO_SITE_ID: "1"
       PACSTALL_PROGRAMS_GIT_BRANCH: "master"
         
+  # Used live at `https://pacstall.dev/matomo`
   matomo:
     image: matomo
     volumes:
@@ -66,3 +84,5 @@ services:
 volumes:
   db:
   matomo:
+  swagger_bridge:
+    driver: local
