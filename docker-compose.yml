@@ -27,7 +27,7 @@ services:
     depends_on:
       - webserver
     environment:
-      SWAGGER_JSON: /oas/pacstall-api-1.0.0.yaml
+      SWAGGER_JSON: /oas/api-spec.yaml
     ports:
       - target: 8080
         published: 6942

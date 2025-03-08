@@ -30,6 +30,7 @@ type UpdateStatusValue = int
 type ArchDistroString struct {
 	Arch   string `json:"arch,omitempty"`
 	Distro string `json:"distro,omitempty"`
+	Dest   string `json:"dest,omitempty"`
 	Value  string `json:"value"`
 }
 
@@ -260,10 +261,12 @@ func toArchDistroString(ads srcinfo.ArchDistroString) ArchDistroString {
 
 func toSourceStrings(ads []srcinfo.ArchDistroString) []ArchDistroString {
 	return array.SwitchMap(ads, func(it *array.Iterator[srcinfo.ArchDistroString]) ArchDistroString {
+		source, dest := extractSource(it.Value.Value)
 		return ArchDistroString{
 			Arch:   it.Value.Arch,
 			Distro: it.Value.Distro,
-			Value:  extractSourceUrl(it.Value.Value),
+			Dest: 	dest,
+			Value:  source,
 		}
 	})
 }
@@ -276,10 +279,10 @@ func orEmptyArray[T interface{}](items []T) []T {
 	return items
 }
 
-func extractSourceUrl(source string) string {
+func extractSource(source string) (string, string) {
 	parts := strings.Split(source, "::")
 	if len(parts) > 1 {
-		return parts[1]
+		return parts[1], parts[0]
 	}
-	return parts[0]
+	return parts[0], ""
 }

@@ -53,6 +53,7 @@ export default interface PackageInfo {
 export interface ArchDistroString {
     arch?: string
     distro?: string
+    dest?: string
     value: string
 }
 
