@@ -1,6 +1,6 @@
 openapi: 3.0.0
 servers:
-  - url: '/api'
+  - url: 'https://pacstall.dev/api'
     description: Production
 info:
   description: This document represents the specification of Pacstall's API
