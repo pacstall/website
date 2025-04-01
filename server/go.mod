@@ -1,8 +1,7 @@
 module pacstall.dev/webserver
 
 go 1.22.2
-
-toolchain go1.24.2
+toolchain go1.24.1
 
 require (
 	github.com/fatih/color v1.18.0 // for colorizing output
@@ -21,7 +20,7 @@ require (
 
 require (
 	github.com/gorilla/websocket v1.5.3 // indirect
-	golang.org/x/crypto v0.32.0 // indirect
+	golang.org/x/crypto v0.35.0 // indirect
 )
 
 require (
@@ -32,7 +31,7 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
-	golang.org/x/net v0.34.0 // indirect
+	golang.org/x/net v0.36.0 // indirect
 	golang.org/x/sys v0.30.0 // indirect
 	golang.org/x/text v0.22.0 // indirect
 )
