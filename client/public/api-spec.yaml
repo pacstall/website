@@ -456,8 +456,10 @@ components:
           type: string
           example: 'Helper application for Linux distributions.'
         url:
-          type: string
-          example: 'https://sources.example.com/node/16.0.1/installer.deb'
+          type: array
+          items:
+            $ref: '#/components/schemas/ArchDistroString'
+          example: [{'value': 'https://sources.example.com/node/16.0.1/installer.deb'}]
         recipeUrl:
           type: string
           example: 'https://raw.githubusercontent.com/pacstall/pacstall-programs/master/packages/nodejs-lts-deb/nodejs-lts-deb.pacscript'
