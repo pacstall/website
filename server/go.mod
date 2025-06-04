@@ -1,7 +1,6 @@
 module pacstall.dev/webserver
 
 go 1.22.2
-
 toolchain go1.24.3
 
 require (
@@ -21,7 +20,7 @@ require (
 
 require (
 	github.com/gorilla/websocket v1.5.3 // indirect
-	golang.org/x/crypto v0.32.0 // indirect
+	golang.org/x/crypto v0.35.0 // indirect
 )
 
 require (
