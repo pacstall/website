@@ -15,7 +15,7 @@ require (
 	github.com/joomcode/errorx v1.2.0
 	github.com/pacstall/go-srcinfo v0.0.0-20241108210032-cd3b76a984ca
 	github.com/treelightsoftware/go-matomo v0.1.0-beta
-	gorm.io/driver/mysql v1.5.7
+	gorm.io/driver/mysql v1.6.0
 	gorm.io/gorm v1.30.0
 )
 
