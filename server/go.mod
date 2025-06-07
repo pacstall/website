@@ -2,7 +2,7 @@ module pacstall.dev/webserver
 
 go 1.22.2
 
-toolchain go1.24.3
+toolchain go1.24.4
 
 require (
 	github.com/fatih/color v1.18.0 // for colorizing output
