@@ -13,30 +13,25 @@ type maintainerDetails struct {
 }
 
 type repologyPackage struct {
-	Name              string            `json:"name"`
-	VisibleName       string            `json:"visibleName"`
-	Description       string            `json:"description"`
-	Maintainer        maintainerDetails `json:"maintainer"`
-	Version           string            `json:"version"`
-	URL               *string           `json:"url"`
-	RecipeURL         string            `json:"recipeUrl"`
-	PackageDetailsURL string            `json:"packageDetailsUrl"`
-	Type              string            `json:"type"`
+	Name              string                 `json:"name"`
+	VisibleName       string                 `json:"visibleName"`
+	Description       string                 `json:"description"`
+	Maintainer        maintainerDetails      `json:"maintainer"`
+	Version           string                 `json:"version"`
+	URL               []pac.ArchDistroString `json:"url"`
+	RecipeURL         string                 `json:"recipeUrl"`
+	PackageDetailsURL string                 `json:"packageDetailsUrl"`
+	Type              string                 `json:"type"`
 }
 
 func newRepologyPackage(p *pac.Script) repologyPackage {
-	var source *string = nil
-	if len(p.Source) > 0 {
-		source = &p.Source[0].Value
-	}
-
 	return repologyPackage{
 		Name:              p.PackageName,
 		VisibleName:       p.PrettyName,
 		Description:       p.Description,
 		Maintainer:        getMaintainer(p),
 		Version:           p.Version,
-		URL:               source,
+		URL:               p.Source,
 		Type:              string(p.Type()),
 		RecipeURL:         fmt.Sprintf("https://raw.githubusercontent.com/pacstall/pacstall-programs/master/packages/%s/%s.pacscript", p.PackageName, p.PackageName),
 		PackageDetailsURL: fmt.Sprintf("https://pacstall.dev/packages/%s", p.PackageName),
