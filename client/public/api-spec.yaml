@@ -473,7 +473,3 @@ components:
             - 'Debian Native'
             - 'AppImage'
             - 'Precompiled'
-        patches:
-          type: array
-          items:
-            type: string
