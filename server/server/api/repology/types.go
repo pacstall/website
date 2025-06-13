@@ -8,15 +8,15 @@ import (
 )
 
 type maintainerDetails struct {
-	Name  *string `json:"name"`
-	Email *string `json:"email"`
+	Name  *string `json:"name,omitempty"`
+	Email *string `json:"email,omitempty"`
 }
 
 type repologyPackage struct {
 	Name              string                 `json:"name"`
 	VisibleName       string                 `json:"visibleName"`
 	Description       string                 `json:"description"`
-	Maintainer        maintainerDetails      `json:"maintainer"`
+	Maintainer        []maintainerDetails    `json:"maintainer"`
 	Version           string                 `json:"version"`
 	URL               []pac.ArchDistroString `json:"url"`
 	RecipeURL         string                 `json:"recipeUrl"`
@@ -29,33 +29,31 @@ func newRepologyPackage(p *pac.Script) repologyPackage {
 		Name:              p.PackageName,
 		VisibleName:       p.PrettyName,
 		Description:       p.Description,
-		Maintainer:        getMaintainer(p),
+		Maintainer:        getMaintainers(p),
 		Version:           p.Version,
 		URL:               p.Source,
 		Type:              string(p.Type()),
-		RecipeURL:         fmt.Sprintf("https://raw.githubusercontent.com/pacstall/pacstall-programs/master/packages/%s/%s.pacscript", p.PackageName, p.PackageName),
+		RecipeURL:         fmt.Sprintf("https://raw.githubusercontent.com/pacstall/pacstall-programs/master/packages/%s/%s.pacscript", p.PackageBase, p.PackageBase),
 		PackageDetailsURL: fmt.Sprintf("https://pacstall.dev/packages/%s", p.PackageName),
 	}
 }
 
-func getMaintainer(p *pac.Script) maintainerDetails {
-	maintainer := ""
-	if len(p.Maintainers) > 0 {
-		maintainer = p.Maintainers[0]
-	}
+func getMaintainers(p *pac.Script) []maintainerDetails {
+	maintainers := make([]maintainerDetails, 0, len(p.Maintainers))
 
-	if !strings.Contains(maintainer, "<") {
-		return maintainerDetails{
-			Name: &maintainer,
+	for _, m := range p.Maintainers {
+		var name, email string
+		if i := strings.Index(m, "<"); i != -1 && strings.HasSuffix(m, ">") {
+			name = strings.TrimSpace(m[:i])
+			email = strings.TrimSpace(m[i+1 : len(m)-1])
+		} else {
+			name = strings.TrimSpace(m)
 		}
+		maintainers = append(maintainers, maintainerDetails{
+			Name:  &name,
+			Email: &email,
+		})
 	}
 
-	parts := strings.Split(maintainer, "<")
-	name := strings.TrimSpace(parts[0])
-	email := strings.TrimSpace(strings.Replace(parts[1], ">", "", -1))
-
-	return maintainerDetails{
-		Name:  &name,
-		Email: &email,
-	}
+	return maintainers
 }

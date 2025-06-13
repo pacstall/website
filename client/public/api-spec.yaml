@@ -443,15 +443,17 @@ components:
           type: string
           example: '16.0.1'
         maintainer:
-          type: object
-          properties:
-            name:
-              type: string
-              example: 'John Doe'
-            email:
-              type: string
-              nullable: true
-              example: 'john.doe@pacstall.dev'
+          type: array
+          description: 'Note that this array can be empty, indicating an orphaned package.'
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: 'John Doe'
+              email:
+                type: string
+                example: 'john.doe@pacstall.dev'
         description:
           type: string
           example: 'Helper application for Linux distributions.'
