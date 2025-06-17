@@ -1,6 +1,7 @@
 package pac
 
 import (
+	"fmt"
 	"strings"
 	"time"
 
@@ -148,7 +149,7 @@ func FromSrcInfo(info srcinfo.Srcinfo) []*Script {
 			Compatible:           orEmptyArray(info.Compatible),
 			Incompatible:         orEmptyArray(info.Incompatible),
 			Maintainers:          info.Maintainer,
-			Source:               toSourceStrings(info.Source),
+			Source:               toSourceStrings(info.Pkgbase, info.Source),
 			NoExtract:            orEmptyArray(info.NoExtract),
 			NoSubmodules:         orEmptyArray(info.NoSubmodules),
 			Md5Sums:              toArchDistroStrings(info.MD5Sums),
@@ -200,7 +201,7 @@ func FromSrcInfo(info srcinfo.Srcinfo) []*Script {
 			Compatible:           orEmptyArray(info.Compatible),
 			Incompatible:         orEmptyArray(info.Incompatible),
 			Maintainers:          info.Maintainer,
-			Source:               toSourceStrings(info.Source),
+			Source:               toSourceStrings(info.Pkgbase, info.Source),
 			NoExtract:            orEmptyArray(info.NoExtract),
 			NoSubmodules:         orEmptyArray(info.NoSubmodules),
 			Md5Sums:              toArchDistroStrings(info.MD5Sums),
@@ -259,9 +260,12 @@ func toArchDistroString(ads srcinfo.ArchDistroString) ArchDistroString {
 	}
 }
 
-func toSourceStrings(ads []srcinfo.ArchDistroString) []ArchDistroString {
+func toSourceStrings(pkgbase string, ads []srcinfo.ArchDistroString) []ArchDistroString {
 	return array.SwitchMap(ads, func(it *array.Iterator[srcinfo.ArchDistroString]) ArchDistroString {
 		source, dest := extractSource(it.Value.Value)
+		if !strings.Contains(source, "://") {
+			source = fmt.Sprintf("https://raw.githubusercontent.com/pacstall/pacstall-programs/master/packages/%s/%s", pkgbase, source)
+		}
 		return ArchDistroString{
 			Arch:   it.Value.Arch,
 			Distro: it.Value.Distro,
