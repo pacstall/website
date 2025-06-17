@@ -30,7 +30,7 @@ func newRepologyPackage(p *pac.Script) repologyPackage {
 		VisibleName:       p.PrettyName,
 		Description:       p.Description,
 		Maintainer:        getMaintainers(p),
-		Version:           p.Version,
+		Version:           p.SourceVersion,
 		URL:               p.Source,
 		Type:              string(p.Type()),
 		RecipeURL:         fmt.Sprintf("https://raw.githubusercontent.com/pacstall/pacstall-programs/master/packages/%s/%s.pacscript", p.PackageBase, p.PackageBase),
