@@ -457,12 +457,12 @@ components:
         description:
           type: string
           example: 'Helper application for Linux distributions.'
-        url:
+        source:
           type: array
           items:
             $ref: '#/components/schemas/ArchDistroString'
           example: [{'value': 'https://sources.example.com/node/16.0.1/installer.deb'}]
-        homepage:
+        url:
           type: string
           nullable: true
           example: 'https://foobar.com'
