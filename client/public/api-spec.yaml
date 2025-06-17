@@ -462,6 +462,10 @@ components:
           items:
             $ref: '#/components/schemas/ArchDistroString'
           example: [{'value': 'https://sources.example.com/node/16.0.1/installer.deb'}]
+        homepage:
+          type: string
+          nullable: true
+          example: 'https://foobar.com'
         recipeUrl:
           type: string
           example: 'https://raw.githubusercontent.com/pacstall/pacstall-programs/master/packages/nodejs-lts-deb/nodejs-lts-deb.pacscript'

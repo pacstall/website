@@ -19,12 +19,18 @@ type repologyPackage struct {
 	Maintainer        []maintainerDetails    `json:"maintainer"`
 	Version           string                 `json:"version"`
 	URL               []pac.ArchDistroString `json:"url"`
+	Homepage          *string                `json:"homepage"`
 	RecipeURL         string                 `json:"recipeUrl"`
 	PackageDetailsURL string                 `json:"packageDetailsUrl"`
 	Type              string                 `json:"type"`
 }
 
 func newRepologyPackage(p *pac.Script) repologyPackage {
+	var homepage *string
+	if p.Homepage != "" {
+		homepage = &p.Homepage
+	}
+
 	return repologyPackage{
 		Name:              p.PackageName,
 		VisibleName:       p.PrettyName,
@@ -32,6 +38,7 @@ func newRepologyPackage(p *pac.Script) repologyPackage {
 		Maintainer:        getMaintainers(p),
 		Version:           p.SourceVersion,
 		URL:               p.Source,
+		Homepage:          homepage,
 		Type:              string(p.Type()),
 		RecipeURL:         fmt.Sprintf("https://raw.githubusercontent.com/pacstall/pacstall-programs/master/packages/%s/%s.pacscript", p.PackageBase, p.PackageBase),
 		PackageDetailsURL: fmt.Sprintf("https://pacstall.dev/packages/%s", p.PackageName),
