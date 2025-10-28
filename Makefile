@@ -1,10 +1,10 @@
 VERSION="development"
 
-server/dist: $(shell find server -not \( -path server/tmp -prune \) -not \( -path server/dist -prune \) -type f)
+server/dist: $(shell find server -not \( -path server/tmp -prune \) -not \( -path server/dist -prune \) -type f 2>/dev/null)
 	which go
 	+$(MAKE) -s -C server
 
-client/dist: $(shell find client -not \( -path client/dist -prune \) -not \( -path client/.parcel-cache -prune \) -type f)
+client/dist: $(shell find client -not \( -path client/dist -prune \) -not \( -path client/.parcel-cache -prune \) -type f 2>/dev/null)
 	which node
 	+$(MAKE) -s -C client
 

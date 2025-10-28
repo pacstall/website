@@ -42,6 +42,6 @@
         "react-use-cookie": "^1.6.1",
         "recoil": "^0.7.7",
         "use-query-params": "^2.2.1",
-        "vite": "^6.1.0"
+        "vite": "^7.1.12"
     }
 }
