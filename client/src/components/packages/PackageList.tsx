@@ -5,8 +5,6 @@ import PackageTable from './PackageTable'
 import { Trans, useTranslation } from 'react-i18next'
 
 const PackageList: FC<{ data: PackageInfo[] }> = ({ data }) => {
-    const { t } = useTranslation()
-
     return (
         <Box mt='10'>
             <PackageTable packages={data} />
