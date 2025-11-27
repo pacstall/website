@@ -11,7 +11,7 @@ require (
 )
 
 require (
-	github.com/bwmarrin/discordgo v0.28.1
+	github.com/bwmarrin/discordgo v0.29.0
 	github.com/joomcode/errorx v1.2.0
 	github.com/pacstall/go-srcinfo v0.0.0-20241108210032-cd3b76a984ca
 	github.com/treelightsoftware/go-matomo v0.1.0-beta
