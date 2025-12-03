@@ -102,7 +102,7 @@ const Home: FC = () => {
                     </Heading>
                     <AsciinemaFrame
                         autoPlay={true}
-                        loop={true}
+                        loop={false}
                         src='/showcase.cast'
                         preload={true}
                         terminalFontFamily='FiraCodeNF'
@@ -116,7 +116,7 @@ const Home: FC = () => {
                     </Heading>
                     <AsciinemaFrame
                         autoPlay={true}
-                        loop={false}
+                        loop={true}
                         src='/search.cast'
                         preload={true}
                         terminalFontFamily='FiraCodeNF'
