@@ -116,7 +116,7 @@ const Home: FC = () => {
                     </Heading>
                     <AsciinemaFrame
                         autoPlay={true}
-                        loop={true}
+                        loop={false}
                         src='/search.cast'
                         preload={true}
                         terminalFontFamily='FiraCodeNF'
