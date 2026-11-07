@@ -22,7 +22,7 @@ COPY ./Makefile ./Makefile
 RUN apk add --no-cache make gcc musl-dev
 RUN make server/dist
 
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 WORKDIR /root/
 
 RUN apt update
