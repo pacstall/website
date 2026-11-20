@@ -8,22 +8,22 @@ export default <Locale>{
             whyDifferent: {
                 title: 'Vad är skillnaden mellan detta och alla andra pakethanterare?',
                 description:
-                    'Pacstall andvänder den stabilla grunden av Ubuntu men tillåter ' +
-                    'dig att andvända den senaste mjukvaran utan orsaker, så du behöver' +
-                    'inte oroa dig för säkerhetspatcher eller nya funktioner.',
+                    'Pacstall använder den stabilla grunden av Ubuntu men tillåter ' +
+                    'dig att använda den senaste mjukvaran med få till inga kompromisser, så du behöver ' +
+                    'inte oroa dig om att stå utan säkerhetspatcher eller nya funktioner.',
             },
             howItWorks: {
                 title: 'Hur funkar det då?',
                 description:
-                    ' Pacstall andvänder filer som kallas <0>pacscripts</0> (liknande' +
-                    ' PKGBUILDs) som har informationen som krävs för att bygga paketen,' +
-                    ' och bygger dem som körbara filer på ditt system.',
+                    ' Pacstall använder filer som kallas <0>pacscripts</0> (liknar' +
+                    ' PKGBUILDs) som har instruktioner för att bygga mjukvarupaket' +
+                    ' och sedan installera dem som exekverbara filer på ditt system.',
             },
         },
-        installationInstructions: 'Installation Instruktioner',
+        installationInstructions: 'Installationsguide',
         showcase: {
             title: 'Demonstration',
-            packageSearch: 'Sök för paket',
+            packageSearch: 'Sök efter paket',
         },
     },
     navbar: {
@@ -53,17 +53,17 @@ export default <Locale>{
     cookieConsent: {
         title: 'Cookiemeddelande TL;DR',
         paragraphs: [
-            'Hej, ja, vi andvänder cookies.',
-            'Vi tänker inte ge dig felaktig eller förvirrande information. Vi andvänder bara cookies för nödvändiga funktioner t.ex. temainställningar, lokalisering, och autentisering.',
+            'Hej, ja, vi använder cookies.',
+            'Vi tänker inte ge dig felaktig eller förvirrande information. Vi använder bara cookies för nödvändiga funktioner t.ex. temainställningar, lokalisering, och autentisering.',
             'Du kan läsa hela integritetspolicyn <0>här <1/></0>.',
-            'Med att fortsätta andvända vår site så <strong>ger du ditt samtycke till integritetspolicyn</strong>.',
+            'Genom att fortsätta använda vår hemsida så <strong>ger du ditt samtycke till integritetspolicyn</strong>.',
         ],
         accept: 'ok, coolt',
     },
     packageSearch: {
         dropdown: {
             package: 'Paket',
-            packageTooltip: 'Söker i paketnamn och beskrivningar',
+            packageTooltip: 'Söker efter paketnamn och beskrivningar',
             maintainer: 'Underhållare',
             maintainerTooltip: 'Söker efter underhållares namn och email',
         },
@@ -74,17 +74,17 @@ export default <Locale>{
             install: 'Installera',
         },
         versionTooltip: {
-            notInRegistry: 'Detta paket finns inte i Repology registret',
-            latest: 'Detta paket är den senaste versionen',
-            patch: 'Detta paket har en patchuppdatering tillgänglig',
-            minor: 'Detta paket har en liten uppdatering tillgänglig',
-            major: 'Detta paket har en stor uppdatering tillgänglig',
-            isGit: 'Detta paket är ett Git paket',
+            notInRegistry: 'Detta paket finns inte i Repologys databas',
+            latest: 'Det här paketet är den senaste versionen',
+            patch: 'Det här paketet har en patchuppdatering tillgänglig',
+            minor: 'Det här paketet har en liten uppdatering tillgänglig',
+            major: 'Det här paketet har en stor uppdatering tillgänglig',
+            isGit: 'Det här paketet är ett Git paket',
         },
         noResults:
             'Hittar du inte vad du letar efter? <0>Skicka en förfrågan!</0>',
         search: 'Sök',
-        orphaned: 'Oandvänd',
+        orphaned: 'Ej underhållen',
         maintainerTooltip: {
             maintainedBy: 'Detta paket underhålls av {{ name }}',
             noMaintainer: 'Detta paket har ingen underhållare',
@@ -99,13 +99,13 @@ export default <Locale>{
             name: 'Namn',
             version: 'Version',
             maintainer: 'Underhållare',
-            dependencies: 'Beroenden',
+            dependencies: 'Beror på',
             requiredBy: 'Krävs av',
             lastUpdatedAt: 'Senast uppdaterad',
         },
-        orphaned: 'Oandvänd',
+        orphaned: 'Ej underhållen',
         noResults: 'Inga resultat',
-        openInGithub: 'Öpnna i Github',
+        openInGithub: 'Öppna i Github',
         view: 'Visa',
         howToInstall: {
             title: 'Installationsguide',
@@ -113,21 +113,21 @@ export default <Locale>{
             step2: 'Steg 2: Installera {{ name }}',
         },
         dependenciesModal: {
-            title: 'Beroenden',
-            buildDependencies: 'Bygg beroenden',
+            title: 'Beror på',
+            buildDependencies: 'Byggberoenden',
             optionalDependencies: 'Valfria beroenden',
-            runtimeDependencies: 'Körtidsberoenden',
-            pacstallDependencies: 'Pacstall beronden',
+            runtimeDependencies: 'Exekveringsberoenden',
+            pacstallDependencies: 'Pacstall beroenden',
             name: 'Namn',
             close: 'Stäng',
-            provider: 'Leverantör',
+            provider: 'Källa',
             noDescription: 'Ingen beskrivning finns',
             version: 'Version',
         },
         requiredByModal: {
             title: 'Krävs av',
             name: 'Namn',
-            provider: 'Leverantör',
+            provider: 'Källa',
             close: 'Stäng',
             noDescription: 'Ingen beskrivning finns',
         },
